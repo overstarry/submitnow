@@ -1,9 +1,0 @@
-{
-  // Cloudflare Workers configuration.
-  // If you are only deploying static assets, set "assets.directory" to your build output folder.
-  "name": "submitnow",
-  "compatibility_date": "2026-01-14",
-  "assets": {
-    "directory": "./dist"
-  }
-}
