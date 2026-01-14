@@ -5,7 +5,6 @@ submitnow (Bing-only) is a multilingual web UI for submitting URL batches to Bin
 - Next.js App Router
 - React + TypeScript
 - Tailwind CSS
-- OpenNext Cloudflare + Wrangler
 
 # Core structure
 - `app/`: Next.js App Router pages and layouts; locale routes live under `app/[locale]/`
@@ -16,15 +15,12 @@ submitnow (Bing-only) is a multilingual web UI for submitting URL batches to Bin
 - `i18n/messages/`: translations
 - `public/`: static assets
 - `styles/`: Tailwind and global styles
-- `open-next.config.ts`, `wrangler.jsonc`: Cloudflare build and deploy settings
 
 # Common commands
 ```bash
 pnpm dev
 pnpm build
 pnpm start
-pnpm preview
-pnpm deploy
 pnpm lint
 ```
 
@@ -45,8 +41,3 @@ pnpm dev
 - For public deployments, consider adding auth and rate limiting
 - `package.json` declares Node.js 20.x as the engine version
 - No automated test runner is configured; use `pnpm lint` and manual UI checks
-
-# Deploy and preview
-- `pnpm build` generates the OpenNext Cloudflare output
-- `pnpm preview` runs `wrangler dev` for Workers preview
-- `pnpm deploy` deploys via `wrangler deploy`

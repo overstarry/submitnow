@@ -2,14 +2,13 @@
 submitnow (Bing-only) is a multilingual web UI for submitting URL batches to Bing via the IndexNow protocol. Requests are sent server-side and are not persisted.
 
 # Tech stack
-Next.js App Router, React, TypeScript, Tailwind CSS, OpenNext Cloudflare, Wrangler.
+Next.js App Router, React, TypeScript, Tailwind CSS.
 
 # Common commands
 ```bash
 pnpm dev
 pnpm lint
 pnpm build
-pnpm deploy
 ```
 
 # Setup and requirements

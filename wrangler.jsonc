@@ -1,6 +1,0 @@
-{
-  "name": "submitnow",
-  "compatibility_date": "2026-01-14",
-  "compatibility_flags": ["nodejs_compat"],
-  "main": ".open-next/worker.js"
-}
