@@ -7,16 +7,19 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "cloudflare",
     "start": "next start",
     "lint": "eslint .",
-    "deploy:cf": "pnpm dlx wrangler deploy",
+    "preview": "pnpm run build && wrangler dev",
+    "deploy": "pnpm run build && wrangler deploy",
+    "deploy:cf": "pnpm run deploy",
     "fix": "pnpm i fix-react2shell-next@latest && npx fix-react2shell-next",
     "update:next": "pnpm i next@latest react@latest react-dom@latest @next/env@latest @next/bundle-analyzer@latest @types/react@latest @types/react-dom@latest"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^16.1.1",
     "@next/env": "^16.1.1",
+    "@opennextjs/cloudflare": "^1.14.8",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
     "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.0",
@@ -59,6 +62,7 @@
     "eslint-config-next": "16.0.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wrangler": "^4.59.1"
   }
 }
