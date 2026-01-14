@@ -11,10 +11,11 @@
 
 ## Build, Test, and Development Commands
 - `pnpm dev` starts the local Next.js dev server at `http://localhost:3000`.
-- `pnpm build` builds the OpenNext Cloudflare output.
+- `pnpm build` runs the Next.js build output.
+- `pnpm build:worker` builds the OpenNext Cloudflare output.
 - `pnpm start` runs the production Next.js server for local smoke checks.
-- `pnpm preview` builds, then runs `wrangler dev` for Workers preview.
-- `pnpm deploy` builds, then deploys via `wrangler deploy`.
+- `pnpm preview` builds the OpenNext output, then runs `wrangler dev` for Workers preview.
+- `pnpm deploy` builds the OpenNext output, then deploys via `wrangler deploy`.
 - `pnpm lint` runs ESLint across the repo.
 
 ## Coding Style & Naming Conventions
