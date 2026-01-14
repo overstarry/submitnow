@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "opennextjs-cloudflare",
+    "build": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "eslint .",
     "preview": "pnpm run build && wrangler dev",
