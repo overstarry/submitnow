@@ -1,0 +1,146 @@
+{
+  "LanguageDetection": {
+    "title": "言語の提案",
+    "description": "ブラウザの言語設定が現在のサイト言語と異なっています。いつでも言語を切り替えることができます。",
+    "countdown": "閉じるまで {countdown} 秒",
+    "switchTo": "に切り替える"
+  },
+  "Header": {
+    "links": [
+      {
+        "name": "送信",
+        "href": "/"
+      },
+      {
+        "name": "サイトについて",
+        "href": "/about"
+      },
+      {
+        "name": "ドキュメント",
+        "href": "https://www.indexnow.org/documentation",
+        "target": "_blank",
+        "rel": "noopener noreferrer nofollow"
+      }
+    ]
+  },
+  "Footer": {
+    "Copyright": "Copyright © {year} {name} All rights reserved.",
+    "PrivacyPolicy": "プライバシーポリシー",
+    "TermsOfService": "利用規約",
+    "Links": {
+      "groups": [
+        {
+          "title": "言語",
+          "links": [
+            {
+              "href": "/en",
+              "name": "English",
+              "useA": true
+            },
+            {
+              "href": "/zh",
+              "name": "中文",
+              "useA": true
+            },
+            {
+              "href": "/ja",
+              "name": "日本語",
+              "useA": true
+            }
+          ]
+        }
+      ]
+    },
+    "Newsletter": {
+      "title": "Next.js Starterのニュースレターに登録する",
+      "description": "Next.js Starterの最新のニュースと更新情報を入手します。",
+      "defaultErrorMessage": "有効なメールアドレスを入力してください。",
+      "successMessage": "登録が完了しました。",
+      "errorMessage": "登録に失敗しました。",
+      "errorMessage2": "登録に失敗しました。少し待ってから再試行してください。",
+      "subscribe": "登録する",
+      "subscribing": "登録中...",
+      "subscribed": "登録が完了しました。ありがとうございます。"
+    }
+  },
+  "Home": {
+    "title": "submitnow",
+    "tagLine": "Bing IndexNow 送信ツール",
+    "description": "IndexNow を使って Bing に URL を送信します。サイトに key ファイルを配置し、送信する URL は同一 host に一致する必要があります。",
+    "ctaDocs": "IndexNow ドキュメント",
+    "ctaSource": "ソースを見る"
+  },
+  "IndexNow": {
+    "title": "Bing に URL を送信",
+    "description": "Bing IndexNow エンドポイントへバッチ送信します。",
+    "bingOnlyNote": "送信先エンドポイント: Bing（IndexNow 参加パートナーに共有）。",
+    "supportedEnginesTitle": "IndexNow 参加検索エンジン",
+    "supportedEnginesNote": "1 回の送信で参加検索エンジンに配信されます。",
+    "urlsLabel": "URL リスト",
+    "urlsPlaceholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+    "urlsHelp": "1 行に 1 URL（または空白/カンマ区切り）。すべて同一ホストの URL のみ。1 回あたり最大 10,000 件。",
+    "keyLabel": "Key",
+    "keyPlaceholder": "your-indexnow-key",
+    "keyHelp": "Key はサイトに配置した key ファイル（KEY.txt）の内容と一致する必要があります。",
+    "hostLabel": "Host（任意）",
+    "hostPlaceholder": "www.example.com",
+    "hostHelp": "未入力の場合、URL リストから推測します。",
+    "keyLocationLabel": "Key ファイル URL（任意）",
+    "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
+    "keyLocationHelp": "未入力の場合、https://{host}/{key}.txt を使用します。hostname は URL リストと一致する必要があります。",
+    "submit": "Bing に送信",
+    "submitting": "送信中...",
+    "successMessage": "送信しました。",
+    "successMessageWithDetails": "{host} に対して {count} 件の URL を送信しました。Key ファイル: {keyLocation}",
+    "errors": {
+      "invalid_form": "フォームの内容を確認して再試行してください。",
+      "invalid_key": "Key が無効です。8〜128 文字（英数字とハイフン）を使用してください。",
+      "invalid_host": "Host が無効です。example.com のようなドメインを入力してください。",
+      "invalid_key_location": "Key ファイル URL が無効です。hostname は送信する host と一致する必要があります。",
+      "invalid_urls": "URL が無効です。有効な http(s) URL を入力してください。",
+      "mixed_hosts": "複数の host が含まれています。1 回の送信は 1 host のみにしてください。",
+      "host_mismatch": "Host が URL の host と一致しません。空欄にするか、URL の hostname に合わせてください。",
+      "too_many_urls": "URL が多すぎます。1 回あたり最大 10,000 件です。",
+      "bing_invalid_request": "Bing がリクエストを拒否しました（HTTP {status}）。host、key、URL リストを確認してください。",
+      "bing_invalid_key": "Bing が key を拒否しました（HTTP {status}）。key ファイルが公開され、内容が一致しているか確認してください。",
+      "bing_invalid_url_list": "Bing が URL リストを拒否しました（HTTP {status}）。URL が有効で host に属しているか確認してください。",
+      "bing_rate_limited": "Bing によりレート制限されています（HTTP {status}）。しばらくしてから再試行してください。",
+      "bing_error": "Bing IndexNow リクエストに失敗しました（HTTP {status}）。Key と URL リストを確認してください。",
+      "network_error": "ネットワークエラーです。しばらくしてから再試行してください。",
+      "timeout": "タイムアウトしました。しばらくしてから再試行してください。"
+    }
+  },
+  "Blog": {
+    "title": "ブログ一覧",
+    "description": "ブログ投稿の一覧"
+  },
+  "About": {
+    "title": "サイトについて",
+    "description": "サイトについて"
+  },
+  "TermsOfService": {
+    "title": "サービス利用規約",
+    "description": "サービス利用規約"
+  },
+  "PrivacyPolicy": {
+    "title": "プライバシーポリシー",
+    "description": "プライバシーポリシー"
+  },
+  "Showcase": {
+    "title": "導入事例",
+    "description": "このNext.jsスターターテンプレートを使用して構築された素晴らしい製品とウェブサイトをご覧ください。",
+    "visitSite": "サイトを見る"
+  },
+  "Submission": {
+    "badge": "掲載されよう",
+    "title": "製品を提出する",
+    "description": "このスターターで素晴らしいものを作りましたか？コミュニティと共有して、ショーケースに掲載されましょう。",
+    "productNameLabel": "製品名",
+    "productNamePlaceholder": "私の素晴らしいプロジェクト",
+    "productUrlLabel": "製品URL",
+    "submit": "製品を提出",
+    "submitting": "送信中...",
+    "successMessage": "ありがとうございます！提出を受け付けました。まもなく確認いたします。",
+    "errorMessage": "エラーが発生しました。もう一度お試しください。"
+  }
+}

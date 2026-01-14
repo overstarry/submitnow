@@ -1,0 +1,146 @@
+{
+  "LanguageDetection": {
+    "title": "Language Suggestion",
+    "description": "We noticed your browser language differs from the current site language. You can switch languages anytime.",
+    "countdown": "Closing in {countdown} seconds",
+    "switchTo": "Switch to"
+  },
+  "Header": {
+    "links": [
+      {
+        "name": "Submit",
+        "href": "/"
+      },
+      {
+        "name": "About",
+        "href": "/about"
+      },
+      {
+        "name": "Documentation",
+        "href": "https://www.indexnow.org/documentation",
+        "target": "_blank",
+        "rel": "noopener noreferrer nofollow"
+      }
+    ]
+  },
+  "Footer": {
+    "Copyright": "Copyright © {year} {name} All rights reserved.",
+    "PrivacyPolicy": "Privacy Policy",
+    "TermsOfService": "Terms of Service",
+    "Links": {
+      "groups": [
+        {
+          "title": "Languages",
+          "links": [
+            {
+              "href": "/en",
+              "name": "English",
+              "useA": true
+            },
+            {
+              "href": "/zh",
+              "name": "中文",
+              "useA": true
+            },
+            {
+              "href": "/ja",
+              "name": "日本語",
+              "useA": true
+            }
+          ]
+        }
+      ]
+    },
+    "Newsletter": {
+      "title": "Subscribe to our newsletter",
+      "description": "Get the latest news and updates from Next.js Starter",
+      "defaultErrorMessage": "Please enter a valid email address",
+      "successMessage": "Subscription successful",
+      "errorMessage": "Subscription failed",
+      "errorMessage2": "Subscription failed. Please try again later.",
+      "subscribe": "Subscribe",
+      "subscribing": "Subscribing...",
+      "subscribed": "Subscription successful! Thank you for your attention."
+    }
+  },
+  "Home": {
+    "title": "submitnow",
+    "tagLine": "Bing IndexNow Submission Tool",
+    "description": "Submit URLs to Bing via IndexNow. Your site must host the key file and the submitted URLs must match the same host.",
+    "ctaDocs": "IndexNow Documentation",
+    "ctaSource": "View Source"
+  },
+  "IndexNow": {
+    "title": "Submit URLs to Bing",
+    "description": "Send a batch request to the Bing IndexNow endpoint.",
+    "bingOnlyNote": "Submission endpoint: Bing (shared with IndexNow partners).",
+    "supportedEnginesTitle": "IndexNow participants",
+    "supportedEnginesNote": "One submission reaches all participating search engines.",
+    "urlsLabel": "URL list",
+    "urlsPlaceholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+    "urlsHelp": "One URL per line (or separated by spaces/commas). All URLs must belong to the same host. Maximum 10,000 URLs per request.",
+    "keyLabel": "Key",
+    "keyPlaceholder": "your-indexnow-key",
+    "keyHelp": "Your key must match the key file content hosted on your site (KEY.txt).",
+    "hostLabel": "Host (optional)",
+    "hostPlaceholder": "www.example.com",
+    "hostHelp": "If omitted, the host will be inferred from the URL list.",
+    "keyLocationLabel": "Key file URL (optional)",
+    "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
+    "keyLocationHelp": "If omitted, it will be set to https://{host}/{key}.txt. The hostname must match the submitted URLs.",
+    "submit": "Submit to Bing",
+    "submitting": "Submitting...",
+    "successMessage": "Submitted successfully.",
+    "successMessageWithDetails": "Submitted {count} URLs for {host}. Key file: {keyLocation}",
+    "errors": {
+      "invalid_form": "Please check the form fields and try again.",
+      "invalid_key": "Invalid key. Use 8–128 characters (letters, numbers, dashes).",
+      "invalid_host": "Invalid host. Please enter a domain like example.com.",
+      "invalid_key_location": "Invalid key file URL. The hostname must match the submitted host.",
+      "invalid_urls": "Invalid URLs. Please provide valid http(s) URLs.",
+      "mixed_hosts": "URLs contain multiple hosts. Please submit one host per request.",
+      "host_mismatch": "Host does not match the URL host. Please leave it empty or match the URLs.",
+      "too_many_urls": "Too many URLs. Maximum is 10,000 per request.",
+      "bing_invalid_request": "Bing rejected the request (HTTP {status}). Please check your host, key, and URL list.",
+      "bing_invalid_key": "Bing rejected the key (HTTP {status}). Ensure your key file is accessible and matches the key.",
+      "bing_invalid_url_list": "Bing rejected the URL list (HTTP {status}). Ensure URLs are valid and belong to the host.",
+      "bing_rate_limited": "Rate limited by Bing (HTTP {status}). Please retry later.",
+      "bing_error": "Bing IndexNow request failed (HTTP {status}). Please verify your key and URL list.",
+      "network_error": "Network error. Please try again.",
+      "timeout": "Request timed out. Please try again."
+    }
+  },
+  "Blog": {
+    "title": "Blog Posts",
+    "description": "A list of blog posts"
+  },
+  "About": {
+    "title": "About",
+    "description": "About the site"
+  },
+  "TermsOfService": {
+    "title": "Terms of Service",
+    "description": "Terms of Service"
+  },
+  "PrivacyPolicy": {
+    "title": "Privacy Policy",
+    "description": "Privacy Policy"
+  },
+  "Showcase": {
+    "title": "Built with This Starter",
+    "description": "Discover amazing products and websites built using this Next.js starter template.",
+    "visitSite": "Visit site"
+  },
+  "Submission": {
+    "badge": "Get Featured",
+    "title": "Submit Your Product",
+    "description": "Built something awesome with this starter? Share your product with our community and get featured on our showcase.",
+    "productNameLabel": "Product Name",
+    "productNamePlaceholder": "My Awesome Project",
+    "productUrlLabel": "Product URL",
+    "submit": "Submit Product",
+    "submitting": "Submitting...",
+    "successMessage": "Thank you! Your submission has been received. We'll review it shortly.",
+    "errorMessage": "Something went wrong. Please try again."
+  }
+}

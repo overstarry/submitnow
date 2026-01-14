@@ -1,0 +1,47 @@
+---
+title: About
+description: About submitnow (Bing-only)
+lastUpdated: 2026-01-14
+---
+
+> Update date: 2026-01-14
+
+# About submitnow
+
+submitnow is a lightweight web UI for submitting URL batches to Bing via the IndexNow protocol.
+
+## How IndexNow works
+
+To use IndexNow, you need:
+
+1. An IndexNow key
+2. A public key file hosted on your site:
+   - URL: `https://<host>/<key>.txt`
+   - Content: the key only (plain text)
+
+Then you can send a batch request to Bing:
+
+```bash
+curl -X POST "https://www.bing.com/indexnow" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -d '{
+    "host": "www.example.com",
+    "key": "your-indexnow-key",
+    "keyLocation": "https://www.example.com/your-indexnow-key.txt",
+    "urlList": [
+      "https://www.example.com/page-1",
+      "https://www.example.com/page-2"
+    ]
+  }'
+```
+
+## Using this site
+
+- Paste URLs (one per line) and enter your key.
+- Optionally set `host` and `keyLocation`.
+- Submit the request. The server will send it to Bing.
+
+## Limitations
+
+- Currently targets the Bing endpoint only.
+- No persistence: inputs are not stored.
