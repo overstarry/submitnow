@@ -10,6 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "deploy:cf": "pnpm dlx wrangler deploy",
     "fix": "pnpm i fix-react2shell-next@latest && npx fix-react2shell-next",
     "update:next": "pnpm i next@latest react@latest react-dom@latest @next/env@latest @next/bundle-analyzer@latest @types/react@latest @types/react-dom@latest"
   },
