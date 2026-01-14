@@ -4,10 +4,7 @@ const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
-  distDir: "dist",
   images: {
-    unoptimized: true,
     remotePatterns: [
       ...(process.env.R2_PUBLIC_URL
         ? [
