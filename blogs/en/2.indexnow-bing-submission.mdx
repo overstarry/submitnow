@@ -1,0 +1,71 @@
+---
+title: "IndexNow for Bing: Key File Setup & Batch Submission"
+description: "A practical guide to hosting your IndexNow key file and submitting up to 10,000 URLs to Bing. Includes common errors and verification tips."
+slug: /indexnow-bing-submission
+tags: indexnow,bing,seo,indexing,sitemap
+date: 2026-01-14
+updatedAt: 2026-01-14
+visible: published
+pin: true
+---
+
+## What is IndexNow (Bing)?
+
+IndexNow lets you proactively notify search engines about URL updates. This site currently sends requests to the Bing IndexNow endpoint only.
+
+## Prerequisites
+
+You need:
+
+- An IndexNow key
+- A publicly accessible key file on your site
+
+## 1) Host the key file
+
+The key file must be reachable at:
+
+```
+https://<host>/<key>.txt
+```
+
+Its content must be the key only:
+
+```
+<key>
+```
+
+## 2) Submit URLs
+
+When submitting, all URLs must:
+
+- Be valid `http(s)` URLs
+- Belong to the same hostname
+
+You can use this UI, or send the request yourself:
+
+```bash
+curl -X POST "https://www.bing.com/indexnow" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -d '{
+    "host": "www.example.com",
+    "key": "your-indexnow-key",
+    "keyLocation": "https://www.example.com/your-indexnow-key.txt",
+    "urlList": [
+      "https://www.example.com/page-1",
+      "https://www.example.com/page-2"
+    ]
+  }'
+```
+
+## Common errors
+
+- **403**: key is invalid or the key file is not accessible
+- **422**: URL list is invalid, or URLs do not match the host
+- **429**: rate limited, retry later
+
+## Tips
+
+- Submit one site per request (do not mix hosts).
+- Keep the key file URL and the submitted host consistent.
+- Start with a small batch to validate the setup.
+

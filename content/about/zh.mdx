@@ -1,0 +1,47 @@
+---
+title: 关于
+description: 关于 submitnow（仅 Bing）
+lastUpdated: 2026-01-14
+---
+
+> 更新日期：2026-01-14
+
+# 关于 submitnow
+
+submitnow 是一个轻量的 Web 界面，用于通过 IndexNow 协议向 Bing 批量提交 URL。
+
+## IndexNow 的基本要求
+
+要使用 IndexNow，你需要：
+
+1. 一个 IndexNow key
+2. 在你的网站上公开托管 key 文件：
+   - URL：`https://<host>/<key>.txt`
+   - 内容：仅包含 key（纯文本）
+
+随后即可向 Bing 发送批量请求：
+
+```bash
+curl -X POST "https://www.bing.com/indexnow" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  -d '{
+    "host": "www.example.com",
+    "key": "your-indexnow-key",
+    "keyLocation": "https://www.example.com/your-indexnow-key.txt",
+    "urlList": [
+      "https://www.example.com/page-1",
+      "https://www.example.com/page-2"
+    ]
+  }'
+```
+
+## 如何使用本站
+
+- 粘贴 URL（每行一条）并填写 key。
+- 可选填写 `host` 与 `keyLocation`。
+- 提交后，服务端会将请求发送到 Bing。
+
+## 限制
+
+- 当前仅对接 Bing 端点。
+- 不做持久化：不会存储你的输入内容。

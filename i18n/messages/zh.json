@@ -1,0 +1,146 @@
+{
+  "LanguageDetection": {
+    "title": "语言建议",
+    "description": "检测到你的浏览器语言和当前语言不一样，你随时都可切换语言。",
+    "countdown": "将在 {countdown} 秒后关闭",
+    "switchTo": "切换到"
+  },
+  "Header": {
+    "links": [
+      {
+        "name": "提交",
+        "href": "/"
+      },
+      {
+        "name": "关于",
+        "href": "/about"
+      },
+      {
+        "name": "文档",
+        "href": "https://www.indexnow.org/documentation",
+        "target": "_blank",
+        "rel": "noopener noreferrer nofollow"
+      }
+    ]
+  },
+  "Footer": {
+    "Copyright": "版权所有 © {year} {name} 保留所有权利。",
+    "PrivacyPolicy": "隐私政策",
+    "TermsOfService": "服务条款",
+    "Links": {
+      "groups": [
+        {
+          "title": "语言",
+          "links": [
+            {
+              "href": "/en",
+              "name": "English",
+              "useA": true
+            },
+            {
+              "href": "/zh",
+              "name": "中文",
+              "useA": true
+            },
+            {
+              "href": "/ja",
+              "name": "日本語",
+              "useA": true
+            }
+          ]
+        }
+      ]
+    },
+    "Newsletter": {
+      "title": "订阅我们的邮件",
+      "description": "获取最新的 Next.js 资讯和教程",
+      "defaultErrorMessage": "请输入有效的邮箱地址",
+      "successMessage": "订阅成功",
+      "errorMessage": "订阅失败",
+      "errorMessage2": "订阅失败，请稍后再试",
+      "subscribe": "订阅",
+      "subscribing": "订阅中",
+      "subscribed": "订阅成功！感谢您的关注。"
+    }
+  },
+  "Home": {
+    "title": "submitnow",
+    "tagLine": "Bing IndexNow 提交工具",
+    "description": "通过 IndexNow 向 Bing 提交 URL。你的网站需要托管 key 文件，且提交的 URL 必须属于同一个 host。",
+    "ctaDocs": "IndexNow 文档",
+    "ctaSource": "查看源码"
+  },
+  "IndexNow": {
+    "title": "提交 URL 到 Bing",
+    "description": "向 Bing 的 IndexNow 接口发送批量提交请求。",
+    "bingOnlyNote": "提交端点：Bing（会与 IndexNow 参与方共享）。",
+    "supportedEnginesTitle": "IndexNow 参与搜索引擎",
+    "supportedEnginesNote": "一次提交即可分发到所有参与搜索引擎。",
+    "urlsLabel": "URL 列表",
+    "urlsPlaceholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+    "urlsHelp": "每行一个 URL（或用空格/逗号分隔）。所有 URL 必须属于同一个 host。单次最多 10,000 条。",
+    "keyLabel": "Key",
+    "keyPlaceholder": "your-indexnow-key",
+    "keyHelp": "Key 需要与网站上托管的 key 文件内容一致（KEY.txt）。",
+    "hostLabel": "Host（可选）",
+    "hostPlaceholder": "www.example.com",
+    "hostHelp": "留空时会从 URL 列表自动推断。",
+    "keyLocationLabel": "Key 文件 URL（可选）",
+    "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
+    "keyLocationHelp": "留空时默认使用 https://{host}/{key}.txt，且 hostname 必须与 URL 列表一致。",
+    "submit": "提交到 Bing",
+    "submitting": "提交中...",
+    "successMessage": "提交成功。",
+    "successMessageWithDetails": "已为 {host} 提交 {count} 条 URL。Key 文件：{keyLocation}",
+    "errors": {
+      "invalid_form": "请检查表单内容后重试。",
+      "invalid_key": "Key 无效。请使用 8–128 位（字母/数字/短横线）。",
+      "invalid_host": "Host 无效，请输入类似 example.com 的域名。",
+      "invalid_key_location": "Key 文件 URL 无效，hostname 必须与提交的 host 一致。",
+      "invalid_urls": "URL 无效，请提供合法的 http(s) URL。",
+      "mixed_hosts": "URL 列表包含多个 host，请按站点分别提交。",
+      "host_mismatch": "Host 与 URL 列表不匹配，请留空或与 URL 的 hostname 一致。",
+      "too_many_urls": "URL 过多，单次最多 10,000 条。",
+      "bing_invalid_request": "Bing 拒绝了请求（HTTP {status}），请检查 host、key 与 URL 列表。",
+      "bing_invalid_key": "Bing 拒绝了 key（HTTP {status}），请确认 key 文件可访问且内容与 key 一致。",
+      "bing_invalid_url_list": "Bing 拒绝了 URL 列表（HTTP {status}），请确认 URL 合法且属于该 host。",
+      "bing_rate_limited": "Bing 限流（HTTP {status}），请稍后重试。",
+      "bing_error": "Bing IndexNow 请求失败（HTTP {status}），请检查 key 与 URL 列表。",
+      "network_error": "网络错误，请稍后重试。",
+      "timeout": "请求超时，请稍后重试。"
+    }
+  },
+  "Blog": {
+    "title": "博客列表",
+    "description": "博客列表"
+  },
+  "About": {
+    "title": "关于",
+    "description": "关于网站"
+  },
+  "TermsOfService": {
+    "title": "服务条款",
+    "description": "服务条款"
+  },
+  "PrivacyPolicy": {
+    "title": "隐私政策",
+    "description": "隐私政策"
+  },
+  "Showcase": {
+    "title": "使用案例展示",
+    "description": "探索使用本 Next.js 启动模板构建的优秀产品和网站。",
+    "visitSite": "访问网站"
+  },
+  "Submission": {
+    "badge": "获得展示",
+    "title": "提交您的产品",
+    "description": "用这套模板构建了出色的产品？与我们的社区分享您的作品，并在展示区获得曝光。",
+    "productNameLabel": "产品名称",
+    "productNamePlaceholder": "我的优秀项目",
+    "productUrlLabel": "产品链接",
+    "submit": "提交产品",
+    "submitting": "提交中...",
+    "successMessage": "感谢您的提交！我们会尽快审核。",
+    "errorMessage": "出了点问题，请重试。"
+  }
+}
