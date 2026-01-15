@@ -75,6 +75,12 @@ export default async function LocaleLayout({
           "min-h-screen bg-background flex flex-col font-sans antialiased"
         )}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 rounded bg-background px-3 py-2 text-sm shadow"
+        >
+          Skip to content
+        </a>
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -84,7 +90,7 @@ export default async function LocaleLayout({
             {messages.LanguageDetection && <LanguageDetectionAlert />}
             {messages.Header && <Header />}
 
-            <main className="flex-1 flex flex-col items-center">
+            <main id="main-content" className="flex-1 flex flex-col items-center">
               {children}
             </main>
 

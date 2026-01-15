@@ -112,7 +112,8 @@
   },
   "Blog": {
     "title": "博客列表",
-    "description": "博客列表"
+    "description": "博客列表",
+    "emptyState": "No posts available yet."
   },
   "About": {
     "title": "关于",

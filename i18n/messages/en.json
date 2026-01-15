@@ -112,7 +112,8 @@
   },
   "Blog": {
     "title": "Blog Posts",
-    "description": "A list of blog posts"
+    "description": "A list of blog posts",
+    "emptyState": "No posts available yet."
   },
   "About": {
     "title": "About",
