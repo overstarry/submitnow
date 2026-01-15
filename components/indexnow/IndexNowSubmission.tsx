@@ -82,49 +82,55 @@ export default function IndexNowSubmission() {
   };
 
   return (
-    <section className="w-full">
-      <div className="rounded-3xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-950">
-        <div className="border-b border-slate-200 px-6 py-6 dark:border-slate-800">
-          <h2 className="text-balance text-2xl font-bold text-slate-900 sm:text-3xl dark:text-slate-100">
-            {t("title")}
-          </h2>
-          <p className="mt-2 text-pretty text-slate-600 dark:text-slate-300">
-            {t("description")}
-          </p>
-          <div className="mt-4 space-y-3">
-            <div className="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs text-slate-600 dark:border-slate-800 dark:text-slate-300">
+    <section id="indexnow-form" className="w-full scroll-mt-24">
+      <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-xl backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/70">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-br from-blue-50 via-white to-transparent dark:from-blue-500/10 dark:via-slate-950"
+          aria-hidden="true"
+        />
+        <div className="relative border-b border-slate-200/70 px-6 py-6 dark:border-slate-800/70">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-balance font-heading text-2xl font-semibold text-slate-900 sm:text-3xl dark:text-slate-100">
+                {t("title")}
+              </h2>
+              <p className="mt-2 text-pretty text-sm text-slate-600 dark:text-slate-300">
+                {t("description")}
+              </p>
+            </div>
+            <div className="inline-flex items-center rounded-full border border-blue-200/80 bg-blue-50/80 px-3 py-1 text-xs font-medium text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-200">
               {t("bingOnlyNote")}
             </div>
-            <div>
-              <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {t("supportedEnginesTitle")}
-              </p>
-              <p className="mt-1 text-pretty text-xs text-slate-500 dark:text-slate-400">
-                {t("supportedEnginesNote")}
-              </p>
-              <ul className="mt-2 flex flex-wrap gap-2" aria-label={t("supportedEnginesTitle")}>
-                {supportedEngines.map((engine) => {
-                  const Icon = engine.icon;
-                  return (
-                    <li
-                      key={engine.id}
-                      className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200"
-                    >
-                      <span className="flex size-5 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200">
-                        {Icon ? (
-                          <Icon className="size-3.5" aria-hidden="true" />
-                        ) : (
-                          <span className="text-xs font-semibold">
-                            {engine.monogram}
-                          </span>
-                        )}
-                      </span>
-                      <span>{engine.name}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+          </div>
+          <div className="mt-5 rounded-2xl border border-slate-200/80 bg-white/70 px-4 py-4 text-xs text-slate-600 shadow-sm backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/60 dark:text-slate-300">
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-200">
+              {t("supportedEnginesTitle")}
+            </p>
+            <p className="mt-1 text-pretty text-xs text-slate-500 dark:text-slate-400">
+              {t("supportedEnginesNote")}
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-2" aria-label={t("supportedEnginesTitle")}>
+              {supportedEngines.map((engine) => {
+                const Icon = engine.icon;
+                return (
+                  <li
+                    key={engine.id}
+                    className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200"
+                  >
+                    <span className="flex size-5 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
+                      {Icon ? (
+                        <Icon className="size-3.5" aria-hidden="true" />
+                      ) : (
+                        <span className="text-xs font-semibold">
+                          {engine.monogram}
+                        </span>
+                      )}
+                    </span>
+                    <span>{engine.name}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
 
@@ -144,7 +150,7 @@ export default function IndexNowSubmission() {
                 placeholder={t("urlsPlaceholder")}
                 required
                 rows={6}
-                className="w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/30"
+                className="w-full resize-y rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                 disabled={status === "loading"}
               />
               <p className="mt-2 text-pretty text-xs text-slate-500 dark:text-slate-400">
@@ -167,7 +173,7 @@ export default function IndexNowSubmission() {
                   name="key"
                   placeholder={t("keyPlaceholder")}
                   required
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/30"
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
                   autoCapitalize="none"
                   autoCorrect="off"
@@ -190,7 +196,7 @@ export default function IndexNowSubmission() {
                   id="host"
                   name="host"
                   placeholder={t("hostPlaceholder")}
-                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/30"
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
                   autoCapitalize="none"
                   autoCorrect="off"
@@ -209,17 +215,17 @@ export default function IndexNowSubmission() {
               >
                 {t("keyLocationLabel")}
               </label>
-              <input
-                type="url"
-                id="keyLocation"
-                name="keyLocation"
-                placeholder={t("keyLocationPlaceholder")}
-                className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/30"
-                disabled={status === "loading"}
-                autoCapitalize="none"
-                autoCorrect="off"
-                spellCheck={false}
-              />
+                <input
+                  type="url"
+                  id="keyLocation"
+                  name="keyLocation"
+                  placeholder={t("keyLocationPlaceholder")}
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
+                  disabled={status === "loading"}
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                />
               <p className="mt-2 text-pretty text-xs text-slate-500 dark:text-slate-400">
                 {t("keyLocationHelp", { host: "<host>", key: "<key>" })}
               </p>
@@ -229,7 +235,7 @@ export default function IndexNowSubmission() {
               <Button
                 type="submit"
                 disabled={status === "loading"}
-                className="h-12 w-full rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-700"
+                className="h-12 w-full rounded-xl bg-blue-600 font-semibold text-white shadow-sm hover:bg-blue-700"
               >
                 {status === "loading" ? (
                   <span className="flex items-center gap-2">
@@ -244,7 +250,7 @@ export default function IndexNowSubmission() {
                 )}
               </Button>
 
-              <div className="flex items-center justify-center min-h-12">
+              <div className="flex min-h-12 items-center justify-center" aria-live="polite">
                 {status === "success" && (
                   <div className="flex w-full items-start gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 tabular-nums dark:border-green-900/40 dark:bg-green-900/20 dark:text-green-200">
                     <CheckCircleIcon className="size-5 flex-shrink-0 mt-0.5" />

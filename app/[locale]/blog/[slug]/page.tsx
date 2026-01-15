@@ -67,7 +67,13 @@ export default async function BlogPage({ params }: { params: Params }) {
     <div className="w-full md:w-3/5 px-2 md:px-12">
       <h1 className="break-words text-4xl font-bold mt-6 mb-4">{post.title}</h1>
       {post.image && (
-        <img src={post.image} alt={post.title} className="rounded-sm" />
+        <img
+          src={post.image}
+          alt={post.title}
+          width={1200}
+          height={630}
+          className="rounded-sm w-full h-auto"
+        />
       )}
       {post.tags && post.tags.split(",").length ? (
         <div className="flex flex-wrap gap-2">

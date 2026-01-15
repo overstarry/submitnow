@@ -67,8 +67,17 @@
     "title": "submitnow",
     "tagLine": "Bing IndexNow Submission Tool",
     "description": "Submit URLs to Bing via IndexNow. Your site must host the key file and the submitted URLs must match the same host.",
+    "badge": "IndexNow Batch Submission",
     "ctaDocs": "IndexNow Documentation",
-    "ctaSource": "View Source"
+    "ctaSource": "View Source",
+    "highlights": {
+      "speedTitle": "Submit in one request",
+      "speedDescription": "Send up to 10,000 URLs with a single batch call.",
+      "verificationTitle": "Key-based verification",
+      "verificationDescription": "Host the key file on your domain to prove ownership.",
+      "reachTitle": "Multi-engine reach",
+      "reachDescription": "One submission notifies Bing and IndexNow partners."
+    }
   },
   "IndexNow": {
     "title": "Submit URLs to Bing",
@@ -112,7 +121,8 @@
   },
   "Blog": {
     "title": "Blog Posts",
-    "description": "A list of blog posts"
+    "description": "A list of blog posts",
+    "emptyState": "No posts available yet."
   },
   "About": {
     "title": "About",

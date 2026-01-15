@@ -1,9 +1,17 @@
 import { Link as I18nLink } from "@/i18n/routing";
 import { BlogPost } from "@/types/blog";
-import dayjs from "dayjs";
 import Image from "next/image";
 
 export function BlogCard({ post, locale }: { post: BlogPost; locale: string }) {
+  const dateValue = new Date(post.date);
+  const formattedDate = Number.isNaN(dateValue.getTime())
+    ? String(post.date)
+    : new Intl.DateTimeFormat(locale, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+      }).format(dateValue);
+
   return (
     <I18nLink
       href={`/blog${post.slug}`}
@@ -23,7 +31,7 @@ export function BlogCard({ post, locale }: { post: BlogPost; locale: string }) {
           {post.title}
         </h2>
         <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-          {dayjs(post.date).format("YYYY-MM-DD")}
+          {formattedDate}
         </p>
       </div>
     </I18nLink>
