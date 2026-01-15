@@ -14,6 +14,7 @@ import "@/styles/globals.css";
 import "@/styles/loading.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Metadata, Viewport } from "next";
+import { Open_Sans, Poppins } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import {
   getMessages,
@@ -22,6 +23,20 @@ import {
 } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import { notFound } from "next/navigation";
+
+const headingFont = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-heading",
+});
+
+const bodyFont = Open_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-body",
+});
 
 type MetadataProps = {
   params: Promise<{ locale: string }>;
@@ -72,7 +87,9 @@ export default async function LocaleLayout({
       <head />
       <body
         className={cn(
-          "min-h-screen bg-background flex flex-col font-sans antialiased"
+          "min-h-screen bg-background flex flex-col font-sans antialiased",
+          headingFont.variable,
+          bodyFont.variable
         )}
       >
         <a

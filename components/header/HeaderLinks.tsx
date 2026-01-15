@@ -13,7 +13,7 @@ const HeaderLinks = () => {
   const headerLinks: HeaderLink[] = tHeader.raw("links");
 
   return (
-    <div className="hidden md:flex flex-row items-center gap-x-2 text-sm font-medium text-muted-500">
+    <div className="hidden md:flex flex-row items-center gap-x-2 text-sm font-medium text-slate-600 dark:text-slate-300">
       {headerLinks.map((link) => (
         <I18nLink
           key={link.name}
@@ -23,8 +23,8 @@ const HeaderLinks = () => {
           target={link.target || "_self"}
           rel={link.rel || undefined}
           className={cn(
-            "rounded-xl px-4 py-2 flex items-center gap-x-1 hover:bg-accent-foreground/10 hover:text-accent-foreground",
-            pathname === link.href && "font-semibold text-accent-foreground"
+            "rounded-xl px-4 py-2 flex items-center gap-x-1 transition-colors hover:bg-slate-900/5 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white",
+            pathname === link.href && "font-semibold text-slate-900 dark:text-white"
           )}
         >
           {link.name}

@@ -67,8 +67,17 @@
     "title": "submitnow",
     "tagLine": "Bing IndexNow 送信ツール",
     "description": "IndexNow を使って Bing に URL を送信します。サイトに key ファイルを配置し、送信する URL は同一 host に一致する必要があります。",
+    "badge": "IndexNow 一括送信",
     "ctaDocs": "IndexNow ドキュメント",
-    "ctaSource": "ソースを見る"
+    "ctaSource": "ソースを見る",
+    "highlights": {
+      "speedTitle": "1 回のリクエストで送信",
+      "speedDescription": "1 回で最大 10,000 URL を送信。",
+      "verificationTitle": "キー ファイルで検証",
+      "verificationDescription": "ドメイン上のキー ファイルで所有者を確認。",
+      "reachTitle": "複数エンジンに通知",
+      "reachDescription": "1 回の送信で Bing と IndexNow 提携先へ通知。"
+    }
   },
   "IndexNow": {
     "title": "Bing に URL を送信",
