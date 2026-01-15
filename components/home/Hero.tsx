@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { SOURCE_CODE_URL } from "@/config/site";
+
 import { ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -67,22 +67,7 @@ export default function Hero() {
             {t("ctaDocs")}
           </Link>
         </Button>
-        <Button
-          className="h-11 w-full rounded-xl border border-slate-200 bg-white px-6 text-slate-700 shadow-sm hover:border-slate-300 hover:bg-slate-50 sm:w-auto dark:border-slate-800 dark:bg-slate-950 dark:text-slate-200 dark:hover:border-slate-700"
-          variant="outline"
-          asChild
-        >
-          <Link
-            href={SOURCE_CODE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={t("ctaSource")}
-            prefetch={false}
-            className="flex items-center gap-2"
-          >
-            {t("ctaSource")}
-          </Link>
-        </Button>
+
       </div>
 
       <div className="mt-10 grid gap-4 text-left sm:grid-cols-3">
