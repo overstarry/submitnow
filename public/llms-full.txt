@@ -1,0 +1,297 @@
+# SubmitNow - Complete Documentation
+
+> A multilingual web UI to submit URL batches to Bing via the IndexNow protocol
+
+## Project Overview
+
+SubmitNow (Bing-only) is a Next.js-based web application that provides a simple, user-friendly interface for submitting up to 10,000 URLs at once to Bing's IndexNow API. The application is designed to handle batch URL submissions efficiently while supporting multiple languages and providing a modern, responsive UI.
+
+### Key Capabilities
+
+- **Batch Submission**: Submit up to 10,000 URLs per request
+- **Smart Host Inference**: Automatically detects host from URL list (with manual override option)
+- **Multilingual Support**: Full i18n support for English, Chinese (简体中文), and Japanese (日本語)
+- **Privacy-First**: No data persistence - requests are proxied server-side without storage
+- **Modern UI**: Dark/light theme support, responsive design, accessible components
+- **Rate Protection**: Built-in rate limiting using Upstash Redis
+
+## Tech Stack
+
+### Core Framework
+- **Next.js**: 16.1.1 (App Router architecture)
+- **React**: 19.2.3 (latest stable)
+- **TypeScript**: 5.x (full type safety)
+- **Node.js**: 20.x (engine requirement)
+
+### UI & Styling
+- **Tailwind CSS**: 3.4.3 (utility-first CSS)
+- **Radix UI**: Accessible component primitives
+  - @radix-ui/react-dropdown-menu
+  - @radix-ui/react-select
+  - @radix-ui/react-toast
+- **Lucide React**: Icon library (0.468.0)
+- **next-themes**: Theme switching support
+- **class-variance-authority**: Component variant management
+- **tailwindcss-animate**: Animation utilities
+
+### Internationalization
+- **next-intl**: 4.4.0 (i18n routing and translations)
+- **Supported locales**: en, zh, ja
+- **Translation files**: Located in `i18n/messages/`
+
+### State & Data Management
+- **Zustand**: 5.0.3 (lightweight state management)
+- **Axios**: 1.7.9 (HTTP client for API calls)
+- **js-cookie**: Cookie management
+
+### Content & Documentation
+- **next-mdx-remote-client**: 2.x (MDX support)
+- **gray-matter**: Front matter parsing
+- **remark-gfm**: GitHub Flavored Markdown
+
+### Infrastructure
+- **@upstash/ratelimit**: 2.0.5 (rate limiting)
+- **@upstash/redis**: 1.34.5 (serverless Redis)
+- **@vercel/analytics**: 1.4.1 (analytics integration)
+- **winston**: 3.17.0 (logging with daily rotation)
+
+### Validation
+- **Zod**: 3.24.1 (TypeScript-first schema validation)
+
+## Project Structure
+
+```
+├── app/                        # Next.js App Router
+│   ├── [locale]/              # Internationalized routes
+│   │   ├── page.tsx           # Home page
+│   │   ├── about/             # About page
+│   │   ├── blog/              # Blog section with MDX support
+│   │   ├── privacy-policy/    # Privacy policy
+│   │   ├── terms-of-service/  # Terms of service
+│   │   └── layout.tsx         # Locale-specific layout
+│   ├── api/                   # API routes
+│   │   └── newsletter/        # Newsletter subscription
+│   └── *.tsx                  # Analytics components (Google, Baidu, Plausible)
+│
+├── components/                 # React components
+│   ├── home/                  # Home page components
+│   │   ├── Hero.tsx           # Hero section
+│   │   ├── ProductSubmission.tsx  # Main IndexNow submission form
+│   │   ├── Showcase.tsx       # Feature showcase
+│   │   └── index.tsx          # Home component composition
+│   ├── LocaleSwitcher.tsx     # Language switcher
+│   ├── ThemeToggle.tsx        # Dark/light mode toggle
+│   └── ...                    # Other shared components
+│
+├── actions/                    # Server actions (IndexNow submission logic)
+├── lib/                       # Utility libraries and helpers
+├── hooks/                     # Custom React hooks
+├── stores/                    # Zustand store definitions
+├── types/                     # TypeScript type definitions
+├── content/                   # Static content files
+├── blogs/                     # Blog posts (MDX format)
+├── i18n/                      # Internationalization
+│   └── messages/              # Translation JSON files (en.json, zh.json, ja.json)
+├── public/                    # Static assets (images, fonts, etc.)
+└── styles/                    # Global styles and Tailwind configuration
+```
+
+## Development Workflow
+
+### Installation & Setup
+
+```bash
+# Enable pnpm via corepack
+corepack enable
+
+# Install dependencies
+pnpm install
+
+# Set up environment variables
+cp .env.example .env
+
+# Start development server
+pnpm dev
+```
+
+### Available Scripts
+
+```bash
+pnpm dev              # Start development server (http://localhost:3000)
+pnpm build            # Build for production
+pnpm start            # Start production server
+pnpm lint             # Run ESLint checks
+pnpm fix              # Fix React2Shell Next.js issues
+pnpm update:next      # Update Next.js and React to latest versions
+```
+
+### Environment Configuration
+
+Create a `.env` file in the root directory with necessary environment variables. The `.env.example` file provides a template.
+
+## IndexNow Protocol Integration
+
+### Requirements
+
+To use the IndexNow protocol, you must:
+
+1. **Generate an API key**: Create a unique key for your site
+2. **Host the key file**: Place a text file at `https://<your-domain>/<key>.txt`
+3. **File content**: The file must contain only the key in plain text (no additional formatting)
+
+### Current Implementation
+
+- **Endpoint**: `https://www.bing.com/indexnow` (Bing-only)
+- **Method**: POST request with URL list and key
+- **Limits**: Up to 10,000 URLs per submission
+- **Response handling**: Success/error feedback via UI toast notifications
+
+## API Endpoints
+
+### `/api/newsletter`
+
+Handles newsletter subscription requests.
+
+**Method**: POST
+
+**Purpose**: Email subscription management (likely using Resend for email delivery)
+
+## Internationalization (i18n)
+
+### Supported Locales
+
+- **en**: English (default)
+- **zh**: 简体中文 (Simplified Chinese)
+- **ja**: 日本語 (Japanese)
+
+### Translation Files
+
+Located in `i18n/messages/`:
+- `en.json`: English translations
+- `zh.json`: Chinese translations
+- `ja.json`: Japanese translations
+
+### Routing
+
+The app uses Next.js App Router with `[locale]` dynamic segments:
+- `/en/` - English version
+- `/zh/` - Chinese version
+- `/ja/` - Japanese version
+
+## Deployment Considerations
+
+### Prerequisites
+
+- **Node.js**: Version 20 or higher
+- **Package Manager**: pnpm (recommended), npm, or yarn
+- **Environment**: Vercel (optimized) or any Node.js hosting platform
+
+### Production Setup
+
+1. Build the application: `pnpm build`
+2. Configure environment variables
+3. Set up rate limiting (Upstash Redis)
+4. **Important**: Add authentication for public deployments
+5. Configure analytics (Google Analytics, Baidu, Plausible)
+
+### Security Recommendations
+
+- Implement authentication to prevent abuse
+- Configure rate limiting appropriately for your use case
+- Monitor Upstash Redis usage and costs
+- Consider adding CAPTCHA for public instances
+- Review and configure CORS policies
+
+### Performance Optimization
+
+- Next.js Bundle Analyzer is included (`@next/bundle-analyzer`)
+- Use `pnpm build` to check bundle sizes
+- Optimize images using Next.js Image component
+- Enable Vercel Analytics for performance monitoring
+
+## Architecture Notes
+
+### Server vs. Client Components
+
+The app follows Next.js 13+ conventions:
+- Server components by default (better performance)
+- Client components marked with `'use client'` directive
+- Server actions in `actions/` directory
+
+### State Management Strategy
+
+- **Zustand**: Used for client-side global state
+- **Server actions**: Handle form submissions and API calls
+- **No persistence**: Data is not stored in databases
+
+### Styling Approach
+
+- **Tailwind CSS**: Utility-first styling
+- **Component variants**: Managed via class-variance-authority
+- **Theme support**: Dark/light modes via next-themes
+- **Animations**: tailwindcss-animate for smooth transitions
+
+### Content Management
+
+- **Blog posts**: Written in MDX (Markdown + JSX)
+- **Front matter**: Parsed with gray-matter
+- **Rendering**: next-mdx-remote-client for server-side MDX
+- **Markdown features**: GitHub Flavored Markdown via remark-gfm
+
+## Testing & Quality
+
+### Linting
+
+```bash
+pnpm lint
+```
+
+ESLint is configured with Next.js recommended settings.
+
+### Type Checking
+
+TypeScript provides compile-time type safety. Run:
+
+```bash
+tsc --noEmit
+```
+
+### Manual Testing
+
+No automated test suite is currently configured. Recommended approach:
+- Manual UI testing in development
+- Test across different locales (en/zh/ja)
+- Verify IndexNow submissions with actual API keys
+- Cross-browser testing
+
+## Logging
+
+Winston logger is configured with:
+- Daily log rotation (`winston-daily-rotate-file`)
+- Structured logging format
+- Different log levels for development vs. production
+
+## Known Limitations
+
+1. **Bing-only**: Currently supports only the Bing IndexNow endpoint
+2. **No batch history**: Submissions are not stored or tracked
+3. **No automated tests**: Manual testing required
+4. **Rate limiting dependency**: Requires Upstash Redis for production
+
+## Future Considerations
+
+- Support for other IndexNow endpoints (Google, Yandex, etc.)
+- Optional submission history/logging
+- API key management interface
+- Automated testing suite
+- Docker containerization
+
+## License
+
+MIT License - See LICENSE file for details
+
+## Support & Resources
+
+- **GitHub Issues**: For bug reports and feature requests
+- **Documentation**: README files in multiple languages
+- **IndexNow Spec**: https://www.indexnow.org/documentation
