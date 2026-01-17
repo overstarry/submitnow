@@ -16,6 +16,10 @@
         "href": "/about"
       },
       {
+        "name": "Blog",
+        "href": "/blog"
+      },
+      {
         "name": "Documentation",
         "href": "https://www.indexnow.org/documentation",
         "target": "_blank",

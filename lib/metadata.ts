@@ -39,7 +39,11 @@ export async function constructMetadata({
   // build image URLs
   const imageUrls = images.length > 0
     ? images.map(img => ({
-      url: img.startsWith('http') ? img : `${siteConfig.url}/${img}`,
+      url: img.startsWith('http')
+        ? img
+        : img.startsWith('/')
+          ? `${siteConfig.url}${img}`
+          : `${siteConfig.url}/${img}`,
       alt: pageTitle,
     }))
     : [{
