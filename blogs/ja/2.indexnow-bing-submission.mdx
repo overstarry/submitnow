@@ -1,6 +1,7 @@
 ---
 title: "Bing IndexNow 実践：Key ファイル設定と一括送信"
 description: "IndexNow の key ファイルを公開し、Bing に最大 10,000 件の URL を一括送信する手順。よくあるエラーと確認ポイントも掲載。"
+image: /blog/indexnow-bing-submission/cover.png
 slug: /indexnow-bing-submission
 tags: indexnow,bing,seo,indexing,sitemap
 date: 2026-01-14
@@ -68,4 +69,3 @@ curl -X POST "https://www.bing.com/indexnow" \
 - 1 回のリクエストは 1 ホストのみ（複数 host を混在させない）。
 - `keyLocation` の hostname と送信する host を一致させる。
 - まず少数の URL で動作確認してから件数を増やす。
-

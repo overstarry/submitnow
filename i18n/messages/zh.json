@@ -16,6 +16,10 @@
         "href": "/about"
       },
       {
+        "name": "博客",
+        "href": "/blog"
+      },
+      {
         "name": "文档",
         "href": "https://www.indexnow.org/documentation",
         "target": "_blank",
