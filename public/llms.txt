@@ -1,0 +1,67 @@
+# SubmitNow
+
+> A multilingual web UI to submit URL batches to Bing via the IndexNow protocol
+
+## Overview
+
+SubmitNow is a Next.js-based web application that provides a simple interface for submitting up to 10,000 URLs at once to Bing's IndexNow API. The application supports multiple languages (English, Chinese, Japanese) and handles the complexity of the IndexNow protocol submission.
+
+## Key Features
+
+- Batch URL submission (up to 10,000 URLs per request)
+- Automatic host inference from URL list
+- Multilingual interface (en/zh/ja) powered by next-intl
+- No data persistence - requests are forwarded server-side without storage
+- Dark/light theme support with next-themes
+- Rate limiting via Upstash Redis
+
+## Tech Stack
+
+- **Framework**: Next.js 16.1.1 with App Router
+- **UI**: React 19, TypeScript, Tailwind CSS, Radix UI
+- **Internationalization**: next-intl
+- **State Management**: Zustand
+- **HTTP Client**: Axios
+- **Rate Limiting**: @upstash/ratelimit + @upstash/redis
+
+## Common Commands
+
+```bash
+pnpm dev          # Start development server
+pnpm build        # Build for production
+pnpm start        # Start production server
+pnpm lint         # Run ESLint
+```
+
+## Quick Start
+
+```bash
+corepack enable
+pnpm install
+cp .env.example .env
+pnpm dev
+```
+
+Access at `http://localhost:3000`
+
+## Requirements
+
+- Node.js 20+
+- pnpm (recommended package manager)
+- IndexNow key file hosted at `https://<host>/<key>.txt` (plain text)
+
+## Important Links
+
+- [README (English)](README.md)
+- [README (简体中文)](README_zh.md)
+- [README (日本語)](README_ja.md)
+
+## Deployment Notes
+
+- Currently targets Bing endpoint only: `https://www.bing.com/indexnow`
+- For public deployment, implement authentication and rate limiting
+- No persistence layer - all requests are proxied server-side
+
+## License
+
+MIT
