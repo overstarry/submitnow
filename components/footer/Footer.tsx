@@ -162,6 +162,16 @@ export default async function Footer() {
               >
                 {tFooter("TermsOfService")}
               </I18nLink>
+              <Link
+                href="https://pokemonlore.com/"
+                title="pokemonlore"
+                prefetch={false}
+                target="_blank"
+                rel="noreferrer nofollow noopener"
+                className="text-gray-400 hover:text-white text-sm"
+              >
+                pokemonlore
+              </Link>
             </div>
           </div>
         </div>
