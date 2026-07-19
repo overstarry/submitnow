@@ -1,5 +1,6 @@
 import Hero from "@/components/home/Hero";
 import IndexNowSubmission from "@/components/indexnow/IndexNowSubmission";
+import ToolsPreview from "@/components/tools/ToolsPreview";
 
 export default function HomeComponent() {
   return (
@@ -15,6 +16,7 @@ export default function HomeComponent() {
             <IndexNowSubmission />
           </div>
         </div>
+        <ToolsPreview />
       </div>
     </section>
   );

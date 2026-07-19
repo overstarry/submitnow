@@ -12,6 +12,14 @@
         "href": "/"
       },
       {
+        "name": "工具",
+        "href": "/tools"
+      },
+      {
+        "name": "指南",
+        "href": "/blog"
+      },
+      {
         "name": "关于",
         "href": "/about"
       },
@@ -139,5 +147,132 @@
   "PrivacyPolicy": {
     "title": "隐私政策",
     "description": "隐私政策"
+  },
+  "Tools": {
+    "badge": "浏览器本地 SEO 工具",
+    "title": "先准备好 URL，再发送提交",
+    "description": "围绕 key 生成、URL 清洗与 sitemap 变更定位的轻量工具。文件和输入只在当前浏览器会话中处理。",
+    "openTool": "打开工具",
+    "allTools": "查看全部工具",
+    "preview": {
+      "eyebrow": "更稳妥地发布",
+      "title": "建立更干净的 IndexNow 工作流",
+      "description": "先生成 key、整理单 host URL 批次、找出 sitemap 变更，再通知搜索引擎。"
+    },
+    "principles": {
+      "local": "输入仅在浏览器内处理，submitnow 不会保存它们。",
+      "review": "提交前检查重复、无效和混合 host 的 URL。",
+      "export": "准备就绪后复制或下载干净的提交队列。"
+    },
+    "common": {
+      "backToTools": "返回工具页",
+      "localOnly": "该工具只在浏览器中运行：不创建账户、不保存输入，也不会代你抓取远程站点。",
+      "copy": "复制",
+      "copied": "已复制"
+    },
+    "cards": {
+      "keyGenerator": {
+        "title": "IndexNow Key 生成器",
+        "description": "在本地生成高强度 key，并下载所有权验证所需的文本文件。",
+        "shortDescription": "本地生成并下载 key 文件。"
+      },
+      "batchBuilder": {
+        "title": "IndexNow URL 批次整理器",
+        "description": "清洗粘贴的 URL 列表、删除重复项，并按单个 host 分出安全的提交批次。",
+        "shortDescription": "清洗 URL 并按 host 分组。"
+      },
+      "sitemapDiff": {
+        "title": "Sitemap Diff",
+        "description": "在本地比较两个上传的 sitemap 文件，将新增或变更 URL 组成提交队列。",
+        "shortDescription": "找出新增和变更的 sitemap URL。"
+      }
+    },
+    "keyGenerator": {
+      "metaTitle": "免费 IndexNow Key 生成器",
+      "title": "在本地生成 IndexNow key",
+      "description": "在浏览器内生成高熵 key，并下载对应文本文件；key 不会发送到 submitnow。",
+      "keyLabel": "生成的 key",
+      "keyHelp": "需要时随时生成新的 key。部署到站点前，请妥善保管 key 和对应文本文件。",
+      "keyPlaceholder": "生成 key 后会显示在这里",
+      "generate": "生成 key",
+      "generateAgain": "重新生成 key",
+      "download": "下载 .txt 文件",
+      "copySuccess": "key 已复制到剪贴板。",
+      "copyFailure": "无法自动复制，请选中 key 后手动复制。",
+      "stepsTitle": "三步使用 key",
+      "steps": {
+        "generateStep": "生成 key，并下载对应的 .txt 文件。",
+        "hostStep": "将文件上传到你的站点，通常位于 https://your-host/your-key.txt。",
+        "submitStep": "将同一个 key 粘贴到 IndexNow 提交表单，并提交该 host 下的 URL。"
+      },
+      "rootFileNote": "如果要提交同一 host 下各个目录的 URL，将 key 文件放在站点根目录是最简单的做法。"
+    },
+    "batchBuilder": {
+      "metaTitle": "IndexNow URL 批次整理器",
+      "title": "提交 IndexNow 前先清洗 URL 批次",
+      "description": "粘贴或导入 URL 列表，在浏览器内移除重复项、找出无效值，并按 hostname 拆分 URL。",
+      "inputTitle": "粘贴 URL 列表",
+      "inputHelp": "每行一个 URL，也可以用空格或逗号分隔。支持导入纯文本或 CSV 文件。",
+      "importFile": "导入文件",
+      "importFailure": "无法读取所选文件。",
+      "placeholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+      "summaryTitle": "批次摘要",
+      "stats": {
+        "valid": "有效 URL",
+        "hosts": "Host 数",
+        "duplicates": "重复项",
+        "invalid": "无效项"
+      },
+      "singleHost": "只有一个 host，可以直接复制到提交表单。",
+      "multipleHosts": "IndexNow 每次提交只能包含一个 host，请分别复制每个分组。",
+      "tooManyUrls": "当前列表有 {count} 个有效 URL。IndexNow 单次请求最多接受 10,000 个 URL。",
+      "copyAll": "复制全部有效 URL",
+      "groupsTitle": "提交分组",
+      "groupsHelp": "每个分组只包含一个 hostname 的 URL。一次 IndexNow 请求只复制一个分组。",
+      "openSubmitter": "打开提交工具",
+      "emptyState": "粘贴或导入 URL 后，将在这里生成提交分组。",
+      "hostCount": "{count} 个 URL",
+      "copyGroup": "复制分组",
+      "moreUrls": "还有 {count} 个 URL",
+      "invalidTitle": "部分值不是有效的 http(s) URL",
+      "invalidHelp": "创建提交批次前，请修正或删除这些值。",
+      "emptyValue": "空值"
+    },
+    "sitemapDiff": {
+      "metaTitle": "用于 IndexNow 的 Sitemap Diff",
+      "title": "无需上传到服务器即可找出 sitemap 变更",
+      "description": "上传旧版和新版 sitemap XML 文件。比较在本地完成，可仅导出新增或变更 URL 组成 IndexNow 队列。",
+      "previousTitle": "旧版 sitemap",
+      "previousHelp": "上传较早的 sitemap XML 文件，作为比较基线。",
+      "currentTitle": "新版 sitemap",
+      "currentHelp": "上传希望进行比较的新版 sitemap XML 文件。",
+      "chooseFile": "选择 sitemap XML",
+      "replaceFile": "替换 sitemap XML",
+      "entryCount": "找到 {count} 个有效 URL",
+      "errors": {
+        "invalidXml": "该文件不是有效的 XML。",
+        "emptyUrlset": "该 URL 集不包含有效的 http(s) URL。",
+        "sitemapIndex": "这是一个包含 {count} 个子 sitemap URL 的 sitemap 索引。为保持工具只在浏览器内运行，请上传需要比较的单个 sitemap XML 文件。",
+        "unsupported": "该 XML 不是 sitemap URL 集或 sitemap 索引。",
+        "invalidLocations": "比较时已排除 {count} 个无效 sitemap 地址。"
+      },
+      "resultsTitle": "变更队列",
+      "resultsHelp": "选择新增和/或变更 URL，然后复制或下载队列，粘贴到提交工具。",
+      "selectedCount": "已选择 {count} 个",
+      "emptyState": "上传两个有效的 sitemap URL 集后，即可计算变更。",
+      "stats": {
+        "added": "新增",
+        "changed": "变更",
+        "unchanged": "未变化"
+      },
+      "includeAdded": "包含 {count} 个新增 URL",
+      "includeChanged": "包含 {count} 个变更 URL",
+      "copyQueue": "复制队列",
+      "downloadQueue": "下载队列",
+      "openSubmitter": "打开提交工具",
+      "copySuccess": "已将选中的队列复制到剪贴板。",
+      "copyFailure": "无法自动复制，请改为下载队列。",
+      "moreUrls": "还有 {count} 个 URL"
+    }
   }
 }

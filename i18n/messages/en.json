@@ -12,6 +12,14 @@
         "href": "/"
       },
       {
+        "name": "Tools",
+        "href": "/tools"
+      },
+      {
+        "name": "Guides",
+        "href": "/blog"
+      },
+      {
         "name": "About",
         "href": "/about"
       },
@@ -139,5 +147,132 @@
   "PrivacyPolicy": {
     "title": "Privacy Policy",
     "description": "Privacy Policy"
+  },
+  "Tools": {
+    "badge": "Browser-only SEO toolkit",
+    "title": "Prepare publish-ready URLs before you submit",
+    "description": "Small, focused utilities for creating a key, cleaning a URL batch, and finding sitemap changes. Your files and inputs stay in this browser session.",
+    "openTool": "Open tool",
+    "allTools": "Explore all tools",
+    "preview": {
+      "eyebrow": "Publish with confidence",
+      "title": "Build a cleaner IndexNow workflow",
+      "description": "Generate a key, prepare a single-host batch, and isolate sitemap changes before you notify search engines."
+    },
+    "principles": {
+      "local": "Inputs are processed in your browser and are never stored by submitnow.",
+      "review": "Review duplicate, invalid, and mixed-host URLs before submitting.",
+      "export": "Copy or download a clean queue when you are ready to submit."
+    },
+    "common": {
+      "backToTools": "Back to tools",
+      "localOnly": "This tool runs in your browser. It does not create an account, store your input, or fetch a remote site on your behalf.",
+      "copy": "Copy",
+      "copied": "Copied"
+    },
+    "cards": {
+      "keyGenerator": {
+        "title": "IndexNow Key Generator",
+        "description": "Create a strong key locally and download the text file needed for ownership verification.",
+        "shortDescription": "Generate and download a key file locally."
+      },
+      "batchBuilder": {
+        "title": "IndexNow Batch Builder",
+        "description": "Clean a pasted URL list, remove duplicates, and split it into safe single-host submission groups.",
+        "shortDescription": "Clean URLs and group them by host."
+      },
+      "sitemapDiff": {
+        "title": "Sitemap Diff",
+        "description": "Compare two uploaded sitemap files locally and build a queue from new or changed URLs.",
+        "shortDescription": "Find new and changed sitemap URLs."
+      }
+    },
+    "keyGenerator": {
+      "metaTitle": "Free IndexNow Key Generator",
+      "title": "Generate an IndexNow key locally",
+      "description": "Create a high-entropy key in your browser, then download the matching text file without sending the key to submitnow.",
+      "keyLabel": "Your generated key",
+      "keyHelp": "Generate a new key whenever you need one. Keep the key and its text file private until you deploy it on your site.",
+      "keyPlaceholder": "Generate a key to begin",
+      "generate": "Generate key",
+      "generateAgain": "Generate another key",
+      "download": "Download .txt file",
+      "copySuccess": "The key has been copied to your clipboard.",
+      "copyFailure": "Unable to copy automatically. Select the key and copy it manually.",
+      "stepsTitle": "Use this key in three steps",
+      "steps": {
+        "generateStep": "Generate a key and download the matching .txt file.",
+        "hostStep": "Upload the file to your site, normally as https://your-host/your-key.txt.",
+        "submitStep": "Paste the same key into the IndexNow submission form with URLs from that host."
+      },
+      "rootFileNote": "A root-level key file is the simplest option when you need to submit URLs from across your host."
+    },
+    "batchBuilder": {
+      "metaTitle": "IndexNow URL Batch Builder",
+      "title": "Clean a URL batch before IndexNow submission",
+      "description": "Paste or import a list of URLs to remove duplicates, identify invalid values, and separate URLs by hostname entirely in your browser.",
+      "inputTitle": "Paste a URL list",
+      "inputHelp": "Use one URL per line, or separate URLs with spaces and commas. You can also import a plain-text or CSV file.",
+      "importFile": "Import file",
+      "importFailure": "The selected file could not be read.",
+      "placeholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+      "summaryTitle": "Batch summary",
+      "stats": {
+        "valid": "Valid URLs",
+        "hosts": "Hosts",
+        "duplicates": "Duplicates",
+        "invalid": "Invalid"
+      },
+      "singleHost": "A single host can be copied directly into the submission form.",
+      "multipleHosts": "IndexNow submissions must use one host at a time. Copy each host group separately.",
+      "tooManyUrls": "This list has {count} valid URLs. IndexNow accepts at most 10,000 URLs in one request.",
+      "copyAll": "Copy all valid URLs",
+      "groupsTitle": "Submission groups",
+      "groupsHelp": "Each group contains URLs from one hostname. Copy only one group for each IndexNow request.",
+      "openSubmitter": "Open submission tool",
+      "emptyState": "Paste or import URLs to create submission groups.",
+      "hostCount": "{count, plural, one {# URL} other {# URLs}}",
+      "copyGroup": "Copy group",
+      "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}",
+      "invalidTitle": "Some values are not valid http(s) URLs",
+      "invalidHelp": "Fix or remove these values before you create a submission batch.",
+      "emptyValue": "Empty value"
+    },
+    "sitemapDiff": {
+      "metaTitle": "Sitemap Diff for IndexNow",
+      "title": "Find sitemap changes without uploading them to a server",
+      "description": "Upload an older and a newer sitemap XML file. The comparison runs locally and lets you export only added or changed URLs for an IndexNow queue.",
+      "previousTitle": "Previous sitemap",
+      "previousHelp": "Upload the earlier sitemap XML file to use as the baseline.",
+      "currentTitle": "Current sitemap",
+      "currentHelp": "Upload the newer sitemap XML file that you want to compare.",
+      "chooseFile": "Choose sitemap XML",
+      "replaceFile": "Replace sitemap XML",
+      "entryCount": "{count, plural, one {# valid URL found} other {# valid URLs found}}",
+      "errors": {
+        "invalidXml": "This file is not valid XML.",
+        "emptyUrlset": "This URL set does not contain any valid http(s) URLs.",
+        "sitemapIndex": "This is a sitemap index with {count} child sitemap URLs. To keep this tool browser-only, upload the individual sitemap XML files you want to compare.",
+        "unsupported": "This XML is not a sitemap URL set or sitemap index.",
+        "invalidLocations": "{count} invalid sitemap locations were excluded from the comparison."
+      },
+      "resultsTitle": "Change queue",
+      "resultsHelp": "Select added and/or changed URLs, then copy or download the queue for the submission tool.",
+      "selectedCount": "{count} selected",
+      "emptyState": "Upload two valid sitemap URL sets to calculate changes.",
+      "stats": {
+        "added": "Added",
+        "changed": "Changed",
+        "unchanged": "Unchanged"
+      },
+      "includeAdded": "Include {count, plural, one {# added URL} other {# added URLs}}",
+      "includeChanged": "Include {count, plural, one {# changed URL} other {# changed URLs}}",
+      "copyQueue": "Copy queue",
+      "downloadQueue": "Download queue",
+      "openSubmitter": "Open submission tool",
+      "copySuccess": "The selected queue has been copied to your clipboard.",
+      "copyFailure": "Unable to copy automatically. Download the queue instead.",
+      "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}"
+    }
   }
 }

@@ -12,6 +12,14 @@
         "href": "/"
       },
       {
+        "name": "ツール",
+        "href": "/tools"
+      },
+      {
+        "name": "ガイド",
+        "href": "/blog"
+      },
+      {
         "name": "サイトについて",
         "href": "/about"
       },
@@ -139,5 +147,132 @@
   "PrivacyPolicy": {
     "title": "プライバシーポリシー",
     "description": "プライバシーポリシー"
+  },
+  "Tools": {
+    "badge": "ブラウザ内 SEO ツールキット",
+    "title": "送信前に URL を整える",
+    "description": "key の生成、URL バッチの整理、sitemap の差分確認に特化した軽量ツールです。ファイルと入力は現在のブラウザセッション内だけで処理されます。",
+    "openTool": "ツールを開く",
+    "allTools": "すべてのツールを見る",
+    "preview": {
+      "eyebrow": "確信を持って公開する",
+      "title": "よりクリーンな IndexNow ワークフローを作る",
+      "description": "key を生成し、単一 host の URL バッチを整え、sitemap の変更を抽出してから検索エンジンへ通知します。"
+    },
+    "principles": {
+      "local": "入力はブラウザ内で処理され、submitnow に保存されません。",
+      "review": "送信前に重複、無効、複数 host の URL を確認できます。",
+      "export": "準備できたら、クリーンなキューをコピーまたはダウンロードできます。"
+    },
+    "common": {
+      "backToTools": "ツール一覧に戻る",
+      "localOnly": "このツールはブラウザ内だけで動作します。アカウントの作成、入力の保存、リモートサイトの代理取得は行いません。",
+      "copy": "コピー",
+      "copied": "コピーしました"
+    },
+    "cards": {
+      "keyGenerator": {
+        "title": "IndexNow Key ジェネレーター",
+        "description": "ローカルで強力な key を作成し、所有権の確認に必要なテキストファイルをダウンロードします。",
+        "shortDescription": "ローカルで key ファイルを生成してダウンロード。"
+      },
+      "batchBuilder": {
+        "title": "IndexNow URL バッチ作成ツール",
+        "description": "貼り付けた URL リストを整理し、重複を削除して安全な単一 host の送信グループに分けます。",
+        "shortDescription": "URL を整理し host ごとに分けます。"
+      },
+      "sitemapDiff": {
+        "title": "Sitemap Diff",
+        "description": "アップロードした 2 つの sitemap ファイルをローカルで比較し、新規または変更 URL の送信キューを作成します。",
+        "shortDescription": "新規・変更された sitemap URL を見つけます。"
+      }
+    },
+    "keyGenerator": {
+      "metaTitle": "無料 IndexNow Key ジェネレーター",
+      "title": "ローカルで IndexNow key を生成する",
+      "description": "ブラウザ内で高エントロピーの key を作成し、対応するテキストファイルをダウンロードします。key が submitnow に送信されることはありません。",
+      "keyLabel": "生成された key",
+      "keyHelp": "必要なときに新しい key を生成できます。サイトへ配置するまでは、key とテキストファイルを安全に保管してください。",
+      "keyPlaceholder": "key を生成するとここに表示されます",
+      "generate": "key を生成",
+      "generateAgain": "別の key を生成",
+      "download": ".txt ファイルをダウンロード",
+      "copySuccess": "key をクリップボードにコピーしました。",
+      "copyFailure": "自動でコピーできませんでした。key を選択して手動でコピーしてください。",
+      "stepsTitle": "key を使う 3 ステップ",
+      "steps": {
+        "generateStep": "key を生成し、対応する .txt ファイルをダウンロードします。",
+        "hostStep": "ファイルをサイトにアップロードします。通常は https://your-host/your-key.txt です。",
+        "submitStep": "同じ key を IndexNow 送信フォームに貼り付け、その host の URL を送信します。"
+      },
+      "rootFileNote": "host 内の複数ディレクトリにある URL を送信する場合、ルートに key ファイルを置くのが最も簡単です。"
+    },
+    "batchBuilder": {
+      "metaTitle": "IndexNow URL バッチ作成ツール",
+      "title": "IndexNow 送信前に URL バッチを整理する",
+      "description": "URL リストを貼り付けまたはインポートして、重複を削除し、無効な値を見つけ、hostname ごとに URL を分けます。すべてブラウザ内で実行されます。",
+      "inputTitle": "URL リストを貼り付ける",
+      "inputHelp": "1 行に 1 URL、または空白・カンマで区切ってください。プレーンテキストまたは CSV ファイルもインポートできます。",
+      "importFile": "ファイルをインポート",
+      "importFailure": "選択したファイルを読み込めませんでした。",
+      "placeholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
+      "summaryTitle": "バッチの概要",
+      "stats": {
+        "valid": "有効な URL",
+        "hosts": "Host 数",
+        "duplicates": "重複",
+        "invalid": "無効"
+      },
+      "singleHost": "単一 host のため、送信フォームへ直接コピーできます。",
+      "multipleHosts": "IndexNow の 1 回の送信には 1 host のみを含められます。host グループごとにコピーしてください。",
+      "tooManyUrls": "このリストには {count} 件の有効な URL があります。IndexNow は 1 リクエストあたり最大 10,000 URL です。",
+      "copyAll": "すべての有効 URL をコピー",
+      "groupsTitle": "送信グループ",
+      "groupsHelp": "各グループには 1 つの hostname の URL だけが含まれます。IndexNow リクエストごとに 1 グループだけコピーしてください。",
+      "openSubmitter": "送信ツールを開く",
+      "emptyState": "URL を貼り付けまたはインポートすると、送信グループがここに表示されます。",
+      "hostCount": "{count} URL",
+      "copyGroup": "グループをコピー",
+      "moreUrls": "さらに {count} URL",
+      "invalidTitle": "一部の値は有効な http(s) URL ではありません",
+      "invalidHelp": "送信バッチを作成する前に、これらの値を修正または削除してください。",
+      "emptyValue": "空の値"
+    },
+    "sitemapDiff": {
+      "metaTitle": "IndexNow 用 Sitemap Diff",
+      "title": "サーバーへ送信せず sitemap の変更を見つける",
+      "description": "旧版と新版の sitemap XML ファイルをアップロードします。比較はローカルで実行され、新規または変更 URL だけを IndexNow キューとして書き出せます。",
+      "previousTitle": "以前の sitemap",
+      "previousHelp": "比較の基準として、以前の sitemap XML ファイルをアップロードします。",
+      "currentTitle": "現在の sitemap",
+      "currentHelp": "比較する新しい sitemap XML ファイルをアップロードします。",
+      "chooseFile": "sitemap XML を選択",
+      "replaceFile": "sitemap XML を置き換え",
+      "entryCount": "{count} 件の有効な URL を検出",
+      "errors": {
+        "invalidXml": "このファイルは有効な XML ではありません。",
+        "emptyUrlset": "この URL セットには有効な http(s) URL が含まれていません。",
+        "sitemapIndex": "これは {count} 個の子 sitemap URL を含む sitemap index です。このツールをブラウザ内だけで動作させるため、比較する個別の sitemap XML ファイルをアップロードしてください。",
+        "unsupported": "この XML は sitemap URL セットまたは sitemap index ではありません。",
+        "invalidLocations": "比較から {count} 件の無効な sitemap location を除外しました。"
+      },
+      "resultsTitle": "変更キュー",
+      "resultsHelp": "新規 URL と変更 URL を選び、送信ツール用のキューをコピーまたはダウンロードします。",
+      "selectedCount": "{count} 件を選択中",
+      "emptyState": "2 つの有効な sitemap URL セットをアップロードすると変更を計算できます。",
+      "stats": {
+        "added": "新規",
+        "changed": "変更",
+        "unchanged": "未変更"
+      },
+      "includeAdded": "{count} 件の新規 URL を含める",
+      "includeChanged": "{count} 件の変更 URL を含める",
+      "copyQueue": "キューをコピー",
+      "downloadQueue": "キューをダウンロード",
+      "openSubmitter": "送信ツールを開く",
+      "copySuccess": "選択したキューをクリップボードにコピーしました。",
+      "copyFailure": "自動でコピーできませんでした。代わりにキューをダウンロードしてください。",
+      "moreUrls": "さらに {count} URL"
+    }
   }
 }

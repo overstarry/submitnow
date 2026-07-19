@@ -11,6 +11,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
   const staticPages = [
     '',
+    '/tools',
+    '/tools/indexnow-key-generator',
+    '/tools/indexnow-batch-builder',
+    '/tools/sitemap-diff',
     '/blog',
     '/about',
     '/privacy-policy',

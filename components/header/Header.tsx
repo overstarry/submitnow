@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <header className="sticky top-4 z-50 w-full px-4">
       <nav className="mx-auto flex w-full max-w-6xl items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/60">
-        <div className="flex items-center space-x-6 md:space-x-12">
+        <div className="flex items-center space-x-6 md:space-x-6 lg:space-x-12">
           <I18nLink
             href="/"
             prefetch={false}

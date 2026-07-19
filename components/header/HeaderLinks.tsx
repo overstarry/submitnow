@@ -24,7 +24,9 @@ const HeaderLinks = () => {
           rel={link.rel || undefined}
           className={cn(
             "rounded-xl px-4 py-2 flex items-center gap-x-1 transition-colors hover:bg-slate-900/5 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white",
-            pathname === link.href && "font-semibold text-slate-900 dark:text-white"
+            (pathname === link.href ||
+              (link.href !== "/" && pathname.startsWith(`${link.href}/`))) &&
+              "font-semibold text-slate-900 dark:text-white"
           )}
         >
           {link.name}
