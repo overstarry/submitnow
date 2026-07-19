@@ -76,9 +76,9 @@ SubmitNow (Bing-only) is a Next.js-based web application that provides a simple,
 ├── components/                 # React components
 │   ├── home/                  # Home page components
 │   │   ├── Hero.tsx           # Hero section
-│   │   ├── ProductSubmission.tsx  # Main IndexNow submission form
-│   │   ├── Showcase.tsx       # Feature showcase
 │   │   └── index.tsx          # Home component composition
+│   ├── indexnow/              # IndexNow workflow components
+│   │   └── IndexNowSubmission.tsx  # Main IndexNow submission form
 │   ├── LocaleSwitcher.tsx     # Language switcher
 │   ├── ThemeToggle.tsx        # Dark/light mode toggle
 │   └── ...                    # Other shared components

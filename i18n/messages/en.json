@@ -56,8 +56,8 @@
       ]
     },
     "Newsletter": {
-      "title": "Subscribe to our newsletter",
-      "description": "Get the latest news and updates from Next.js Starter",
+      "title": "Stay up to date with submitnow",
+      "description": "Get the latest IndexNow guides, news, and product updates.",
       "defaultErrorMessage": "Please enter a valid email address",
       "successMessage": "Subscription successful",
       "errorMessage": "Subscription failed",
@@ -139,22 +139,5 @@
   "PrivacyPolicy": {
     "title": "Privacy Policy",
     "description": "Privacy Policy"
-  },
-  "Showcase": {
-    "title": "Built with This Starter",
-    "description": "Discover amazing products and websites built using this Next.js starter template.",
-    "visitSite": "Visit site"
-  },
-  "Submission": {
-    "badge": "Get Featured",
-    "title": "Submit Your Product",
-    "description": "Built something awesome with this starter? Share your product with our community and get featured on our showcase.",
-    "productNameLabel": "Product Name",
-    "productNamePlaceholder": "My Awesome Project",
-    "productUrlLabel": "Product URL",
-    "submit": "Submit Product",
-    "submitting": "Submitting...",
-    "successMessage": "Thank you! Your submission has been received. We'll review it shortly.",
-    "errorMessage": "Something went wrong. Please try again."
   }
 }
