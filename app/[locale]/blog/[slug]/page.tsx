@@ -1,11 +1,19 @@
 import { Callout } from "@/components/mdx/Callout";
 import MDXComponents from "@/components/mdx/MDXComponents";
+import JsonLd from "@/components/seo/JsonLd";
 import { Locale, LOCALES } from "@/i18n/routing";
 import { getPosts } from "@/lib/getBlogs";
 import { constructMetadata } from "@/lib/metadata";
+import {
+  articleSchema,
+  breadcrumbSchema,
+  buildGraph,
+  organizationSchema,
+} from "@/lib/structured-data";
 import { BlogPost } from "@/types/blog";
 import { Metadata } from "next";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import remarkGfm from "remark-gfm";
 
@@ -63,8 +71,31 @@ export default async function BlogPage({ params }: { params: Params }) {
     return notFound();
   }
 
+  const tBlog = await getTranslations({ locale, namespace: "Blog" });
+
+  const jsonLd = buildGraph([
+    organizationSchema(),
+    articleSchema({
+      locale,
+      path: `/blog${post.slug}`,
+      title: post.title,
+      description: post.description,
+      datePublished: post.date ? new Date(post.date).toISOString() : undefined,
+      dateModified: post.metadata?.updatedAt
+        ? new Date(post.metadata.updatedAt).toISOString()
+        : undefined,
+      image: post.image || undefined,
+    }),
+    breadcrumbSchema(locale, [
+      { name: tBlog("breadcrumbHome"), path: "/" },
+      { name: tBlog("title"), path: "/blog" },
+      { name: post.title, path: `/blog${post.slug}` },
+    ]),
+  ]);
+
   return (
     <div className="w-full md:w-3/5 px-2 md:px-12">
+      <JsonLd data={jsonLd} />
       <h1 className="break-words text-4xl font-bold mt-6 mb-4">{post.title}</h1>
       {post.image && (
         <img

@@ -1,8 +1,9 @@
 "use client";
 
-import ToolPageShell from "@/components/tools/ToolPageShell";
 import { Button } from "@/components/ui/button";
-import { Link as I18nLink } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
+import { trackEvent } from "@/lib/analytics";
+import { stageUrlsForSubmission } from "@/lib/handoff";
 import {
   copyText,
   diffSitemapEntries,
@@ -11,15 +12,22 @@ import {
 } from "@/lib/seo-tools";
 import type { SitemapParseResult } from "@/lib/seo-tools";
 import {
+  clearSitemapSnapshot,
+  loadSitemapSnapshot,
+  saveSitemapSnapshot,
+  type SitemapSnapshot,
+} from "@/lib/sitemap-snapshot";
+import {
   Check,
   Copy,
+  Database,
   Download,
   FileUp,
-  GitCompareArrows,
+  Trash2,
   TriangleAlert,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type UploadedSitemap = {
   fileName: string;
@@ -28,15 +36,26 @@ type UploadedSitemap = {
 
 type FileSlot = "previous" | "current";
 type CopyState = "idle" | "copied" | "failed";
+type SnapshotState = "idle" | "saved" | "too_large" | "storage_error";
 
 export default function SitemapDiff() {
   const t = useTranslations("Tools.sitemapDiff");
   const tCommon = useTranslations("Tools.common");
+  const router = useRouter();
   const [previous, setPrevious] = useState<UploadedSitemap | null>(null);
   const [current, setCurrent] = useState<UploadedSitemap | null>(null);
   const [includeAdded, setIncludeAdded] = useState(true);
   const [includeChanged, setIncludeChanged] = useState(true);
   const [copyState, setCopyState] = useState<CopyState>("idle");
+  const [snapshot, setSnapshot] = useState<SitemapSnapshot | null>(null);
+  const [snapshotState, setSnapshotState] = useState<SnapshotState>("idle");
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      setSnapshot(loadSitemapSnapshot());
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const diff = useMemo(() => {
     if (previous?.result.type !== "urlset" || current?.result.type !== "urlset") {
@@ -51,12 +70,16 @@ export default function SitemapDiff() {
   }, [current, previous]);
 
   const selectedEntries = useMemo(() => {
-    if (!diff) return [];
+    if (!diff) {
+      return current?.result.type === "urlset" && !current.result.error
+        ? current.result.entries
+        : [];
+    }
     return [
       ...(includeAdded ? diff.added : []),
       ...(includeChanged ? diff.changed : []),
     ];
-  }, [diff, includeAdded, includeChanged]);
+  }, [current, diff, includeAdded, includeChanged]);
 
   const handleFileUpload = async (
     slot: FileSlot,
@@ -76,6 +99,13 @@ export default function SitemapDiff() {
       setCurrent(uploaded);
     }
     setCopyState("idle");
+    setSnapshotState("idle");
+    trackEvent({
+      name: "tool_used",
+      toolId: "sitemapDiff",
+      action: slot === "current" ? "parse_current" : "parse_baseline",
+      value: result.entries.length,
+    });
   };
 
   const handleCopy = async () => {
@@ -83,6 +113,14 @@ export default function SitemapDiff() {
       selectedEntries.map((entry) => entry.url).join("\n")
     );
     setCopyState(didCopy ? "copied" : "failed");
+    if (didCopy) {
+      trackEvent({
+        name: "tool_used",
+        toolId: "sitemapDiff",
+        action: "copy_queue",
+        value: selectedEntries.length,
+      });
+    }
   };
 
   const handleDownload = () => {
@@ -91,6 +129,51 @@ export default function SitemapDiff() {
       "indexnow-sitemap-queue.txt",
       selectedEntries.map((entry) => entry.url).join("\n")
     );
+    trackEvent({
+      name: "tool_used",
+      toolId: "sitemapDiff",
+      action: "download_queue",
+      value: selectedEntries.length,
+    });
+  };
+
+  const handleSaveSnapshot = () => {
+    if (current?.result.type !== "urlset" || current.result.error) return;
+    const state = saveSitemapSnapshot(
+      current.fileName,
+      current.result.entries
+    );
+    setSnapshotState(state);
+    if (state === "saved") {
+      setSnapshot(loadSitemapSnapshot());
+      trackEvent({
+        name: "tool_used",
+        toolId: "sitemapDiff",
+        action: "save_baseline",
+        value: current.result.entries.length,
+      });
+    }
+  };
+
+  const handleUseSnapshot = () => {
+    if (!snapshot) return;
+    setPrevious({
+      fileName: snapshot.sourceFileName,
+      result: {
+        type: "urlset",
+        entries: snapshot.entries,
+        childSitemaps: [],
+        invalidLocations: [],
+        duplicateCount: 0,
+      },
+    });
+    setSnapshotState("idle");
+  };
+
+  const handleClearSnapshot = () => {
+    clearSitemapSnapshot();
+    setSnapshot(null);
+    setSnapshotState("idle");
   };
 
   const getResultMessage = (uploaded: UploadedSitemap | null) => {
@@ -159,14 +242,54 @@ export default function SitemapDiff() {
     );
   };
 
+  const handleSendToSubmitter = () => {
+    stageUrlsForSubmission(selectedEntries.map((entry) => entry.url));
+    trackEvent({
+      name: "tool_handoff",
+      toolId: "sitemapDiff",
+      action: "open_submitter",
+      value: selectedEntries.length,
+    });
+    router.push("/#indexnow-form");
+  };
+
   return (
-    <ToolPageShell
-      icon={GitCompareArrows}
-      title={t("title")}
-      description={t("description")}
-    >
+    <>
       <div className="grid gap-6 lg:grid-cols-2">
-        {renderFileSlot("previous", previous)}
+        <div>
+          {renderFileSlot("previous", previous)}
+          {snapshot && (
+            <div className="mt-3 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm dark:border-slate-800 dark:bg-slate-950/80">
+              <Database
+                className="size-4 text-blue-600 dark:text-blue-300"
+                aria-hidden="true"
+              />
+              <span className="min-w-0 flex-1 truncate text-slate-600 dark:text-slate-300">
+                {t("savedSnapshot", {
+                  fileName: snapshot.sourceFileName,
+                  date: new Date(snapshot.createdAt).toLocaleDateString(),
+                })}
+              </span>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleUseSnapshot}
+              >
+                {t("useSnapshot")}
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={handleClearSnapshot}
+                aria-label={t("clearSnapshot")}
+              >
+                <Trash2 className="size-4" aria-hidden="true" />
+              </Button>
+            </div>
+          )}
+        </div>
         {renderFileSlot("current", current)}
       </div>
 
@@ -177,60 +300,102 @@ export default function SitemapDiff() {
               {t("resultsTitle")}
             </h2>
             <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              {t("resultsHelp")}
+              {diff ? t("resultsHelp") : t("extractHelp")}
             </p>
           </div>
-          {diff && (
+          {selectedEntries.length > 0 && (
             <p className="rounded-full bg-blue-50 px-3 py-1.5 text-sm font-semibold text-blue-700 dark:bg-blue-500/10 dark:text-blue-200">
               {t("selectedCount", { count: selectedEntries.length })}
             </p>
           )}
         </div>
 
-        {!diff ? (
+        {selectedEntries.length === 0 ? (
           <p className="mt-8 rounded-2xl border border-dashed border-slate-300 px-4 py-8 text-center text-sm leading-6 text-slate-500 dark:border-slate-700 dark:text-slate-400">
             {t("emptyState")}
           </p>
         ) : (
           <>
-            <div className="mt-6 grid gap-3 sm:grid-cols-3">
-              {[
-                ["added", diff.added.length],
-                ["changed", diff.changed.length],
-                ["unchanged", diff.unchangedCount],
-              ].map(([id, count]) => (
-                <div
-                  key={String(id)}
-                  className="rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/50"
-                >
-                  <p className="text-2xl font-semibold tabular-nums text-slate-950 dark:text-white">{count}</p>
-                  <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                    {t(`stats.${id}`)}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {diff ? (
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                {[
+                  ["added", diff.added.length],
+                  ["changed", diff.changed.length],
+                  ["unchanged", diff.unchangedCount],
+                ].map(([id, count]) => (
+                  <div
+                    key={String(id)}
+                    className="rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/50"
+                  >
+                    <p className="text-2xl font-semibold tabular-nums text-slate-950 dark:text-white">{count}</p>
+                    <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      {t(`stats.${id}`)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/50">
+                <p className="text-2xl font-semibold tabular-nums text-slate-950 dark:text-white">
+                  {selectedEntries.length}
+                </p>
+                <p className="mt-1 text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  {t("stats.extracted")}
+                </p>
+              </div>
+            )}
 
-            <fieldset className="mt-6 grid gap-3 sm:grid-cols-2">
-              <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
-                <input
-                  type="checkbox"
-                  checked={includeAdded}
-                  onChange={(event) => setIncludeAdded(event.target.checked)}
-                  className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                />
-                {t("includeAdded", { count: diff.added.length })}
-              </label>
-              <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
-                <input
-                  type="checkbox"
-                  checked={includeChanged}
-                  onChange={(event) => setIncludeChanged(event.target.checked)}
-                  className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                />
-                {t("includeChanged", { count: diff.changed.length })}
-              </label>
-            </fieldset>
+            {diff && (
+              <fieldset className="mt-6 grid gap-3 sm:grid-cols-2">
+                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
+                  <input
+                    type="checkbox"
+                    checked={includeAdded}
+                    onChange={(event) => setIncludeAdded(event.target.checked)}
+                    className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  {t("includeAdded", { count: diff.added.length })}
+                </label>
+                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
+                  <input
+                    type="checkbox"
+                    checked={includeChanged}
+                    onChange={(event) => setIncludeChanged(event.target.checked)}
+                    className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  {t("includeChanged", { count: diff.changed.length })}
+                </label>
+              </fieldset>
+            )}
+
+            {!diff && current?.result.type === "urlset" && (
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-white px-4 py-4 dark:border-slate-800 dark:bg-slate-900/50">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                      {t("saveSnapshotTitle")}
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-slate-500 dark:text-slate-400">
+                      {t("saveSnapshotHelp")}
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleSaveSnapshot}
+                    className="shrink-0"
+                  >
+                    <Database className="size-4" aria-hidden="true" />
+                    {t("saveSnapshot")}
+                  </Button>
+                </div>
+                {snapshotState !== "idle" && (
+                  <p className="mt-3 text-sm text-slate-600 dark:text-slate-300" aria-live="polite">
+                    {t(`snapshotStatus.${snapshotState}`)}
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
               <Button
@@ -251,7 +416,7 @@ export default function SitemapDiff() {
                 type="button"
                 onClick={handleDownload}
                 disabled={selectedEntries.length === 0}
-                className="h-11 flex-1 rounded-xl bg-slate-950 font-semibold text-white hover:bg-slate-800 dark:bg-blue-500 dark:text-slate-950 dark:hover:bg-blue-400"
+                className="h-11 flex-1 rounded-xl bg-slate-950 font-semibold text-white hover:bg-slate-800 dark:bg-blue-600 dark:text-white dark:hover:bg-blue-500"
               >
                 <Download className="size-4" aria-hidden="true" />
                 {t("downloadQueue")}
@@ -259,10 +424,11 @@ export default function SitemapDiff() {
               <Button
                 type="button"
                 variant="outline"
-                asChild
+                onClick={handleSendToSubmitter}
+                disabled={selectedEntries.length === 0}
                 className="h-11 flex-1 rounded-xl border-blue-200 bg-blue-50 font-semibold text-blue-700 hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-100 dark:hover:bg-blue-500/20"
               >
-                <I18nLink href="/">{t("openSubmitter")}</I18nLink>
+                {t("openSubmitter")}
               </Button>
             </div>
 
@@ -292,6 +458,6 @@ export default function SitemapDiff() {
           </>
         )}
       </section>
-    </ToolPageShell>
+    </>
   );
 }

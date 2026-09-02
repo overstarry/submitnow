@@ -1,9 +1,9 @@
 {
   "LanguageDetection": {
     "title": "言語の提案",
-    "description": "ブラウザの言語設定が現在のサイト言語と異なっています。いつでも言語を切り替えることができます。",
-    "countdown": "閉じるまで {countdown} 秒",
-    "switchTo": "に切り替える"
+    "description": "ブラウザの言語が現在のサイト言語と異なるようです。いつでも言語を切り替えられます。",
+    "countdown": "{countdown} 秒後に閉じます",
+    "switchTo": "切り替える"
   },
   "Header": {
     "links": [
@@ -16,22 +16,16 @@
         "href": "/tools"
       },
       {
-        "name": "ガイド",
-        "href": "/blog"
-      },
-      {
-        "name": "サイトについて",
-        "href": "/about"
+        "name": "ドキュメント",
+        "href": "/docs"
       },
       {
         "name": "ブログ",
         "href": "/blog"
       },
       {
-        "name": "ドキュメント",
-        "href": "https://www.indexnow.org/documentation",
-        "target": "_blank",
-        "rel": "noopener noreferrer nofollow"
+        "name": "概要",
+        "href": "/about"
       }
     ]
   },
@@ -41,6 +35,54 @@
     "TermsOfService": "利用規約",
     "Links": {
       "groups": [
+        {
+          "title": "ツール",
+          "links": [
+            {
+              "href": "/tools/indexnow-key-generator",
+              "name": "キー生成"
+            },
+            {
+              "href": "/tools/indexnow-key-checker",
+              "name": "キー検証"
+            },
+            {
+              "href": "/tools/indexnow-batch-builder",
+              "name": "バッチ整理"
+            },
+            {
+              "href": "/tools/sitemap-diff",
+              "name": "サイトマップ差分"
+            }
+          ]
+        },
+        {
+          "title": "リソース",
+          "links": [
+            {
+              "href": "/docs",
+              "name": "ドキュメント"
+            },
+            {
+              "href": "/blog",
+              "name": "ガイド"
+            },
+            {
+              "href": "/blog/indexnow-bing-submission",
+              "name": "IndexNow で Bing に送信"
+            },
+            {
+              "href": "/about",
+              "name": "このサイトについて"
+            },
+            {
+              "href": "https://www.indexnow.org/documentation",
+              "name": "IndexNow",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
         {
           "title": "言語",
           "links": [
@@ -64,12 +106,12 @@
       ]
     },
     "Newsletter": {
-      "title": "submitnow の最新情報を受け取る",
-      "description": "IndexNow の最新ガイド、ニュース、製品アップデートをお届けします。",
-      "defaultErrorMessage": "有効なメールアドレスを入力してください。",
-      "successMessage": "登録が完了しました。",
-      "errorMessage": "登録に失敗しました。",
-      "errorMessage2": "登録に失敗しました。少し待ってから再試行してください。",
+      "title": "製品アップデートを受け取る",
+      "description": "IndexNow と SEO ワークフロー向けツールの更新情報をお届けします。",
+      "defaultErrorMessage": "有効なメールアドレスを入力してください",
+      "successMessage": "登録が完了しました",
+      "errorMessage": "登録に失敗しました",
+      "errorMessage2": "登録に失敗しました。しばらくしてからもう一度お試しください。",
       "subscribe": "登録する",
       "subscribing": "登録中...",
       "subscribed": "登録が完了しました。ありがとうございます。"
@@ -78,201 +120,1163 @@
   "Home": {
     "title": "submitnow",
     "tagLine": "Bing IndexNow 送信ツール",
-    "description": "IndexNow を使って Bing に URL を送信します。サイトに key ファイルを配置し、送信する URL は同一 host に一致する必要があります。",
+    "heroTitle": "Bing 向け無料 IndexNow 送信ツール",
+    "description": "1 回のリクエストで最大 10,000 件の URL を Bing と IndexNow 参加エンジンへ送信できます。ドメインにキーファイルを置き、同一ホストの URL リストを貼り付けて送るだけ。アカウント不要、保存もしません。",
+    "keywords": [
+      "indexnow",
+      "bing indexnow",
+      "bing url 送信",
+      "indexnow api",
+      "url 送信ツール",
+      "seo インデックス ツール",
+      "indexnow キー"
+    ],
     "badge": "IndexNow 一括送信",
     "ctaDocs": "IndexNow ドキュメント",
     "ctaSource": "ソースを見る",
     "highlights": {
-      "speedTitle": "1 回のリクエストで送信",
-      "speedDescription": "1 回で最大 10,000 URL を送信。",
-      "verificationTitle": "キー ファイルで検証",
-      "verificationDescription": "ドメイン上のキー ファイルで所有者を確認。",
-      "reachTitle": "複数エンジンに通知",
-      "reachDescription": "1 回の送信で Bing と IndexNow 提携先へ通知。"
+      "speedTitle": "1 リクエストで送信",
+      "speedDescription": "1 回の一括呼び出しで最大 10,000 件の URL を送信できます。",
+      "verificationTitle": "キーによる所有権確認",
+      "verificationDescription": "自分のドメインにキーファイルを置くだけで所有権を証明できます。",
+      "reachTitle": "複数エンジンに到達",
+      "reachDescription": "1 回の送信で Bing と IndexNow 参加エンジンに通知されます。"
+    },
+    "howItWorks": {
+      "eyebrow": "ワークフロー",
+      "title": "キーファイルから送信完了まで",
+      "description": "IndexNow は 4 つの要素で成り立っています。以下の各ステップは本サイトのツールに対応しており、スクリプトを書かずに設定から検証済みの送信まで進められます。",
+      "steps": [
+        {
+          "title": "キーを生成する",
+          "description": "英数字とハイフンで構成された 8〜128 文字のキーを作成します。十分にランダムで長ければ何でも構いません。キーは所有権の証明であり、秘密の認証情報ではありません。",
+          "tool": "keyGenerator"
+        },
+        {
+          "title": "キーファイルを公開する",
+          "description": "キーだけを含むプレーンテキストを https://ホスト名/キー.txt に配置します。検索エンジンはこのファイルを取得してホストの所有者を確認します。",
+          "tool": "keyChecker"
+        },
+        {
+          "title": "単一ホストのバッチを用意する",
+          "description": "IndexNow は 1 リクエストにつき 1 ホスト、最大 10,000 件までです。送信前に重複を除き、ホストが混在したリストは分割します。",
+          "tool": "batchBuilder"
+        },
+        {
+          "title": "変更分だけを送信する",
+          "description": "変更のない URL を通知すると割り当てを無駄に消費します。サイトマップを比較して追加・更新されたページだけを送信しましょう。",
+          "tool": "sitemapDiff"
+        }
+      ]
+    },
+    "responseCodes": {
+      "eyebrow": "リファレンス",
+      "title": "IndexNow のレスポンスコード",
+      "description": "IndexNow エンドポイントが返す各ステータスの意味と、再試行の前に直すべき点。",
+      "columns": {
+        "code": "ステータス",
+        "meaning": "意味",
+        "action": "対応方法"
+      },
+      "items": [
+        {
+          "code": "200",
+          "label": "OK",
+          "tone": "ok",
+          "meaning": "URL の送信に成功しました。",
+          "action": "対応は不要です。インデックス登録は保証されず即時でもありません。何をクロールし保持するかは検索エンジンが判断します。"
+        },
+        {
+          "code": "202",
+          "label": "Accepted",
+          "tone": "warn",
+          "meaning": "URL は受理されましたが、キーの検証は保留中です。",
+          "action": "キーファイルにアクセスできるか確認してください。検証に失敗すると、その送信は追加の応答なく破棄されます。"
+        },
+        {
+          "code": "400",
+          "label": "Bad request",
+          "tone": "error",
+          "meaning": "リクエスト形式が不正です。",
+          "action": "リクエストボディを確認してください。host・key・urlList のすべてが存在し、正しい形式である必要があります。"
+        },
+        {
+          "code": "403",
+          "label": "Forbidden",
+          "tone": "error",
+          "meaning": "キーを検証できませんでした。",
+          "action": "キーファイルが存在しない、到達できない、または内容が送信したキーと一致していません。キー検証ツールで確認してください。"
+        },
+        {
+          "code": "422",
+          "label": "Unprocessable Entity",
+          "tone": "error",
+          "meaning": "URL がホストに属していない、またはキーが仕様に適合していません。",
+          "action": "すべての URL は宣言したホストに属している必要があります。ホストが混在したリストは分割してください。"
+        },
+        {
+          "code": "429",
+          "label": "Too Many Requests",
+          "tone": "warn",
+          "meaning": "リクエストが多すぎ、スパムの可能性ありと判断されました。",
+          "action": "頻度を下げ、変更のあった URL だけを送信してください。サイトマップ全体を繰り返し送ると発生します。"
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "よくある質問",
+      "title": "IndexNow のよくある疑問",
+      "items": [
+        {
+          "question": "IndexNow を使えばインデックス登録は保証されますか？",
+          "answer": "いいえ。IndexNow は URL が更新されたことを参加エンジンに伝え、発見までの遅延をなくすだけです。実際に登録されるかは、エンジン側の品質評価・重複判定・クロール予算によります。"
+        },
+        {
+          "question": "送信はどの検索エンジンに届きますか？",
+          "answer": "Bing のエンドポイントへの 1 回のリクエストが、IndexNow 参加社すべてに共有されます。現在は Bing、Yandex、Seznam.cz、Naver、Yep です。Google は IndexNow に参加していません。"
+        },
+        {
+          "question": "一度に何件の URL を送信できますか？",
+          "answer": "1 リクエストあたり最大 10,000 件で、すべて同じホストに属している必要があります。混在したリストはバッチ整理ツールで分割してください。"
+        },
+        {
+          "question": "IndexNow のキーは秘密情報ですか？",
+          "answer": "いいえ。キーファイルは設計上公開されるものです。検索エンジンが通常の HTTP で取得し、ホストの所有者であることを確認します。認証情報ではなく所有権トークンとして扱ってください。"
+        },
+        {
+          "question": "1 つのキーを複数ドメインで使えますか？",
+          "answer": "各ドメインに同じキーファイルを置けば使えます。ただし 1 リクエストは 1 ホストのみを対象とするため、ドメインごとに送信してください。"
+        },
+        {
+          "question": "キーファイルはどこに置くべきですか？",
+          "answer": "ルート、つまり https://ホスト名/キー.txt に置けば、そのホストのすべての URL を認可できます。サブディレクトリ内のキーファイルは、その配下の URL しか認可しません。"
+        },
+        {
+          "question": "submitnow はキーや URL を保存しますか？",
+          "answer": "いいえ。送信内容は IndexNow エンドポイントへ転送されるだけで、保存はしません。ブラウザ側のツールに至っては入力をサーバーへ送りません。"
+        },
+        {
+          "question": "どのくらいの頻度で送信すべきですか？",
+          "answer": "コンテンツが実際に変わったときだけです。変更のない URL の再送信は割り当てを消費し、429 の原因にもなります。"
+        }
+      ]
     }
   },
   "IndexNow": {
     "title": "Bing に URL を送信",
-    "description": "Bing IndexNow エンドポイントへバッチ送信します。",
-    "bingOnlyNote": "送信先エンドポイント: Bing（IndexNow 参加パートナーに共有）。",
-    "supportedEnginesTitle": "IndexNow 参加検索エンジン",
-    "supportedEnginesNote": "1 回の送信で参加検索エンジンに配信されます。",
+    "description": "Bing の IndexNow エンドポイントへ一括リクエストを送信します。",
+    "bingOnlyNote": "送信先エンドポイント: Bing（IndexNow 参加社と共有）。",
+    "supportedEnginesTitle": "IndexNow 参加社",
+    "supportedEnginesNote": "1 回の送信で参加中のすべての検索エンジンに届きます。",
     "urlsLabel": "URL リスト",
     "urlsPlaceholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
-    "urlsHelp": "1 行に 1 URL（または空白/カンマ区切り）。すべて同一ホストの URL のみ。1 回あたり最大 10,000 件。",
-    "keyLabel": "Key",
+    "urlsHelp": "1 行に 1 つの URL（スペースやカンマ区切りも可）。すべて同じホストに属している必要があり、1 リクエストあたり最大 10,000 件です。",
+    "keyLabel": "キー",
     "keyPlaceholder": "your-indexnow-key",
-    "keyHelp": "Key はサイトに配置した key ファイル（KEY.txt）の内容と一致する必要があります。",
-    "hostLabel": "Host（任意）",
+    "keyHelp": "サイト上のキーファイル（KEY.txt）の内容と一致している必要があります。",
+    "hostLabel": "ホスト（任意）",
     "hostPlaceholder": "www.example.com",
-    "hostHelp": "未入力の場合、URL リストから推測します。",
-    "keyLocationLabel": "Key ファイル URL（任意）",
+    "hostHelp": "省略した場合は URL リストから推定されます。",
+    "keyLocationLabel": "キーファイルの URL（任意）",
     "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
-    "keyLocationHelp": "未入力の場合、https://{host}/{key}.txt を使用します。hostname は URL リストと一致する必要があります。",
+    "keyLocationHelp": "省略した場合は https://{host}/{key}.txt になります。ホスト名は送信する URL と一致している必要があります。",
     "submit": "Bing に送信",
     "submitting": "送信中...",
     "successMessage": "送信しました。",
-    "successMessageWithDetails": "{host} に対して {count} 件の URL を送信しました。Key ファイル: {keyLocation}",
+    "successMessageWithDetails": "{host} の URL を {count} 件送信しました。キーファイル: {keyLocation}",
+    "preflight": {
+      "title": "先にキーファイルを検証する",
+      "description": "キーファイルを公開インターネットから取得し、上のキーと一致するか確認します。バッチが拒否される最も多い原因です。",
+      "check": "キーファイルを検証",
+      "checking": "検証中...",
+      "missingInput": "検証の前に、キーと少なくとも 1 件の URL（またはホスト）を入力してください。"
+    },
     "errors": {
-      "invalid_form": "フォームの内容を確認して再試行してください。",
-      "invalid_key": "Key が無効です。8〜128 文字（英数字とハイフン）を使用してください。",
-      "invalid_host": "Host が無効です。example.com のようなドメインを入力してください。",
-      "invalid_key_location": "Key ファイル URL が無効です。hostname は送信する host と一致する必要があります。",
-      "invalid_urls": "URL が無効です。有効な http(s) URL を入力してください。",
-      "mixed_hosts": "複数の host が含まれています。1 回の送信は 1 host のみにしてください。",
-      "host_mismatch": "Host が URL の host と一致しません。空欄にするか、URL の hostname に合わせてください。",
-      "too_many_urls": "URL が多すぎます。1 回あたり最大 10,000 件です。",
-      "bing_invalid_request": "Bing がリクエストを拒否しました（HTTP {status}）。host、key、URL リストを確認してください。",
-      "bing_invalid_key": "Bing が key を拒否しました（HTTP {status}）。key ファイルが公開され、内容が一致しているか確認してください。",
-      "bing_invalid_url_list": "Bing が URL リストを拒否しました（HTTP {status}）。URL が有効で host に属しているか確認してください。",
-      "bing_rate_limited": "Bing によりレート制限されています（HTTP {status}）。しばらくしてから再試行してください。",
-      "bing_error": "Bing IndexNow リクエストに失敗しました（HTTP {status}）。Key と URL リストを確認してください。",
-      "network_error": "ネットワークエラーです。しばらくしてから再試行してください。",
-      "timeout": "タイムアウトしました。しばらくしてから再試行してください。"
+      "invalid_form": "入力内容を確認して、もう一度お試しください。",
+      "invalid_key": "キーが不正です。8〜128 文字（英数字とハイフン）で入力してください。",
+      "invalid_host": "ホストが不正です。example.com のようなドメインを入力してください。",
+      "invalid_key_location": "キーファイルの URL が不正です。ホスト名は送信するホストと一致している必要があります。",
+      "invalid_urls": "URL が不正です。有効な http(s) の URL を指定してください。",
+      "mixed_hosts": "URL に複数のホストが含まれています。1 リクエストにつき 1 ホストで送信してください。",
+      "host_mismatch": "ホストが URL のホストと一致しません。空欄にするか、URL に合わせてください。",
+      "too_many_urls": "URL が多すぎます。1 リクエストあたり最大 10,000 件です。",
+      "bing_invalid_request": "Bing がリクエストを拒否しました（HTTP {status}）。ホスト・キー・URL リストを確認してください。",
+      "bing_invalid_key": "Bing がキーを拒否しました（HTTP {status}）。キーファイルにアクセスでき、内容が一致しているか確認してください。",
+      "bing_invalid_url_list": "Bing が URL リストを拒否しました（HTTP {status}）。URL が有効でホストに属しているか確認してください。",
+      "bing_rate_limited": "Bing によるレート制限です（HTTP {status}）。しばらくしてから再試行してください。",
+      "bing_error": "Bing IndexNow リクエストが失敗しました（HTTP {status}）。キーと URL リストを確認してください。",
+      "network_error": "ネットワークエラーです。もう一度お試しください。",
+      "timeout": "リクエストがタイムアウトしました。もう一度お試しください。",
+      "explainCode": "{status} の意味を見る"
+    },
+    "rememberProfile": "この端末にキーとホストを保存",
+    "rememberProfileHelp": "選択した場合だけ localStorage に保存し、分析イベントには含めません。",
+    "history": {
+      "title": "最近の送信",
+      "privacy": "この端末だけに保存し、キーと完全な URL 一覧は保存しません。",
+      "clear": "消去",
+      "empty": "成功・失敗した送信がここに表示されます。",
+      "unknownHost": "不明なホスト",
+      "success": "{count} URL を受理（HTTP {status}）",
+      "error": "{count} URL が失敗（HTTP {status}）"
     }
   },
   "Blog": {
-    "title": "ブログ一覧",
-    "description": "ブログ投稿の一覧",
-    "emptyState": "ブログ記事はまだありません。"
+    "title": "ガイド",
+    "description": "IndexNow、キーファイル、更新ページを早くクロールさせるための実践ガイド。",
+    "emptyState": "まだ記事がありません。",
+    "breadcrumbHome": "ホーム"
   },
   "About": {
-    "title": "サイトについて",
-    "description": "サイトについて"
+    "title": "このサイトについて",
+    "description": "サイトの概要"
   },
   "TermsOfService": {
-    "title": "サービス利用規約",
-    "description": "サービス利用規約"
+    "title": "利用規約",
+    "description": "利用規約"
   },
   "PrivacyPolicy": {
     "title": "プライバシーポリシー",
     "description": "プライバシーポリシー"
   },
   "Tools": {
-    "badge": "ブラウザ内 SEO ツールキット",
-    "title": "送信前に URL を整える",
-    "description": "key の生成、URL バッチの整理、sitemap の差分確認に特化した軽量ツールです。ファイルと入力は現在のブラウザセッション内だけで処理されます。",
+    "badge": "ブラウザ完結型の SEO ツール集",
+    "title": "送信する前に URL を整える",
+    "description": "IndexNow 用の 6 ツール：キー生成と検証、URL の正規化と分割、sitemap 変更抽出、統合コード生成。",
+    "metaTitle": "無料の IndexNow・SEO インデックスツール",
+    "metaDescription": "キー、URL 正規化、バッチ、sitemap 抽出、リクエスト コードを扱う 6 つの無料 IndexNow ツール。アカウント不要、ローカル保存は選択式。",
+    "keywords": [
+      "indexnow ツール",
+      "indexnow キー生成",
+      "indexnow キー検証",
+      "サイトマップ 差分",
+      "url バッチ 整理",
+      "seo ツール"
+    ],
     "openTool": "ツールを開く",
     "allTools": "すべてのツールを見る",
+    "breadcrumbLabel": "パンくずリスト",
+    "breadcrumbHome": "ホーム",
+    "breadcrumbTools": "ツール",
+    "relatedToolsTitle": "関連ツール",
+    "relatedReadingTitle": "関連記事",
     "preview": {
-      "eyebrow": "確信を持って公開する",
-      "title": "よりクリーンな IndexNow ワークフローを作る",
-      "description": "key を生成し、単一 host の URL バッチを整え、sitemap の変更を抽出してから検索エンジンへ通知します。"
+      "eyebrow": "自信を持って送信",
+      "title": "より確実な IndexNow ワークフローを組む",
+      "description": "キーを生成し、公開されていることを確認し、単一ホストのバッチを用意し、サイトマップの変更を抽出してから検索エンジンに通知します。"
     },
     "principles": {
-      "local": "入力はブラウザ内で処理され、submitnow に保存されません。",
-      "review": "送信前に重複、無効、複数 host の URL を確認できます。",
-      "export": "準備できたら、クリーンなキューをコピーまたはダウンロードできます。"
+      "local": "入力はブラウザ内で処理され、submitnow が保存することはありません。",
+      "review": "送信前に重複・無効・ホスト混在の URL を確認できます。",
+      "export": "準備ができたら、整理済みのキューをコピーまたはダウンロードできます。"
     },
     "common": {
-      "backToTools": "ツール一覧に戻る",
-      "localOnly": "このツールはブラウザ内だけで動作します。アカウントの作成、入力の保存、リモートサイトの代理取得は行いません。",
+      "backToTools": "ツール一覧へ戻る",
       "copy": "コピー",
       "copied": "コピーしました"
     },
     "cards": {
       "keyGenerator": {
-        "title": "IndexNow Key ジェネレーター",
-        "description": "ローカルで強力な key を作成し、所有権の確認に必要なテキストファイルをダウンロードします。",
-        "shortDescription": "ローカルで key ファイルを生成してダウンロード。"
+        "title": "IndexNow キー生成ツール",
+        "description": "強度の高いキーをローカルで作成し、所有権確認に必要なテキストファイルをダウンロードします。",
+        "shortDescription": "キーファイルをローカルで生成・保存。"
+      },
+      "keyChecker": {
+        "title": "IndexNow キー検証ツール",
+        "description": "検索エンジンと同じようにキーファイルを取得し、検証が失敗する理由をそのまま確認できます。",
+        "shortDescription": "キーファイルが有効か検証する。"
       },
       "batchBuilder": {
-        "title": "IndexNow URL バッチ作成ツール",
-        "description": "貼り付けた URL リストを整理し、重複を削除して安全な単一 host の送信グループに分けます。",
-        "shortDescription": "URL を整理し host ごとに分けます。"
+        "title": "IndexNow バッチ整理ツール",
+        "description": "貼り付けた URL リストを整理し、重複を除き、ホストごとの安全な送信グループに分割します。",
+        "shortDescription": "URL を整理してホスト別に分割。"
       },
       "sitemapDiff": {
-        "title": "Sitemap Diff",
-        "description": "アップロードした 2 つの sitemap ファイルをローカルで比較し、新規または変更 URL の送信キューを作成します。",
-        "shortDescription": "新規・変更された sitemap URL を見つけます。"
+        "title": "サイトマップ差分",
+        "description": "2 つのサイトマップをローカルで比較し、追加・変更された URL からキューを作成します。",
+        "shortDescription": "追加・変更された URL を抽出。"
+      },
+      "codeGenerator": {
+        "title": "IndexNow コード生成",
+        "description": "正しい IndexNow JSON、curl、JavaScript fetch を生成します。",
+        "shortDescription": "実行可能な IndexNow リクエストを生成。"
+      },
+      "urlNormalizer": {
+        "title": "URL 正規化",
+        "description": "IndexNow バッチ前に URL を正規化、重複排除し、任意で追跡情報を削除。",
+        "shortDescription": "明示的で安全な設定で URL を整理。"
       }
     },
     "keyGenerator": {
-      "metaTitle": "無料 IndexNow Key ジェネレーター",
-      "title": "ローカルで IndexNow key を生成する",
-      "description": "ブラウザ内で高エントロピーの key を作成し、対応するテキストファイルをダウンロードします。key が submitnow に送信されることはありません。",
-      "keyLabel": "生成された key",
-      "keyHelp": "必要なときに新しい key を生成できます。サイトへ配置するまでは、key とテキストファイルを安全に保管してください。",
-      "keyPlaceholder": "key を生成するとここに表示されます",
-      "generate": "key を生成",
-      "generateAgain": "別の key を生成",
+      "metaTitle": "無料 IndexNow キー生成ツール",
+      "metaDescription": "有効な IndexNow キーをブラウザ内で生成し、対応する .txt 検証ファイルをダウンロードします。サーバーには何も送信されません。",
+      "keywords": [
+        "indexnow キー生成",
+        "indexnow key",
+        "indexnow キーファイル",
+        "indexnow キー 作成",
+        "indexnow txt ファイル"
+      ],
+      "title": "IndexNow キーをローカルで生成する",
+      "description": "エントロピーの高いキーをブラウザ内で作成し、対応するテキストファイルをダウンロードします。キーが submitnow に送られることはありません。",
+      "privacyNote": "このツールは完全にブラウザ内で動作します。キーは Web Crypto API で生成され、ダウンロードもローカルで組み立てられます。リクエストは一切発生しません。",
+      "keyLabel": "生成されたキー",
+      "keyHelp": "必要なときにいつでも新しいキーを生成できます。サイトに配置するまでは、キーとテキストファイルを大切に保管してください。",
+      "keyPlaceholder": "まずキーを生成してください",
+      "generate": "キーを生成",
+      "generateAgain": "もう一度生成",
       "download": ".txt ファイルをダウンロード",
-      "copySuccess": "key をクリップボードにコピーしました。",
-      "copyFailure": "自動でコピーできませんでした。key を選択して手動でコピーしてください。",
-      "stepsTitle": "key を使う 3 ステップ",
+      "copySuccess": "キーをクリップボードにコピーしました。",
+      "copyFailure": "自動コピーに失敗しました。キーを選択して手動でコピーしてください。",
+      "stepsTitle": "3 ステップで使う",
       "steps": {
-        "generateStep": "key を生成し、対応する .txt ファイルをダウンロードします。",
-        "hostStep": "ファイルをサイトにアップロードします。通常は https://your-host/your-key.txt です。",
-        "submitStep": "同じ key を IndexNow 送信フォームに貼り付け、その host の URL を送信します。"
+        "generateStep": "キーを生成し、対応する .txt ファイルをダウンロードします。",
+        "hostStep": "ファイルをサイトにアップロードします。通常は https://ホスト名/キー.txt です。",
+        "submitStep": "同じキーを送信フォームに入力し、そのホストの URL を送信します。"
       },
-      "rootFileNote": "host 内の複数ディレクトリにある URL を送信する場合、ルートに key ファイルを置くのが最も簡単です。"
+      "rootFileNote": "ホスト全体の URL を送信したい場合は、キーファイルをルートに置くのが最も簡単です。",
+      "article": {
+        "whenToUse": {
+          "title": "このツールを使う場面",
+          "intro": "IndexNow のキーは所有権の証明です。自分のホスト上にランダムな文字列を公開し、送信がそのホストの管理者によるものだと検索エンジンに確認させます。新しいキーが必要になるのは次のような場面です。",
+          "items": [
+            {
+              "title": "新しいホストを追加するとき",
+              "description": "URL を送信するホスト名ごとに、自前で配信できるキーファイルが必要です。ステージング用と本番用は別のホストです。"
+            },
+            {
+              "title": "問題が起きた後のローテーション",
+              "description": "キー自体は公開情報ですが、管理外のドメインにも同じキーファイルが存在するなら意味がありません。新しいキーを生成し、古いファイルを削除してください。"
+            },
+            {
+              "title": "環境を分けるとき",
+              "description": "環境ごとにキーを分けておくと、後からログを追うときにどのシステムが送信したのか一目で分かります。"
+            },
+            {
+              "title": "弱いキーを置き換えるとき",
+              "description": "短い・推測しやすいキーは、8〜128 文字という規則を満たさないか、簡単に再現されてしまいます。生成されたキーならどちらも避けられます。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "キーの生成と設置の手順",
+          "intro": "キーがブラウザの外に出ることはありません。Web Crypto API で生成され、ダウンロードもローカルで組み立てられます。",
+          "steps": [
+            {
+              "title": "キーを生成する",
+              "description": "32 文字の 16 進数文字列が得られます。規格の 8〜128 文字の範囲に十分収まり、IndexNow が受け付ける文字だけで構成されています。"
+            },
+            {
+              "title": "テキストファイルをダウンロードする",
+              "description": "ファイル名は <キー>.txt で、中身はキーのみです。余計な内容が入っていることが 403 の最も多い原因です。"
+            },
+            {
+              "title": "ホストのルートに配置する",
+              "description": "https://ホスト名/キー.txt に text/plain として配信します。認証・リダイレクト・ボット対策に阻まれていないか確認してください。"
+            },
+            {
+              "title": "検証してから送信する",
+              "description": "最初のバッチの前に、キー検証ツールで公開 URL を確認します。問題がなければ同じキーを送信フォームに入力します。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある失敗",
+          "items": [
+            {
+              "title": "ファイルにキー以外が含まれている",
+              "description": "末尾の改行は問題ありませんが、テンプレートの外枠・JSON・HTML ページは不可です。ファイル本文はキーと完全に一致している必要があります。"
+            },
+            {
+              "title": "ホストがソフト 404 を返す",
+              "description": "多くのフレームワークは未知のパスに 200 とアプリのシェルを返します。検索エンジンはキーではなく HTML を読み、バッチは拒否されます。"
+            },
+            {
+              "title": "キーを秘密情報として扱う",
+              "description": "認証の裏に置いたり robots で遮断したりすると本来の役割を果たせません。検証は認証なしの HTTP 取得だからです。"
+            },
+            {
+              "title": "ファイルを置かずにキーを使い回す",
+              "description": "ホストごとに自分のコピーを配信する必要があります。example.com で通ったキーが blog.example.com を認可することはありません。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "IndexNow のキーはどのくらいの長さが必要ですか？",
+              "answer": "8〜128 文字で、英数字とハイフンが使えます。このツールは 32 文字の 16 進数を生成します。推測されない長さでありながら、ログ上でも読みやすい長さです。"
+            },
+            {
+              "question": "キーを自分で決めても構いませんか？",
+              "answer": "はい。文字種と長さの規則を満たす文字列なら何でも使えます。生成キーを使うのは、短すぎる値や推測しやすい値をうっかり選ばないためです。"
+            },
+            {
+              "question": "ファイル名はキーと一致している必要がありますか？",
+              "answer": "デフォルトの場所を使う場合のみです。別の場所に置くなら送信時に keyLocation でその URL を指定します。ただし同じホスト上である必要があります。"
+            },
+            {
+              "question": "生成したキーは submitnow に送信されますか？",
+              "answer": "いいえ。生成もダウンロードも完全にブラウザ内で完結し、ネットワークリクエストは一切発生しません。"
+            },
+            {
+              "question": "キーはどのくらいの頻度で更新すべきですか？",
+              "answer": "有効期限はありません。古いファイルを無効化したいときだけ更新し、その際は以前のキーファイルの削除も忘れずに。"
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
+    },
+    "keyChecker": {
+      "metaTitle": "IndexNow キーファイル検証ツール",
+      "metaDescription": "IndexNow のキーファイルを公開インターネットから検証します。404、ソフト 404、他ホストへのリダイレクト、空ファイル、キー不一致をバッチ送信前に検出します。",
+      "keywords": [
+        "indexnow キー検証",
+        "indexnow key 確認",
+        "indexnow 403",
+        "indexnow キーファイル 検証",
+        "indexnow key not valid"
+      ],
+      "title": "IndexNow キーファイルが有効か確認する",
+      "description": "検索エンジンと同じようにキーファイルを取得し、検証が失敗する理由をそのまま確認できます。ステータス異常、他ホストへのリダイレクト、テキストではなく HTML、キーの不一致など。",
+      "privacyNote": "キーファイルは検索エンジンと同じく公開インターネットから取得する必要があるため、この検証はサーバー側で実行されます。取得するのはその URL だけで、保存は行いません。",
+      "formTitle": "キーファイル検証",
+      "formHelp": "URL を送信するホストと、使用予定のキーを入力してください。既定のファイル URL は自動的に組み立てられます。",
+      "hostLabel": "ホスト",
+      "hostPlaceholder": "www.example.com",
+      "hostHelp": "送信する URL が属するホスト名です。パスは含めないでください。",
+      "keyLabel": "キー",
+      "keyPlaceholder": "your-indexnow-key",
+      "keyHelp": "8〜128 文字で、英数字とハイフンが使えます。",
+      "keyLocationLabel": "キーファイルの URL（任意）",
+      "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
+      "keyLocationHelp": "ファイルが https://ホスト/キー.txt にない場合のみ必要です。同じホスト上である必要があります。",
+      "check": "検証する",
+      "checking": "検証中...",
+      "resultValid": "キーファイルは有効です。",
+      "resultInvalid": "このキーファイルは検証に通りません。",
+      "checklistTitle": "有効なキーファイルの条件",
+      "checklist": [
+        "URL と同じホスト上で、HTTPS 経由で 200 を返す。",
+        "マークアップを含まないプレーンテキストで、キーだけが書かれている。",
+        "Cookie・認証・ボット判定なしでアクセスできる。",
+        "別のホスト名へリダイレクトしない。",
+        "公開され続けている（以降の送信時にも再検証されます）。"
+      ],
+      "serverFetchNote": "ブラウザはクロスオリジンのプレーンテキスト応答を読めないため、本サイトで唯一サーバー側で動作するツールです。",
+      "fields": {
+        "requestedUrl": "リクエストした URL",
+        "finalUrl": "リダイレクト後の最終 URL",
+        "status": "HTTP ステータス",
+        "contentType": "Content-Type",
+        "body": "レスポンス本文",
+        "none": "—"
+      },
+      "issues": {
+        "not_found": {
+          "title": "ファイルが見つかりません（404）。",
+          "fix": "そのパスにキーファイルをアップロードして再デプロイしてください。"
+        },
+        "http_error": {
+          "title": "サーバーが 200 を返しませんでした。",
+          "fix": "認証・WAF ルール・ボット対策が未認証リクエストを遮断していないか確認してください。"
+        },
+        "redirected_off_host": {
+          "title": "リクエストが別のホストへリダイレクトされました。",
+          "fix": "キーファイルは送信する URL と同じホスト上で解決される必要があります。ホストをまたぐリダイレクトを外してください。"
+        },
+        "key_mismatch": {
+          "title": "ファイルの内容がキーと一致しません。",
+          "fix": "ファイル本文にはキーだけを書いてください。BOM や余分なテキストに注意してください。"
+        },
+        "empty_body": {
+          "title": "ファイルが空です。",
+          "fix": "ファイルにキーを書き込んでください。空の応答は検証に通りません。"
+        },
+        "html_response": {
+          "title": "サーバーがキーではなく HTML を返しました。",
+          "fix": "通常はソフト 404 です。そのパスが静的テキストファイルとして配信されているか確認してください。"
+        },
+        "byte_order_mark": {
+          "title": "ファイルの先頭に UTF-8 の BOM があります。",
+          "fix": "見た目は同じでもバイト列がキーと異なります。「BOM なし UTF-8」で保存し直してください。"
+        },
+        "body_too_large": {
+          "title": "キーファイルとしては応答が大きすぎます。",
+          "fix": "ファイルにはキーだけを含めてください。それ以外は別のルートが応答している兆候です。"
+        }
+      },
+      "errors": {
+        "invalid_form": "ホストとキーの両方を入力してください。",
+        "invalid_host": "ホストが不正です。example.com のようなドメインを入力してください。",
+        "invalid_key": "キーが不正です。8〜128 文字（英数字とハイフン）で入力してください。",
+        "invalid_key_location": "キーファイルの URL が不正です。同じホスト上の http(s) URL である必要があります。",
+        "fetch_failed": "キーファイルを取得できませんでした。ホストに到達できないか、DNS／TLS に問題がある可能性があります。",
+        "timeout": "8 秒でリクエストがタイムアウトしました。"
+      },
+      "article": {
+        "whenToUse": {
+          "title": "このツールを使う場面",
+          "intro": "IndexNow の 403 は、ほぼ必ず「想定どおりにキーファイルを読めていない」ことを意味します。この検証は、その取得をあなたのネットワークの外から再現します。",
+          "items": [
+            {
+              "title": "最初の送信の前に",
+              "description": "1 回のバッチを使って失敗を知る前に、ファイルが公開されていることを確認しましょう。"
+            },
+            {
+              "title": "デプロイや移行のあとに",
+              "description": "ルーティング・ホスティング・CDN の設定が変わると、静的ファイルは簡単に失われます。"
+            },
+            {
+              "title": "Bing が 403 や 422 を返したとき",
+              "description": "どちらのコードも、URL リストではなくキーファイルかホスト不一致が原因であることがほとんどです。"
+            },
+            {
+              "title": "自分では開けるのにクローラーが開けないとき",
+              "description": "認証・WAF ルール・地域制限があると、ブラウザでは普通に開けるファイルが外部からは見えません。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "検証の実行手順",
+          "intro": "リクエストはサーバー側から送られ、リダイレクトも追跡します。検索エンジンのフェッチャーと同じ結果が見られます。",
+          "steps": [
+            {
+              "title": "ホストを入力する",
+              "description": "URL が属するホスト名を、スキームやパスなしで入力します（例: www.example.com）。"
+            },
+            {
+              "title": "キーを入力する",
+              "description": "送信時に使うキー文字列と同じものです。既定以外のパスに置いている場合は、キーファイルの URL も入力してください。"
+            },
+            {
+              "title": "検証を実行する",
+              "description": "サーバーがファイルを取得してリダイレクトを追跡し、最終 URL・ステータス・Content-Type・本文を報告します。"
+            },
+            {
+              "title": "指摘された点を直す",
+              "description": "各項目に対応方法が示されます。結果がクリーンになるまで再実行してから、バッチを送信してください。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある失敗",
+          "items": [
+            {
+              "title": "CDN のキャッシュ",
+              "description": "ファイルをアップロードした後も、CDN が古い 404 を返し続けることがあります。該当パスをパージしてから再検証してください。"
+            },
+            {
+              "title": "末尾の空白や BOM",
+              "description": "UTF-8 のバイトオーダーマークがあると、画面上は同じに見えても本文はキーと一致しません。"
+            },
+            {
+              "title": "www や HTTPS へのリダイレクト",
+              "description": "ホスト名が変わるリダイレクトは、たとえ正しいファイルにたどり着いても検証を失敗させます。"
+            },
+            {
+              "title": "ボット対策",
+              "description": "チャレンジページは 200 と HTML を返します。検索エンジンにとっては、それはセキュリティ機能ではなく検証失敗です。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "なぜブラウザ内で実行できないのですか？",
+              "answer": "CORS ヘッダーがない限りブラウザはクロスオリジン応答を読めず、キーファイルは静的なプレーンテキストとして配信されるためです。取得はサーバー側で行う必要があります。"
+            },
+            {
+              "question": "検証したキーは保存されますか？",
+              "answer": "いいえ。キーはリクエストの組み立てと応答の照合にのみ使われ、その後破棄されます。ディスクには書き込まれません。"
+            },
+            {
+              "question": "検証は通るのに Bing が 403 を返します。",
+              "answer": "送信時のキーが完全に一致しているか、宣言したホストがバッチ内のすべての URL のホストと同じかを確認してください。"
+            },
+            {
+              "question": "ステージング環境のキーファイルも検証できますか？",
+              "answer": "公開インターネットから到達できるなら可能です。VPN や Basic 認証の裏にあるファイルは、検索エンジンからも検証できません。"
+            },
+            {
+              "question": "IndexNow の 202 はどういう意味ですか？",
+              "answer": "バッチは受理されたものの、キーの検証がまだ済んでいない状態です。この検証を実行すれば、その検証が通るかを先に確認できます。"
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
     },
     "batchBuilder": {
-      "metaTitle": "IndexNow URL バッチ作成ツール",
+      "metaTitle": "IndexNow URL バッチ整理ツール",
+      "metaDescription": "IndexNow 向けに貼り付けた URL リストを整理します。重複の除去、無効値の検出、ホスト別の送信グループへの分割をブラウザ内で完結。",
+      "keywords": [
+        "indexnow 一括送信",
+        "url リスト 整理",
+        "url 重複 削除",
+        "indexnow 422",
+        "url 重複除去 ツール"
+      ],
       "title": "IndexNow 送信前に URL バッチを整理する",
-      "description": "URL リストを貼り付けまたはインポートして、重複を削除し、無効な値を見つけ、hostname ごとに URL を分けます。すべてブラウザ内で実行されます。",
-      "inputTitle": "URL リストを貼り付ける",
-      "inputHelp": "1 行に 1 URL、または空白・カンマで区切ってください。プレーンテキストまたは CSV ファイルもインポートできます。",
-      "importFile": "ファイルをインポート",
+      "description": "URL リストを貼り付けまたは読み込み、重複の除去・無効値の検出・ホスト名ごとの分割をすべてブラウザ内で行います。",
+      "privacyNote": "このツールは完全にブラウザ内で動作します。URL リストがアップロード・保存・送信されることはありません。",
+      "inputTitle": "URL リストを貼り付け",
+      "inputHelp": "1 行に 1 つの URL、またはスペースやカンマ区切りで入力します。テキストや CSV ファイルの読み込みも可能です。",
+      "importFile": "ファイルを読み込む",
       "importFailure": "選択したファイルを読み込めませんでした。",
       "placeholder": "https://www.example.com/page-1\nhttps://www.example.com/page-2",
       "summaryTitle": "バッチの概要",
       "stats": {
         "valid": "有効な URL",
-        "hosts": "Host 数",
+        "hosts": "ホスト数",
         "duplicates": "重複",
         "invalid": "無効"
       },
-      "singleHost": "単一 host のため、送信フォームへ直接コピーできます。",
-      "multipleHosts": "IndexNow の 1 回の送信には 1 host のみを含められます。host グループごとにコピーしてください。",
-      "tooManyUrls": "このリストには {count} 件の有効な URL があります。IndexNow は 1 リクエストあたり最大 10,000 URL です。",
-      "copyAll": "すべての有効 URL をコピー",
+      "singleHost": "ホストが 1 つなら、そのまま送信フォームにコピーできます。",
+      "multipleHosts": "IndexNow の送信は 1 度に 1 ホストです。グループごとに分けてコピーしてください。",
+      "tooManyUrls": "このリストには有効な URL が {count} 件あります。IndexNow は 1 リクエストにつき最大 10,000 件です。",
+      "copyAll": "有効な URL をすべてコピー",
       "groupsTitle": "送信グループ",
-      "groupsHelp": "各グループには 1 つの hostname の URL だけが含まれます。IndexNow リクエストごとに 1 グループだけコピーしてください。",
-      "openSubmitter": "送信ツールを開く",
-      "emptyState": "URL を貼り付けまたはインポートすると、送信グループがここに表示されます。",
-      "hostCount": "{count} URL",
+      "groupsHelp": "各グループは 1 つのホスト名の URL だけを含みます。1 回の IndexNow リクエストにつき 1 グループだけをコピーしてください。",
+      "openSubmitter": "送信ツールへ送る",
+      "sendFirstGroup": "{host} を送信ツールへ送る",
+      "emptyState": "URL を貼り付けるか読み込むと、送信グループが作成されます。",
+      "hostCount": "{count} 件の URL",
+      "moreUrls": "ほか {count} 件の URL",
       "copyGroup": "グループをコピー",
-      "moreUrls": "さらに {count} URL",
-      "invalidTitle": "一部の値は有効な http(s) URL ではありません",
+      "invalidTitle": "有効な http(s) URL でない値があります",
       "invalidHelp": "送信バッチを作成する前に、これらの値を修正または削除してください。",
-      "emptyValue": "空の値"
+      "emptyValue": "空の値",
+      "article": {
+        "whenToUse": {
+          "title": "このツールを使う場面",
+          "intro": "URL がすべて宣言したホストに属していなければ IndexNow はリクエストを拒否し、重複は何の効果もないまま割り当てを消費します。このツールは貼り付けたリストを送信可能な形に整えます。",
+          "items": [
+            {
+              "title": "CMS やクローラーからの書き出し",
+              "description": "表計算やクロールレポートからコピーしたリストには、空行・トラッキングパラメータ・複数ホストが紛れがちです。"
+            },
+            {
+              "title": "複数ドメインの運用",
+              "description": "1 リクエストは 1 ホストのみです。422 が返ってから直すより、送信前に分割しましょう。"
+            },
+            {
+              "title": "10,000 件を超えるリスト",
+              "description": "仕様上 1 リクエストは 10,000 件までです。上限を超えると概要が知らせます。"
+            },
+            {
+              "title": "手作業でまとめたリスト",
+              "description": "手集めの URL は、タイプミスやスキームの抜けが最も起きやすい場所です。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "整ったバッチの作り方",
+          "intro": "解析・重複除去・グループ分けは入力中にその場で行われ、何もアップロードされません。",
+          "steps": [
+            {
+              "title": "リストを貼り付けるか読み込む",
+              "description": "1 行に 1 つ、またはスペースやカンマ区切りで入力します。テキストや CSV ファイルも直接読み込めます。"
+            },
+            {
+              "title": "概要を確認する",
+              "description": "有効・重複・無効の件数がリアルタイムで更新され、リストが何ホストにまたがるかも表示されます。"
+            },
+            {
+              "title": "無効な値を直す",
+              "description": "http(s) URL でない値は別に一覧表示されるので、元のデータ側で修正できます。"
+            },
+            {
+              "title": "1 グループを送信ツールへ送る",
+              "description": "各グループは 1 ホストのみです。グループをコピーするか、最初のグループをそのまま送信フォームへ送れます。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある失敗",
+          "items": [
+            {
+              "title": "http と https を同一視する",
+              "description": "ホスト名は同じでも別の URL です。正規化したスキーム（実質的には https）だけを送信してください。"
+            },
+            {
+              "title": "www とネイキッドドメインの混同",
+              "description": "IndexNow にとって www.example.com と example.com は別ホストで、それぞれにキーファイルが必要です。"
+            },
+            {
+              "title": "トラッキングパラメータを残す",
+              "description": "?utm_source が付いた URL は別の URL です。両方送るのは割り当ての無駄で、スパムと見なされる恐れもあります。"
+            },
+            {
+              "title": "リダイレクトや存在しない URL の混入",
+              "description": "解決できない URL を通知しても雑音にしかなりません。リダイレクト先の URL を送信してください。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "なぜすべての URL が同じホストである必要がありますか？",
+              "answer": "キーファイルが証明できるのは単一ホストの所有権だけなので、同じリクエスト内ではそのホストの URL しか受け付けられません。"
+            },
+            {
+              "question": "ツールは URL にアクセスして検証しますか？",
+              "answer": "いいえ。構文とグループ分けだけを確認し、URL へのリクエストは行いません。データがブラウザの外に出ることもありません。"
+            },
+            {
+              "question": "重複は自動的に取り除かれますか？",
+              "answer": "はい。完全に同一の URL はまとめられ、件数も表示されるので、元のリストがどれだけ雑然としていたか分かります。"
+            },
+            {
+              "question": "何が無効と判定されますか？",
+              "answer": "絶対 URL の http または https でないもの全般です。相対パス、スキームのないドメイン、空行などが該当します。"
+            },
+            {
+              "question": "10,000 件以上を送信できますか？",
+              "answer": "1 リクエストではできません。分割して順に送信してください。上限を超えると概要が警告します。"
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
     },
     "sitemapDiff": {
-      "metaTitle": "IndexNow 用 Sitemap Diff",
-      "title": "サーバーへ送信せず sitemap の変更を見つける",
-      "description": "旧版と新版の sitemap XML ファイルをアップロードします。比較はローカルで実行され、新規または変更 URL だけを IndexNow キューとして書き出せます。",
-      "previousTitle": "以前の sitemap",
-      "previousHelp": "比較の基準として、以前の sitemap XML ファイルをアップロードします。",
-      "currentTitle": "現在の sitemap",
-      "currentHelp": "比較する新しい sitemap XML ファイルをアップロードします。",
-      "chooseFile": "sitemap XML を選択",
-      "replaceFile": "sitemap XML を置き換え",
-      "entryCount": "{count} 件の有効な URL を検出",
+      "metaTitle": "IndexNow 向けサイトマップ差分",
+      "metaDescription": "2 つのサイトマップ XML をブラウザ内で比較し、追加・変更された URL だけを IndexNow 送信キューとして書き出します。",
+      "keywords": [
+        "サイトマップ 差分",
+        "sitemap diff",
+        "サイトマップ 変更",
+        "indexnow サイトマップ",
+        "変更された url"
+      ],
+      "title": "サーバーに送らずにサイトマップの変更を見つける",
+      "description": "古いサイトマップ XML と新しいサイトマップ XML をアップロードします。比較はローカルで行われ、追加・変更された URL だけを IndexNow 用キューとして書き出せます。",
+      "privacyNote": "2 つのサイトマップはどちらもブラウザ内で解析されます。アップロードは行われず、比較がこのタブの外に出ることはありません。",
+      "previousTitle": "以前のサイトマップ",
+      "previousHelp": "基準にする古いほうのサイトマップ XML をアップロードします。",
+      "currentTitle": "現在のサイトマップ",
+      "currentHelp": "比較したい新しいほうのサイトマップ XML をアップロードします。",
+      "chooseFile": "サイトマップ XML を選択",
+      "replaceFile": "サイトマップ XML を差し替え",
+      "entryCount": "有効な URL が {count} 件見つかりました",
       "errors": {
         "invalidXml": "このファイルは有効な XML ではありません。",
         "emptyUrlset": "この URL セットには有効な http(s) URL が含まれていません。",
-        "sitemapIndex": "これは {count} 個の子 sitemap URL を含む sitemap index です。このツールをブラウザ内だけで動作させるため、比較する個別の sitemap XML ファイルをアップロードしてください。",
-        "unsupported": "この XML は sitemap URL セットまたは sitemap index ではありません。",
-        "invalidLocations": "比較から {count} 件の無効な sitemap location を除外しました。"
+        "sitemapIndex": "これは {count} 件の子サイトマップを含むサイトマップインデックスです。ブラウザ内で完結させるため、比較したい個々のサイトマップ XML をアップロードしてください。",
+        "unsupported": "この XML はサイトマップの URL セットでもインデックスでもありません。",
+        "invalidLocations": "{count} 件の無効なサイトマップ URL を比較対象から除外しました。"
       },
       "resultsTitle": "変更キュー",
-      "resultsHelp": "新規 URL と変更 URL を選び、送信ツール用のキューをコピーまたはダウンロードします。",
+      "resultsHelp": "追加・変更された URL を選び、送信ツール用にキューをコピーまたはダウンロードします。",
       "selectedCount": "{count} 件を選択中",
-      "emptyState": "2 つの有効な sitemap URL セットをアップロードすると変更を計算できます。",
+      "emptyState": "有効な 2 つのサイトマップ URL セットをアップロードすると差分を計算します。",
       "stats": {
-        "added": "新規",
+        "added": "追加",
         "changed": "変更",
-        "unchanged": "未変更"
+        "unchanged": "変更なし",
+        "extracted": "抽出 URL"
       },
-      "includeAdded": "{count} 件の新規 URL を含める",
-      "includeChanged": "{count} 件の変更 URL を含める",
+      "includeAdded": "追加された {count} 件を含める",
+      "includeChanged": "変更された {count} 件を含める",
       "copyQueue": "キューをコピー",
       "downloadQueue": "キューをダウンロード",
-      "openSubmitter": "送信ツールを開く",
+      "openSubmitter": "送信ツールへ送る",
       "copySuccess": "選択したキューをクリップボードにコピーしました。",
-      "copyFailure": "自動でコピーできませんでした。代わりにキューをダウンロードしてください。",
-      "moreUrls": "さらに {count} URL"
+      "copyFailure": "自動コピーに失敗しました。ダウンロードをご利用ください。",
+      "moreUrls": "ほか {count} 件の URL",
+      "article": {
+        "whenToUse": {
+          "title": "このツールを使う場面",
+          "intro": "デプロイのたびにサイトマップ全体を送信するのは、429 に到達する最短ルートです。差分を取れば、サイトマップ全体を本当に変わった URL だけに絞り込めます。",
+          "items": [
+            {
+              "title": "コンテンツをデプロイした後",
+              "description": "リリース前後のサイトマップを比べれば、そのリリースが触れたページを正確に取り出せます。"
+            },
+            {
+              "title": "大規模サイトの場合",
+              "description": "サイトマップに数千件あっても、変わっているのはたいてい数件です。その数件だけを送信しましょう。"
+            },
+            {
+              "title": "lastmod が信頼できる場合",
+              "description": "生成ツールが正確な lastmod を書き込んでいれば、クロールなしで変更ページを特定できます。"
+            },
+            {
+              "title": "リリース内容を振り返るとき",
+              "description": "この差分は、どの URL が追加・更新されたかの記録としても使えます。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "2 つのサイトマップを比較する手順",
+          "intro": "どちらのファイルもブラウザ内蔵の XML パーサーで解析され、アップロードはされません。",
+          "steps": [
+            {
+              "title": "基準となるサイトマップを保存しておく",
+              "description": "リリース前にサイトマップ XML をダウンロードするか、前回送信時のコピーを残しておきます。"
+            },
+            {
+              "title": "2 つのファイルをアップロードする",
+              "description": "古いほうを基準として、新しいほうを現在のサイトマップとして指定します。"
+            },
+            {
+              "title": "含める対象を選ぶ",
+              "description": "追加は新しく現れたエントリ、変更は lastmod が動いたエントリです。どちらか、または両方を選べます。"
+            },
+            {
+              "title": "コピー・ダウンロード・送信",
+              "description": "キューをテキストとして書き出すか、該当ホストの送信フォームへそのまま送れます。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある失敗",
+          "items": [
+            {
+              "title": "サイトマップインデックスをアップロードする",
+              "description": "インデックスは他のサイトマップを列挙するだけです。その先の個別ファイルをアップロードしてください。本ツールはブラウザ内で完結させるため、取得は行いません。"
+            },
+            {
+              "title": "毎回 lastmod を打ち直す生成ツール",
+              "description": "ビルドのたびに全 lastmod を書き換えるツールもあり、その場合すべての URL が変更に見えます。全件送信の前に確認してください。"
+            },
+            {
+              "title": "lastmod がない",
+              "description": "lastmod がなければ検出できるのは追加された URL だけで、既存ページの編集は差分では見えません。"
+            },
+            {
+              "title": "1 つのサイトマップに複数ホスト",
+              "description": "ホストをまたぐサイトマップから作ったキューは、送信前に分割する必要があります。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "なぜ URL 入力ではなくファイルのアップロードなのですか？",
+              "answer": "他サイトのサイトマップをブラウザから読むのは CORS で遮断され、サーバー側で取得すると URL を当方に送ることになります。アップロードなら比較をローカルに保てます。"
+            },
+            {
+              "question": "変更された URL はどう判定されますか？",
+              "answer": "両方のファイルに存在し lastmod が異なる URL を変更、新しいファイルにだけある URL を追加と判定します。"
+            },
+            {
+              "question": "削除された URL も出力されますか？",
+              "answer": "件数は数えますが書き出しません。IndexNow は更新の通知が目的で、削除された URL は再クロールに任せるほうが適切です。"
+            },
+            {
+              "question": "gzip 圧縮されたサイトマップも比較できますか？",
+              "answer": "できません。.xml.gz は先に展開してください。解析できるのはプレーンな XML のみです。"
+            },
+            {
+              "question": "キューは 10,000 件の上限を守りますか？",
+              "answer": "差分が上限を超えることもあります。上限に近い場合は、結果をバッチ整理ツールに通してください。"
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      },
+      "extractHelp": "現在の sitemap だけで有効な URL を抽出できます。変更のみ必要な場合に基準を追加します。",
+      "savedSnapshot": "保存済み基準：{fileName}（{date}）",
+      "useSnapshot": "基準を使用",
+      "clearSnapshot": "保存基準を削除",
+      "saveSnapshotTitle": "次回比較の基準に保存",
+      "saveSnapshotHelp": "このブラウザだけに最大 10,000 件保存します。",
+      "saveSnapshot": "基準を保存",
+      "snapshotStatus": {
+        "saved": "この端末に基準を保存しました。",
+        "too_large": "sitemap が 10,000 件の保存上限を超えています。",
+        "storage_error": "ブラウザに基準を保存できませんでした。"
+      }
+    },
+    "codeGenerator": {
+      "cardTitle": "IndexNow コード生成",
+      "cardDescription": "正しい IndexNow JSON、curl、JavaScript fetch を生成します。",
+      "cardShort": "実行可能な IndexNow リクエストを生成。",
+      "metaTitle": "無料 IndexNow コード生成",
+      "metaDescription": "ホストと URL を検証し、IndexNow JSON、curl、JavaScript をローカル生成。",
+      "keywords": [
+        "IndexNow コード生成",
+        "IndexNow curl",
+        "IndexNow JavaScript"
+      ],
+      "title": "IndexNow リクエストを生成",
+      "description": "検証済みホストと URL 一覧から JSON、curl、JavaScript を生成します。",
+      "privacyNote": "生成はブラウザ内だけで行われ、キー、ホスト、URL、コードは送信されません。",
+      "inputTitle": "リクエスト入力",
+      "hostLabel": "ホスト",
+      "keyLabel": "キー",
+      "keyLocationLabel": "キー ファイル URL（任意）",
+      "keyLocationPlaceholder": "既定値 https://host/key.txt",
+      "urlsLabel": "URL 一覧",
+      "hostMismatch": "すべての URL は入力したホストと完全に一致する必要があります。",
+      "invalidUrls": "無効な URL が {count} 件あります。",
+      "outputTitle": "生成リクエスト",
+      "outputHelp": "実行前に値を確認してください。",
+      "formatLabel": "コード形式",
+      "formats": {
+        "json": "JSON",
+        "curl": "curl",
+        "javascript": "JavaScript"
+      },
+      "emptyState": "ホスト、キー、同一ホストの有効な URL を入力してください。",
+      "article": {
+        "whenToUse": {
+          "title": "使用する場面",
+          "intro": "CMS、デプロイ フック、バックエンドで手書きせず正しいリクエストが必要なときに使います。",
+          "items": [
+            {
+              "title": "デプロイ フック",
+              "description": "CI やサーバー コードへ移せるリクエストを作成。"
+            },
+            {
+              "title": "400 の診断",
+              "description": "送信ペイロードを正しい形式と比較。"
+            },
+            {
+              "title": "実装形式の変更",
+              "description": "同じペイロードで curl と JavaScript を切替。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "生成手順",
+          "intro": "ホスト境界を検証してからコードを生成します。",
+          "steps": [
+            {
+              "title": "正確なホストを入力",
+              "description": "www やサブドメインを含め URL と一致させます。"
+            },
+            {
+              "title": "キーと場所を入力",
+              "description": "場所を空にすると標準のルート パスを使います。"
+            },
+            {
+              "title": "URL を貼り付け",
+              "description": "無効または混在ホストを修正します。"
+            },
+            {
+              "title": "形式をコピー",
+              "description": "本番キーはサーバー側 Secret に保存します。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある問題",
+          "items": [
+            {
+              "title": "ブラウザでキーを実行",
+              "description": "本番自動化は信頼できるサーバーで行います。"
+            },
+            {
+              "title": "ホストの混在",
+              "description": "www と apex は別リクエストです。"
+            },
+            {
+              "title": "ログへの漏洩",
+              "description": "キーと非公開 URL をログから除外します。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "リクエストを送信しますか？",
+              "answer": "いいえ。ローカルでコードを生成するだけです。"
+            },
+            {
+              "question": "どのエンドポイントですか？",
+              "answer": "共有の api.indexnow.org を使用します。"
+            },
+            {
+              "question": "複数ホストを含められますか？",
+              "answer": "いいえ。ホストごとに生成します。"
+            }
+          ]
+        },
+        "relatedPosts": []
+      }
+    },
+    "urlNormalizer": {
+      "cardTitle": "URL 正規化",
+      "cardDescription": "IndexNow バッチ前に URL を正規化、重複排除し、任意で追跡情報を削除。",
+      "cardShort": "明示的で安全な設定で URL を整理。",
+      "metaTitle": "無料 IndexNow URL 正規化",
+      "metaDescription": "URL の正規化、フラグメントや追跡パラメータ削除、クエリ整列をローカル実行。",
+      "keywords": [
+        "URL 正規化",
+        "UTM 削除",
+        "IndexNow URL 整理"
+      ],
+      "title": "送信前に URL を正規化",
+      "description": "URL 構文を統一して重複を除き、意味を変える操作は明示的に選択します。",
+      "privacyNote": "URL 解析はブラウザ内だけで行い、一覧を送信・保存しません。",
+      "inputTitle": "URL を貼り付け",
+      "inputHelp": "1 行に一つの絶対 HTTP または HTTPS URL。",
+      "optionsTitle": "正規化オプション",
+      "options": {
+        "removeFragment": {
+          "label": "フラグメントを削除",
+          "help": "フラグメントはサーバーへ送られないため安全です。"
+        },
+        "removeTrackingParameters": {
+          "label": "追跡パラメータを削除",
+          "help": "utm_*、fbclid、gclid、msclkid などを削除。"
+        },
+        "sortQueryParameters": {
+          "label": "クエリを並べ替え",
+          "help": "署名 URL を壊す場合があります。順序に意味がない場合だけ有効化。"
+        },
+        "removeTrailingSlash": {
+          "label": "末尾スラッシュを削除",
+          "help": "別ルートの場合があります。安定した転送がある場合だけ有効化。"
+        }
+      },
+      "resultsTitle": "正規化結果",
+      "resultSummary": "有効 {valid} · 無効または重複 {invalid}",
+      "emptyState": "URL を貼り付けると出力と変更内容を確認できます。",
+      "copyResults": "URL をコピー",
+      "openSubmitter": "送信フォームを開く",
+      "changes": {
+        "fragment_removed": "フラグメント削除",
+        "tracking_removed": "追跡情報削除",
+        "query_sorted": "クエリ整列",
+        "trailing_slash_removed": "末尾スラッシュ削除",
+        "canonicalized": "URL 構文を正規化"
+      },
+      "errors": {
+        "invalid_url": "無効な絶対 URL",
+        "unsupported_protocol": "HTTP と HTTPS のみ対応"
+      },
+      "article": {
+        "whenToUse": {
+          "title": "使用する場面",
+          "intro": "重複排除、バッチ化、コード生成、IndexNow 送信の前に URL を整理します。",
+          "items": [
+            {
+              "title": "エクスポート一覧の整理",
+              "description": "CMS や分析の一覧には重複やキャンペーン情報があります。"
+            },
+            {
+              "title": "構文を統一",
+              "description": "同等の絶対 URL を一つの形式へ変換。"
+            },
+            {
+              "title": "canonical リスク確認",
+              "description": "意味を変える可能性がある操作を事前確認。"
+            }
+          ]
+        },
+        "howTo": {
+          "title": "正規化手順",
+          "intro": "既定ではフラグメントだけ削除し、他の操作は明示的に選びます。",
+          "steps": [
+            {
+              "title": "絶対 URL を貼り付け",
+              "description": "1 行に一つ入力します。"
+            },
+            {
+              "title": "変換を選択",
+              "description": "リスク説明を読んでから有効化します。"
+            },
+            {
+              "title": "結果を確認",
+              "description": "変更と無効入力を確認します。"
+            },
+            {
+              "title": "コピーまたは送信",
+              "description": "重複を除いた一覧を送信フォームへ渡します。"
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "よくある問題",
+          "items": [
+            {
+              "title": "パラメータの一括削除",
+              "description": "コンテンツ選択や署名に必要な場合があります。"
+            },
+            {
+              "title": "末尾スラッシュ変更",
+              "description": "フレームワークが別 URL として扱う場合があります。"
+            },
+            {
+              "title": "相対パスの入力",
+              "description": "確実なホスト検証のため絶対 URL が必要です。"
+            }
+          ]
+        },
+        "faq": {
+          "title": "よくある質問",
+          "items": [
+            {
+              "question": "フラグメントは送信されますか？",
+              "answer": "いいえ。ブラウザ内の位置を示すだけです。"
+            },
+            {
+              "question": "何を削除しますか？",
+              "answer": "utm_* と一般的な広告・メール識別子です。"
+            },
+            {
+              "question": "canonical を決めますか？",
+              "answer": "いいえ。サーバー転送と canonical タグが基準です。"
+            }
+          ]
+        },
+        "relatedPosts": []
+      }
+    }
+  },
+  "Docs": {
+    "metaTitle": "IndexNow ドキュメントと統合ガイド",
+    "metaDescription": "ステータス コード、WordPress、Next.js、Cloudflare Workers、キー検証、安全な送信の実用ドキュメント。",
+    "keywords": [
+      "IndexNow ドキュメント",
+      "IndexNow ステータス コード",
+      "IndexNow 統合",
+      "Bing URL 送信"
+    ],
+    "title": "IndexNow ドキュメント",
+    "description": "IndexNow の実装、検証、安定運用に使えるリファレンスです。",
+    "home": "ホーム",
+    "back": "ドキュメントへ戻る",
+    "related": "関連ドキュメント",
+    "updated": "更新日 {date}",
+    "categories": {
+      "guide": "基本ガイド",
+      "status-code": "レスポンス コード",
+      "integration": "プラットフォーム統合"
     }
   }
 }

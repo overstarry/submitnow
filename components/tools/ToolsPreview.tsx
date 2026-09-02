@@ -1,14 +1,9 @@
 "use client";
 
 import { Link as I18nLink } from "@/i18n/routing";
-import { ArrowRight, FileKey2, GitCompareArrows, ListChecks } from "lucide-react";
+import { TOOLS } from "@/lib/tools";
+import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const previewTools = [
-  { id: "keyGenerator", href: "/tools/indexnow-key-generator", icon: FileKey2 },
-  { id: "batchBuilder", href: "/tools/indexnow-batch-builder", icon: ListChecks },
-  { id: "sitemapDiff", href: "/tools/sitemap-diff", icon: GitCompareArrows },
-] as const;
 
 export default function ToolsPreview() {
   const t = useTranslations("Tools");
@@ -36,8 +31,8 @@ export default function ToolsPreview() {
         </I18nLink>
       </div>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-3">
-        {previewTools.map((tool) => {
+      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {TOOLS.map((tool) => {
           const Icon = tool.icon;
 
           return (

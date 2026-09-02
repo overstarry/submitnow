@@ -1,23 +1,47 @@
 "use client";
 
 import { submitIndexNow } from "@/actions/indexnow";
+import {
+  checkIndexNowKey,
+  type KeyCheckResult,
+} from "@/actions/indexnow-key-check";
+import KeyCheckReport from "@/components/indexnow/KeyCheckReport";
+import SubmissionHistory from "@/components/indexnow/SubmissionHistory";
 import { Button } from "@/components/ui/button";
+import { Link } from "@/i18n/routing";
+import { trackEvent } from "@/lib/analytics";
+import { consumeStagedUrls } from "@/lib/handoff";
+import {
+  clearIndexNowProfile,
+  loadIndexNowProfile,
+  saveIndexNowProfile,
+} from "@/lib/indexnow-profile";
+import { analyzeUrlList } from "@/lib/seo-tools";
+import {
+  addSubmissionHistory,
+  clearSubmissionHistory,
+  loadSubmissionHistory,
+  type SubmissionHistoryEntry,
+} from "@/lib/submission-history";
 import {
   AlertCircleIcon,
   CheckCircleIcon,
   Loader2,
   Send,
+  ShieldCheck,
 } from "lucide-react";
 import { BiLogoBing } from "react-icons/bi";
 import { FaYandex } from "react-icons/fa";
 import { SiNaver } from "react-icons/si";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type SubmitStatus = "idle" | "loading" | "success" | "error";
+type PreflightStatus = "idle" | "loading" | "done" | "error";
 
 export default function IndexNowSubmission() {
   const t = useTranslations("IndexNow");
+  const tChecker = useTranslations("Tools.keyChecker");
   const supportedEngines = [
     { id: "bing", name: "Bing", icon: BiLogoBing },
     { id: "yandex", name: "Yandex", icon: FaYandex },
@@ -26,11 +50,40 @@ export default function IndexNowSubmission() {
     { id: "yep", name: "Yep", monogram: "Y" },
   ];
 
+  const formRef = useRef<HTMLFormElement>(null);
+  const [urls, setUrls] = useState("");
+  const [key, setKey] = useState("");
+  const [host, setHost] = useState("");
+  const [keyLocationInput, setKeyLocationInput] = useState("");
+  const [rememberProfile, setRememberProfile] = useState(false);
+  const [history, setHistory] = useState<SubmissionHistoryEntry[]>([]);
   const [status, setStatus] = useState<SubmitStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorStatusCode, setErrorStatusCode] = useState<number | null>(null);
   const [submittedCount, setSubmittedCount] = useState<number | null>(null);
   const [submittedHost, setSubmittedHost] = useState<string | null>(null);
   const [keyLocation, setKeyLocation] = useState<string | null>(null);
+  const [preflightStatus, setPreflightStatus] =
+    useState<PreflightStatus>("idle");
+  const [preflightResult, setPreflightResult] = useState<Extract<
+    KeyCheckResult,
+    { success: true }
+  > | null>(null);
+  const [preflightError, setPreflightError] = useState("");
+
+  // A batch prepared in the batch builder or sitemap diff arrives here.
+  useEffect(() => {
+    const staged = consumeStagedUrls();
+    if (staged) setUrls(staged);
+    const profile = loadIndexNowProfile();
+    if (profile) {
+      setKey(profile.key);
+      setHost(profile.host);
+      setKeyLocationInput(profile.keyLocation);
+      setRememberProfile(true);
+    }
+    setHistory(loadSubmissionHistory());
+  }, []);
 
   const statusMessage = useMemo(() => {
     if (status === "success") {
@@ -46,6 +99,52 @@ export default function IndexNowSubmission() {
     return "";
   }, [keyLocation, status, submittedCount, submittedHost, t]);
 
+  /**
+   * The key file is the single most common reason Bing rejects a batch, so it
+   * can be verified from the form before anything is submitted.
+   */
+  const handlePreflight = async () => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const formData = new FormData(form);
+    const key = String(formData.get("key") ?? "").trim();
+    const host =
+      String(formData.get("host") ?? "").trim() ||
+      analyzeUrlList(urls).hostGroups[0]?.host ||
+      "";
+
+    setPreflightStatus("loading");
+    setPreflightResult(null);
+    setPreflightError("");
+
+    if (!key || !host) {
+      setPreflightStatus("error");
+      setPreflightError(t("preflight.missingInput"));
+      return;
+    }
+
+    const payload = new FormData();
+    payload.set("key", key);
+    payload.set("host", host);
+    payload.set("keyLocation", String(formData.get("keyLocation") ?? "").trim());
+
+    try {
+      const result = await checkIndexNowKey(payload);
+      if (!result.success) {
+        setPreflightStatus("error");
+        setPreflightError(tChecker(`errors.${result.errorCode}`));
+        return;
+      }
+
+      setPreflightResult(result);
+      setPreflightStatus("done");
+    } catch {
+      setPreflightStatus("error");
+      setPreflightError(tChecker("errors.fetch_failed"));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -54,16 +153,35 @@ export default function IndexNowSubmission() {
     try {
       setStatus("loading");
       setErrorMessage("");
+      setErrorStatusCode(null);
       setSubmittedCount(null);
       setSubmittedHost(null);
       setKeyLocation(null);
 
       const result = await submitIndexNow(formData);
       if (!result.success) {
-        const status = (result.details?.status as number | undefined) ?? 0;
+        const responseStatus = (result.details?.status as number | undefined) ?? 0;
         const message = result.errorCode.startsWith("bing_")
-          ? t(`errors.${result.errorCode}`, { status })
+          ? t(`errors.${result.errorCode}`, { status: responseStatus })
           : t(`errors.${result.errorCode}`);
+        if (responseStatus) setErrorStatusCode(responseStatus);
+        const analyzed = analyzeUrlList(urls);
+        const submittedHost =
+          host.trim().toLowerCase() || analyzed.hostGroups[0]?.host || "";
+        setHistory(
+          addSubmissionHistory({
+            host: submittedHost,
+            urlCount: analyzed.validUrls.length,
+            outcome: "error",
+            httpStatus: responseStatus || undefined,
+            errorCode: result.errorCode,
+          })
+        );
+        trackEvent({
+          name: "indexnow_submission",
+          action: "error",
+          value: analyzed.validUrls.length,
+        });
         throw new Error(message);
       }
 
@@ -71,6 +189,28 @@ export default function IndexNowSubmission() {
       setSubmittedCount(result.submittedCount);
       setSubmittedHost(result.host);
       setKeyLocation(result.keyLocation);
+      if (rememberProfile) {
+        saveIndexNowProfile({
+          host: result.host,
+          key: key.trim(),
+          keyLocation: keyLocationInput.trim(),
+        });
+      } else {
+        clearIndexNowProfile();
+      }
+      setHistory(
+        addSubmissionHistory({
+          host: result.host,
+          urlCount: result.submittedCount,
+          outcome: "success",
+          httpStatus: result.status,
+        })
+      );
+      trackEvent({
+        name: "indexnow_submission",
+        action: "success",
+        value: result.submittedCount,
+      });
       setTimeout(() => setStatus("idle"), 7000);
     } catch (error) {
       setStatus("error");
@@ -134,7 +274,7 @@ export default function IndexNowSubmission() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-6 py-6">
+        <form ref={formRef} onSubmit={handleSubmit} className="px-6 py-6">
           <div className="space-y-5">
             <div>
               <label
@@ -147,6 +287,8 @@ export default function IndexNowSubmission() {
               <textarea
                 id="urls"
                 name="urls"
+                value={urls}
+                onChange={(event) => setUrls(event.target.value)}
                 placeholder={t("urlsPlaceholder")}
                 required
                 rows={6}
@@ -171,6 +313,8 @@ export default function IndexNowSubmission() {
                   type="text"
                   id="key"
                   name="key"
+                  value={key}
+                  onChange={(event) => setKey(event.target.value)}
                   placeholder={t("keyPlaceholder")}
                   required
                   className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
@@ -195,6 +339,8 @@ export default function IndexNowSubmission() {
                   type="text"
                   id="host"
                   name="host"
+                  value={host}
+                  onChange={(event) => setHost(event.target.value)}
                   placeholder={t("hostPlaceholder")}
                   className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
@@ -219,6 +365,8 @@ export default function IndexNowSubmission() {
                   type="url"
                   id="keyLocation"
                   name="keyLocation"
+                  value={keyLocationInput}
+                  onChange={(event) => setKeyLocationInput(event.target.value)}
                   placeholder={t("keyLocationPlaceholder")}
                   className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
@@ -229,6 +377,66 @@ export default function IndexNowSubmission() {
               <p className="mt-2 text-pretty text-xs text-slate-500 dark:text-slate-400">
                 {t("keyLocationHelp", { host: "<host>", key: "<key>" })}
               </p>
+            </div>
+
+            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 text-sm dark:border-slate-800 dark:bg-slate-900/50">
+              <input
+                type="checkbox"
+                checked={rememberProfile}
+                onChange={(event) => setRememberProfile(event.target.checked)}
+                className="mt-0.5 size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span>
+                <span className="font-semibold text-slate-800 dark:text-slate-100">
+                  {t("rememberProfile")}
+                </span>
+                <span className="mt-1 block text-xs leading-5 text-slate-500 dark:text-slate-400">
+                  {t("rememberProfileHelp")}
+                </span>
+              </span>
+            </label>
+
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 dark:border-slate-800 dark:bg-slate-900/50">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                    {t("preflight.title")}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-600 dark:text-slate-400">
+                    {t("preflight.description")}
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handlePreflight}
+                  disabled={preflightStatus === "loading"}
+                  className="h-10 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
+                >
+                  {preflightStatus === "loading" ? (
+                    <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <ShieldCheck className="size-4" aria-hidden="true" />
+                  )}
+                  {preflightStatus === "loading"
+                    ? t("preflight.checking")
+                    : t("preflight.check")}
+                </Button>
+              </div>
+
+              {preflightStatus === "error" && (
+                <p
+                  className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-200"
+                  aria-live="polite"
+                >
+                  {preflightError}
+                </p>
+              )}
+              {preflightStatus === "done" && preflightResult && (
+                <div className="mt-3">
+                  <KeyCheckReport result={preflightResult} compact />
+                </div>
+              )}
             </div>
 
             <div className="space-y-3">
@@ -264,6 +472,19 @@ export default function IndexNowSubmission() {
                     <AlertCircleIcon className="size-5 flex-shrink-0 mt-0.5" />
                     <span className="w-full break-words text-left text-pretty">
                       {errorMessage}
+                      {errorStatusCode !== null && (
+                        <>
+                          {" "}
+                          <Link
+                            href={`/docs/status-codes/${errorStatusCode}`}
+                            className="font-semibold underline underline-offset-2"
+                          >
+                            {t("errors.explainCode", {
+                              status: errorStatusCode,
+                            })}
+                          </Link>
+                        </>
+                      )}
                     </span>
                   </div>
                 )}
@@ -271,6 +492,13 @@ export default function IndexNowSubmission() {
             </div>
           </div>
         </form>
+        <SubmissionHistory
+          entries={history}
+          onClear={() => {
+            clearSubmissionHistory();
+            setHistory([]);
+          }}
+        />
       </div>
     </section>
   );

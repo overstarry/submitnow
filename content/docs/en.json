@@ -1,0 +1,199 @@
+[
+  {
+    "locale": "en",
+    "slug": "indexnow-bing-submission",
+    "category": "guide",
+    "title": "Submit URLs to Bing with IndexNow",
+    "description": "A complete setup guide for the IndexNow key file, request payload, validation, and safe retry behavior.",
+    "summary": "Set up a key file, prepare a single-host URL batch, submit it, and diagnose the response.",
+    "keywords": ["IndexNow guide", "submit URL to Bing", "Bing indexing API"],
+    "publishedAt": "2026-01-14",
+    "updatedAt": "2026-09-02",
+    "sections": [
+      {
+        "title": "What IndexNow does",
+        "paragraphs": [
+          "IndexNow lets a site notify participating search engines when a URL is added, updated, or deleted. It is a discovery signal, not a guarantee that the URL will be crawled or indexed.",
+          "A single request may contain up to 10,000 URLs. Every URL in that request must use the same hostname as the host field."
+        ]
+      },
+      {
+        "title": "Prepare ownership verification",
+        "items": [
+          {"title": "Generate a key", "description": "Use an 8–128 character key containing letters, numbers, and hyphens."},
+          {"title": "Publish the key file", "description": "Serve a plain UTF-8 text file whose body contains only the key. The default path is https://host/key.txt."},
+          {"title": "Verify it publicly", "description": "Check the final response outside your authenticated session and confirm that redirects stay on the submitted host."}
+        ]
+      },
+      {
+        "title": "Submit and interpret the response",
+        "paragraphs": [
+          "Normalize and deduplicate the URL list before sending it. Treat 200 and 202 as successful receipt, fix 400/403/422 before retrying, and back off when the endpoint returns 429."
+        ]
+      }
+    ],
+    "relatedSlugs": ["integrations/nextjs", "status-codes/403", "status-codes/422"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/200",
+    "category": "status-code",
+    "title": "IndexNow 200: OK",
+    "description": "What an IndexNow HTTP 200 response means and what to verify after a successful request.",
+    "summary": "The request was accepted and the key was validated.",
+    "keywords": ["IndexNow 200", "IndexNow success response"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 200,
+    "sections": [
+      {"title": "Meaning", "paragraphs": ["The endpoint accepted the request and validated its shape and ownership key. This confirms receipt, not indexing."]},
+      {"title": "What to do next", "items": [{"title": "Record the batch", "description": "Keep only the host, URL count, time, and status needed for operational history."}, {"title": "Do not resend immediately", "description": "Wait for normal crawling and indexing signals instead of burning rate limits."}]},
+      {"title": "If the page is still not indexed", "paragraphs": ["Check robots directives, canonical tags, content quality, HTTP status, internal links, and the search engine's webmaster tools."]}
+    ],
+    "relatedSlugs": ["status-codes/202", "indexnow-bing-submission"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/202",
+    "category": "status-code",
+    "title": "IndexNow 202: Accepted",
+    "description": "Why IndexNow returns HTTP 202 while key validation is pending and when to retry.",
+    "summary": "The request was received, but ownership validation has not finished.",
+    "keywords": ["IndexNow 202", "IndexNow accepted"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 202,
+    "sections": [
+      {"title": "Meaning", "paragraphs": ["The endpoint received a valid-looking request and will validate the key asynchronously. A 202 is not an error."]},
+      {"title": "Checks", "items": [{"title": "Key file", "description": "Confirm the file is public, returns 200, and contains only the exact key."}, {"title": "Host consistency", "description": "The host, keyLocation hostname, and every submitted URL hostname must match."}]},
+      {"title": "Retry policy", "paragraphs": ["Do not loop on 202. Verify the key once, then wait before submitting only genuinely changed URLs."]}
+    ],
+    "relatedSlugs": ["status-codes/200", "status-codes/403"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/400",
+    "category": "status-code",
+    "title": "IndexNow 400: Bad Request",
+    "description": "Diagnose malformed IndexNow payloads, invalid fields, and unsupported request shapes.",
+    "summary": "The request syntax or one of its required fields is invalid.",
+    "keywords": ["IndexNow 400", "IndexNow bad request"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 400,
+    "sections": [
+      {"title": "Common causes", "items": [{"title": "Malformed JSON", "description": "The body is not valid JSON or Content-Type is not application/json."}, {"title": "Missing fields", "description": "host, key, keyLocation, or urlList is absent or has the wrong type."}, {"title": "Invalid key", "description": "The key is outside the 8–128 character range or contains unsupported characters."}]},
+      {"title": "Diagnosis", "paragraphs": ["Generate the request from a known-good payload, inspect the exact outgoing body, and validate it before sending."]},
+      {"title": "Retry policy", "paragraphs": ["A retry with the same body will fail again. Correct the payload first."]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/422"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/403",
+    "category": "status-code",
+    "title": "IndexNow 403: Key Not Valid",
+    "description": "Fix IndexNow ownership verification failures caused by key-file content, redirects, WAF rules, or host mismatch.",
+    "summary": "The search engine could not validate the key against the submitted host.",
+    "keywords": ["IndexNow 403", "IndexNow key not valid", "IndexNow key file"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 403,
+    "sections": [
+      {"title": "Common causes", "items": [{"title": "Wrong response body", "description": "Whitespace, HTML, a UTF-8 BOM, or another key is present in the file."}, {"title": "Off-host redirect", "description": "The key URL redirects to a different hostname."}, {"title": "Crawler blocked", "description": "Authentication, WAF, bot protection, or geo rules block the external fetch."}]},
+      {"title": "Diagnosis", "paragraphs": ["Open the key checker, enter the exact host and key, and inspect the final URL, response type, byte content, and redirect behavior."]},
+      {"title": "Fix and retry", "paragraphs": ["Deploy a plain text file on the same hostname, purge CDN caches, verify it from the public internet, then retry one small batch."]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/422"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/422",
+    "category": "status-code",
+    "title": "IndexNow 422: Unprocessable Entity",
+    "description": "Resolve IndexNow host, keyLocation, and URL-list consistency errors.",
+    "summary": "The payload is readable, but its URLs or ownership fields are inconsistent.",
+    "keywords": ["IndexNow 422", "IndexNow host mismatch"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 422,
+    "sections": [
+      {"title": "Common causes", "items": [{"title": "Mixed hosts", "description": "The urlList contains more than one hostname."}, {"title": "Host mismatch", "description": "The host field differs from the URL hostname, including www versus apex."}, {"title": "Invalid key location", "description": "keyLocation belongs to another hostname or does not correspond to the key."}]},
+      {"title": "Diagnosis", "paragraphs": ["Normalize the URL list, group it by exact hostname, and generate one request per group."]},
+      {"title": "Retry policy", "paragraphs": ["Correct the host boundaries before retrying. Splitting by protocol is unnecessary, but splitting by hostname is mandatory."]}
+    ],
+    "relatedSlugs": ["status-codes/400", "status-codes/403"]
+  },
+  {
+    "locale": "en",
+    "slug": "status-codes/429",
+    "category": "status-code",
+    "title": "IndexNow 429: Too Many Requests",
+    "description": "Reduce IndexNow request volume with deduplication, sitemap diffs, batching, and backoff.",
+    "summary": "The endpoint is rate limiting the host or client.",
+    "keywords": ["IndexNow 429", "IndexNow rate limit"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "statusCode": 429,
+    "sections": [
+      {"title": "Why it happens", "paragraphs": ["Repeated full-sitemap submissions, duplicate URLs, parallel retries, and multiple integrations can exceed the endpoint's current allowance."]},
+      {"title": "Reduce volume", "items": [{"title": "Submit changes only", "description": "Compare sitemap snapshots and send added or genuinely modified URLs."}, {"title": "Coordinate publishers", "description": "Ensure the CMS plugin, deploy hook, and manual tool do not submit the same change."}, {"title": "Back off", "description": "Use exponential backoff with jitter and cap retries."}]},
+      {"title": "Do not", "paragraphs": ["Do not rotate keys, change IP addresses, or retry continuously. Those actions do not fix the underlying request volume."]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/200"]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/wordpress",
+    "category": "integration",
+    "title": "IndexNow for WordPress",
+    "description": "Configure one WordPress IndexNow publisher, verify its key file, and prevent duplicate submissions.",
+    "summary": "Use a maintained plugin, validate ownership, and avoid overlapping SEO plugins.",
+    "keywords": ["IndexNow WordPress", "WordPress Bing indexing"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "platform": "WordPress",
+    "sections": [
+      {"title": "Choose one publisher", "paragraphs": ["Use one maintained plugin that explicitly supports IndexNow. Disable duplicate IndexNow features in other SEO or caching plugins."]},
+      {"title": "Setup steps", "items": [{"title": "Enable IndexNow", "description": "Turn on the integration and let the plugin generate or accept a key."}, {"title": "Verify the key file", "description": "Confirm the public file is served by WordPress or the web root without authentication."}, {"title": "Test one update", "description": "Publish or update one page, then inspect the plugin log and endpoint response."}]},
+      {"title": "Operational checks", "paragraphs": ["After domain changes, CDN migrations, or security-plugin updates, recheck the key file before debugging submissions."]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/403"]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/nextjs",
+    "category": "integration",
+    "title": "IndexNow with Next.js",
+    "description": "Publish an IndexNow key in Next.js and submit changed URLs from a trusted server-side deploy hook.",
+    "summary": "Serve the key from public/, then submit changed URLs from server-only code.",
+    "keywords": ["IndexNow Next.js", "Next.js Bing indexing"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "platform": "Next.js",
+    "sections": [
+      {"title": "Publish the key", "paragraphs": ["Place KEY.txt in public/ so the deployed site serves it from the hostname root. Keep the submission secret in server-only environment configuration, not client bundles."]},
+      {"title": "Submit from trusted code", "code": "await fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host, key, keyLocation, urlList }),\n});"},
+      {"title": "Deployment workflow", "items": [{"title": "Calculate changes", "description": "Compare the previous and current sitemap or use CMS webhook payloads."}, {"title": "Group by host", "description": "Build one payload for each exact hostname."}, {"title": "Log safely", "description": "Record status and counts, never the key or private draft URLs."}]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/429"]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/cloudflare-workers",
+    "category": "integration",
+    "title": "IndexNow with Cloudflare Workers",
+    "description": "Send IndexNow updates from a Cloudflare Worker using Secrets, waitUntil, and bounded retry behavior.",
+    "summary": "Keep the key in a Secret and submit publish events without delaying the response.",
+    "keywords": ["IndexNow Cloudflare Workers", "Workers Bing indexing"],
+    "publishedAt": "2026-09-02",
+    "updatedAt": "2026-09-02",
+    "platform": "Cloudflare Workers",
+    "sections": [
+      {"title": "Store configuration safely", "paragraphs": ["Bind the key as a Worker Secret. Keep host and keyLocation in environment configuration, and never return the key from an HTTP response."]},
+      {"title": "Submit in the background", "code": "ctx.waitUntil(fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host: env.HOST, key: env.INDEXNOW_KEY, keyLocation, urlList }),\n}));"},
+      {"title": "Production safeguards", "items": [{"title": "Authenticate the trigger", "description": "Verify the CMS webhook signature or protect the endpoint with service authentication."}, {"title": "Bound the batch", "description": "Validate host consistency and enforce the 10,000 URL maximum."}, {"title": "Retry selectively", "description": "Retry network failures and 429 responses with backoff, not permanent 400-series errors."}]}
+    ],
+    "relatedSlugs": ["indexnow-bing-submission", "status-codes/429"]
+  }
+]

@@ -16,22 +16,16 @@
         "href": "/tools"
       },
       {
-        "name": "Guides",
-        "href": "/blog"
-      },
-      {
-        "name": "About",
-        "href": "/about"
+        "name": "Docs",
+        "href": "/docs"
       },
       {
         "name": "Blog",
         "href": "/blog"
       },
       {
-        "name": "Documentation",
-        "href": "https://www.indexnow.org/documentation",
-        "target": "_blank",
-        "rel": "noopener noreferrer nofollow"
+        "name": "About",
+        "href": "/about"
       }
     ]
   },
@@ -41,6 +35,54 @@
     "TermsOfService": "Terms of Service",
     "Links": {
       "groups": [
+        {
+          "title": "Tools",
+          "links": [
+            {
+              "href": "/tools/indexnow-key-generator",
+              "name": "Key Generator"
+            },
+            {
+              "href": "/tools/indexnow-key-checker",
+              "name": "Key Checker"
+            },
+            {
+              "href": "/tools/indexnow-batch-builder",
+              "name": "Batch Builder"
+            },
+            {
+              "href": "/tools/sitemap-diff",
+              "name": "Sitemap Diff"
+            }
+          ]
+        },
+        {
+          "title": "Resources",
+          "links": [
+            {
+              "href": "/docs",
+              "name": "Docs"
+            },
+            {
+              "href": "/blog",
+              "name": "Guides"
+            },
+            {
+              "href": "/blog/indexnow-bing-submission",
+              "name": "IndexNow for Bing"
+            },
+            {
+              "href": "/about",
+              "name": "About"
+            },
+            {
+              "href": "https://www.indexnow.org/documentation",
+              "name": "IndexNow",
+              "target": "_blank",
+              "rel": "noopener noreferrer"
+            }
+          ]
+        },
         {
           "title": "Languages",
           "links": [
@@ -78,7 +120,17 @@
   "Home": {
     "title": "submitnow",
     "tagLine": "Bing IndexNow Submission Tool",
-    "description": "Submit URLs to Bing via IndexNow. Your site must host the key file and the submitted URLs must match the same host.",
+    "heroTitle": "Free IndexNow submission tool for Bing",
+    "description": "Submit up to 10,000 URLs to Bing and its IndexNow partners in one request. Host the key file on your domain, paste a single-host URL list, and send it — no account, nothing stored.",
+    "keywords": [
+      "indexnow",
+      "bing indexnow",
+      "submit url to bing",
+      "indexnow api",
+      "url submission tool",
+      "seo indexing tool",
+      "indexnow key"
+    ],
     "badge": "IndexNow Batch Submission",
     "ctaDocs": "IndexNow Documentation",
     "ctaSource": "View Source",
@@ -89,6 +141,125 @@
       "verificationDescription": "Host the key file on your domain to prove ownership.",
       "reachTitle": "Multi-engine reach",
       "reachDescription": "One submission notifies Bing and IndexNow partners."
+    },
+    "howItWorks": {
+      "eyebrow": "Workflow",
+      "title": "From key file to submitted batch",
+      "description": "IndexNow has four moving parts. Each step below maps to a tool on this site, so you can go from an empty domain to a verified submission without writing a script.",
+      "steps": [
+        {
+          "title": "Generate a key",
+          "description": "Create an 8–128 character key made of letters, digits and dashes. Anything random and long enough works — the key is an ownership proof, not a secret credential.",
+          "tool": "keyGenerator"
+        },
+        {
+          "title": "Host the key file",
+          "description": "Upload a plain-text file containing only the key to https://your-host/your-key.txt. Search engines fetch this file to confirm you control the host.",
+          "tool": "keyChecker"
+        },
+        {
+          "title": "Prepare a single-host batch",
+          "description": "IndexNow accepts one host per request and up to 10,000 URLs. Remove duplicates and split mixed-host lists before you submit.",
+          "tool": "batchBuilder"
+        },
+        {
+          "title": "Submit only what changed",
+          "description": "Notifying unchanged URLs wastes quota. Compare sitemaps to isolate new and updated pages, then submit that queue.",
+          "tool": "sitemapDiff"
+        }
+      ]
+    },
+    "responseCodes": {
+      "eyebrow": "Reference",
+      "title": "IndexNow response codes",
+      "description": "What each status from the IndexNow endpoint means, and what to change before you retry.",
+      "columns": {
+        "code": "Status",
+        "meaning": "Meaning",
+        "action": "What to do"
+      },
+      "items": [
+        {
+          "code": "200",
+          "label": "OK",
+          "tone": "ok",
+          "meaning": "URL submitted successfully.",
+          "action": "Nothing to do. Indexing is neither guaranteed nor immediate — the engine still decides what to crawl and keep."
+        },
+        {
+          "code": "202",
+          "label": "Accepted",
+          "tone": "warn",
+          "meaning": "URL received, key validation still pending.",
+          "action": "Verify the key file is reachable. If validation later fails, the submission is discarded without another response."
+        },
+        {
+          "code": "400",
+          "label": "Bad request",
+          "tone": "error",
+          "meaning": "Invalid request format.",
+          "action": "Check the request body: host, key and urlList must all be present and well-formed."
+        },
+        {
+          "code": "403",
+          "label": "Forbidden",
+          "tone": "error",
+          "meaning": "The key could not be validated.",
+          "action": "The key file is missing, unreachable, or its content does not match the submitted key. Run the key checker."
+        },
+        {
+          "code": "422",
+          "label": "Unprocessable Entity",
+          "tone": "error",
+          "meaning": "URLs do not belong to the host, or the key does not match the protocol schema.",
+          "action": "Every URL must be on the host you declared. Split mixed-host lists into separate requests."
+        },
+        {
+          "code": "429",
+          "label": "Too Many Requests",
+          "tone": "warn",
+          "meaning": "Too many requests, treated as potential spam.",
+          "action": "Slow down and submit only changed URLs. Repeatedly re-submitting a full sitemap triggers this."
+        }
+      ]
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "IndexNow questions, answered",
+      "items": [
+        {
+          "question": "Does IndexNow guarantee my page gets indexed?",
+          "answer": "No. IndexNow tells participating engines that a URL changed, which removes the discovery delay. Whether the page is indexed still depends on the engine's own quality, duplication and crawl-budget checks."
+        },
+        {
+          "question": "Which search engines receive my submission?",
+          "answer": "One request to the Bing endpoint is shared with all IndexNow participants — currently Bing, Yandex, Seznam.cz, Naver and Yep. Google does not participate in IndexNow."
+        },
+        {
+          "question": "How many URLs can I send at once?",
+          "answer": "Up to 10,000 URLs in a single request, and all of them must be on the same host. Use the batch builder to split a mixed list."
+        },
+        {
+          "question": "Is my IndexNow key a secret?",
+          "answer": "No. The key file is public by design — search engines fetch it over plain HTTP to verify you control the host. Treat it as an ownership token, not a credential."
+        },
+        {
+          "question": "Can I use one key for several domains?",
+          "answer": "Yes, if you host the same key file on each domain. Every request still covers a single host, so submit each domain separately."
+        },
+        {
+          "question": "Where should the key file live?",
+          "answer": "The root — https://your-host/your-key.txt — authorises every URL on the host. A key file inside a subdirectory only authorises URLs under that directory."
+        },
+        {
+          "question": "Does submitnow store my key or my URLs?",
+          "answer": "No. The submission is forwarded to the IndexNow endpoint and nothing is persisted. The browser tools never send your input to a server at all."
+        },
+        {
+          "question": "How often should I submit?",
+          "answer": "Only when content actually changes. Re-submitting unchanged URLs consumes quota and can trigger a 429."
+        }
+      ]
     }
   },
   "IndexNow": {
@@ -113,6 +284,13 @@
     "submitting": "Submitting...",
     "successMessage": "Submitted successfully.",
     "successMessageWithDetails": "Submitted {count} URLs for {host}. Key file: {keyLocation}",
+    "preflight": {
+      "title": "Verify your key file first",
+      "description": "Fetches the key file from the public internet and checks that it matches the key above — the most common reason a batch is rejected.",
+      "check": "Check key file",
+      "checking": "Checking...",
+      "missingInput": "Enter a key and at least one URL (or a host) before running the check."
+    },
     "errors": {
       "invalid_form": "Please check the form fields and try again.",
       "invalid_key": "Invalid key. Use 8–128 characters (letters, numbers, dashes).",
@@ -128,13 +306,26 @@
       "bing_rate_limited": "Rate limited by Bing (HTTP {status}). Please retry later.",
       "bing_error": "Bing IndexNow request failed (HTTP {status}). Please verify your key and URL list.",
       "network_error": "Network error. Please try again.",
-      "timeout": "Request timed out. Please try again."
+      "timeout": "Request timed out. Please try again.",
+      "explainCode": "What does {status} mean?"
+    },
+    "rememberProfile": "Remember this key and host on this device",
+    "rememberProfileHelp": "Opt-in only. Stored in this browser local storage and never included in analytics.",
+    "history": {
+      "title": "Recent submissions",
+      "privacy": "Stored only on this device. Keys and full URL lists are never saved.",
+      "clear": "Clear",
+      "empty": "Successful and failed submissions will appear here.",
+      "unknownHost": "Unknown host",
+      "success": "{count} URLs accepted (HTTP {status})",
+      "error": "{count} URLs failed (HTTP {status})"
     }
   },
   "Blog": {
-    "title": "Blog Posts",
-    "description": "A list of blog posts",
-    "emptyState": "No posts available yet."
+    "title": "Guides",
+    "description": "Practical guides on IndexNow, key files, and getting changed pages crawled sooner.",
+    "emptyState": "No posts available yet.",
+    "breadcrumbHome": "Home"
   },
   "About": {
     "title": "About",
@@ -149,15 +340,30 @@
     "description": "Privacy Policy"
   },
   "Tools": {
-    "badge": "Browser-only SEO toolkit",
+    "badge": "Browser-first SEO toolkit",
     "title": "Prepare publish-ready URLs before you submit",
-    "description": "Small, focused utilities for creating a key, cleaning a URL batch, and finding sitemap changes. Your files and inputs stay in this browser session.",
+    "description": "Six focused utilities for the IndexNow workflow: create and verify a key, normalize and batch URLs, extract sitemap changes, and generate integration code.",
+    "metaTitle": "Free IndexNow & SEO Indexing Tools",
+    "metaDescription": "Six free IndexNow tools for keys, URL normalization, batching, sitemap extraction, and request code. No account; local storage is opt-in.",
+    "keywords": [
+      "indexnow tools",
+      "indexnow key generator",
+      "indexnow key checker",
+      "sitemap diff tool",
+      "url batch builder",
+      "seo tools"
+    ],
     "openTool": "Open tool",
     "allTools": "Explore all tools",
+    "breadcrumbLabel": "Breadcrumb",
+    "breadcrumbHome": "Home",
+    "breadcrumbTools": "Tools",
+    "relatedToolsTitle": "Related tools",
+    "relatedReadingTitle": "Related reading",
     "preview": {
       "eyebrow": "Publish with confidence",
       "title": "Build a cleaner IndexNow workflow",
-      "description": "Generate a key, prepare a single-host batch, and isolate sitemap changes before you notify search engines."
+      "description": "Generate a key, prove it is live, prepare a single-host batch, and isolate sitemap changes before you notify search engines."
     },
     "principles": {
       "local": "Inputs are processed in your browser and are never stored by submitnow.",
@@ -166,7 +372,6 @@
     },
     "common": {
       "backToTools": "Back to tools",
-      "localOnly": "This tool runs in your browser. It does not create an account, store your input, or fetch a remote site on your behalf.",
       "copy": "Copy",
       "copied": "Copied"
     },
@@ -175,6 +380,11 @@
         "title": "IndexNow Key Generator",
         "description": "Create a strong key locally and download the text file needed for ownership verification.",
         "shortDescription": "Generate and download a key file locally."
+      },
+      "keyChecker": {
+        "title": "IndexNow Key Checker",
+        "description": "Fetch your key file the way a search engine does and see exactly why verification would fail.",
+        "shortDescription": "Verify your key file is live and correct."
       },
       "batchBuilder": {
         "title": "IndexNow Batch Builder",
@@ -185,12 +395,31 @@
         "title": "Sitemap Diff",
         "description": "Compare two uploaded sitemap files locally and build a queue from new or changed URLs.",
         "shortDescription": "Find new and changed sitemap URLs."
+      },
+      "codeGenerator": {
+        "title": "IndexNow Code Generator",
+        "description": "Build a correct IndexNow JSON payload, curl command, or JavaScript fetch snippet.",
+        "shortDescription": "Generate ready-to-run IndexNow request code."
+      },
+      "urlNormalizer": {
+        "title": "URL Normalizer",
+        "description": "Normalize, deduplicate, and optionally remove tracking data before building an IndexNow batch.",
+        "shortDescription": "Clean URL lists with explicit, safe options."
       }
     },
     "keyGenerator": {
       "metaTitle": "Free IndexNow Key Generator",
+      "metaDescription": "Generate a valid IndexNow key in your browser and download the matching .txt verification file. Nothing is sent to a server.",
+      "keywords": [
+        "indexnow key generator",
+        "indexnow key",
+        "indexnow key file",
+        "generate indexnow key",
+        "indexnow txt file"
+      ],
       "title": "Generate an IndexNow key locally",
       "description": "Create a high-entropy key in your browser, then download the matching text file without sending the key to submitnow.",
+      "privacyNote": "This tool runs entirely in your browser. The key is generated with the Web Crypto API and the download is assembled locally — no request is made.",
       "keyLabel": "Your generated key",
       "keyHelp": "Generate a new key whenever you need one. Keep the key and its text file private until you deploy it on your site.",
       "keyPlaceholder": "Generate a key to begin",
@@ -205,12 +434,307 @@
         "hostStep": "Upload the file to your site, normally as https://your-host/your-key.txt.",
         "submitStep": "Paste the same key into the IndexNow submission form with URLs from that host."
       },
-      "rootFileNote": "A root-level key file is the simplest option when you need to submit URLs from across your host."
+      "rootFileNote": "A root-level key file is the simplest option when you need to submit URLs from across your host.",
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "An IndexNow key is an ownership proof: a random string you publish on your own host so search engines can confirm a submission comes from someone who controls that host. You need a new key in a few situations.",
+          "items": [
+            {
+              "title": "Setting up a new host",
+              "description": "Every hostname you submit URLs for needs a key file it can serve. A staging domain and a production domain are two different hosts."
+            },
+            {
+              "title": "Rotating after a mistake",
+              "description": "The key is public, but a key file that also exists on a domain you do not control is worthless. Generate a new one and remove the old file."
+            },
+            {
+              "title": "Separating environments",
+              "description": "Distinct keys per environment make it obvious which system submitted a batch when you audit logs later."
+            },
+            {
+              "title": "Replacing a weak key",
+              "description": "Short or guessable keys either fail the protocol's 8–128 character rule or make the file trivial to reproduce. A generated key avoids both."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to generate and install a key",
+          "intro": "The key never leaves your browser: it is produced with the Web Crypto API and the download is assembled locally.",
+          "steps": [
+            {
+              "title": "Generate the key",
+              "description": "You get a 32-character hexadecimal string — well inside the protocol's 8–128 character limit, and made only of characters IndexNow accepts."
+            },
+            {
+              "title": "Download the text file",
+              "description": "The file is named <key>.txt and contains the key and nothing else. Extra content is the single most common cause of a 403."
+            },
+            {
+              "title": "Upload it to your host root",
+              "description": "Serve it at https://your-host/your-key.txt as text/plain. Confirm it is not behind auth, a redirect, or a bot-protection challenge."
+            },
+            {
+              "title": "Verify, then submit",
+              "description": "Run the key checker against the live URL before your first batch. Once it passes, paste the same key into the submission form."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "The file contains more than the key",
+              "description": "A trailing newline is fine; a template wrapper, JSON, or an HTML page is not. The file body must equal the key."
+            },
+            {
+              "title": "The host serves a soft 404",
+              "description": "Many frameworks answer unknown paths with a 200 and the app shell. Search engines then read HTML instead of the key and reject the batch."
+            },
+            {
+              "title": "The key is treated as a secret",
+              "description": "Putting the file behind auth or blocking it in robots rules defeats its purpose — verification is an unauthenticated HTTP fetch."
+            },
+            {
+              "title": "One key reused without the file",
+              "description": "Each host must serve its own copy. A key that validates on example.com does not authorise blog.example.com."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "How long should an IndexNow key be?",
+              "answer": "Between 8 and 128 characters, using letters, digits and dashes. This tool produces 32 hexadecimal characters — long enough to be unguessable, short enough to stay readable in logs."
+            },
+            {
+              "question": "Can I write the key myself?",
+              "answer": "Yes. Any string within the character and length rules works. A generated key simply avoids accidentally picking something short or predictable."
+            },
+            {
+              "question": "Does the file name have to match the key?",
+              "answer": "Only if you rely on the default location. If you host the file elsewhere, pass that URL as keyLocation when you submit — it must still be on the same host."
+            },
+            {
+              "question": "Is the key sent to submitnow when I generate it?",
+              "answer": "No. Generation and download happen entirely in your browser; there is no network request at all."
+            },
+            {
+              "question": "How often should I rotate the key?",
+              "answer": "There is no expiry. Rotate only when you need to invalidate an old file, and remember to delete the previous key file afterwards."
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
+    },
+    "keyChecker": {
+      "metaTitle": "IndexNow Key File Checker",
+      "metaDescription": "Verify an IndexNow key file from the public internet. Detects 404s, soft 404s, off-host redirects, empty files and key mismatches before you submit a batch.",
+      "keywords": [
+        "indexnow key checker",
+        "indexnow key validation",
+        "indexnow 403",
+        "verify indexnow key file",
+        "indexnow key not valid"
+      ],
+      "title": "Check that your IndexNow key file is valid",
+      "description": "Fetch your key file the way a search engine does and see exactly why verification would fail: wrong status, off-host redirect, HTML instead of text, or a key that does not match.",
+      "privacyNote": "This check runs on our server because the key file has to be fetched from the public internet, exactly as a search engine would. Only that URL is requested, and nothing is stored.",
+      "formTitle": "Key file check",
+      "formHelp": "Enter the host you submit URLs for and the key you plan to use. The default file location is derived automatically.",
+      "hostLabel": "Host",
+      "hostPlaceholder": "www.example.com",
+      "hostHelp": "The hostname your submitted URLs live on. Do not include a path.",
+      "keyLabel": "Key",
+      "keyPlaceholder": "your-indexnow-key",
+      "keyHelp": "8–128 characters, using letters, digits and dashes.",
+      "keyLocationLabel": "Key file URL (optional)",
+      "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
+      "keyLocationHelp": "Only needed when the file is not at https://host/key.txt. It must still be on the same host.",
+      "check": "Run check",
+      "checking": "Checking...",
+      "resultValid": "The key file is valid.",
+      "resultInvalid": "This key file would fail verification.",
+      "checklistTitle": "A valid key file",
+      "checklist": [
+        "Answers 200 over HTTPS on the same host as your URLs.",
+        "Contains the key as plain text, with no markup and nothing else.",
+        "Is reachable without cookies, authentication or a bot challenge.",
+        "Does not redirect to a different hostname.",
+        "Stays online — engines re-check it on later submissions."
+      ],
+      "serverFetchNote": "Browsers cannot read a cross-origin plain-text response, so this is the one tool here that must run server-side.",
+      "fields": {
+        "requestedUrl": "Requested URL",
+        "finalUrl": "Final URL after redirects",
+        "status": "HTTP status",
+        "contentType": "Content type",
+        "body": "Response body",
+        "none": "—"
+      },
+      "issues": {
+        "not_found": {
+          "title": "File not found (404).",
+          "fix": "Upload the key file to that exact path and redeploy."
+        },
+        "http_error": {
+          "title": "The server did not return 200.",
+          "fix": "Check for auth, WAF rules, or bot protection blocking unauthenticated requests."
+        },
+        "redirected_off_host": {
+          "title": "The request was redirected to another host.",
+          "fix": "The key file must resolve on the same host as the URLs you submit. Remove the cross-host redirect."
+        },
+        "key_mismatch": {
+          "title": "The file content does not match the key.",
+          "fix": "The file body must contain the key and nothing else — watch for a byte-order mark or extra text."
+        },
+        "empty_body": {
+          "title": "The file is empty.",
+          "fix": "Write the key into the file; an empty response fails verification."
+        },
+        "html_response": {
+          "title": "The server returned HTML, not the key.",
+          "fix": "This is usually a soft 404. Make sure the path is served as a static text file."
+        },
+        "byte_order_mark": {
+          "title": "The file starts with a UTF-8 byte-order mark.",
+          "fix": "The bytes then differ from the key even though the text looks identical. Re-save the file as UTF-8 without BOM."
+        },
+        "body_too_large": {
+          "title": "The response is far larger than a key file should be.",
+          "fix": "The file should contain only the key. Anything else means the wrong route is answering."
+        }
+      },
+      "errors": {
+        "invalid_form": "Please fill in both the host and the key.",
+        "invalid_host": "Invalid host. Enter a domain such as example.com.",
+        "invalid_key": "Invalid key. Use 8–128 characters (letters, numbers, dashes).",
+        "invalid_key_location": "Invalid key file URL. It must be an http(s) URL on the same host.",
+        "fetch_failed": "The key file could not be fetched. The host may be unreachable, or DNS/TLS may be failing.",
+        "timeout": "The request timed out after 8 seconds."
+      },
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "A 403 from IndexNow almost always means the engine could not read your key file the way you assume it can. This check reproduces that fetch from outside your network.",
+          "items": [
+            {
+              "title": "Before your first submission",
+              "description": "Confirm the file is live before you spend a batch finding out that it is not."
+            },
+            {
+              "title": "After a deploy or migration",
+              "description": "Static files are easy to lose when routing, hosting, or CDN rules change."
+            },
+            {
+              "title": "When Bing answers 403 or 422",
+              "description": "Both codes usually trace back to the key file or a host mismatch rather than to the URL list itself."
+            },
+            {
+              "title": "When it loads for you but not for a crawler",
+              "description": "Auth, WAF rules and geo-blocking make a file that opens fine in your browser invisible from the outside."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to run the check",
+          "intro": "The request is made server-side with redirects followed, so you see the same thing the search engine's fetcher would see.",
+          "steps": [
+            {
+              "title": "Enter the host",
+              "description": "Use the hostname your URLs live on, without a scheme or path — for example www.example.com."
+            },
+            {
+              "title": "Enter the key",
+              "description": "The same key string you will pass in the submission. If the file sits at a non-default path, add it as the key file URL."
+            },
+            {
+              "title": "Run the check",
+              "description": "The server fetches the file, follows redirects, and reports the final URL, status, content type and body."
+            },
+            {
+              "title": "Fix anything reported",
+              "description": "Each issue lists the change that resolves it. Re-run until the result is clean, then submit your batch."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "Cached CDN responses",
+              "description": "A CDN can keep serving an old 404 after you upload the file. Purge that path, then re-check."
+            },
+            {
+              "title": "Trailing whitespace or a BOM",
+              "description": "A UTF-8 byte-order mark makes the body differ from the key even when the two look identical on screen."
+            },
+            {
+              "title": "www or HTTPS redirects",
+              "description": "A redirect that changes the hostname breaks verification even when it lands on a perfectly valid file."
+            },
+            {
+              "title": "Bot protection",
+              "description": "Challenge pages return 200 with HTML. To a search engine that is a failed verification, not a security feature."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Why can this not run in my browser?",
+              "answer": "A browser cannot read a cross-origin response without a CORS header, and key files are served as plain static text. The fetch has to happen server-side."
+            },
+            {
+              "question": "Do you store the key I check?",
+              "answer": "No. The key is used to build the request and compare the response, then discarded. Nothing is written to disk."
+            },
+            {
+              "question": "The check passes but Bing still returns 403.",
+              "answer": "Confirm the key in the submission matches exactly, and that the host you declare is the same host as every URL in the batch."
+            },
+            {
+              "question": "Can I check a key file on a staging domain?",
+              "answer": "Yes, as long as the domain is publicly reachable. A file behind a VPN or basic auth cannot be verified by a search engine either."
+            },
+            {
+              "question": "What does a 202 response from IndexNow mean?",
+              "answer": "The batch was accepted but the key has not been validated yet. Running this check tells you now whether that validation will pass."
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
     },
     "batchBuilder": {
       "metaTitle": "IndexNow URL Batch Builder",
+      "metaDescription": "Clean a pasted URL list for IndexNow: remove duplicates, flag invalid values, and split it into single-host submission groups. Runs entirely in your browser.",
+      "keywords": [
+        "indexnow batch",
+        "url list cleaner",
+        "remove duplicate urls",
+        "indexnow 422",
+        "url deduplication tool"
+      ],
       "title": "Clean a URL batch before IndexNow submission",
       "description": "Paste or import a list of URLs to remove duplicates, identify invalid values, and separate URLs by hostname entirely in your browser.",
+      "privacyNote": "This tool runs entirely in your browser. Your URL list is never uploaded, stored, or sent to a server.",
       "inputTitle": "Paste a URL list",
       "inputHelp": "Use one URL per line, or separate URLs with spaces and commas. You can also import a plain-text or CSV file.",
       "importFile": "Import file",
@@ -229,19 +753,128 @@
       "copyAll": "Copy all valid URLs",
       "groupsTitle": "Submission groups",
       "groupsHelp": "Each group contains URLs from one hostname. Copy only one group for each IndexNow request.",
-      "openSubmitter": "Open submission tool",
+      "openSubmitter": "Send to submission tool",
+      "sendFirstGroup": "Send {host} to submitter",
       "emptyState": "Paste or import URLs to create submission groups.",
       "hostCount": "{count, plural, one {# URL} other {# URLs}}",
       "copyGroup": "Copy group",
       "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}",
       "invalidTitle": "Some values are not valid http(s) URLs",
       "invalidHelp": "Fix or remove these values before you create a submission batch.",
-      "emptyValue": "Empty value"
+      "emptyValue": "Empty value",
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "IndexNow rejects a request whose URLs do not all belong to the declared host, and duplicates burn quota without doing anything. This tool turns a pasted list into something submittable.",
+          "items": [
+            {
+              "title": "Exports from a CMS or crawler",
+              "description": "Lists copied out of a spreadsheet or crawl report usually carry blank lines, tracking parameters and mixed hosts."
+            },
+            {
+              "title": "Multi-domain properties",
+              "description": "One request covers one host. Split a combined list before you submit rather than after a 422."
+            },
+            {
+              "title": "Lists over 10,000 URLs",
+              "description": "The protocol caps a request at 10,000 URLs. The summary tells you when a list needs splitting."
+            },
+            {
+              "title": "Hand-assembled lists",
+              "description": "Manually gathered URLs are where typos and missing schemes hide."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to build a clean batch",
+          "intro": "Parsing, deduplication and grouping all happen as you type. Nothing is uploaded at any point.",
+          "steps": [
+            {
+              "title": "Paste or import the list",
+              "description": "One URL per line, or separated by spaces and commas. Plain-text and CSV files can be imported directly."
+            },
+            {
+              "title": "Read the summary",
+              "description": "Valid, duplicate and invalid counts update live, along with how many distinct hosts the list covers."
+            },
+            {
+              "title": "Fix the invalid entries",
+              "description": "Values that are not http(s) URLs are listed separately so you can correct them at the source."
+            },
+            {
+              "title": "Send one group to the submitter",
+              "description": "Each group holds a single host. Copy a group, or send the first one straight into the submission form."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "http and https treated as one URL",
+              "description": "They share a hostname but are different URLs. Submit the canonical scheme only — in practice, https."
+            },
+            {
+              "title": "www and apex treated as interchangeable",
+              "description": "www.example.com and example.com are separate hosts to IndexNow, and each needs its own key file."
+            },
+            {
+              "title": "Tracking parameters left in place",
+              "description": "A URL with ?utm_source is a different URL. Submitting both wastes quota and can read as spam."
+            },
+            {
+              "title": "Redirecting or missing URLs in the batch",
+              "description": "Notifying an engine about a URL that does not resolve is noise. Submit destinations, not redirects."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Why must all URLs share one host?",
+              "answer": "The key file proves ownership of a single host, so an engine only accepts URLs on that host within the same request."
+            },
+            {
+              "question": "Does the tool request or validate the URLs?",
+              "answer": "No. It checks syntax and grouping only, and never fetches the URLs. Nothing leaves your browser."
+            },
+            {
+              "question": "Are duplicates removed automatically?",
+              "answer": "Yes. Exact duplicates are collapsed and the count is reported, so you can see how noisy the source list was."
+            },
+            {
+              "question": "What counts as invalid?",
+              "answer": "Anything that is not an absolute http or https URL — relative paths, bare domains without a scheme, and empty lines."
+            },
+            {
+              "question": "Can I submit more than 10,000 URLs?",
+              "answer": "Not in one request. Split the list and submit sequentially; the summary warns you when you are over the limit."
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      }
     },
     "sitemapDiff": {
       "metaTitle": "Sitemap Diff for IndexNow",
+      "metaDescription": "Compare two sitemap XML files in your browser and export only the added or changed URLs as an IndexNow submission queue.",
+      "keywords": [
+        "sitemap diff",
+        "compare sitemaps",
+        "sitemap changes",
+        "indexnow sitemap",
+        "changed urls"
+      ],
       "title": "Find sitemap changes without uploading them to a server",
       "description": "Upload an older and a newer sitemap XML file. The comparison runs locally and lets you export only added or changed URLs for an IndexNow queue.",
+      "privacyNote": "Both sitemap files are parsed in your browser. Nothing is uploaded, and the comparison never leaves this tab.",
       "previousTitle": "Previous sitemap",
       "previousHelp": "Upload the earlier sitemap XML file to use as the baseline.",
       "currentTitle": "Current sitemap",
@@ -263,16 +896,388 @@
       "stats": {
         "added": "Added",
         "changed": "Changed",
-        "unchanged": "Unchanged"
+        "unchanged": "Unchanged",
+        "extracted": "Extracted URLs"
       },
       "includeAdded": "Include {count, plural, one {# added URL} other {# added URLs}}",
       "includeChanged": "Include {count, plural, one {# changed URL} other {# changed URLs}}",
       "copyQueue": "Copy queue",
       "downloadQueue": "Download queue",
-      "openSubmitter": "Open submission tool",
+      "openSubmitter": "Send to submission tool",
       "copySuccess": "The selected queue has been copied to your clipboard.",
       "copyFailure": "Unable to copy automatically. Download the queue instead.",
-      "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}"
+      "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}",
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "Submitting your whole sitemap on every deploy is the fastest way to hit a 429. A diff turns a full sitemap into just the URLs that actually changed.",
+          "items": [
+            {
+              "title": "After a content deploy",
+              "description": "Compare the sitemap before and after a release to get exactly the pages that release touched."
+            },
+            {
+              "title": "On a large site",
+              "description": "When a sitemap holds thousands of entries, the changed set is usually a handful. Submit that instead."
+            },
+            {
+              "title": "When lastmod is reliable",
+              "description": "If your generator writes accurate lastmod values, changed pages can be detected without crawling anything."
+            },
+            {
+              "title": "Auditing a release",
+              "description": "The diff doubles as a record of which URLs a deploy added or modified."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to diff two sitemaps",
+          "intro": "Both files are parsed with the browser's own XML parser. Neither file is uploaded.",
+          "steps": [
+            {
+              "title": "Save a baseline sitemap",
+              "description": "Download your sitemap XML before a release, or keep the copy from your last submission."
+            },
+            {
+              "title": "Upload both files",
+              "description": "Add the older file as the baseline and the newer one as the current sitemap."
+            },
+            {
+              "title": "Choose what to include",
+              "description": "Added URLs are new entries; changed URLs are entries whose lastmod moved. Include either or both."
+            },
+            {
+              "title": "Copy, download, or submit",
+              "description": "Export the queue as text, or send it straight to the submission form for the matching host."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "Uploading a sitemap index",
+              "description": "An index only lists other sitemaps. Upload the individual sitemap files it points to — this tool stays browser-only and does not fetch them."
+            },
+            {
+              "title": "Generators that restamp every lastmod",
+              "description": "Some tools rewrite every lastmod on each build, which makes every URL look changed. Check before submitting the whole set."
+            },
+            {
+              "title": "Missing lastmod values",
+              "description": "Without lastmod, only added URLs can be detected — an edit to an existing page is invisible to a diff."
+            },
+            {
+              "title": "Mixed hosts in one sitemap",
+              "description": "A sitemap spanning several hosts produces a queue you still have to split before submitting."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Why upload files instead of entering a sitemap URL?",
+              "answer": "Reading another site's sitemap from the browser is blocked by CORS, and fetching it server-side would mean sending us your URLs. Uploading keeps the comparison local."
+            },
+            {
+              "question": "How is a changed URL detected?",
+              "answer": "A URL present in both files whose lastmod value differs counts as changed. URLs found only in the newer file count as added."
+            },
+            {
+              "question": "Are removed URLs reported?",
+              "answer": "They are counted but not exported. IndexNow notifies about updates, and a deleted URL is better handled by letting the engine recrawl it."
+            },
+            {
+              "question": "Can I compare gzipped sitemaps?",
+              "answer": "No. Decompress the .xml.gz file first — only plain XML is parsed."
+            },
+            {
+              "question": "Does the queue respect the 10,000 URL limit?",
+              "answer": "A diff can produce more than that. Run a large result through the batch builder if you are near the limit."
+            }
+          ]
+        },
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
+      },
+      "extractHelp": "Upload a current sitemap to extract every valid URL. Add a baseline only when you need a change-only queue.",
+      "savedSnapshot": "Saved baseline: {fileName} ({date})",
+      "useSnapshot": "Use baseline",
+      "clearSnapshot": "Delete saved baseline",
+      "saveSnapshotTitle": "Use this sitemap as the next baseline",
+      "saveSnapshotHelp": "Stored only in this browser, up to 10,000 entries.",
+      "saveSnapshot": "Save baseline",
+      "snapshotStatus": {
+        "saved": "Baseline saved on this device.",
+        "too_large": "This sitemap exceeds the 10,000-entry local snapshot limit.",
+        "storage_error": "The browser could not save this baseline."
+      }
+    },
+    "codeGenerator": {
+      "cardTitle": "IndexNow Code Generator",
+      "cardDescription": "Build a correct IndexNow JSON payload, curl command, or JavaScript fetch snippet.",
+      "cardShort": "Generate ready-to-run IndexNow request code.",
+      "metaTitle": "Free IndexNow Code Generator",
+      "metaDescription": "Generate IndexNow JSON, curl, and JavaScript requests locally with host and URL validation.",
+      "keywords": [
+        "IndexNow code generator",
+        "IndexNow curl",
+        "IndexNow JavaScript",
+        "IndexNow JSON"
+      ],
+      "title": "Generate an IndexNow request",
+      "description": "Turn one validated host and URL list into copy-ready JSON, curl, or JavaScript.",
+      "privacyNote": "Generation runs entirely in your browser. Keys, hosts, URLs, and snippets are never uploaded.",
+      "inputTitle": "Request inputs",
+      "hostLabel": "Host",
+      "keyLabel": "Key",
+      "keyLocationLabel": "Key file URL (optional)",
+      "keyLocationPlaceholder": "Defaults to https://host/key.txt",
+      "urlsLabel": "URL list",
+      "hostMismatch": "Every URL must use the exact host entered above.",
+      "invalidUrls": "{count} URL entries are invalid.",
+      "outputTitle": "Generated request",
+      "outputHelp": "Review the values before running the request.",
+      "formatLabel": "Code format",
+      "formats": {
+        "json": "JSON",
+        "curl": "curl",
+        "javascript": "JavaScript"
+      },
+      "emptyState": "Enter a host, key, and valid single-host URL list to generate code.",
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "Use the generator when a CMS, deploy hook, or backend needs a protocol-correct request without hand-writing JSON.",
+          "items": [
+            {
+              "title": "Building a deploy hook",
+              "description": "Create a request that can be moved into CI or server-only code."
+            },
+            {
+              "title": "Debugging a 400 response",
+              "description": "Compare your outgoing payload with a known-good shape."
+            },
+            {
+              "title": "Testing another language",
+              "description": "Switch between curl and JavaScript without changing the payload."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to generate a request",
+          "intro": "The tool validates host boundaries before it produces executable code.",
+          "steps": [
+            {
+              "title": "Enter the exact host",
+              "description": "Use the hostname shared by every URL, including the www or subdomain prefix."
+            },
+            {
+              "title": "Add the key and location",
+              "description": "Leave the location empty to use the standard root path."
+            },
+            {
+              "title": "Paste the URL list",
+              "description": "Fix invalid or mixed-host entries shown by the validator."
+            },
+            {
+              "title": "Copy the required format",
+              "description": "Keep keys in server-side secrets when moving the snippet into production."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "Running secret-bearing code in the browser",
+              "description": "Production automation belongs in trusted server-side code."
+            },
+            {
+              "title": "Mixing hostnames",
+              "description": "www.example.com and example.com require separate requests."
+            },
+            {
+              "title": "Logging the key",
+              "description": "Redact the key and private URLs from application and CI logs."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Does this send the request?",
+              "answer": "No. It only generates code locally."
+            },
+            {
+              "question": "Which endpoint is used?",
+              "answer": "Generated snippets use the shared api.indexnow.org endpoint."
+            },
+            {
+              "question": "Can one request contain multiple hosts?",
+              "answer": "No. Generate one request for each exact hostname."
+            }
+          ]
+        },
+        "relatedPosts": []
+      }
+    },
+    "urlNormalizer": {
+      "cardTitle": "URL Normalizer",
+      "cardDescription": "Normalize, deduplicate, and optionally remove tracking data before building an IndexNow batch.",
+      "cardShort": "Clean URL lists with explicit, safe options.",
+      "metaTitle": "Free URL Normalizer for IndexNow",
+      "metaDescription": "Normalize URL lists locally, remove fragments or tracking parameters, sort queries, and hand clean URLs to IndexNow.",
+      "keywords": [
+        "URL normalizer",
+        "remove UTM parameters",
+        "IndexNow URL cleaner"
+      ],
+      "title": "Normalize URLs before submission",
+      "description": "Make URL syntax consistent and remove duplicates while keeping semantic changes opt-in.",
+      "privacyNote": "All URL parsing runs locally in your browser. The pasted list is not uploaded or stored.",
+      "inputTitle": "Paste URLs",
+      "inputHelp": "Use one absolute HTTP or HTTPS URL per line.",
+      "optionsTitle": "Normalization options",
+      "options": {
+        "removeFragment": {
+          "label": "Remove fragments",
+          "help": "Safe for IndexNow because URL fragments are not sent to servers."
+        },
+        "removeTrackingParameters": {
+          "label": "Remove tracking parameters",
+          "help": "Removes utm_*, fbclid, gclid, msclkid, and common campaign IDs."
+        },
+        "sortQueryParameters": {
+          "label": "Sort query parameters",
+          "help": "May change signed URLs; enable only when parameter order is not meaningful."
+        },
+        "removeTrailingSlash": {
+          "label": "Remove trailing slash",
+          "help": "May identify a different route; enable only when your server redirects consistently."
+        }
+      },
+      "resultsTitle": "Normalized URLs",
+      "resultSummary": "{valid} valid · {invalid} invalid or duplicate",
+      "emptyState": "Paste URLs to preview the exact output and every applied change.",
+      "copyResults": "Copy URLs",
+      "openSubmitter": "Open submitter",
+      "changes": {
+        "fragment_removed": "Fragment removed",
+        "tracking_removed": "Tracking removed",
+        "query_sorted": "Query sorted",
+        "trailing_slash_removed": "Trailing slash removed",
+        "canonicalized": "URL syntax canonicalized"
+      },
+      "errors": {
+        "invalid_url": "Invalid absolute URL",
+        "unsupported_protocol": "Only HTTP and HTTPS are supported"
+      },
+      "article": {
+        "whenToUse": {
+          "title": "When to use this tool",
+          "intro": "Normalize URLs before deduplication, batching, code generation, or IndexNow submission.",
+          "items": [
+            {
+              "title": "Cleaning exported lists",
+              "description": "CMS and analytics exports often contain duplicate or campaign-tagged URLs."
+            },
+            {
+              "title": "Fixing inconsistent syntax",
+              "description": "Convert equivalent absolute URLs into one predictable representation."
+            },
+            {
+              "title": "Reviewing canonical risks",
+              "description": "Preview potentially semantic changes before enabling them."
+            }
+          ]
+        },
+        "howTo": {
+          "title": "How to normalize a URL list",
+          "intro": "Conservative defaults remove fragments only; every potentially semantic rewrite is explicit.",
+          "steps": [
+            {
+              "title": "Paste absolute URLs",
+              "description": "Place one HTTP or HTTPS URL on each line."
+            },
+            {
+              "title": "Choose safe transformations",
+              "description": "Read each option warning before enabling it."
+            },
+            {
+              "title": "Inspect the result",
+              "description": "Review every changed URL and invalid input."
+            },
+            {
+              "title": "Copy or submit",
+              "description": "Send the deduplicated list to the IndexNow form when it is ready."
+            }
+          ]
+        },
+        "pitfalls": {
+          "title": "What usually goes wrong",
+          "items": [
+            {
+              "title": "Removing parameters blindly",
+              "description": "Some query parameters select real content or authenticate a signed request."
+            },
+            {
+              "title": "Changing trailing slashes",
+              "description": "Frameworks may treat slash and non-slash paths as separate URLs."
+            },
+            {
+              "title": "Normalizing relative paths",
+              "description": "The tool requires absolute URLs so host validation remains deterministic."
+            }
+          ]
+        },
+        "faq": {
+          "title": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Are URL fragments submitted to IndexNow?",
+              "answer": "No. Fragments identify a browser-side location and are removed by default."
+            },
+            {
+              "question": "Which tracking parameters are removed?",
+              "answer": "utm_* plus common ad and email campaign identifiers."
+            },
+            {
+              "question": "Does normalization define my canonical URL?",
+              "answer": "No. Your server redirects and canonical tags remain authoritative."
+            }
+          ]
+        },
+        "relatedPosts": []
+      }
+    }
+  },
+  "Docs": {
+    "metaTitle": "IndexNow Documentation & Integration Guides",
+    "metaDescription": "Practical IndexNow documentation for status codes, WordPress, Next.js, Cloudflare Workers, key validation, and safe URL submission.",
+    "keywords": [
+      "IndexNow documentation",
+      "IndexNow status codes",
+      "IndexNow integrations",
+      "Bing URL submission"
+    ],
+    "title": "IndexNow documentation",
+    "description": "Stable reference material for implementing, validating, and operating IndexNow without guesswork.",
+    "home": "Home",
+    "back": "Back to documentation",
+    "related": "Related documentation",
+    "updated": "Updated {date}",
+    "categories": {
+      "guide": "Core guides",
+      "status-code": "Response codes",
+      "integration": "Platform integrations"
     }
   }
 }

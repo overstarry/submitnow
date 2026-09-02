@@ -33,6 +33,26 @@ export type SitemapDiff = {
   unchangedCount: number;
 };
 
+export type UrlNormalizationOptions = {
+  removeFragment: boolean;
+  removeTrackingParameters: boolean;
+  sortQueryParameters: boolean;
+  removeTrailingSlash: boolean;
+};
+
+export type NormalizedUrlResult = {
+  original: string;
+  normalized?: string;
+  changes: (
+    | "fragment_removed"
+    | "tracking_removed"
+    | "query_sorted"
+    | "trailing_slash_removed"
+    | "canonicalized"
+  )[];
+  error?: "invalid_url" | "unsupported_protocol";
+};
+
 function parseHttpUrl(input: string): URL | null {
   try {
     const url = new URL(input);
@@ -81,6 +101,78 @@ export function analyzeUrlList(raw: string): UrlListAnalysis {
     duplicateCount,
     hostGroups: Array.from(groups, ([host, urls]) => ({ host, urls })),
   };
+}
+
+const TRACKING_PARAMETERS = new Set([
+  "fbclid",
+  "gclid",
+  "dclid",
+  "msclkid",
+  "mc_cid",
+  "mc_eid",
+]);
+
+function isTrackingParameter(name: string): boolean {
+  return name.toLowerCase().startsWith("utm_") ||
+    TRACKING_PARAMETERS.has(name.toLowerCase());
+}
+
+export function normalizeUrlList(
+  raw: string,
+  options: UrlNormalizationOptions
+): NormalizedUrlResult[] {
+  return raw
+    .split(/\r?\n/)
+    .map((value) => value.trim())
+    .filter(Boolean)
+    .map((original) => {
+      let url: URL;
+      try {
+        url = new URL(original);
+      } catch {
+        return { original, changes: [], error: "invalid_url" };
+      }
+
+      if (url.protocol !== "http:" && url.protocol !== "https:") {
+        return { original, changes: [], error: "unsupported_protocol" };
+      }
+
+      const changes: NormalizedUrlResult["changes"] = [];
+
+      if (options.removeFragment && url.hash) {
+        url.hash = "";
+        changes.push("fragment_removed");
+      }
+
+      if (options.removeTrackingParameters) {
+        const names = Array.from(url.searchParams.keys());
+        const removed = names.filter(isTrackingParameter);
+        removed.forEach((name) => url.searchParams.delete(name));
+        if (removed.length > 0) changes.push("tracking_removed");
+      }
+
+      if (options.sortQueryParameters && url.search) {
+        const before = url.search;
+        url.searchParams.sort();
+        if (url.search !== before) changes.push("query_sorted");
+      }
+
+      if (
+        options.removeTrailingSlash &&
+        url.pathname.length > 1 &&
+        url.pathname.endsWith("/")
+      ) {
+        url.pathname = url.pathname.replace(/\/+$/, "");
+        changes.push("trailing_slash_removed");
+      }
+
+      const normalized = url.toString();
+      if (normalized !== original && changes.length === 0) {
+        changes.push("canonicalized");
+      }
+
+      return { original, normalized, changes };
+    });
 }
 
 function getElementsByLocalName(document: Document, localName: string): Element[] {

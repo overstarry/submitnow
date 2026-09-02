@@ -1,0 +1,40 @@
+import ToolPageShell from "@/components/tools/ToolPageShell";
+import UrlNormalizer from "@/components/tools/UrlNormalizer";
+import { Locale, LOCALES } from "@/i18n/routing";
+import { constructMetadata } from "@/lib/metadata";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+
+type Params = Promise<{ locale: string }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Tools.urlNormalizer" });
+  return constructMetadata({
+    page: "Tools",
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    keywords: t.raw("keywords") as string[],
+    locale: locale as Locale,
+    path: "/tools/url-normalizer",
+    canonicalUrl: "/tools/url-normalizer",
+  });
+}
+
+export default async function UrlNormalizerPage({ params }: { params: Params }) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return (
+    <ToolPageShell locale={locale} toolId="urlNormalizer">
+      <UrlNormalizer />
+    </ToolPageShell>
+  );
+}
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({ locale }));
+}

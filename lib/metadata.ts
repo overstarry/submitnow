@@ -12,6 +12,7 @@ type MetadataProps = {
   locale: Locale
   path?: string
   canonicalUrl?: string
+  keywords?: string[]
 }
 
 export async function constructMetadata({
@@ -23,6 +24,7 @@ export async function constructMetadata({
   locale,
   path,
   canonicalUrl,
+  keywords = [],
 }: MetadataProps): Promise<Metadata> {
   // get translations
   const t = await getTranslations({ locale, namespace: 'Home' })
@@ -52,7 +54,8 @@ export async function constructMetadata({
     }]
 
   // Open Graph Site
-  const pageURL = `${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${path}` || siteConfig.url
+  const relativePageURL = `${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${path || ''}`
+  const pageURL = `${siteConfig.url}${relativePageURL}`
 
   // build alternate language links
   const alternateLanguages = Object.keys(LOCALE_NAMES).reduce((acc, lang) => {
@@ -67,7 +70,7 @@ export async function constructMetadata({
   return {
     title: finalTitle,
     description: pageDescription,
-    keywords: [],
+    keywords,
     authors: siteConfig.authors,
     creator: siteConfig.creator,
     metadataBase: new URL(siteConfig.url),
@@ -88,7 +91,7 @@ export async function constructMetadata({
       card: 'summary_large_image',
       title: finalTitle,
       description: pageDescription,
-      site: `${siteConfig.url}${pageURL === '/' ? '' : pageURL}`,
+      site: siteConfig.creator,
       images: imageUrls,
       creator: siteConfig.creator,
     },

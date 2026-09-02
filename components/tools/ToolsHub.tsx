@@ -1,39 +1,14 @@
 "use client";
 
 import { Link as I18nLink } from "@/i18n/routing";
+import { TOOLS } from "@/lib/tools";
 import {
   ArrowRight,
-  FileKey2,
   GitCompareArrows,
   ListChecks,
   ShieldCheck,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-type ToolDefinition = {
-  id: "keyGenerator" | "batchBuilder" | "sitemapDiff";
-  href: string;
-  icon: LucideIcon;
-};
-
-const tools: ToolDefinition[] = [
-  {
-    id: "keyGenerator",
-    href: "/tools/indexnow-key-generator",
-    icon: FileKey2,
-  },
-  {
-    id: "batchBuilder",
-    href: "/tools/indexnow-batch-builder",
-    icon: ListChecks,
-  },
-  {
-    id: "sitemapDiff",
-    href: "/tools/sitemap-diff",
-    icon: GitCompareArrows,
-  },
-];
 
 export default function ToolsHub() {
   const t = useTranslations("Tools");
@@ -58,8 +33,8 @@ export default function ToolsHub() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {tools.map((tool) => {
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {TOOLS.map((tool) => {
             const Icon = tool.icon;
 
             return (

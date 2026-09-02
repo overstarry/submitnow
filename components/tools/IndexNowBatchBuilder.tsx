@@ -1,15 +1,15 @@
 "use client";
 
-import ToolPageShell from "@/components/tools/ToolPageShell";
 import { Button } from "@/components/ui/button";
-import { Link as I18nLink } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
+import { trackEvent } from "@/lib/analytics";
+import { stageUrlsForSubmission } from "@/lib/handoff";
 import { analyzeUrlList, copyText } from "@/lib/seo-tools";
 import {
   Check,
   ClipboardCheck,
   Copy,
   FileUp,
-  ListChecks,
   TriangleAlert,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -20,6 +20,7 @@ type CopyTarget = string | null;
 export default function IndexNowBatchBuilder() {
   const t = useTranslations("Tools.batchBuilder");
   const tCommon = useTranslations("Tools.common");
+  const router = useRouter();
   const [rawUrls, setRawUrls] = useState("");
   const [copyTarget, setCopyTarget] = useState<CopyTarget>(null);
   const [importError, setImportError] = useState(false);
@@ -35,6 +36,7 @@ export default function IndexNowBatchBuilder() {
     try {
       setRawUrls(await file.text());
       setImportError(false);
+      trackEvent({ name: "tool_used", toolId: "batchBuilder", action: "import_file" });
     } catch {
       setImportError(true);
     }
@@ -43,16 +45,33 @@ export default function IndexNowBatchBuilder() {
   const handleCopy = async (target: string, urls: string[]) => {
     const didCopy = await copyText(urls.join("\n"));
     setCopyTarget(didCopy ? target : "failed");
+    if (didCopy) {
+      trackEvent({
+        name: "tool_used",
+        toolId: "batchBuilder",
+        action: "copy_group",
+        value: urls.length,
+      });
+    }
 
     window.setTimeout(() => setCopyTarget(null), 2500);
   };
 
+  // A submission covers exactly one host, so the handoff carries the first
+  // group rather than the whole list.
+  const handleSendToSubmitter = (urls: string[]) => {
+    stageUrlsForSubmission(urls);
+    trackEvent({
+      name: "tool_handoff",
+      toolId: "batchBuilder",
+      action: "open_submitter",
+      value: urls.length,
+    });
+    router.push("/#indexnow-form");
+  };
+
   return (
-    <ToolPageShell
-      icon={ListChecks}
-      title={t("title")}
-      description={t("description")}
-    >
+    <>
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
         <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/80 sm:p-8">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -153,13 +172,17 @@ export default function IndexNowBatchBuilder() {
               {t("groupsHelp")}
             </p>
           </div>
-          <I18nLink
-            href="/"
-            className="inline-flex items-center gap-2 self-start rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:self-auto"
+          <Button
+            type="button"
+            onClick={() => handleSendToSubmitter(analysis.hostGroups[0].urls)}
+            disabled={analysis.hostGroups.length === 0}
+            className="h-11 self-start rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:self-auto"
           >
             <ClipboardCheck className="size-4" aria-hidden="true" />
-            {t("openSubmitter")}
-          </I18nLink>
+            {analysis.hostGroups.length > 1
+              ? t("sendFirstGroup", { host: analysis.hostGroups[0].host })
+              : t("openSubmitter")}
+          </Button>
         </div>
 
         {analysis.hostGroups.length === 0 ? (
@@ -230,6 +253,6 @@ export default function IndexNowBatchBuilder() {
           </div>
         )}
       </section>
-    </ToolPageShell>
+    </>
   );
 }

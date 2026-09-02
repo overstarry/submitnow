@@ -1,4 +1,7 @@
+import Faq from "@/components/home/Faq";
 import Hero from "@/components/home/Hero";
+import HowItWorks from "@/components/home/HowItWorks";
+import ResponseCodes from "@/components/home/ResponseCodes";
 import IndexNowSubmission from "@/components/indexnow/IndexNowSubmission";
 import ToolsPreview from "@/components/tools/ToolsPreview";
 
@@ -17,6 +20,9 @@ export default function HomeComponent() {
           </div>
         </div>
         <ToolsPreview />
+        <HowItWorks />
+        <ResponseCodes />
+        <Faq />
       </div>
     </section>
   );

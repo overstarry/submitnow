@@ -34,13 +34,10 @@ export default function Hero() {
         <span className="size-1.5 rounded-full bg-blue-500" aria-hidden="true" />
         {t("badge")}
       </div>
-      <h1 className="mx-auto mt-6 max-w-4xl text-balance font-heading text-5xl font-semibold text-slate-900 sm:text-6xl lg:mx-0 lg:text-7xl dark:text-slate-100">
-        {t("title")}
+      <h1 className="mx-auto mt-6 max-w-4xl text-balance font-heading text-4xl font-semibold text-slate-900 sm:text-5xl lg:mx-0 lg:text-6xl dark:text-slate-100">
+        {t("heroTitle")}
       </h1>
-      <p className="mx-auto mt-4 max-w-2xl text-pretty text-2xl text-slate-700 dark:text-slate-300 lg:mx-0">
-        {t("tagLine")}
-      </p>
-      <p className="mx-auto mt-3 max-w-3xl text-pretty text-base text-slate-600 dark:text-slate-400 lg:mx-0">
+      <p className="mx-auto mt-4 max-w-2xl text-pretty text-lg text-slate-700 dark:text-slate-300 lg:mx-0">
         {t("description")}
       </p>
 
