@@ -1,6 +1,26 @@
 import { unsubscribeFromNewsletter } from "@/actions/newsletter";
+import { Locale } from "@/i18n/routing";
+import { constructMetadata } from "@/lib/metadata";
+import type { Metadata } from "next";
 
+type Params = Promise<{ locale: string }>;
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  return constructMetadata({
+    page: "Unsubscribe",
+    title: "Unsubscribe",
+    description: "Manage your email newsletter subscription.",
+    noIndex: true,
+    locale: locale as Locale,
+  });
+}
 
 export default async function UnsubscribePage(props: {
   searchParams: SearchParams;

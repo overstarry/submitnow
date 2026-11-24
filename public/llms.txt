@@ -1,67 +1,43 @@
-# SubmitNow
+# submitnow
 
-> A multilingual web UI to submit URL batches to Bing via the IndexNow protocol
+> Free multilingual web UI, browser-side utilities, and documentation for submitting URL batches to Bing and participating search engines via the IndexNow protocol.
 
-## Overview
+submitnow (`https://submitnow.dev`) lets site owners and developers submit up to 10,000 same-host URLs per request to Bing's IndexNow endpoint without creating an account or storing keys on a server. Every page is available in English (`/`), Simplified Chinese (`/zh`), and Japanese (`/ja`).
 
-SubmitNow is a Next.js-based web application that provides a simple interface for submitting up to 10,000 URLs at once to Bing's IndexNow API. The application supports multiple languages (English, Chinese, Japanese) and handles the complexity of the IndexNow protocol submission.
+## Core Application
 
-## Key Features
+- [IndexNow Batch Submitter](https://submitnow.dev): Submit up to 10,000 URLs to Bing via IndexNow with automatic host inference and response code diagnosis.
+- [All IndexNow Tools](https://submitnow.dev/tools): Hub for six free browser-first IndexNow and SEO indexing utilities.
 
-- Batch URL submission (up to 10,000 URLs per request)
-- Automatic host inference from URL list
-- Multilingual interface (en/zh/ja) powered by next-intl
-- No data persistence - requests are forwarded server-side without storage
-- Dark/light theme support with next-themes
-- Rate limiting via Upstash Redis
+## Browser Utilities
 
-## Tech Stack
+- [IndexNow Key Generator](https://submitnow.dev/tools/indexnow-key-generator): Generate a compliant 8–128 character IndexNow key locally and download the `<key>.txt` verification file.
+- [IndexNow Key File Checker](https://submitnow.dev/tools/indexnow-key-checker): Inspect public key files for 404s, soft 404s, off-host redirects, UTF-8 BOMs, and content mismatches.
+- [URL Normalizer](https://submitnow.dev/tools/url-normalizer): Normalize URL lists locally, strip fragments and UTM tracking parameters, sort queries, and deduplicate entries.
+- [IndexNow URL Batch Builder](https://submitnow.dev/tools/indexnow-batch-builder): Clean pasted URL lists, flag invalid rows, split by hostname, and chunk batches up to 10,000 URLs.
+- [Sitemap Diff for IndexNow](https://submitnow.dev/tools/sitemap-diff): Compare two sitemap XML snapshots in the browser and export only added or modified URLs.
+- [IndexNow Code Generator](https://submitnow.dev/tools/indexnow-code-generator): Generate validated JSON payloads, `curl`, and JavaScript `fetch` snippets locally.
 
-- **Framework**: Next.js 16.1.1 with App Router
-- **UI**: React 19, TypeScript, Tailwind CSS, Radix UI
-- **Internationalization**: next-intl
-- **State Management**: Zustand
-- **HTTP Client**: Axios
-- **Rate Limiting**: @upstash/ratelimit + @upstash/redis
+## Documentation
 
-## Common Commands
+- [IndexNow Documentation Hub](https://submitnow.dev/docs): Guides, HTTP status code troubleshooting, and platform integrations.
+- [Submit URLs to Bing with IndexNow](https://submitnow.dev/docs/indexnow-bing-submission): End-to-end key setup, batch submission, and pre-flight checklist.
+- [IndexNow 200: OK](https://submitnow.dev/docs/status-codes/200): Receipt confirmation and post-submission indexing checks.
+- [IndexNow 202: Accepted](https://submitnow.dev/docs/status-codes/202): Asynchronous ownership validation and follow-up checks.
+- [IndexNow 400: Bad Request](https://submitnow.dev/docs/status-codes/400): Malformed JSON, missing fields, and key format validation.
+- [IndexNow 403: Key Not Valid](https://submitnow.dev/docs/status-codes/403): Fixing key-file content, BOM, WAF/CDN, and redirect errors.
+- [IndexNow 422: Unprocessable Entity](https://submitnow.dev/docs/status-codes/422): Resolving mixed hosts and `keyLocation` boundary errors.
+- [IndexNow 429: Too Many Requests](https://submitnow.dev/docs/status-codes/429): Deduplication, sitemap diffing, and exponential backoff.
+- [IndexNow for WordPress](https://submitnow.dev/docs/integrations/wordpress): Single-publisher setup and avoiding plugin conflicts.
+- [IndexNow with Next.js](https://submitnow.dev/docs/integrations/nextjs): Hosting `public/<key>.txt`, middleware exclusions, and deploy hooks.
+- [IndexNow with Cloudflare Workers](https://submitnow.dev/docs/integrations/cloudflare-workers): Serving key files at the edge and background `waitUntil` submission.
 
-```bash
-pnpm dev          # Start development server
-pnpm build        # Build for production
-pnpm start        # Start production server
-pnpm lint         # Run ESLint
-```
+## Guides & Site Info
 
-## Quick Start
-
-```bash
-corepack enable
-pnpm install
-cp .env.example .env
-pnpm dev
-```
-
-Access at `http://localhost:3000`
-
-## Requirements
-
-- Node.js 20+
-- pnpm (recommended package manager)
-- IndexNow key file hosted at `https://<host>/<key>.txt` (plain text)
-
-## Important Links
-
-- [README (English)](README.md)
-- [README (简体中文)](README_zh.md)
-- [README (日本語)](README_ja.md)
-
-## Deployment Notes
-
-- Currently targets Bing endpoint only: `https://www.bing.com/indexnow`
-- For public deployment, implement authentication and rate limiting
-- No persistence layer - all requests are proxied server-side
-
-## License
-
-MIT
+- [Guides / Blog](https://submitnow.dev/blog): Practical IndexNow tutorials.
+- [IndexNow for Bing: Key File Setup & Batch Submission](https://submitnow.dev/blog/indexnow-bing-submission): Step-by-step walkthrough with `curl` examples and error fixes.
+- [About submitnow](https://submitnow.dev/about): Architecture overview and privacy guarantees.
+- [Privacy Policy](https://submitnow.dev/privacy-policy): Data handling and no-persistence policy.
+- [Terms of Service](https://submitnow.dev/terms-of-service): Acceptable use and disclaimers.
+- [XML Sitemap](https://submitnow.dev/sitemap.xml): Complete index of localized routes (`en`, `zh`, `ja`).
+- [Full Reference (llms-full.txt)](https://submitnow.dev/llms-full.txt): Detailed reference for AI assistants.

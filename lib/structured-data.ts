@@ -9,13 +9,13 @@ export function absoluteUrl(locale: string, path: string): string {
   return `${siteConfig.url}${prefix}${suffix}`
 }
 
-export function websiteSchema(locale: string): JsonLdObject {
+export function websiteSchema(locale: string, description?: string): JsonLdObject {
   return {
     '@type': 'WebSite',
     '@id': `${siteConfig.url}/#website`,
     name: siteConfig.name,
     url: absoluteUrl(locale, '/'),
-    description: siteConfig.description,
+    description: description || siteConfig.description,
     inLanguage: locale,
     publisher: { '@id': `${siteConfig.url}/#organization` },
   }
@@ -27,7 +27,12 @@ export function organizationSchema(): JsonLdObject {
     '@id': `${siteConfig.url}/#organization`,
     name: siteConfig.name,
     url: siteConfig.url,
-    logo: `${siteConfig.url}/logo.png`,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteConfig.url}/logo.png`,
+      width: 512,
+      height: 512,
+    },
     sameAs: [siteConfig.socialLinks?.github].filter(Boolean),
   }
 }
@@ -160,6 +165,7 @@ export function techArticleSchema({
   description,
   datePublished,
   dateModified,
+  image,
 }: {
   locale: string
   path: string
@@ -167,6 +173,7 @@ export function techArticleSchema({
   description: string
   datePublished: string
   dateModified?: string
+  image?: string
 }): JsonLdObject {
   const url = absoluteUrl(locale, path)
 
@@ -180,6 +187,9 @@ export function techArticleSchema({
     inLanguage: locale,
     datePublished,
     dateModified: dateModified || datePublished,
+    image: image
+      ? [image.startsWith('http') ? image : `${siteConfig.url}${image}`]
+      : [`${siteConfig.url}/og.png`],
     author: siteConfig.authors?.map((author) => ({
       '@type': 'Person',
       name: author.name,

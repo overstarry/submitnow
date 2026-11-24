@@ -3,7 +3,7 @@ import { Locale, LOCALES } from "@/i18n/routing";
 import { constructMetadata } from "@/lib/metadata";
 import fs from "fs/promises";
 import { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote-client/rsc";
 import path from "path";
 import remarkGfm from "remark-gfm";
@@ -56,8 +56,9 @@ export async function generateMetadata({
   });
 }
 
-export default async function AboutPage({ params }: { params: Params }) {
+export default async function TermsOfServicePage({ params }: { params: Params }) {
   const { locale } = await params;
+  setRequestLocale(locale);
   const content = await getMDXContent(locale);
 
   return (

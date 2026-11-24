@@ -1,5 +1,3 @@
-"use client";
-
 import { Link as I18nLink } from "@/i18n/routing";
 import { TOOLS } from "@/lib/tools";
 import { ArrowRight } from "lucide-react";

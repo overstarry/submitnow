@@ -41,10 +41,11 @@ export default function MobileMenu() {
             >
               <Image
                 alt={t("title")}
-                src="/logo.svg"
-                className="w-6 h-6"
+                src="/logo.png"
+                className="w-6 h-6 rounded"
                 width={32}
                 height={32}
+                sizes="24px"
               />
               <span className="highlight-text">{t("title")}</span>
             </I18nLink>

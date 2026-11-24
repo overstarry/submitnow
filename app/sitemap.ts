@@ -1,14 +1,13 @@
-import { siteConfig } from '@/config/site'
 import { DEFAULT_LOCALE, LOCALES } from '@/i18n/routing'
 import { getDocs } from '@/lib/docs'
 import { getPosts } from '@/lib/getBlogs'
+import { buildLanguageAlternates, buildLocalizedUrl } from '@/lib/metadata'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
 import { MetadataRoute } from 'next'
 import path from 'path'
 
-const siteUrl = siteConfig.url
-const FALLBACK_LAST_MODIFIED = new Date('2026-01-14')
+const CONTENT_RELEASE_DATE = new Date('2026-11-24')
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>
 
@@ -18,73 +17,61 @@ type StaticRoute = {
   changeFrequency: ChangeFrequency
   /** MDX file under content/ whose `lastUpdated` frontmatter drives lastModified. */
   contentDir?: string
-  /** Source files whose mtime drives lastModified when there is no MDX frontmatter. */
-  sources?: string[]
+  /** Explicit deterministic lastModified date (avoids CI checkout mtime resets). */
+  lastModified?: Date
 }
 
 // Tool pages are the acquisition surface of the site, so they outrank the
-// legal pages. Dates come from real file metadata instead of `new Date()`,
-// which would tell crawlers every page changes on every deploy.
+// legal pages. Dates come from frontmatter or explicit content release dates
+// instead of `new Date()` or filesystem mtime (which resets on every CI build).
 const STATIC_ROUTES: StaticRoute[] = [
   {
-    path: '',
+    path: '/',
     priority: 1.0,
     changeFrequency: 'weekly',
-    sources: ['components/home/index.tsx', 'components/home/Hero.tsx', 'i18n/messages/en.json'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools',
     priority: 0.9,
     changeFrequency: 'weekly',
-    sources: ['components/tools/ToolsHub.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/indexnow-key-generator',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/IndexNowKeyGenerator.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/indexnow-key-checker',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/IndexNowKeyChecker.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/indexnow-batch-builder',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/IndexNowBatchBuilder.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/sitemap-diff',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/SitemapDiff.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/url-normalizer',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/UrlNormalizer.tsx'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   {
     path: '/tools/indexnow-code-generator',
     priority: 0.9,
     changeFrequency: 'monthly',
-    sources: ['components/tools/IndexNowCodeGenerator.tsx'],
-  },
-  {
-    path: '/docs',
-    priority: 0.8,
-    changeFrequency: 'weekly',
-    sources: ['content/docs/{locale}.json'],
-  },
-  {
-    path: '/blog',
-    priority: 0.7,
-    changeFrequency: 'weekly',
-    sources: ['blogs/en'],
+    lastModified: CONTENT_RELEASE_DATE,
   },
   { path: '/about', priority: 0.5, changeFrequency: 'monthly', contentDir: 'about' },
   {
@@ -101,15 +88,6 @@ const STATIC_ROUTES: StaticRoute[] = [
   },
 ]
 
-async function mtimeOf(relativePath: string): Promise<Date | null> {
-  try {
-    const stats = await fs.stat(path.join(process.cwd(), relativePath))
-    return stats.mtime
-  } catch {
-    return null
-  }
-}
-
 async function frontmatterDate(contentDir: string, locale: string): Promise<Date | null> {
   const filePath = path.join(process.cwd(), 'content', contentDir, `${locale}.mdx`)
   try {
@@ -124,7 +102,7 @@ async function frontmatterDate(contentDir: string, locale: string): Promise<Date
   }
 }
 
-async function resolveLastModified(route: StaticRoute, locale: string): Promise<Date> {
+async function resolveStaticLastModified(route: StaticRoute, locale: string): Promise<Date> {
   if (route.contentDir) {
     const fromFrontmatter =
       (await frontmatterDate(route.contentDir, locale)) ??
@@ -132,52 +110,91 @@ async function resolveLastModified(route: StaticRoute, locale: string): Promise<
     if (fromFrontmatter) return fromFrontmatter
   }
 
-  const mtimes = await Promise.all(
-    (route.sources ?? []).map((source) => mtimeOf(source.replace('{locale}', locale)))
-  )
-  const newest = mtimes
-    .filter((value): value is Date => value !== null)
-    .sort((a, b) => b.getTime() - a.getTime())[0]
-
-  return newest ?? FALLBACK_LAST_MODIFIED
+  return route.lastModified ?? CONTENT_RELEASE_DATE
 }
 
-function localizedUrl(locale: string, page: string): string {
-  return `${siteUrl}${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${page}`
+function newestDate(dates: Date[]): Date {
+  const valid = dates.filter((d) => !Number.isNaN(d.getTime()))
+  if (valid.length === 0) return CONTENT_RELEASE_DATE
+  return valid.sort((a, b) => b.getTime() - a.getTime())[0]
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const pages = await Promise.all(
     LOCALES.flatMap((locale) =>
       STATIC_ROUTES.map(async (route) => ({
-        url: localizedUrl(locale, route.path),
-        lastModified: await resolveLastModified(route, locale),
+        url: buildLocalizedUrl(locale, route.path),
+        lastModified: await resolveStaticLastModified(route, locale),
         changeFrequency: route.changeFrequency,
         priority: route.priority,
+        alternates: {
+          languages: buildLanguageAlternates(route.path),
+        },
       }))
     )
   )
 
-  const blogPosts = await Promise.all(
-    LOCALES.map(async (locale) => {
-      const { posts } = await getPosts(locale)
-      return posts.map((post) => ({
-        url: localizedUrl(locale, `/blog${post.slug}`),
-        lastModified: new Date(post.metadata.updatedAt || post.date),
-        changeFrequency: 'monthly' as ChangeFrequency,
-        priority: 0.6,
-      }))
-    })
-  ).then((results) => results.flat())
+  const docsIndexPages = LOCALES.map((locale) => {
+    const localeDocs = getDocs(locale)
+    return {
+      url: buildLocalizedUrl(locale, '/docs'),
+      lastModified: newestDate(localeDocs.map((doc) => new Date(doc.updatedAt))),
+      changeFrequency: 'weekly' as ChangeFrequency,
+      priority: 0.8,
+      alternates: {
+        languages: buildLanguageAlternates('/docs'),
+      },
+    }
+  })
 
   const docs = LOCALES.flatMap((locale) =>
-    getDocs(locale).map((doc) => ({
-      url: localizedUrl(locale, `/docs/${doc.slug}`),
-      lastModified: new Date(doc.updatedAt),
-      changeFrequency: 'monthly' as ChangeFrequency,
-      priority: doc.category === 'guide' ? 0.8 : 0.7,
+    getDocs(locale).map((doc) => {
+      const routePath = `/docs/${doc.slug}`
+      return {
+        url: buildLocalizedUrl(locale, routePath),
+        lastModified: new Date(doc.updatedAt),
+        changeFrequency: 'monthly' as ChangeFrequency,
+        priority: doc.category === 'guide' ? 0.8 : 0.7,
+        alternates: {
+          languages: buildLanguageAlternates(routePath),
+        },
+      }
+    })
+  )
+
+  const postsByLocale = await Promise.all(
+    LOCALES.map(async (locale) => ({
+      locale,
+      posts: (await getPosts(locale)).posts,
     }))
   )
 
-  return [...pages, ...docs, ...blogPosts]
+  const blogIndexPages = postsByLocale.map(({ locale, posts }) => ({
+    url: buildLocalizedUrl(locale, '/blog'),
+    lastModified: newestDate(
+      posts.map((post) => new Date(post.metadata.updatedAt || post.date))
+    ),
+    changeFrequency: 'weekly' as ChangeFrequency,
+    priority: 0.7,
+    alternates: {
+      languages: buildLanguageAlternates('/blog'),
+    },
+  }))
+
+  const blogPosts = postsByLocale.flatMap(({ locale, posts }) =>
+    posts.map((post) => {
+      const routePath = `/blog${post.slug}`
+      return {
+        url: buildLocalizedUrl(locale, routePath),
+        lastModified: new Date(post.metadata.updatedAt || post.date),
+        changeFrequency: 'monthly' as ChangeFrequency,
+        priority: 0.6,
+        alternates: {
+          languages: buildLanguageAlternates(routePath),
+        },
+      }
+    })
+  )
+
+  return [...pages, ...docsIndexPages, ...docs, ...blogIndexPages, ...blogPosts]
 }

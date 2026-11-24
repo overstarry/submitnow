@@ -42,6 +42,47 @@ type MetadataProps = {
   params: Promise<{ locale: string }>;
 };
 
+function pickClientMessages(messages: Record<string, unknown>) {
+  const home = messages.Home as Record<string, unknown> | undefined;
+  const footer = messages.Footer as Record<string, unknown> | undefined;
+  const tools = messages.Tools as Record<string, unknown> | undefined;
+
+  const trimmedTools: Record<string, unknown> = {};
+  if (tools) {
+    if (tools.common) trimmedTools.common = tools.common;
+    for (const toolKey of [
+      "keyGenerator",
+      "keyChecker",
+      "urlNormalizer",
+      "batchBuilder",
+      "sitemapDiff",
+      "codeGenerator",
+    ]) {
+      const toolNs = tools[toolKey] as Record<string, unknown> | undefined;
+      if (toolNs) {
+        // Strip server-only long-form article prose and SEO metadata from
+        // the client hydration payload.
+        const {
+          article: _article,
+          keywords: _keywords,
+          metaTitle: _metaTitle,
+          metaDescription: _metaDescription,
+          ...clientToolFields
+        } = toolNs;
+        trimmedTools[toolKey] = clientToolFields;
+      }
+    }
+  }
+
+  return {
+    Header: messages.Header,
+    Home: home ? { title: home.title } : undefined,
+    Footer: footer?.Newsletter ? { Newsletter: footer.Newsletter } : undefined,
+    IndexNow: messages.IndexNow,
+    Tools: trimmedTools,
+  };
+}
+
 export async function generateMetadata({
   params,
 }: MetadataProps): Promise<Metadata> {
@@ -53,8 +94,6 @@ export async function generateMetadata({
     title: t("title"),
     description: t("description"),
     locale: locale as Locale,
-    path: `/`,
-    canonicalUrl: `/`,
   });
 }
 
@@ -78,9 +117,8 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
 
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
+  const clientMessages = pickClientMessages(messages as Record<string, unknown>);
 
   return (
     <html lang={locale || DEFAULT_LOCALE} suppressHydrationWarning>
@@ -98,7 +136,7 @@ export default async function LocaleLayout({
         >
           Skip to content
         </a>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={clientMessages}>
           <ThemeProvider
             attribute="class"
             defaultTheme={siteConfig.defaultNextTheme}

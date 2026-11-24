@@ -1,10 +1,7 @@
 import { Button } from "@/components/ui/button";
-
+import { Link as I18nLink } from "@/i18n/routing";
 import { ShieldCheck, Sparkles, Zap } from "lucide-react";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
-
-const INDEXNOW_DOCS_URL = "https://www.indexnow.org/documentation";
 
 export default function Hero() {
   const t = useTranslations("Home");
@@ -53,16 +50,13 @@ export default function Hero() {
           variant="outline"
           asChild
         >
-          <Link
-            href={INDEXNOW_DOCS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <I18nLink
+            href="/docs"
             title={t("ctaDocs")}
-            prefetch={false}
             className="flex items-center gap-2"
           >
             {t("ctaDocs")}
-          </Link>
+          </I18nLink>
         </Button>
 
       </div>

@@ -60,12 +60,12 @@ curl -X POST "https://www.bing.com/indexnow" \
 
 ## Common errors
 
-- **403**: key is invalid or the key file is not accessible
-- **422**: URL list is invalid, or URLs do not match the host
-- **429**: rate limited, retry later
+- **[403](/docs/status-codes/403)**: key is invalid or the key file is not accessible — verify with the [IndexNow Key File Checker](/tools/indexnow-key-checker)
+- **[422](/docs/status-codes/422)**: URL list is invalid, or URLs do not match the host — clean and group URLs with the [URL Batch Builder](/tools/indexnow-batch-builder)
+- **[429](/docs/status-codes/429)**: rate limited, retry later — submit only changed pages using [Sitemap Diff](/tools/sitemap-diff)
 
 ## Tips
 
 - Submit one site per request (do not mix hosts).
 - Keep the key file URL and the submitted host consistent.
-- Start with a small batch to validate the setup.
+- Start with a small batch to validate the setup, or browse the full [IndexNow documentation](/docs) and [free IndexNow tools](/tools).

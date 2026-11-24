@@ -13,8 +13,10 @@ export default function robots(): MetadataRoute.Robots {
         '/api/',
         '/auth/',
         '/dashboard/',
-        '/_next/',
+        '/_next/data/',
         '/assets/',
+        '/unsubscribe',
+        '/*/unsubscribe',
         '/error',
         '/*/404',
         '/*/500',
@@ -24,6 +26,6 @@ export default function robots(): MetadataRoute.Robots {
         '/cdn-cgi/',
       ],
     },
-    sitemap: `${siteUrl}/sitemap.xml`
+    sitemap: `${siteUrl}/sitemap.xml`,
   }
 }

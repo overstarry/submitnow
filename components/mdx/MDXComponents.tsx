@@ -9,13 +9,34 @@ interface HeadingProps {
   children: ReactNode;
 }
 
+function extractText(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") {
+    return String(node);
+  }
+  if (Array.isArray(node)) {
+    return node.map(extractText).join("");
+  }
+  if (React.isValidElement<{ children?: ReactNode }>(node)) {
+    return extractText(node.props.children);
+  }
+  return "";
+}
+
+function slugifyHeading(text: string): string {
+  return text
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\p{L}\p{N}_-]/gu, "");
+}
+
 const Heading: React.FC<HeadingProps> = ({ level, className, children }) => {
   const HeadingTag = `h${level}` as keyof React.ElementType;
-  const headingId = children?.toString() ?? "";
+  const headingId = slugifyHeading(extractText(children));
 
   return React.createElement(
     HeadingTag,
-    { id: headingId, className },
+    { id: headingId || undefined, className },
     children
   );
 };
@@ -62,13 +83,22 @@ const MDXComponents: MDXComponentsProps = {
       {...props}
     />
   ),
-  a: (props) => (
-    <a
-      className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors underline underline-offset-4"
-      target="_blank"
-      {...props}
-    />
-  ),
+  a: ({ href, rel, target, ...rest }) => {
+    const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
+    const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
+    const resolvedRel =
+      rel ?? (resolvedTarget === "_blank" ? "noopener noreferrer" : undefined);
+
+    return (
+      <a
+        href={href}
+        target={resolvedTarget}
+        rel={resolvedRel}
+        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors underline underline-offset-4"
+        {...rest}
+      />
+    );
+  },
   ul: (props) => <ul className="list-disc pl-6 mt-0 mb-6" {...props} />,
   ol: (props) => <ol className="list-decimal pl-6 mt-0 mb-6" {...props} />,
   li: (props) => (
@@ -92,8 +122,15 @@ const MDXComponents: MDXComponentsProps = {
       {...props}
     />
   ),
-  img: (props) => (
-    <img className="rounded-lg border-2 border-gray-200 my-6" {...props} />
+  img: ({ alt = "", ...rest }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      className="rounded-lg border-2 border-gray-200 my-6"
+      {...rest}
+    />
   ),
   strong: (props) => <strong className="font-bold" {...props} />,
   table: (props) => (

@@ -53,6 +53,14 @@
             {
               "href": "/tools/sitemap-diff",
               "name": "Sitemap Diff"
+            },
+            {
+              "href": "/tools/url-normalizer",
+              "name": "URL Normalizer"
+            },
+            {
+              "href": "/tools/indexnow-code-generator",
+              "name": "Code Generator"
             }
           ]
         },
@@ -87,7 +95,7 @@
           "title": "Languages",
           "links": [
             {
-              "href": "/en",
+              "href": "/",
               "name": "English",
               "useA": true
             },
@@ -121,7 +129,7 @@
     "title": "submitnow",
     "tagLine": "Bing IndexNow Submission Tool",
     "heroTitle": "Free IndexNow submission tool for Bing",
-    "description": "Submit up to 10,000 URLs to Bing and its IndexNow partners in one request. Host the key file on your domain, paste a single-host URL list, and send it — no account, nothing stored.",
+    "description": "Submit up to 10,000 URLs to Bing and IndexNow partners in one request. Host your key file, paste same-host URLs, and send — no account, nothing stored.",
     "keywords": [
       "indexnow",
       "bing indexnow",
@@ -329,15 +337,15 @@
   },
   "About": {
     "title": "About",
-    "description": "About the site"
+    "description": "Learn how submitnow works, how the IndexNow protocol notifies Bing and participating search engines, and how requests are forwarded without storing keys."
   },
   "TermsOfService": {
     "title": "Terms of Service",
-    "description": "Terms of Service"
+    "description": "Terms of service for using submitnow to submit authorized URLs to Bing and IndexNow endpoints, including acceptable use and limitations."
   },
   "PrivacyPolicy": {
     "title": "Privacy Policy",
-    "description": "Privacy Policy"
+    "description": "How submitnow handles IndexNow submission inputs, newsletter subscriptions, cookies, and analytics without persisting your keys or URLs."
   },
   "Tools": {
     "badge": "Browser-first SEO toolkit",
@@ -1126,7 +1134,13 @@
             }
           ]
         },
-        "relatedPosts": []
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
       }
     },
     "urlNormalizer": {
@@ -1255,7 +1269,13 @@
             }
           ]
         },
-        "relatedPosts": []
+        "relatedPosts": [
+          {
+            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
+            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
       }
     }
   },

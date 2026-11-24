@@ -60,12 +60,12 @@ curl -X POST "https://www.bing.com/indexnow" \
 
 ## よくあるエラー
 
-- **403**：key が無効、または key ファイルにアクセスできない
-- **422**：URL リストが無効、または URL が host と一致しない
-- **429**：レート制限、しばらくして再試行
+- **[403](/ja/docs/status-codes/403)**：key が無効、または key ファイルにアクセスできない — [IndexNow キーファイル検証ツール](/ja/tools/indexnow-key-checker) で確認できます
+- **[422](/ja/docs/status-codes/422)**：URL リストが無効、または URL が host と一致しない — [URL バッチ整理ツール](/ja/tools/indexnow-batch-builder) でホスト別に整理できます
+- **[429](/ja/docs/status-codes/429)**：レート制限、しばらくして再試行 — [サイトマップ差分ツール](/ja/tools/sitemap-diff) で変更 URL のみ送信しましょう
 
 ## ヒント
 
 - 1 回のリクエストは 1 ホストのみ（複数 host を混在させない）。
 - `keyLocation` の hostname と送信する host を一致させる。
-- まず少数の URL で動作確認してから件数を増やす。
+- まず少数の URL で動作確認してから件数を増やしてください。詳しい手順は [IndexNow ドキュメント](/ja/docs) と [無料ツール一覧](/ja/tools) を参照してください。

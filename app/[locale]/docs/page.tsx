@@ -64,7 +64,7 @@ export default async function DocsPage({ params }: { params: Params }) {
   return (
     <>
       <JsonLd data={jsonLd} />
-      <main className="bg-slate-50 py-14 dark:bg-slate-950 sm:py-20">
+      <div className="w-full bg-slate-50 py-14 dark:bg-slate-950 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="font-heading text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl dark:text-white">
@@ -109,7 +109,7 @@ export default async function DocsPage({ params }: { params: Params }) {
             );
           })}
         </div>
-      </main>
+      </div>
     </>
   );
 }

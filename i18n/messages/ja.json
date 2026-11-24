@@ -53,6 +53,14 @@
             {
               "href": "/tools/sitemap-diff",
               "name": "サイトマップ差分"
+            },
+            {
+              "href": "/tools/url-normalizer",
+              "name": "URL 正規化"
+            },
+            {
+              "href": "/tools/indexnow-code-generator",
+              "name": "コード生成"
             }
           ]
         },
@@ -87,7 +95,7 @@
           "title": "言語",
           "links": [
             {
-              "href": "/en",
+              "href": "/",
               "name": "English",
               "useA": true
             },
@@ -329,15 +337,15 @@
   },
   "About": {
     "title": "このサイトについて",
-    "description": "サイトの概要"
+    "description": "submitnow の仕組み、IndexNow プロトコルで Bing や参加検索エンジンへ更新通知する流れ、およびキーを保存しない転送方式について解説します。"
   },
   "TermsOfService": {
     "title": "利用規約",
-    "description": "利用規約"
+    "description": "submitnow を利用して権限のある URL を Bing および IndexNow エンドポイントへ送信する際の利用規約、禁止事項、免責事項です。"
   },
   "PrivacyPolicy": {
     "title": "プライバシーポリシー",
-    "description": "プライバシーポリシー"
+    "description": "submitnow における IndexNow 送信データ、ニュースレター、Cookie、アクセス解析の取り扱いと、キー・URL を保存しない方針を説明します。"
   },
   "Tools": {
     "badge": "ブラウザ完結型の SEO ツール集",
@@ -1125,7 +1133,13 @@
             }
           ]
         },
-        "relatedPosts": []
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
       }
     },
     "urlNormalizer": {
@@ -1254,7 +1268,13 @@
             }
           ]
         },
-        "relatedPosts": []
+        "relatedPosts": [
+          {
+            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
+            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "slug": "/indexnow-bing-submission"
+          }
+        ]
       }
     }
   },

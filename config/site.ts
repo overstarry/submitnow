@@ -23,12 +23,17 @@ function resolveBaseUrl(): string {
   const fromPublicEnv = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
   if (fromPublicEnv) return fromPublicEnv;
 
+  // Avoid leaking ephemeral *.vercel.app deployment URLs into canonicals,
+  // sitemaps, and JSON-LD on production deployments when NEXT_PUBLIC_SITE_URL
+  // is unset.
+  if (process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production") {
+    return "https://submitnow.dev";
+  }
+
   const fromVercelEnv = normalizeSiteUrl(process.env.VERCEL_URL);
   if (fromVercelEnv) return fromVercelEnv;
 
-  return process.env.NODE_ENV === "production"
-    ? "https://submitnow.dev"
-    : "http://localhost:3000";
+  return "http://localhost:3000";
 }
 
 export const BASE_URL = resolveBaseUrl();

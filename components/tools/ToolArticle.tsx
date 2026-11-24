@@ -1,5 +1,6 @@
 import { Link as I18nLink } from "@/i18n/routing";
-import { getRelatedTools, type ToolId } from "@/lib/tools";
+import { getDoc } from "@/lib/docs";
+import { getRelatedTools, getTool, type ToolId } from "@/lib/tools";
 import { AlertTriangle, ArrowRight, CircleHelp } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
@@ -24,6 +25,7 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
     namespace: `Tools.${toolId}.article`,
   });
   const tTools = await getTranslations({ locale, namespace: "Tools" });
+  const tDocs = await getTranslations({ locale, namespace: "Docs" });
 
   const whenToUse = t.raw("whenToUse.items") as Entry[];
   const steps = t.raw("howTo.steps") as Entry[];
@@ -31,6 +33,9 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
   const faq = t.raw("faq.items") as FaqItem[];
   const relatedPosts = t.raw("relatedPosts") as RelatedPost[];
   const relatedTools = getRelatedTools(toolId);
+  const relatedDocs = getTool(toolId)
+    .relatedDocSlugs.map((slug) => getDoc(locale, slug))
+    .filter((doc) => doc !== null);
 
   return (
     <div className="mt-16 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,320px)] lg:items-start">
@@ -164,6 +169,35 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
             })}
           </ul>
         </div>
+
+        {relatedDocs.length > 0 && (
+          <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
+            <h2 className="font-heading text-lg font-semibold text-slate-950 dark:text-white">
+              {tDocs("related")}
+            </h2>
+            <ul className="mt-4 space-y-3">
+              {relatedDocs.map((doc) => (
+                <li key={doc.slug}>
+                  <I18nLink
+                    href={`/docs/${doc.slug}`}
+                    className="group block rounded-2xl border border-transparent p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
+                  >
+                    <span className="flex items-center gap-1.5 text-sm font-semibold text-slate-950 dark:text-white">
+                      {doc.title}
+                      <ArrowRight
+                        className="size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="mt-1 block text-xs leading-5 text-slate-600 dark:text-slate-400">
+                      {doc.summary}
+                    </span>
+                  </I18nLink>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {relatedPosts.length > 0 && (
           <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">

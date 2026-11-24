@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link as I18nLink, LOCALE_NAMES, routing } from "@/i18n/routing";
+import { LANGUAGE_DETECTION_MESSAGES } from "@/lib/language-detection-messages";
 import { cn } from "@/lib/utils";
 import { useLocaleStore } from "@/stores/localeStore";
 import { ArrowRight, Globe, X } from "lucide-react";
@@ -76,8 +77,9 @@ export function LanguageDetectionAlert() {
 
   if (!showLanguageAlert || !detectedLocale) return null;
 
-  const messages = require(`@/i18n/messages/${detectedLocale}.json`);
-  const alertMessages = messages.LanguageDetection;
+  const alertMessages =
+    LANGUAGE_DETECTION_MESSAGES[detectedLocale] ??
+    LANGUAGE_DETECTION_MESSAGES.en;
 
   return (
     <div

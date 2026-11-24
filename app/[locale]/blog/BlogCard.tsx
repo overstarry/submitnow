@@ -23,7 +23,8 @@ export function BlogCard({ post, locale }: { post: BlogPost; locale: string }) {
           src={post.image || "/placeholder.svg"}
           alt={post.title}
           fill
-          className="object-cover shadow-sm w-full rounded hover:shadow-lg transition-shadow duration-200 h-[200p]"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover shadow-sm w-full rounded hover:shadow-lg transition-shadow duration-200"
         />
       </div>
       <div className="py-3 flex-1 flex flex-col">

@@ -21,10 +21,11 @@ const Header = () => {
           >
             <Image
               alt={siteConfig.name}
-              src="/logo.svg"
-              className="w-6 h-6"
+              src="/logo.png"
+              className="w-6 h-6 rounded"
               width={32}
               height={32}
+              sizes="24px"
             />
             <span className="font-heading text-gray-800 dark:text-gray-200">
               {t("title")}

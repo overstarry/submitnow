@@ -6,15 +6,79 @@
     "title": "IndexNow で URL を Bing に送信する",
     "description": "キー ファイル、リクエスト ペイロード、外部検証、安全な再試行までを説明する設定ガイドです。",
     "summary": "キー ファイルを配置し、同一ホストの URL をまとめ、送信結果を診断します。",
-    "keywords": ["IndexNow ガイド", "Bing URL 送信", "Bing インデックス API"],
-    "publishedAt": "2026-01-14",
-    "updatedAt": "2026-09-02",
-    "sections": [
-      {"title": "IndexNow の役割", "paragraphs": ["IndexNow は、URL の追加、更新、削除を対応検索エンジンへ通知します。これは発見のシグナルであり、クロールやインデックス登録を保証するものではありません。", "1 回のリクエストには最大 10,000 URL を含められます。すべての URL のホスト名は host フィールドと完全に一致する必要があります。"]},
-      {"title": "所有権確認の準備", "items": [{"title": "キーを生成", "description": "英字、数字、ハイフンのみで構成された 8〜128 文字のキーを使用します。"}, {"title": "キー ファイルを公開", "description": "本文にキーだけを含む UTF-8 のプレーン テキストを配信します。既定は https://host/key.txt です。"}, {"title": "公開環境から確認", "description": "ログインしていない環境で最終レスポンスを確認し、リダイレクト先が同一ホストか検証します。"}]},
-      {"title": "送信とレスポンス", "paragraphs": ["送信前に URL を正規化し、重複を除きます。200 と 202 は受信成功、400・403・422 は修正後に再試行、429 は送信量を減らしてバックオフします。"]}
+    "keywords": [
+      "IndexNow ガイド",
+      "Bing URL 送信",
+      "Bing インデックス API"
     ],
-    "relatedSlugs": ["integrations/nextjs", "status-codes/403", "status-codes/422"]
+    "publishedAt": "2026-01-14",
+    "updatedAt": "2026-11-24",
+    "sections": [
+      {
+        "title": "IndexNow の役割",
+        "paragraphs": [
+          "IndexNow は、URL の追加、更新、削除を対応検索エンジンへ通知します。これは発見のシグナルであり、クロールやインデックス登録を保証するものではありません。",
+          "1 回のリクエストには最大 10,000 URL を含められます。すべての URL のホスト名は host フィールドと完全に一致する必要があります。"
+        ]
+      },
+      {
+        "title": "所有権確認の準備",
+        "items": [
+          {
+            "title": "キーを生成",
+            "description": "英字、数字、ハイフンのみで構成された 8〜128 文字のキーを使用します。"
+          },
+          {
+            "title": "キー ファイルを公開",
+            "description": "本文にキーだけを含む UTF-8 のプレーン テキストを配信します。既定は https://host/key.txt です。"
+          },
+          {
+            "title": "公開環境から確認",
+            "description": "ログインしていない環境で最終レスポンスを確認し、リダイレクト先が同一ホストか検証します。"
+          }
+        ]
+      },
+      {
+        "title": "送信とレスポンス",
+        "paragraphs": [
+          "送信前に URL を正規化し、重複を除きます。200 と 202 は受信成功、400・403・422 は修正後に再試行、429 は送信量を減らしてバックオフします。"
+        ]
+      },
+      {
+        "title": "JSON リクエストの例",
+        "paragraphs": [
+          "一括送信は UTF-8 JSON で https://www.bing.com/indexnow または https://api.indexnow.org/indexnow へ POST します。参加エンドポイントのいずれか 1 か所へ送信すると、Bing・Yandex・Seznam・Naver などの参加検索エンジンへ自動的に共有されます。"
+        ],
+        "code": "curl -i -X POST \"https://www.bing.com/indexnow\" \\\n  -H \"Content-Type: application/json; charset=utf-8\" \\\n  -d '{\n    \"host\": \"www.example.com\",\n    \"key\": \"your-32-char-hex-key\",\n    \"keyLocation\": \"https://www.example.com/your-32-char-hex-key.txt\",\n    \"urlList\": [\n      \"https://www.example.com/updated-page\",\n      \"https://www.example.com/new-article\"\n    ]\n  }'"
+      },
+      {
+        "title": "送信前チェックリスト",
+        "items": [
+          {
+            "title": "ホスト名ごとに厳密に分割",
+            "description": "apex（example.com）と www（www.example.com）は別バッチに分け、keyLocation のホスト名も一致させます。"
+          },
+          {
+            "title": "正規 URL のみを送信",
+            "description": "UTM パラメータ、フラグメント（#section）、末尾スラッシュの重複を事前に取り除きます。"
+          },
+          {
+            "title": "差分のみを送信",
+            "description": "デプロイごとに全サイトマップを再送せず、新規・更新・削除された URL だけを送信します。"
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/nextjs",
+      "status-codes/403",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "keyChecker",
+      "batchBuilder"
+    ]
   },
   {
     "locale": "ja",
@@ -23,16 +87,68 @@
     "title": "IndexNow 200：成功",
     "description": "IndexNow の HTTP 200 が示す内容と、成功後に確認すべき項目を説明します。",
     "summary": "リクエストが受理され、所有権キーが検証されました。",
-    "keywords": ["IndexNow 200", "IndexNow 成功"],
+    "keywords": [
+      "IndexNow 200",
+      "IndexNow 成功"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 200,
     "sections": [
-      {"title": "意味", "paragraphs": ["エンドポイントは形式と所有権を検証し、リクエストを受理しました。通知の受信を示すだけで、インデックス登録済みという意味ではありません。"]},
-      {"title": "次に行うこと", "items": [{"title": "バッチを記録", "description": "運用に必要なホスト、URL 数、時刻、ステータスだけを保存します。"}, {"title": "すぐに再送しない", "description": "通常のクロールを待ち、レート制限を浪費しないようにします。"}]},
-      {"title": "登録されない場合", "paragraphs": ["robots、canonical、HTTP ステータス、コンテンツ品質、内部リンク、ウェブマスター ツールを確認します。"]}
+      {
+        "title": "意味",
+        "paragraphs": [
+          "エンドポイントは形式と所有権を検証し、リクエストを受理しました。通知の受信を示すだけで、インデックス登録済みという意味ではありません。"
+        ]
+      },
+      {
+        "title": "次に行うこと",
+        "items": [
+          {
+            "title": "バッチを記録",
+            "description": "運用に必要なホスト、URL 数、時刻、ステータスだけを保存します。"
+          },
+          {
+            "title": "すぐに再送しない",
+            "description": "通常のクロールを待ち、レート制限を浪費しないようにします。"
+          }
+        ]
+      },
+      {
+        "title": "登録されない場合",
+        "paragraphs": [
+          "robots、canonical、HTTP ステータス、コンテンツ品質、内部リンク、ウェブマスター ツールを確認します。"
+        ]
+      },
+      {
+        "title": "送信成功後に確認すべきポイント",
+        "paragraphs": [
+          "HTTP 200 はプロトコル上の受理と所有権検証の完了を示すのみで、即時のクロールやインデックスを保証するものではありません。"
+        ],
+        "items": [
+          {
+            "title": "Bing Webmaster Tools を確認",
+            "description": "Bing Webmaster Tools の IndexNow レポートで送信件数とクロール状況を確認します。"
+          },
+          {
+            "title": "対象 URL の HTTP ステータス確認",
+            "description": "送信した URL がリダイレクト連鎖なしで 200（削除ページは 404/410）を返すことを確認します。"
+          },
+          {
+            "title": "noindex と canonical の確認",
+            "description": "意図しない noindex メタタグ、X-Robots-Tag、別ページへの canonical がないか確認します。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["status-codes/202", "indexnow-bing-submission"]
+    "relatedSlugs": [
+      "status-codes/202",
+      "indexnow-bing-submission"
+    ],
+    "relatedTools": [
+      "sitemapDiff",
+      "batchBuilder"
+    ]
   },
   {
     "locale": "ja",
@@ -41,16 +157,68 @@
     "title": "IndexNow 202：受理済み",
     "description": "キーの非同期検証中に 202 が返る理由と、再試行の判断を説明します。",
     "summary": "リクエストは受信されましたが、所有権検証は完了していません。",
-    "keywords": ["IndexNow 202", "IndexNow 受理済み"],
+    "keywords": [
+      "IndexNow 202",
+      "IndexNow 受理済み"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 202,
     "sections": [
-      {"title": "意味", "paragraphs": ["形式が妥当なリクエストを受信し、キーを非同期で検証します。202 はエラーではありません。"]},
-      {"title": "確認項目", "items": [{"title": "キー ファイル", "description": "公開アクセスで 200 を返し、本文が完全に同じキーだけか確認します。"}, {"title": "ホストの一致", "description": "host、keyLocation、すべての URL のホスト名を一致させます。"}]},
-      {"title": "再試行", "paragraphs": ["202 に対してループしないでください。キーを一度検証し、本当に URL が変化したときだけ送信します。"]}
+      {
+        "title": "意味",
+        "paragraphs": [
+          "形式が妥当なリクエストを受信し、キーを非同期で検証します。202 はエラーではありません。"
+        ]
+      },
+      {
+        "title": "確認項目",
+        "items": [
+          {
+            "title": "キー ファイル",
+            "description": "公開アクセスで 200 を返し、本文が完全に同じキーだけか確認します。"
+          },
+          {
+            "title": "ホストの一致",
+            "description": "host、keyLocation、すべての URL のホスト名を一致させます。"
+          }
+        ]
+      },
+      {
+        "title": "再試行",
+        "paragraphs": [
+          "202 に対してループしないでください。キーを一度検証し、本当に URL が変化したときだけ送信します。"
+        ]
+      },
+      {
+        "title": "非同期検証中の確認コマンド",
+        "paragraphs": [
+          "初回送信時やキー更新直後、CDN のエッジキャッシュ反映待ちのタイミングで 202 が返ることがあります。外部ネットワークからキーファイルの応答を確認してください。"
+        ],
+        "code": "curl -iL \"https://www.example.com/your-key.txt\"\n# 期待される結果:\n# HTTP/2 200\n# content-type: text/plain; charset=utf-8\n# 本文はキー文字列のみ（HTML ラッパーや BOM なし）"
+      },
+      {
+        "title": "フォローアップの目安",
+        "items": [
+          {
+            "title": "連続再送を避ける",
+            "description": "同じバッチを短時間で繰り返さず、非同期検証の完了を待ちます。"
+          },
+          {
+            "title": "CDN / オリジンログを確認",
+            "description": "Bingbot や IndexNow 検証リクエストが /<key>.txt に対して 200 を受け取っているか確認します。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["status-codes/200", "status-codes/403"]
+    "relatedSlugs": [
+      "status-codes/200",
+      "status-codes/403"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "keyGenerator"
+    ]
   },
   {
     "locale": "ja",
@@ -59,16 +227,72 @@
     "title": "IndexNow 400：不正なリクエスト",
     "description": "不正な JSON、必須フィールドの不足、未対応のリクエスト形式を診断します。",
     "summary": "リクエスト構文または必須フィールドが無効です。",
-    "keywords": ["IndexNow 400", "IndexNow 不正なリクエスト"],
+    "keywords": [
+      "IndexNow 400",
+      "IndexNow 不正なリクエスト"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 400,
     "sections": [
-      {"title": "主な原因", "items": [{"title": "JSON の誤り", "description": "本文が有効な JSON でないか、Content-Type が application/json ではありません。"}, {"title": "フィールド不足", "description": "host、key、keyLocation、urlList が不足、または型が違います。"}, {"title": "キー形式", "description": "キーが 8〜128 文字の範囲外、または未対応文字を含みます。"}]},
-      {"title": "診断", "paragraphs": ["既知の正しいテンプレートからリクエストを生成し、実際の送信本文を検証します。"]},
-      {"title": "再試行", "paragraphs": ["同じ本文の再送は失敗します。先にペイロードを修正してください。"]}
+      {
+        "title": "主な原因",
+        "items": [
+          {
+            "title": "JSON の誤り",
+            "description": "本文が有効な JSON でないか、Content-Type が application/json ではありません。"
+          },
+          {
+            "title": "フィールド不足",
+            "description": "host、key、keyLocation、urlList が不足、または型が違います。"
+          },
+          {
+            "title": "キー形式",
+            "description": "キーが 8〜128 文字の範囲外、または未対応文字を含みます。"
+          }
+        ]
+      },
+      {
+        "title": "診断",
+        "paragraphs": [
+          "既知の正しいテンプレートからリクエストを生成し、実際の送信本文を検証します。"
+        ]
+      },
+      {
+        "title": "再試行",
+        "paragraphs": [
+          "同じ本文の再送は失敗します。先にペイロードを修正してください。"
+        ]
+      },
+      {
+        "title": "最小限の有効なペイロード",
+        "paragraphs": [
+          "urlList が空、配列ではなく文字列、または 1 回の送信で 10,000 件を超える場合などに 400 が返されます。"
+        ],
+        "code": "{\n  \"host\": \"www.example.com\",\n  \"key\": \"a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6\",\n  \"keyLocation\": \"https://www.example.com/a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6.txt\",\n  \"urlList\": [\n    \"https://www.example.com/page-1\"\n  ]\n}"
+      },
+      {
+        "title": "フィールド検証ルール",
+        "items": [
+          {
+            "title": "キーの文字種と長さ",
+            "description": "8〜128 文字の英数字およびハイフン（-）のみ使用できます。"
+          },
+          {
+            "title": "URL エンコード",
+            "description": "スペースや日本語などの非 ASCII 文字は RFC 3986 に従ってパーセントエンコードします。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/422"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "urlNormalizer"
+    ]
   },
   {
     "locale": "ja",
@@ -77,16 +301,73 @@
     "title": "IndexNow 403：キーが無効",
     "description": "ファイル内容、別ホストへの転送、WAF、ホスト不一致による所有権検証エラーを修正します。",
     "summary": "検索エンジンが送信ホストに対してキーを検証できませんでした。",
-    "keywords": ["IndexNow 403", "IndexNow キー 無効", "IndexNow キー ファイル"],
+    "keywords": [
+      "IndexNow 403",
+      "IndexNow キー 無効",
+      "IndexNow キー ファイル"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 403,
     "sections": [
-      {"title": "主な原因", "items": [{"title": "本文が不正", "description": "空白、HTML、UTF-8 BOM、別のキーが含まれています。"}, {"title": "別ホストへ転送", "description": "キー URL が異なるホスト名へリダイレクトします。"}, {"title": "クローラーを遮断", "description": "認証、WAF、Bot 対策、地域制限が外部取得を妨げています。"}]},
-      {"title": "診断", "paragraphs": ["キー チェッカーに正確な host と key を入力し、最終 URL、レスポンス形式、バイト内容、転送を確認します。"]},
-      {"title": "修正と再試行", "paragraphs": ["同じホストにプレーン テキストを配置し、CDN キャッシュを削除して公開環境で確認後、小さなバッチで再試行します。"]}
+      {
+        "title": "主な原因",
+        "items": [
+          {
+            "title": "本文が不正",
+            "description": "空白、HTML、UTF-8 BOM、別のキーが含まれています。"
+          },
+          {
+            "title": "別ホストへ転送",
+            "description": "キー URL が異なるホスト名へリダイレクトします。"
+          },
+          {
+            "title": "クローラーを遮断",
+            "description": "認証、WAF、Bot 対策、地域制限が外部取得を妨げています。"
+          }
+        ]
+      },
+      {
+        "title": "診断",
+        "paragraphs": [
+          "キー チェッカーに正確な host と key を入力し、最終 URL、レスポンス形式、バイト内容、転送を確認します。"
+        ]
+      },
+      {
+        "title": "修正と再試行",
+        "paragraphs": [
+          "同じホストにプレーン テキストを配置し、CDN キャッシュを削除して公開環境で確認後、小さなバッチで再試行します。"
+        ]
+      },
+      {
+        "title": "コマンドラインでのキーファイル診断",
+        "paragraphs": [
+          "外部ネットワークから HTTP ヘッダーと生バイトを確認してください。UTF-8 BOM（ef bb bf）、ソフト 404 の HTML 応答、apex から www へのリダイレクトは 403 の典型原因です。"
+        ],
+        "code": "curl -sS -D - \"https://www.example.com/your-key.txt\" | head -n 20\n# 隠し BOM や余分な文字がないか確認:\ncurl -sS \"https://www.example.com/your-key.txt\" | xxd"
+      },
+      {
+        "title": "CDN・WAF・フレームワークの注意点",
+        "items": [
+          {
+            "title": "Cloudflare / WAF のボット対策除外",
+            "description": "/<key>.txt へのリクエストが JS チャレンジ HTML を返さないよう例外ルールを設定します。"
+          },
+          {
+            "title": "SPA / Next.js ミドルウェア除外",
+            "description": "静的 .txt ファイルがロケールリダイレクトや認証ミドルウェアに捕捉されないようにします。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/422"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "keyGenerator"
+    ]
   },
   {
     "locale": "ja",
@@ -95,16 +376,72 @@
     "title": "IndexNow 422：処理できないエンティティ",
     "description": "host、keyLocation、URL リストの整合性エラーを解決します。",
     "summary": "ペイロードは読めますが、URL または所有権フィールドが矛盾しています。",
-    "keywords": ["IndexNow 422", "IndexNow ホスト不一致"],
+    "keywords": [
+      "IndexNow 422",
+      "IndexNow ホスト不一致"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 422,
     "sections": [
-      {"title": "主な原因", "items": [{"title": "複数ホスト", "description": "urlList に複数のホスト名があります。"}, {"title": "host 不一致", "description": "host と URL が異なります。www と apex の違いも別ホストです。"}, {"title": "キー URL 不正", "description": "keyLocation が別ホスト、またはキーと対応していません。"}]},
-      {"title": "診断", "paragraphs": ["URL を正規化し、正確なホスト名でグループ化して、グループごとにリクエストを作成します。"]},
-      {"title": "再試行", "paragraphs": ["ホスト境界を修正してから再試行します。HTTP/HTTPS は混在できますが、ホスト名は混在できません。"]}
+      {
+        "title": "主な原因",
+        "items": [
+          {
+            "title": "複数ホスト",
+            "description": "urlList に複数のホスト名があります。"
+          },
+          {
+            "title": "host 不一致",
+            "description": "host と URL が異なります。www と apex の違いも別ホストです。"
+          },
+          {
+            "title": "キー URL 不正",
+            "description": "keyLocation が別ホスト、またはキーと対応していません。"
+          }
+        ]
+      },
+      {
+        "title": "診断",
+        "paragraphs": [
+          "URL を正規化し、正確なホスト名でグループ化して、グループごとにリクエストを作成します。"
+        ]
+      },
+      {
+        "title": "再試行",
+        "paragraphs": [
+          "ホスト境界を修正してから再試行します。HTTP/HTTPS は混在できますが、ホスト名は混在できません。"
+        ]
+      },
+      {
+        "title": "よくあるホスト境界の不一致",
+        "paragraphs": [
+          "IndexNow ではホスト名（サブドメインや www を含む）ごとに所有権を厳密に区別します。バッチ内に 1 件でも異なるホストの URL が混在すると全体が 422 で失敗します。"
+        ],
+        "items": [
+          {
+            "title": "apex と www の混在",
+            "description": "host が example.com の場合、https://www.example.com/page は送信できません。ホスト別に分割してください。"
+          },
+          {
+            "title": "ステージングやサブドメインの混入",
+            "description": "本番ホスト送信前に staging・preview や別サブドメインの URL を除外します。"
+          },
+          {
+            "title": "サブディレクトリ配置の制約",
+            "description": "keyLocation を /blog/key.txt に置いた場合、承認できるのは /blog/ 配下の URL に限られます。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["status-codes/400", "status-codes/403"]
+    "relatedSlugs": [
+      "status-codes/400",
+      "status-codes/403"
+    ],
+    "relatedTools": [
+      "urlNormalizer",
+      "batchBuilder"
+    ]
   },
   {
     "locale": "ja",
@@ -113,16 +450,72 @@
     "title": "IndexNow 429：リクエスト過多",
     "description": "重複排除、sitemap 差分、バッチ化、バックオフで送信量を減らします。",
     "summary": "エンドポイントがホストまたはクライアントを制限しています。",
-    "keywords": ["IndexNow 429", "IndexNow レート制限"],
+    "keywords": [
+      "IndexNow 429",
+      "IndexNow レート制限"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "statusCode": 429,
     "sections": [
-      {"title": "発生理由", "paragraphs": ["サイトマップ全体の反復送信、重複 URL、並列再試行、複数統合の重複動作で上限を超えることがあります。"]},
-      {"title": "送信量を減らす", "items": [{"title": "変更だけ送信", "description": "sitemap スナップショットを比較し、追加または更新 URL だけ送ります。"}, {"title": "送信元を統合", "description": "CMS、デプロイ フック、手動ツールが同じ変更を重複送信しないようにします。"}, {"title": "バックオフ", "description": "ジッター付き指数バックオフと再試行上限を設定します。"}]},
-      {"title": "避けること", "paragraphs": ["キーのローテーション、IP 変更、連続再試行は送信量の問題を解決しません。"]}
+      {
+        "title": "発生理由",
+        "paragraphs": [
+          "サイトマップ全体の反復送信、重複 URL、並列再試行、複数統合の重複動作で上限を超えることがあります。"
+        ]
+      },
+      {
+        "title": "送信量を減らす",
+        "items": [
+          {
+            "title": "変更だけ送信",
+            "description": "sitemap スナップショットを比較し、追加または更新 URL だけ送ります。"
+          },
+          {
+            "title": "送信元を統合",
+            "description": "CMS、デプロイ フック、手動ツールが同じ変更を重複送信しないようにします。"
+          },
+          {
+            "title": "バックオフ",
+            "description": "ジッター付き指数バックオフと再試行上限を設定します。"
+          }
+        ]
+      },
+      {
+        "title": "避けること",
+        "paragraphs": [
+          "キーのローテーション、IP 変更、連続再試行は送信量の問題を解決しません。"
+        ]
+      },
+      {
+        "title": "安全なリトライとバックオフ実装",
+        "paragraphs": [
+          "Retry-After ヘッダーがある場合はそれを尊重し、編集ごとの単発送信から数分〜デプロイ単位の一括バッチ送信へ切り替えてください。"
+        ],
+        "code": "const delayMs = Math.min(60_000, 1000 * 2 ** attempt) + Math.floor(Math.random() * 500);\nawait new Promise((resolve) => setTimeout(resolve, delayMs));"
+      },
+      {
+        "title": "再発を防ぐ運用ポイント",
+        "items": [
+          {
+            "title": "キュー投入前の正規化と重複排除",
+            "description": "クエリパラメータ順や末尾スラッシュを統一し、同一ページの重複送信を防ぎます。"
+          },
+          {
+            "title": "全サイトマップ再送をやめる",
+            "description": "サイトマップ差分を使い、実際に変更された URL のみを送信します。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/200"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/200"
+    ],
+    "relatedTools": [
+      "sitemapDiff",
+      "batchBuilder"
+    ]
   },
   {
     "locale": "ja",
@@ -131,16 +524,72 @@
     "title": "WordPress で IndexNow を設定する",
     "description": "WordPress の送信元を一つに絞り、キー ファイルを検証して重複送信を防ぎます。",
     "summary": "保守されているプラグインを一つ使い、重複する SEO 機能を停止します。",
-    "keywords": ["IndexNow WordPress", "WordPress Bing インデックス"],
+    "keywords": [
+      "IndexNow WordPress",
+      "WordPress Bing インデックス"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "platform": "WordPress",
     "sections": [
-      {"title": "送信元は一つだけ", "paragraphs": ["IndexNow 対応を明記した保守中のプラグインを一つ選び、他の SEO・キャッシュ プラグインの重複機能を無効化します。"]},
-      {"title": "設定手順", "items": [{"title": "IndexNow を有効化", "description": "統合を有効にし、キーを生成または既存キーを設定します。"}, {"title": "キー ファイルを確認", "description": "WordPress または Web ルートから認証なしで取得できるか確認します。"}, {"title": "更新を一件テスト", "description": "ページを一件更新し、プラグイン ログとレスポンスを確認します。"}]},
-      {"title": "運用確認", "paragraphs": ["ドメイン、CDN、セキュリティ プラグイン変更後は、送信処理より先にキー ファイルを再確認します。"]}
+      {
+        "title": "送信元は一つだけ",
+        "paragraphs": [
+          "IndexNow 対応を明記した保守中のプラグインを一つ選び、他の SEO・キャッシュ プラグインの重複機能を無効化します。"
+        ]
+      },
+      {
+        "title": "設定手順",
+        "items": [
+          {
+            "title": "IndexNow を有効化",
+            "description": "統合を有効にし、キーを生成または既存キーを設定します。"
+          },
+          {
+            "title": "キー ファイルを確認",
+            "description": "WordPress または Web ルートから認証なしで取得できるか確認します。"
+          },
+          {
+            "title": "更新を一件テスト",
+            "description": "ページを一件更新し、プラグイン ログとレスポンスを確認します。"
+          }
+        ]
+      },
+      {
+        "title": "運用確認",
+        "paragraphs": [
+          "ドメイン、CDN、セキュリティ プラグイン変更後は、送信処理より先にキー ファイルを再確認します。"
+        ]
+      },
+      {
+        "title": "プラグイン競合の回避",
+        "paragraphs": [
+          "Yoast SEO・Rank Math・AIOSEO や Cloudflare Crawler Hints には IndexNow 機能が組み込まれています。複数を同時に有効化すると重複送信やキー不一致、429 制限の原因になります。"
+        ],
+        "items": [
+          {
+            "title": "送信元を 1 つに絞る",
+            "description": "公式 IndexNow プラグインまたはメインの SEO プラグインのどちらか 1 つだけを有効化します。"
+          },
+          {
+            "title": "静的キーファイルの直接配置",
+            "description": "セキュリティプラグインが仮想リライトルールを遮断する場合は、ドキュメントルートへ実ファイル <key>.txt を配置します。"
+          },
+          {
+            "title": "非インデックス対象を除外",
+            "description": "下書きプレビュー、添付ファイルページ、noindex のタグアーカイブは送信対象から外します。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/403"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/403"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "sitemapDiff"
+    ]
   },
   {
     "locale": "ja",
@@ -149,16 +598,71 @@
     "title": "Next.js で IndexNow を設定する",
     "description": "Next.js からキーを公開し、信頼できるサーバー側デプロイ フックで変更 URL を送信します。",
     "summary": "public/ からキーを配信し、サーバー専用コードで変更 URL を送ります。",
-    "keywords": ["IndexNow Next.js", "Next.js Bing インデックス"],
+    "keywords": [
+      "IndexNow Next.js",
+      "Next.js Bing インデックス"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "platform": "Next.js",
     "sections": [
-      {"title": "キーを公開", "paragraphs": ["KEY.txt を public/ に置き、デプロイ先ホストのルートから配信します。送信用キーはサーバー側の環境設定だけに保存し、クライアント バンドルへ含めません。"]},
-      {"title": "信頼できるコードから送信", "code": "await fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host, key, keyLocation, urlList }),\n});"},
-      {"title": "デプロイ フロー", "items": [{"title": "変更を計算", "description": "新旧 sitemap または CMS webhook の変更一覧を使います。"}, {"title": "ホスト別に分割", "description": "正確なホスト名ごとに一つのペイロードを作成します。"}, {"title": "安全なログ", "description": "ステータスと件数だけを記録し、キーや非公開 URL は記録しません。"}]}
+      {
+        "title": "キーを公開",
+        "paragraphs": [
+          "KEY.txt を public/ に置き、デプロイ先ホストのルートから配信します。送信用キーはサーバー側の環境設定だけに保存し、クライアント バンドルへ含めません。"
+        ]
+      },
+      {
+        "title": "信頼できるコードから送信",
+        "code": "await fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host, key, keyLocation, urlList }),\n});"
+      },
+      {
+        "title": "デプロイ フロー",
+        "items": [
+          {
+            "title": "変更を計算",
+            "description": "新旧 sitemap または CMS webhook の変更一覧を使います。"
+          },
+          {
+            "title": "ホスト別に分割",
+            "description": "正確なホスト名ごとに一つのペイロードを作成します。"
+          },
+          {
+            "title": "安全なログ",
+            "description": "ステータスと件数だけを記録し、キーや非公開 URL は記録しません。"
+          }
+        ]
+      },
+      {
+        "title": "ミドルウェアと多言語ルートの除外設定",
+        "paragraphs": [
+          "next-intl や認証ミドルウェアを使う Next.js 構成では、public/ 配下の静的 .txt ファイルがロケールリダイレクトに巻き込まれないよう matcher から拡張子付きパスを除外します。"
+        ],
+        "code": "export const config = {\n  matcher: [\"/((?!api|_next|_vercel|.*\\\\..*).*)\"],\n};"
+      },
+      {
+        "title": "推奨される CI/CD デプロイフック構成",
+        "items": [
+          {
+            "title": "デプロイ前後で sitemap.xml を比較",
+            "description": "追加・更新された URL のみを抽出し、無駄なリクエストを防ぎます。"
+          },
+          {
+            "title": "ヘルスチェック成功後に送信",
+            "description": "新しい本番デプロイの疎通確認後に POST し、クローラーへ確実に最新ページを届けます。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/429"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/429"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "codeGenerator",
+      "sitemapDiff"
+    ]
   },
   {
     "locale": "ja",
@@ -167,15 +671,69 @@
     "title": "Cloudflare Workers で IndexNow を設定する",
     "description": "Secret、waitUntil、制限付き再試行を使って Worker から IndexNow 更新を送信します。",
     "summary": "キーを Secret に保存し、レスポンスを遅らせず公開イベントを送信します。",
-    "keywords": ["IndexNow Cloudflare Workers", "Workers Bing インデックス"],
+    "keywords": [
+      "IndexNow Cloudflare Workers",
+      "Workers Bing インデックス"
+    ],
     "publishedAt": "2026-09-02",
-    "updatedAt": "2026-09-02",
+    "updatedAt": "2026-11-24",
     "platform": "Cloudflare Workers",
     "sections": [
-      {"title": "設定を安全に保存", "paragraphs": ["キーは Worker Secret としてバインドします。host と keyLocation は環境設定に置き、HTTP レスポンスでキーを返しません。"]},
-      {"title": "バックグラウンド送信", "code": "ctx.waitUntil(fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host: env.HOST, key: env.INDEXNOW_KEY, keyLocation, urlList }),\n}));"},
-      {"title": "本番環境の保護", "items": [{"title": "トリガーを認証", "description": "CMS webhook の署名を検証するか、サービス認証でエンドポイントを保護します。"}, {"title": "バッチを制限", "description": "ホスト整合性と 10,000 URL 上限を検証します。"}, {"title": "選択的に再試行", "description": "ネットワーク障害と 429 はバックオフし、永続的な 400 系エラーは再試行しません。"}]}
+      {
+        "title": "設定を安全に保存",
+        "paragraphs": [
+          "キーは Worker Secret としてバインドします。host と keyLocation は環境設定に置き、HTTP レスポンスでキーを返しません。"
+        ]
+      },
+      {
+        "title": "バックグラウンド送信",
+        "code": "ctx.waitUntil(fetch('https://api.indexnow.org/indexnow', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json; charset=utf-8' },\n  body: JSON.stringify({ host: env.HOST, key: env.INDEXNOW_KEY, keyLocation, urlList }),\n}));"
+      },
+      {
+        "title": "本番環境の保護",
+        "items": [
+          {
+            "title": "トリガーを認証",
+            "description": "CMS webhook の署名を検証するか、サービス認証でエンドポイントを保護します。"
+          },
+          {
+            "title": "バッチを制限",
+            "description": "ホスト整合性と 10,000 URL 上限を検証します。"
+          },
+          {
+            "title": "選択的に再試行",
+            "description": "ネットワーク障害と 429 はバックオフし、永続的な 400 系エラーは再試行しません。"
+          }
+        ]
+      },
+      {
+        "title": "Worker からキーファイルを直接配信する",
+        "paragraphs": [
+          "ドメイン全体を Cloudflare Workers で処理している場合、オリジンへ戻さず Worker から明示的な text/plain ヘッダー付きでキーファイルを返せます。"
+        ],
+        "code": "if (url.pathname === `/${env.INDEXNOW_KEY}.txt`) {\n  return new Response(env.INDEXNOW_KEY, {\n    headers: {\n      \"Content-Type\": \"text/plain; charset=utf-8\",\n      \"Cache-Control\": \"public, max-age=3600\",\n    },\n  });\n}"
+      },
+      {
+        "title": "エッジでのバッチ集約と WAF 対策",
+        "items": [
+          {
+            "title": "Queues / Cron Triggers で集約送信",
+            "description": "CMS の Webhook を一時バッファし、数分おきに同一ホストのバッチとして送信すると 429 を防げます。"
+          },
+          {
+            "title": "キーパスへの WAF チャレンジを除外",
+            "description": "Bot Fight Mode 等が /<key>.txt に対してチャレンジ画面を返さないよう許可ルールを追加します。"
+          }
+        ]
+      }
     ],
-    "relatedSlugs": ["indexnow-bing-submission", "status-codes/429"]
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/429"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "keyChecker"
+    ]
   }
 ]

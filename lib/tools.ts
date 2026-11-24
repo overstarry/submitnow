@@ -22,6 +22,8 @@ export type ToolDefinition = {
   icon: LucideIcon
   /** Ordered from "first step of the workflow" to "last". */
   order: number
+  /** Related /docs/[slug] guides surfaced in the tool page sidebar. */
+  relatedDocSlugs: string[]
 }
 
 export const TOOLS: ToolDefinition[] = [
@@ -30,36 +32,42 @@ export const TOOLS: ToolDefinition[] = [
     href: '/tools/indexnow-key-generator',
     icon: FileKey2,
     order: 1,
+    relatedDocSlugs: ['indexnow-bing-submission', 'status-codes/403', 'integrations/nextjs'],
   },
   {
     id: 'keyChecker',
     href: '/tools/indexnow-key-checker',
     icon: ShieldCheck,
     order: 2,
+    relatedDocSlugs: ['status-codes/403', 'status-codes/202', 'integrations/wordpress'],
   },
   {
     id: 'urlNormalizer',
     href: '/tools/url-normalizer',
     icon: WandSparkles,
     order: 3,
+    relatedDocSlugs: ['status-codes/422', 'status-codes/400', 'indexnow-bing-submission'],
   },
   {
     id: 'batchBuilder',
     href: '/tools/indexnow-batch-builder',
     icon: ListChecks,
     order: 4,
+    relatedDocSlugs: ['status-codes/422', 'status-codes/429', 'indexnow-bing-submission'],
   },
   {
     id: 'sitemapDiff',
     href: '/tools/sitemap-diff',
     icon: GitCompareArrows,
     order: 5,
+    relatedDocSlugs: ['status-codes/429', 'integrations/nextjs', 'indexnow-bing-submission'],
   },
   {
     id: 'codeGenerator',
     href: '/tools/indexnow-code-generator',
     icon: Code2,
     order: 6,
+    relatedDocSlugs: ['integrations/nextjs', 'integrations/cloudflare-workers', 'status-codes/400'],
   },
 ]
 

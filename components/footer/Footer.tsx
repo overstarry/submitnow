@@ -30,9 +30,9 @@ export default async function Footer() {
             <div className="w-full flex flex-col sm:flex-row lg:flex-col gap-4 col-span-full md:col-span-2">
               <div className="space-y-4 flex-1">
                 <div className="items-center space-x-2 flex">
-                  <h2 className="highlight-text text-2xl font-bold">
+                  <p className="highlight-text text-2xl font-bold">
                     {t("title")}
-                  </h2>
+                  </p>
                 </div>
 
                 <p className="text-sm p4-4 md:pr-12">{t("tagLine")}</p>
@@ -96,9 +96,9 @@ export default async function Footer() {
 
             {footerLinks.map((section) => (
               <div key={section.title} className="flex-1">
-                <h3 className="text-white text-lg font-semibold mb-4">
+                <p className="text-white text-lg font-semibold mb-4">
                   {section.title}
-                </h3>
+                </p>
                 <ul className="space-y-2 text-sm">
                   {section.links.map((link) => (
                     <li key={link.href}>
@@ -162,16 +162,6 @@ export default async function Footer() {
               >
                 {tFooter("TermsOfService")}
               </I18nLink>
-              <Link
-                href="https://pokemonlore.com/"
-                title="pokemonlore"
-                prefetch={false}
-                target="_blank"
-                rel="noreferrer nofollow noopener"
-                className="text-gray-400 hover:text-white text-sm"
-              >
-                pokemonlore
-              </Link>
             </div>
           </div>
         </div>

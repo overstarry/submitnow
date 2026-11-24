@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/routing";
+import type { ToolId } from "@/lib/tools";
 
 export type DocSection = {
   title: string;
@@ -21,4 +22,5 @@ export type DocDefinition = {
   platform?: string;
   sections: DocSection[];
   relatedSlugs: string[];
+  relatedTools?: ToolId[];
 };

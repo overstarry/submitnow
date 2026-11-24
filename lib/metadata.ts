@@ -1,7 +1,13 @@
 import { siteConfig } from '@/config/site'
-import { DEFAULT_LOCALE, LOCALE_NAMES, Locale } from '@/i18n/routing'
+import { DEFAULT_LOCALE, LOCALES, Locale } from '@/i18n/routing'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
+
+const OG_LOCALE_MAP: Record<string, string> = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  ja: 'ja_JP',
+}
 
 type MetadataProps = {
   page?: string
@@ -13,6 +19,33 @@ type MetadataProps = {
   path?: string
   canonicalUrl?: string
   keywords?: string[]
+  type?: 'website' | 'article'
+  publishedTime?: string
+  modifiedTime?: string
+  tags?: string[]
+}
+
+function normalizePath(rawPath?: string): string | undefined {
+  if (rawPath === undefined) return undefined
+  if (rawPath === '' || rawPath === '/') return ''
+  const withLeading = rawPath.startsWith('/') ? rawPath : `/${rawPath}`
+  return withLeading.replace(/\/+$/, '')
+}
+
+export function buildLocalizedUrl(locale: string, rawPath = '/'): string {
+  const normalized = normalizePath(rawPath) ?? ''
+  const prefix = locale === DEFAULT_LOCALE ? '' : `/${locale}`
+  return `${siteConfig.url}${prefix}${normalized}`
+}
+
+export function buildLanguageAlternates(rawPath = '/'): Record<string, string> {
+  const languages = LOCALES.reduce((acc, lang) => {
+    acc[lang] = buildLocalizedUrl(lang, rawPath)
+    return acc
+  }, {} as Record<string, string>)
+
+  languages['x-default'] = buildLocalizedUrl(DEFAULT_LOCALE, rawPath)
+  return languages
 }
 
 export async function constructMetadata({
@@ -25,68 +58,97 @@ export async function constructMetadata({
   path,
   canonicalUrl,
   keywords = [],
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  tags,
 }: MetadataProps): Promise<Metadata> {
-  // get translations
   const t = await getTranslations({ locale, namespace: 'Home' })
 
-  // get page specific metadata translations
-  const pageTitle = title || t(`title`)
-  const pageDescription = description || t(`description`)
+  const pageTitle = title || t('title')
+  const pageDescription = description || t('description')
 
-  // build full title
-  const finalTitle = page === 'Home'
-    ? `${pageTitle} - ${t('tagLine')}`
-    : `${pageTitle} | ${t('title')}`
+  const finalTitle =
+    page === 'Home'
+      ? `${pageTitle} - ${t('tagLine')}`
+      : `${pageTitle} | ${t('title')}`
 
-  // build image URLs
-  const imageUrls = images.length > 0
-    ? images.map(img => ({
-      url: img.startsWith('http')
-        ? img
-        : img.startsWith('/')
-          ? `${siteConfig.url}${img}`
-          : `${siteConfig.url}/${img}`,
-      alt: pageTitle,
-    }))
-    : [{
-      url: `${siteConfig.url}/og.png`,
-      alt: pageTitle,
-    }]
+  const imageUrls =
+    images.length > 0
+      ? images.map((img) => ({
+          url: img.startsWith('http')
+            ? img
+            : img.startsWith('/')
+              ? `${siteConfig.url}${img}`
+              : `${siteConfig.url}/${img}`,
+          width: 1200,
+          height: 630,
+          alt: pageTitle,
+        }))
+      : [
+          {
+            url: `${siteConfig.url}/og.png`,
+            width: 1200,
+            height: 630,
+            alt: pageTitle,
+          },
+        ]
 
-  // Open Graph Site
-  const relativePageURL = `${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${path || ''}`
-  const pageURL = `${siteConfig.url}${relativePageURL}`
+  const effectivePath = canonicalUrl ?? path
+  const pageURL =
+    effectivePath !== undefined
+      ? buildLocalizedUrl(locale, effectivePath)
+      : buildLocalizedUrl(locale, '/')
 
-  // build alternate language links
-  const alternateLanguages = Object.keys(LOCALE_NAMES).reduce((acc, lang) => {
-    const path = canonicalUrl
-      ? `${lang === DEFAULT_LOCALE ? '' : `/${lang}`}${canonicalUrl === '/' ? '' : canonicalUrl}`
-      : `${lang === DEFAULT_LOCALE ? '' : `/${lang}`}`
-    acc[lang] = `${siteConfig.url}${path}`
+  const alternates =
+    !noIndex && effectivePath !== undefined
+      ? {
+          canonical: buildLocalizedUrl(locale, effectivePath),
+          languages: buildLanguageAlternates(effectivePath),
+        }
+      : undefined
 
-    return acc
-  }, {} as Record<string, string>)
+  const ogLocale = OG_LOCALE_MAP[locale] ?? locale
+  const alternateLocale = LOCALES.filter((lang) => lang !== locale).map(
+    (lang) => OG_LOCALE_MAP[lang] ?? lang
+  )
+
+  const openGraphBase = {
+    title: finalTitle,
+    description: pageDescription,
+    url: pageURL,
+    siteName: t('title'),
+    locale: ogLocale,
+    alternateLocale,
+    images: imageUrls,
+  }
+
+  const openGraph: Metadata['openGraph'] =
+    type === 'article'
+      ? {
+          ...openGraphBase,
+          type: 'article',
+          publishedTime,
+          modifiedTime: modifiedTime || publishedTime,
+          authors: siteConfig.authors.map((author) => author.name),
+          tags,
+        }
+      : {
+          ...openGraphBase,
+          type: 'website',
+        }
 
   return {
     title: finalTitle,
     description: pageDescription,
-    keywords,
+    keywords: keywords.length > 0 ? keywords : undefined,
     authors: siteConfig.authors,
     creator: siteConfig.creator,
     metadataBase: new URL(siteConfig.url),
-    alternates: {
-      canonical: canonicalUrl ? `${siteConfig.url}${locale === DEFAULT_LOCALE ? '' : `/${locale}`}${canonicalUrl === '/' ? '' : canonicalUrl}` : undefined,
-      languages: alternateLanguages,
-    },
-    openGraph: {
-      type: 'website',
-      title: finalTitle,
-      description: pageDescription,
-      url: pageURL,
-      siteName: t('title'),
-      locale: locale,
-      images: imageUrls,
-    },
+    icons: siteConfig.icons,
+    manifest: '/manifest.webmanifest',
+    alternates,
+    openGraph,
     twitter: {
       card: 'summary_large_image',
       title: finalTitle,

@@ -60,12 +60,12 @@ curl -X POST "https://www.bing.com/indexnow" \
 
 ## 常见错误
 
-- **403**：key 无效，或 key 文件不可访问
-- **422**：URL 列表无效，或 URL 与 host 不匹配
-- **429**：被限流，请稍后重试
+- **[403](/zh/docs/status-codes/403)**：key 无效，或 key 文件不可访问 —— 可使用 [IndexNow 密钥校验器](/zh/tools/indexnow-key-checker) 排查
+- **[422](/zh/docs/status-codes/422)**：URL 列表无效，或 URL 与 host 不匹配 —— 可使用 [URL 批次整理器](/zh/tools/indexnow-batch-builder) 按主机名分组
+- **[429](/zh/docs/status-codes/429)**：被限流，请稍后重试 —— 可使用 [Sitemap 对比工具](/zh/tools/sitemap-diff) 仅提交增量页面
 
 ## 建议
 
 - 单次请求只提交一个站点（不要混合多个 host）。
 - 保证 `keyLocation` 的 hostname 与提交的 host 一致。
-- 先用少量 URL 做一次验证，再扩大批量。
+- 先用少量 URL 做一次验证，再扩大批量；更多排错细节可查看完整 [IndexNow 文档](/zh/docs) 与 [免费工具集](/zh/tools)。

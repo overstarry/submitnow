@@ -46,7 +46,7 @@ export default async function Home({ params }: { params: Params }) {
 
   const jsonLd = buildGraph([
     organizationSchema(),
-    websiteSchema(locale),
+    websiteSchema(locale, t("description")),
     softwareApplicationSchema({
       locale,
       path: "/",
@@ -62,7 +62,7 @@ export default async function Home({ params }: { params: Params }) {
     faqPageSchema(t.raw("faq.items") as FaqItem[]),
     {
       "@type": "WebPage",
-      "@id": `${absoluteUrl(locale, "/")}#webpage`,
+      "@id": `${absoluteUrl(locale, "/")}/#webpage`,
       url: absoluteUrl(locale, "/"),
       name: t("title"),
       description: t("description"),

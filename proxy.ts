@@ -9,6 +9,16 @@ export default function proxy(request: NextRequest) {
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
+  // Permanently redirect default-locale-prefixed URLs (e.g. /en, /en/tools)
+  // to their canonical unprefixed paths (/, /tools) so crawlers never see
+  // duplicate 200 OK pages under /en/*.
+  if (matchedLocale === DEFAULT_LOCALE) {
+    const targetUrl = request.nextUrl.clone();
+    const stripped = pathname.slice(`/${DEFAULT_LOCALE}`.length);
+    targetUrl.pathname = stripped.length > 0 ? stripped : '/';
+    return NextResponse.redirect(targetUrl, 308);
+  }
+
   if (matchedLocale && matchedLocale !== DEFAULT_LOCALE) {
     return handleI18nRouting(request);
   }
