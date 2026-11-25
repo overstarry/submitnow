@@ -33,13 +33,15 @@ Open `http://localhost:3000`.
 ## CLI & MCP Server
 
 ```bash
-# CLI usage
-pnpm cli -- --help
-node cli/submitnow.ts check-key --host www.example.com --key "$INDEXNOW_KEY"
-node cli/submitnow.ts submit --sitemap https://www.example.com/sitemap.xml --lastmod-days 7 --key "$INDEXNOW_KEY" --dry-run
+# Hosted Streamable HTTP MCP (zero install, Claude Code)
+claude mcp add --transport http submitnow https://www.submitnow.dev/mcp
 
-# MCP stdio server (for Claude Code / Cursor / Antigravity)
-node mcp/server.ts
+# Local stdio MCP via npm (zero hosted IP rate limits)
+npx -y submitnow-mcp
+
+# CLI usage (via npm or local repo)
+npx -y -p submitnow-mcp submitnow check-key --host www.example.com --key "$INDEXNOW_KEY"
+node cli/submitnow.ts submit --sitemap https://www.example.com/sitemap.xml --lastmod-days 7 --key "$INDEXNOW_KEY" --dry-run
 ```
 
 ## Testing & Verification

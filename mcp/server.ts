@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import fs from 'node:fs';
 import path from 'node:path';
 import readline from 'node:readline';
 import { pathToFileURL } from 'node:url';
@@ -9,22 +10,29 @@ import {
   verifyRemoteKeyFile,
 } from '../lib/indexnow-runtime.ts';
 
-const PROTOCOL_VERSION = '2024-11-05';
-const SERVER_INFO = {
+export const SUPPORTED_PROTOCOL_VERSIONS = [
+  '2025-06-18',
+  '2025-03-26',
+  '2024-11-05',
+] as const;
+
+export const DEFAULT_PROTOCOL_VERSION = '2025-03-26';
+
+export const SERVER_INFO = {
   name: 'submitnow',
   version: '2.2.0',
-};
+} as const;
 
-type JsonRpcId = string | number | null;
+export type JsonRpcId = string | number | null;
 
-type JsonRpcRequest = {
+export type JsonRpcRequest = {
   jsonrpc: '2.0';
   id?: JsonRpcId;
   method: string;
   params?: Record<string, unknown>;
 };
 
-type JsonRpcResponse = {
+export type JsonRpcResponse = {
   jsonrpc: '2.0';
   id: JsonRpcId;
   result?: unknown;
@@ -40,6 +48,13 @@ export const MCP_TOOLS = [
       type: 'object',
       properties: {},
       additionalProperties: false,
+    },
+    annotations: {
+      title: 'Generate IndexNow Key',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: false,
+      openWorldHint: false,
     },
   },
   {
@@ -65,6 +80,13 @@ export const MCP_TOOLS = [
       required: ['host', 'key'],
       additionalProperties: false,
     },
+    annotations: {
+      title: 'Check IndexNow Key File',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
   },
   {
     name: 'indexnow_fetch_sitemap',
@@ -84,6 +106,13 @@ export const MCP_TOOLS = [
       },
       required: ['url'],
       additionalProperties: false,
+    },
+    annotations: {
+      title: 'Fetch XML Sitemap',
+      readOnlyHint: true,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
     },
   },
   {
@@ -123,8 +152,25 @@ export const MCP_TOOLS = [
       required: ['urls', 'key'],
       additionalProperties: false,
     },
+    annotations: {
+      title: 'Submit URLs via IndexNow',
+      readOnlyHint: false,
+      destructiveHint: false,
+      idempotentHint: true,
+      openWorldHint: true,
+    },
   },
 ] as const;
+
+function negotiateProtocolVersion(requested: unknown): string {
+  if (
+    typeof requested === 'string' &&
+    (SUPPORTED_PROTOCOL_VERSIONS as readonly string[]).includes(requested)
+  ) {
+    return requested;
+  }
+  return DEFAULT_PROTOCOL_VERSION;
+}
 
 async function callTool(
   name: string,
@@ -204,7 +250,7 @@ async function callTool(
 
 /**
  * Handles one JSON-RPC 2.0 request. Returns null for notifications (requests
- * without an `id`), which must not produce a response on stdio.
+ * without an `id`), which must not produce a response on stdio or return HTTP 202.
  */
 export async function handleJsonRpcMessage(
   message: JsonRpcRequest
@@ -212,16 +258,19 @@ export async function handleJsonRpcMessage(
   const hasId = message.id !== undefined;
   const id: JsonRpcId = message.id ?? null;
 
-  if (message.method === 'notifications/initialized') {
+  if (message.method.startsWith('notifications/') && !hasId) {
     return null;
   }
 
   if (message.method === 'initialize') {
+    const protocolVersion = negotiateProtocolVersion(
+      message.params?.protocolVersion
+    );
     return {
       jsonrpc: '2.0',
       id,
       result: {
-        protocolVersion: PROTOCOL_VERSION,
+        protocolVersion,
         capabilities: { tools: {} },
         serverInfo: SERVER_INFO,
       },
@@ -264,6 +313,17 @@ export async function handleJsonRpcMessage(
       message: `Method not found: ${message.method}`,
     },
   };
+}
+
+function isExecutedDirectly(): boolean {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    const resolvedEntry = fs.realpathSync(entry);
+    return import.meta.url === pathToFileURL(resolvedEntry).href;
+  } catch {
+    return import.meta.url === pathToFileURL(path.resolve(entry)).href;
+  }
 }
 
 function startStdioServer(): void {
@@ -312,9 +372,6 @@ function startStdioServer(): void {
   });
 }
 
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
-) {
+if (isExecutedDirectly()) {
   startStdioServer();
 }

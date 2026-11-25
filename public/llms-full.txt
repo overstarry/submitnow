@@ -3,6 +3,8 @@
 > Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, zero-dependency CLI, and stdio MCP server for developers, technical SEO engineers, and site owners to push URL batches via IndexNow to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
 
 - Canonical Site: `https://www.submitnow.dev`
+- Hosted Streamable HTTP MCP: `https://www.submitnow.dev/mcp` (also at `/api/mcp`)
+- Local stdio MCP & CLI (npm): `npx -y submitnow-mcp` (`io.github.overstarry/submitnow`)
 - Languages: English (`https://www.submitnow.dev/`), Simplified Chinese (`https://www.submitnow.dev/zh`), Japanese (`https://www.submitnow.dev/ja`)
 - Pricing & License: `$0` Free Forever (Hosted Web Workbench + MIT Open-Source Repository)
 - Source Repository: `https://github.com/overstarry/submitnow`

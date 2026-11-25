@@ -33,7 +33,7 @@
         "不需要",
         "支持（精准识别 404、软 404 HTML、UTF-8 BOM、跨主机跳转）",
         "支持（拉取 .xml/.xml.gz/嵌套索引最多 5 万条、lastmod 过滤、超 10,000 条自动分批）",
-        "零依赖本地 Node CLI 与 stdio MCP Server（4 个工具）",
+        "托管 Streamable HTTP MCP (www.submitnow.dev/mcp) + npx submitnow-mcp 本地 stdio 与 CLI（4 工具）",
         "MIT 开源；服务端零数据库留存"
       ],
       [
@@ -116,8 +116,8 @@
           "detail": "如果团队不想维护 GitHub Actions 或发版 Webhook，希望第三方每小时自动轮询 Sitemap 并留存 90 天报表，Instant IndexNow Pro（$9/月）或 Agency（$59/月）更省心。"
         },
         {
-          "label": "偏好零本地安装的远程 HTTP MCP 地址",
-          "detail": "submitnow 提供运行在本地 Node 22+ 环境的 stdio MCP Server（mcp/server.ts）；若你希望只填一个远程 URL 直接接入，Instant IndexNow 提供了托管 HTTP MCP。"
+          "label": "需要 IndexNow 之外的泛 SEO 诊断工具合集",
+          "detail": "submitnow 专注提供 4 个核心 IndexNow MCP 工具（同时支持托管 HTTP 端点与本地 npx stdio）。如果需要在一个 MCP 内打包额外的 robots/redirect/llms.txt 通用检查器，Instant IndexNow 附带了更多泛 SEO 工具。"
         },
         {
           "label": "常规 WordPress 博客或已深度使用 Cloudflare",

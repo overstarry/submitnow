@@ -33,7 +33,7 @@
         "No",
         "Yes (404, soft-404 HTML, UTF-8 BOM, off-host redirect)",
         "Yes (remote .xml/.xml.gz/sitemapindex up to 50k URLs, lastmod filter, auto-batch >10k)",
-        "Zero-dependency local Node CLI & stdio MCP server (4 tools)",
+        "Hosted Streamable HTTP MCP (www.submitnow.dev/mcp) + npx submitnow-mcp stdio & CLI (4 tools)",
         "MIT open-source; zero server database storage"
       ],
       [
@@ -116,8 +116,8 @@
           "detail": "If you do not want to maintain a GitHub Action or webhook and prefer a vendor to poll your sitemap hourly and store 90-day delivery logs, Instant IndexNow Pro ($9/mo) or Agency ($59/mo) fits better than submitnow."
         },
         {
-          "label": "You want a zero-install hosted HTTP MCP endpoint",
-          "detail": "submitnow ships a local stdio MCP server (mcp/server.ts) that runs with Node 22+ on your machine. If you need a cloud-hosted HTTP MCP URL with zero local files, Instant IndexNow provides a remote endpoint."
+          "label": "You want 10+ read-only SEO audit tools beyond IndexNow",
+          "detail": "submitnow focuses strictly on the 4 core IndexNow MCP tools (key generation, public key check, sitemap fetch, and batched submission) over both hosted HTTP and local npx stdio. If you want extra generic redirect/meta/llms.txt checkers inside one hosted MCP, Instant IndexNow bundles additional diagnostic checks."
         },
         {
           "label": "Your site already runs behind Cloudflare or WordPress SEO plugins",

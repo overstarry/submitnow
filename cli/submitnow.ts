@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import fsSync from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -192,10 +193,18 @@ export async function runCli(argv: string[]): Promise<number> {
   return 1;
 }
 
-if (
-  process.argv[1] &&
-  import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href
-) {
+function isExecutedDirectly(): boolean {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    const resolvedEntry = fsSync.realpathSync(entry);
+    return import.meta.url === pathToFileURL(resolvedEntry).href;
+  } catch {
+    return import.meta.url === pathToFileURL(path.resolve(entry)).href;
+  }
+}
+
+if (isExecutedDirectly()) {
   runCli(process.argv.slice(2))
     .then((code) => {
       process.exitCode = code;

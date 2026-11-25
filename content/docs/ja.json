@@ -1001,11 +1001,18 @@
         "code": "# 48 文字の 16 進キーを生成して <key>.txt を書き出す\nnode cli/submitnow.ts generate-key --write\n\n# 公開キーファイルを診断する\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# 公開サイトマップから過去 7 日の更新 URL を取得する\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# URL を送信する（10,000 件超は自動分割）\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
       },
       {
-        "title": "AI コーディングエージェントへ MCP サーバーを接続",
+        "title": "ホスト型 Streamable HTTP MCP へインストール不要で接続",
         "paragraphs": [
-          "mcp/server.ts は stdio ベースの JSON-RPC 2.0 MCP サーバーです。Claude Code・Cursor・Antigravity に登録すれば、デプロイ直後のキー確認や更新送信をエージェントから直接実行できます。"
+          "Claude Code・Cursor・Antigravity から submitnow のステートレス Streamable HTTP エンドポイント https://www.submitnow.dev/mcp へそのまま接続できます。ローカル導入不要・登録不要・サーバー非保存です。"
         ],
-        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/submitnow/mcp/server.ts\"]\n    }\n  }\n}"
+        "code": "# Claude Code\nclaude mcp add --transport http submitnow https://www.submitnow.dev/mcp\n\n# JSON クライアント設定\n{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"type\": \"http\",\n      \"url\": \"https://www.submitnow.dev/mcp\"\n    }\n  }\n}"
+      },
+      {
+        "title": "ローカル stdio MCP を npx で実行（ホスト側制限なし）",
+        "paragraphs": [
+          "npx -y submitnow-mcp（またはリポジトリ内の mcp/server.ts）をローカル起動すれば、ホスト側 IP レート制限なしでキー検証・サイトマップ取得・自動分割送信を実行できます。"
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"submitnow-mcp\"]\n    }\n  }\n}"
       },
       {
         "title": "提供される MCP ツール",

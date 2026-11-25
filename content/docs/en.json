@@ -1001,11 +1001,18 @@
         "code": "# Generate a 48-char hex key and write <key>.txt\nnode cli/submitnow.ts generate-key --write\n\n# Verify a live key file publicly\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# Extract URLs modified in the last 7 days from a live sitemap index\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# Submit URLs (auto-chunks lists > 10,000)\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
       },
       {
-        "title": "Connect the local MCP Server to AI coding agents",
+        "title": "Connect via Hosted Streamable HTTP MCP (No Install)",
         "paragraphs": [
-          "Run mcp/server.ts over stdio JSON-RPC 2.0 so agents in Claude Code, Cursor, or Antigravity can generate keys, verify live key files, inspect sitemaps, and submit changed URLs right after a deploy."
+          "Connect Claude Code, Cursor, or Antigravity directly to submitnow's stateless hosted Streamable HTTP MCP endpoint at https://www.submitnow.dev/mcp — zero install, zero account, and zero server storage."
         ],
-        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/submitnow/mcp/server.ts\"]\n    }\n  }\n}"
+        "code": "# Claude Code\nclaude mcp add --transport http submitnow https://www.submitnow.dev/mcp\n\n# Or JSON client config\n{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"type\": \"http\",\n      \"url\": \"https://www.submitnow.dev/mcp\"\n    }\n  }\n}"
+      },
+      {
+        "title": "Connect via Local stdio MCP (npx submitnow-mcp — No Hosted Limits)",
+        "paragraphs": [
+          "Run submitnow-mcp locally over stdio JSON-RPC 2.0 via npx (or directly from mcp/server.ts) so agents in Claude Code, Cursor, or Antigravity can run unlimited key checks, sitemap fetches, and batched submissions locally."
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"submitnow-mcp\"]\n    }\n  }\n}"
       },
       {
         "title": "Exposed MCP tools",

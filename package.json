@@ -13,6 +13,7 @@
     "test": "node --test tests/*.test.ts",
     "cli": "node cli/submitnow.ts",
     "mcp": "node mcp/server.ts",
+    "build:mcp": "pnpm --dir packages/mcp build",
     "update:next": "pnpm i next@latest react@latest react-dom@latest @next/env@latest @types/react@latest @types/react-dom@latest"
   },
   "dependencies": {

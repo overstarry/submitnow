@@ -33,7 +33,7 @@
         "不要",
         "対応（404・ソフト 404 HTML・UTF-8 BOM・別ホスト転送を検知）",
         "対応（.xml/.xml.gz/インデックス最大 5 万件取得、lastmod 絞り込み、1 万件超自動分割）",
-        "依存ゼロのローカル Node CLI・stdio MCP サーバー（4 ツール）",
+        "ホスト型 Streamable HTTP MCP (www.submitnow.dev/mcp) + npx submitnow-mcp stdio・CLI（4 ツール）",
         "MIT オープンソース・サーバー DB 非保存"
       ],
       [
@@ -116,8 +116,8 @@
           "detail": "GitHub Actions 等を書かずに毎時サイトマップ監視と 90 日間の配信ログを任せたい場合は、Instant IndexNow Pro（$9/月）や Agency（$59/月）が向いています。"
         },
         {
-          "label": "ローカル導入ゼロのリモート HTTP MCP が欲しい",
-          "detail": "submitnow の MCP はローカル Node 22+ で動く stdio 形式（mcp/server.ts）です。URL 指定だけで接続したい場合は Instant IndexNow のリモート MCP が手軽です。"
+          "label": "IndexNow 以外の汎用 SEO 診断ツールもまとめて MCP で使いたい",
+          "detail": "submitnow はホスト型 HTTP とローカル npx stdio の両方で IndexNow 専用 4 ツールに特化しています。汎用リダイレクト・メタ・llms.txt チェックも 1 つの MCP にまとめたい場合は Instant IndexNow の追加診断ツールが便利です。"
         },
         {
           "label": "標準的な WordPress 運用や Cloudflare 利用サイト",

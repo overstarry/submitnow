@@ -37,7 +37,7 @@ submitnow (`https://www.submitnow.dev`) lets developers, SEO engineers, and site
 - [IndexNow for Shopify](https://www.submitnow.dev/docs/integrations/shopify): Avoiding `cdn.shopify.com` off-host redirect and App Proxy traps with edge workers or Hydrogen.
 - [IndexNow with GitHub Actions](https://www.submitnow.dev/docs/integrations/github-actions): Automated post-deploy key checks and delta-only submissions.
 - [IndexNow for Astro, Hugo & Static Sites](https://www.submitnow.dev/docs/integrations/astro-hugo): Static key-file placement and canonical trailing-slash hygiene.
-- [Automate IndexNow with CLI & MCP Server](https://www.submitnow.dev/docs/integrations/cli-and-mcp): Zero-dependency local CLI and stdio MCP server for Claude Code, Cursor, and Antigravity.
+- [Automate IndexNow with CLI & MCP Server](https://www.submitnow.dev/docs/integrations/cli-and-mcp): Hosted Streamable HTTP MCP (`https://www.submitnow.dev/mcp`), `npx -y submitnow-mcp` local stdio MCP, and zero-dependency CLI for Claude Code, Cursor, and Antigravity.
 
 ## Guides & Site Info
 

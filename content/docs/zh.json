@@ -1001,11 +1001,18 @@
         "code": "# 生成 48 位十六进制密钥并写入 <key>.txt\nnode cli/submitnow.ts generate-key --write\n\n# 公网校验密钥文件健康度\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# 抓取在线 Sitemap Index 中近 7 天更新的 URL\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# 提交 URL（超过 10,000 条自动分批）\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
       },
       {
-        "title": "接入本地 MCP Server（Claude Code / Cursor / Antigravity）",
+        "title": "免安装直连托管 Streamable HTTP MCP",
         "paragraphs": [
-          "mcp/server.ts 实现了基于 stdio 的 JSON-RPC 2.0 MCP 协议。配置后，AI Agent 在完成部署后即可直接调用工具完成密钥体检、抓取 Sitemap 与增量推送。"
+          "直接在 Claude Code、Cursor 或 Antigravity 中连接 submitnow 托管的无状态 Streamable HTTP MCP 端点 https://www.submitnow.dev/mcp——免本地安装、免注册、服务端零留存。"
         ],
-        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/submitnow/mcp/server.ts\"]\n    }\n  }\n}"
+        "code": "# Claude Code 一行接入\nclaude mcp add --transport http submitnow https://www.submitnow.dev/mcp\n\n# 或客户端 JSON 配置\n{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"type\": \"http\",\n      \"url\": \"https://www.submitnow.dev/mcp\"\n    }\n  }\n}"
+      },
+      {
+        "title": "通过 npx 运行本地 stdio MCP（无托管 IP 限流）",
+        "paragraphs": [
+          "通过 npx -y submitnow-mcp（或直接运行仓库内 mcp/server.ts）在本地启动零依赖 stdio MCP Server，摆脱托管端每 IP 限流约束。"
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"npx\",\n      \"args\": [\"-y\", \"submitnow-mcp\"]\n    }\n  }\n}"
       },
       {
         "title": "内置 MCP 工具一览",

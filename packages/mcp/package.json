@@ -1,0 +1,44 @@
+{
+  "name": "submitnow-mcp",
+  "version": "2.2.0",
+  "description": "Zero-dependency IndexNow & AI Search (Bing, ChatGPT Search, Copilot) MCP server and CLI from submitnow.dev",
+  "mcpName": "io.github.overstarry/submitnow",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://www.submitnow.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/overstarry/submitnow.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/overstarry/submitnow/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "mcp-server",
+    "indexnow",
+    "bing",
+    "chatgpt-search",
+    "copilot",
+    "seo",
+    "sitemap",
+    "submitnow"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "submitnow-mcp": "./dist/mcp/server.js",
+    "submitnow": "./dist/cli/submitnow.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node -e \"const fs=require('node:fs');for(const f of ['dist/mcp/server.js','dist/cli/submitnow.js'])fs.chmodSync(f,0o755);\""
+  }
+}
