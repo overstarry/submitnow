@@ -1,6 +1,13 @@
 import MDXComponents from "@/components/mdx/MDXComponents";
+import JsonLd from "@/components/seo/JsonLd";
 import { Locale, LOCALES } from "@/i18n/routing";
 import { constructMetadata } from "@/lib/metadata";
+import {
+  aboutPageSchema,
+  breadcrumbSchema,
+  buildGraph,
+  organizationSchema,
+} from "@/lib/structured-data";
 import fs from "fs/promises";
 import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -59,10 +66,28 @@ export async function generateMetadata({
 export default async function AboutPage({ params }: { params: Params }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const content = await getMDXContent(locale);
+  const [content, tAbout, tTools] = await Promise.all([
+    getMDXContent(locale),
+    getTranslations({ locale, namespace: "About" }),
+    getTranslations({ locale, namespace: "Tools" }),
+  ]);
+
+  const jsonLd = buildGraph([
+    organizationSchema(),
+    aboutPageSchema({
+      locale,
+      title: tAbout("title"),
+      description: tAbout("description"),
+    }),
+    breadcrumbSchema(locale, [
+      { name: tTools("breadcrumbHome"), path: "/" },
+      { name: tAbout("title"), path: "/about" },
+    ]),
+  ]);
 
   return (
-    <article className="w-full md:w-3/5 px-2 md:px-12">
+    <article className="w-full md:w-3/5 px-2 md:px-12 pb-16">
+      <JsonLd data={jsonLd} />
       <MDXRemote
         source={content}
         components={MDXComponents}

@@ -1,0 +1,132 @@
+{
+  "metaTitle": "submitnow Pricing, Free Quotas & MIT Self-Hosting",
+  "metaDescription": "submitnow is $0 forever under the MIT license — no account, no credit card, and no 200-URL/day paywall. Review exact hosted fair-use rate limits, browser tool capacity, and unlimited self-hosted CLI/MCP usage.",
+  "keywords": [
+    "submitnow pricing",
+    "free indexnow tool limits",
+    "open source indexnow submitter",
+    "indexnow rate limit",
+    "self-hosted indexnow cli mcp"
+  ],
+  "updatedAt": "2026-11-25",
+  "badge": "Transparent Quotas · MIT Open Source",
+  "title": "submitnow Pricing, Free Quotas & Self-Hosting",
+  "shortAnswerLabel": "Short answer",
+  "shortAnswer": "submitnow is $0 forever with no account or credit card required. Both the hosted web workbench at www.submitnow.dev and the MIT open-source CLI/MCP server are completely free for personal, agency, and commercial use; hosted endpoints enforce only per-IP fair-use rate limits to prevent abuse, while running submitnow locally or self-hosted removes those hosted limits completely.",
+  "tiers": [
+    {
+      "id": "hosted",
+      "badge": "No Account · Zero Storage",
+      "name": "Hosted Web Workbench",
+      "price": "$0",
+      "priceNote": "Free forever on www.submitnow.dev",
+      "summary": "Instant browser access to the multi-endpoint IndexNow Batch Submitter and all six utilities without signup or server database persistence.",
+      "highlights": [
+        "Auto-chunks over 10,000 same-host URLs sequentially (up to 30 batch requests / 10 min per IP)",
+        "Live XML / .xml.gz / nested sitemap-index fetch (up to 20 child sitemaps & 50,000 URLs)",
+        "Pre-flight public key diagnostics (60 checks / 10 min per IP) with SSRF protection",
+        "All browser-side tools unlimited (Key Generator, URL Normalizer, Batch Builder, Code Generator, local Sitemap Diff)",
+        "Opt-in browser localStorage multi-site profiles & CSV/JSON export"
+      ],
+      "ctaLabel": "Open submitnow Workbench",
+      "ctaHref": "/"
+    },
+    {
+      "id": "self-hosted",
+      "badge": "MIT License · Commercial Friendly",
+      "name": "Self-Hosted + Local CLI & MCP",
+      "price": "$0",
+      "priceNote": "MIT open-source on GitHub",
+      "summary": "Run submitnow in CI/CD, connect the stdio MCP server to AI coding agents, or deploy your own private web instance with custom rate limits.",
+      "highlights": [
+        "Zero-dependency Node 22+ CLI (cli/submitnow.ts) for GitHub Actions and terminal scripts",
+        "Local stdio MCP server (mcp/server.ts) for Claude Code, Cursor, and Antigravity",
+        "No hosted per-IP rate limits — only upstream IndexNow endpoint policies apply",
+        "Full source control: deploy to Vercel, Docker, or internal servers with custom env quotas",
+        "Permissive MIT license — free for agencies, SaaS teams, and commercial products"
+      ],
+      "ctaLabel": "View GitHub Repository",
+      "ctaHref": "https://github.com/overstarry/indexNow-gui",
+      "external": true
+    }
+  ],
+  "quotasTable": {
+    "title": "Exact submitnow technical quotas, rate limits & privacy guarantees",
+    "intro": "Every operational limit below reflects the live production configuration of submitnow, so engineering and SEO teams know exact boundaries upfront.",
+    "headers": ["Capability", "Hosted (www.submitnow.dev)", "Local CLI / MCP & Self-Hosted", "Data Storage"],
+    "rows": [
+      [
+        "IndexNow batch submission",
+        "Up to 10,000 URLs/request (auto-batched sequentially); 30 requests / 10 min per IP",
+        "Up to 10,000 URLs/request (auto-batched); configurable or no local cap",
+        "None (stateless memory relay)"
+      ],
+      [
+        "Public key file verification",
+        "60 checks / 10 min per IP; 8 s timeout; SSRF-guarded",
+        "Unlimited locally (configurable via KEY_CHECK_RATE_LIMIT when self-hosted)",
+        "None (discarded after check)"
+      ],
+      [
+        "Remote sitemap & sitemap-index fetch",
+        "20 fetches / 10 min per IP; max 20 child sitemaps / 50,000 URLs; 10 MB gzip / 25 MB XML",
+        "Unlimited locally (configurable via SITEMAP_FETCH_RATE_LIMIT when self-hosted)",
+        "None (parsed in memory)"
+      ],
+      [
+        "Browser-only tools (Key Gen, Normalizer, Batch Builder, Code Gen, local Sitemap upload)",
+        "Unlimited runs; optional localStorage baseline up to 10,000 URLs",
+        "Unlimited",
+        "100% in your browser only"
+      ],
+      [
+        "Supported IndexNow endpoints",
+        "api.indexnow.org, Bing, Yandex, Seznam.cz, Naver, Yep (+ Copilot & ChatGPT Search via Bing)",
+        "Identical multi-endpoint support",
+        "N/A"
+      ],
+      [
+        "Commercial & agency usage",
+        "Allowed ($0 free, no account)",
+        "Allowed (MIT License)",
+        "No user accounts or telemetry PII"
+      ]
+    ]
+  },
+  "boundarySection": {
+    "heading": "Why is submitnow free when competing IndexNow tools charge $9–$59/month?",
+    "paragraphs": [
+      "The IndexNow protocol itself is a free, open standard backed by Bing, Yandex, Seznam.cz, Naver, and Yep. submitnow stays $0 forever because it runs statelessly without maintaining a multi-tenant user database, persistent crawl logs, or background cron pollers.",
+      "Commercial platforms charge $9–$59/month primarily for cloud-hosted scheduled sitemap watchers, long-term delivery analytics, and team alerting. If you already run deploys through GitHub Actions, Cloudflare Workers, or an AI coding agent with MCP, submitnow gives you the same upstream IndexNow reach at $0 recurring cost."
+    ]
+  },
+  "faqTitle": "Pricing, quota & licensing FAQ",
+  "faq": [
+    {
+      "question": "Is submitnow really free, or is there a hidden URL cap?",
+      "answer": "submitnow is genuinely $0 with no account wall and no 200-URL/day cap. On the hosted site, per-IP sliding-window limits (30 batch submissions, 60 key checks, and 20 remote sitemap fetches per 10 minutes) exist solely to protect outbound infrastructure from abuse. Because each batch can carry up to 10,000 URLs, normal sites and migrations run comfortably within the free hosted tier."
+    },
+    {
+      "question": "Can agencies and commercial teams use submitnow?",
+      "answer": "Yes. Both the hosted workbench at www.submitnow.dev and the MIT-licensed repository (overstarry/indexNow-gui) are free for commercial, enterprise, and SEO agency workflows."
+    },
+    {
+      "question": "How do I run high-volume automation without hosted IP rate limits?",
+      "answer": "Clone the MIT repository and run node cli/submitnow.ts directly inside GitHub Actions or your backend, connect node mcp/server.ts to Claude Code/Cursor/Antigravity, or self-host the Next.js app with custom INDEXNOW_SUBMIT_RATE_LIMIT environment variables."
+    },
+    {
+      "question": "Does submitnow offer an SLA or guaranteed search engine indexing?",
+      "answer": "No. submitnow is provided as-is under the MIT license without commercial SLA guarantees, and the IndexNow protocol itself signals URL discovery rather than guaranteeing search engine indexing or ranking."
+    }
+  ],
+  "cta": {
+    "title": "Start submitting with submitnow for $0",
+    "description": "Use the hosted workbench immediately or compare submitnow side-by-side against commercial IndexNow platforms.",
+    "primaryLabel": "Open submitnow Batch Submitter",
+    "secondaryLabel": "Compare IndexNow Tools"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "current": "Pricing & Free Quotas"
+  }
+}

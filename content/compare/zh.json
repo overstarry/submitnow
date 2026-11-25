@@ -1,0 +1,198 @@
+{
+  "metaTitle": "2026 IndexNow 批量提交工具、GUI 与 MCP Server 横向对比",
+  "metaDescription": "全面对比 submitnow（永久免费 MIT 开源）与 Instant IndexNow、IndexNow.com 官方工具、Bing 站长平台、Cloudflare Crawler Hints 及付费索引 SaaS 的免费额度、密钥校验、MCP 接入与隐私策略。",
+  "keywords": [
+    "IndexNow 工具对比",
+    "IndexNow 批量提交工具推荐",
+    "submitnow vs Instant IndexNow",
+    "免费 IndexNow GUI",
+    "IndexNow MCP Server 对比",
+    "IndexNow 自动提交方案"
+  ],
+  "updatedAt": "2026-11-25",
+  "badge": "2026 选型指南与横向矩阵",
+  "title": "2026 IndexNow 批量提交工具、GUI 与 MCP Server 选型对比",
+  "shortAnswerLabel": "直接给结论",
+  "shortAnswer": "如果你需要免注册大批量推送（超 10,000 条自动分批）、提交前公网密钥体检、在线 Sitemap/lastmod 增量提取、服务端零留存以及可自托管的本地 CLI/MCP Server，直接选 submitnow（永久 $0、MIT 开源）。只有在你不愿维护 CI 钩子、需要云端定时巡检与邮件告警时，才值得为 Instant IndexNow（$9–$59/月）或 FastIndex.io 等商业 SaaS 付费；若站点已全量接入 Cloudflare 代理，则可叠加开启 Crawler Hints。",
+  "matrix": {
+    "title": "submitnow vs Instant IndexNow vs 官方工具 vs 付费 SaaS：核心能力对比",
+    "intro": "IndexNow 协议本身完全免费，无论通过哪款工具推送，底层触达的都是同一批参与引擎（Bing、Yandex、Seznam.cz、Naver、Yep，以及基于 Bing 索引的 Microsoft Copilot 和 ChatGPT Search）。真正拉开差距的是免费额度门槛、排障体检能力、自动化形态与隐私边界。",
+    "headers": [
+      "工具 / 方案",
+      "定价与免费额度",
+      "是否需注册",
+      "提交前密钥体检",
+      "Sitemap 拉取、lastmod 与超万条分批",
+      "CLI 与 MCP 支持",
+      "开源与数据留存"
+    ],
+    "rows": [
+      [
+        "submitnow (www.submitnow.dev)",
+        "永久 $0（托管公平限流：每 IP 每 10 分钟 30 批；自托管/本地无上限）",
+        "不需要",
+        "支持（精准识别 404、软 404 HTML、UTF-8 BOM、跨主机跳转）",
+        "支持（拉取 .xml/.xml.gz/嵌套索引最多 5 万条、lastmod 过滤、超 10,000 条自动分批）",
+        "零依赖本地 Node CLI 与 stdio MCP Server（4 个工具）",
+        "MIT 开源；服务端零数据库留存"
+      ],
+      [
+        "Instant IndexNow (instantindexnow.com)",
+        "匿名限 200 条/天（注册免费号 1,000 条/天）；Pro $9/月；Agency $59/月",
+        "超 200 条/天或自动化需注册",
+        "支持（密钥失效时阻断提交）",
+        "单批最多 1 万条；付费版提供每小时/每日定时 Sitemap 监控",
+        "托管远程 HTTP MCP Server（免本地安装）",
+        "闭源 SaaS；云端保存项目配置与 90 天日志"
+      ],
+      [
+        "IndexNow.com 官方工具",
+        "$0 免费",
+        "不需要",
+        "基础根目录校验",
+        "手动粘贴/上传，单次最多 10,000 条",
+        "无",
+        "官方协议工具；不可自托管整套工作台"
+      ],
+      [
+        "Bing Webmaster Tools",
+        "$0 免费",
+        "需要（微软账号 + 站点验证）",
+        "后台状态查看",
+        "侧重 Sitemap 提交与抓取观测（无多工具增量 Diff 工作台）",
+        "仅社区封装 MCP",
+        "微软托管站长平台"
+      ],
+      [
+        "Cloudflare Crawler Hints",
+        "Cloudflare 套餐内置 $0",
+        "需要（DNS 需走 Cloudflare 代理）",
+        "边缘节点自动托管",
+        "基于边缘缓存的被动提示（非可控发版队列）",
+        "无",
+        "闭源 CDN 能力；强绑定 Cloudflare 代理"
+      ],
+      [
+        "商业索引 SaaS（FastIndex.io / Indexly）",
+        "订阅/点数制（通常 $15–$99+/月）",
+        "需要",
+        "视厂商而定",
+        "定时 Sitemap 巡检、多站点看板、代理商队列管理",
+        "以 REST API / CMS 插件为主",
+        "闭源 SaaS；云端持久化站点密钥与历史"
+      ]
+    ]
+  },
+  "sections": [
+    {
+      "heading": "什么场景下应优先选择 submitnow，而不是 Instant IndexNow 或付费 SaaS？",
+      "paragraphs": [
+        "submitnow 专为开发者、技术 SEO 工程师与重视数据隐私的站长打造，让你不必受限于 200 条/天的匿名额度墙，也不必把站点密钥和 URL 清单交给第三方云数据库。",
+        "由于 submitnow 采用 MIT 开源与无状态架构，你可以在浏览器里零成本完成密钥体检、嵌套 Sitemap Index 拉取、lastmod 增量筛选与超 10,000 条自动分批；需要自动化时，直接复用仓库内置的 cli/submitnow.ts（接入 GitHub Actions）与 mcp/server.ts（接入 Claude Code / Cursor / Antigravity）。"
+      ],
+      "bullets": [
+        {
+          "label": "大规模站点迁移与程序化 SEO 上线",
+          "detail": "submitnow 直接支持超过 10,000 条同主机 URL 并自动顺序分批提交，无需购买月付套餐。"
+        },
+        {
+          "label": "严格的隐私与合规要求",
+          "detail": "submitnow 服务端零落库，不保存密钥、URL 或拉取的 Sitemap；多站点配置与提交历史仅在显式勾选后存放在本地浏览器 localStorage。"
+        },
+        {
+          "label": "CI/CD 与私有化自托管掌控权",
+          "detail": "工程团队可完整审计 submitnow 源码，在 CI 中运行零依赖 CLI，或按 MIT 协议私有部署整套 Web 工作台。"
+        }
+      ]
+    },
+    {
+      "heading": "什么时候付费 SaaS 或 Cloudflare Crawler Hints 比 submitnow 更合适？",
+      "paragraphs": [
+        "submitnow 刻意不运行多租户云端数据库和后台定时轮询任务，这保证了对用户的永久免费与零数据留存，也划清了明确的能力边界。"
+      ],
+      "bullets": [
+        {
+          "label": "需要云端无人值守定时巡检与密钥失效邮件告警",
+          "detail": "如果团队不想维护 GitHub Actions 或发版 Webhook，希望第三方每小时自动轮询 Sitemap 并留存 90 天报表，Instant IndexNow Pro（$9/月）或 Agency（$59/月）更省心。"
+        },
+        {
+          "label": "偏好零本地安装的远程 HTTP MCP 地址",
+          "detail": "submitnow 提供运行在本地 Node 22+ 环境的 stdio MCP Server（mcp/server.ts）；若你希望只填一个远程 URL 直接接入，Instant IndexNow 提供了托管 HTTP MCP。"
+        },
+        {
+          "label": "常规 WordPress 博客或已深度使用 Cloudflare",
+          "detail": "日常单篇发文可用单个成熟 WordPress 插件（Rank Math / Yoast / AIOSEO）或 Cloudflare Crawler Hints 自动推送；遇到 403 排障、改版批量迁移与 Sitemap 对比时再配合 submitnow。"
+        }
+      ]
+    },
+    {
+      "heading": "submitnow 的 CLI 与 MCP Server 与传统网页工具有什么不同？",
+      "paragraphs": [
+        "绝大多数 IndexNow 在线工具只提供手工表单，团队落地自动化时仍要自己重写去重、主机校验、子目录 keyLocation 边界检查与分批逻辑。submitnow 在 Web 工作台、cli/submitnow.ts 和 mcp/server.ts 之间共用同一套经测试的运行时内核。",
+        "在 Claude Code、Cursor 或 Antigravity 中接入 submitnow MCP Server 后，AI 助手可直接调用 indexnow_generate_key、indexnow_check_key、indexnow_fetch_sitemap 与 indexnow_submit_urls 四个工具，发版后一句话完成公网验签与增量推送。"
+      ]
+    }
+  ],
+  "scenarios": {
+    "title": "不同团队与技术栈怎么选？",
+    "intro": "按站点架构匹配最简洁、不会互相冲突触发 429 限流的组合方案。",
+    "headers": ["团队 / 技术栈场景", "推荐组合", "推荐依据"],
+    "rows": [
+      [
+        "Next.js / Astro / Hugo 发版流水线",
+        "submitnow 密钥校验器 + GitHub Actions / submitnow CLI",
+        "零月费，部署健康检查通过后自动按 lastmod 推送真实变更。"
+      ],
+      [
+        "AI 编程助手工作流（Claude Code / Cursor / Antigravity）",
+        "submitnow 本地 stdio MCP Server（mcp/server.ts）",
+        "IDE 内直接生成密钥、公网体检、解析嵌套 Sitemap 并批量推送，无需云端凭证。"
+      ],
+      [
+        "超 10,000 条大站迁移或代理商排查",
+        "submitnow URL 规范化 + 批次整理器 + 批量提交工作台",
+        "一键去 UTM、按主机拆分、验签后自动每批 10,000 条顺序提交，$0 成本。"
+      ],
+      [
+        "非技术运营团队需要云端巡检告警",
+        "Instant IndexNow（$9–$59/月）+ Bing Webmaster Tools",
+        "无需写 CI 脚本即可获得定时监控与持久化报表。"
+      ],
+      [
+        "WordPress 或 Shopify 独立站",
+        "单一插件 / Cloudflare Worker + submitnow 密钥校验器",
+        "避免多插件重复推送触发 429，同时用 submitnow 拦截 Shopify 跨主机跳转与 WAF 误杀。"
+      ]
+    ]
+  },
+  "faqTitle": "IndexNow 工具选型常见问题",
+  "faq": [
+    {
+      "question": "付费 IndexNow SaaS 比 submitnow 这类免费工具收录更快吗？",
+      "answer": "不会。所有工具最终请求的都是同一批公开 IndexNow 端点（api.indexnow.org 或 Bing）。商业 SaaS 收费买的是云端定时巡检、历史报表和团队看板，而不是更快的搜索引擎收录优先级。"
+    },
+    {
+      "question": "submitnow 能帮我提交 URL 给 Google 吗？",
+      "answer": "不能——任何合规的 IndexNow 工具都不能，因为 Google 未加入 IndexNow 协议。建议采用双轨方案：用 submitnow 加速 Bing、ChatGPT Search、Microsoft Copilot、Yandex、Seznam.cz、Naver 与 Yep；Google 侧通过 Google Search Console 提交带准确 lastmod 的规范 XML Sitemap。"
+    },
+    {
+      "question": "submitnow 和 Instant IndexNow 最大的实际区别是什么？",
+      "answer": "submitnow 永久免费、MIT 开源、免注册即可大批量自动分批提交、服务端零存储并提供本地 CLI 与 stdio MCP；Instant IndexNow 匿名限 200 条/天，优势在于提供免安装远程 HTTP MCP 及 $9–$59/月的云端定时 Sitemap 监控和历史日志。"
+    },
+    {
+      "question": "可以同时开启 submitnow 自动推送和 Cloudflare Crawler Hints 吗？",
+      "answer": "手工迁移和密钥排障可以随时并用；但自动化层面建议避免让多个 CMS 插件和 CI 脚本对同一批 URL 重复推送，以免触发 HTTP 429 限流。"
+    }
+  ],
+  "cta": {
+    "title": "立刻零成本体验 submitnow（永久 $0、免注册）",
+    "description": "现在就用 submitnow 体检密钥文件、对比公网 Sitemap 或发起批量推送，或查看完整免费限流边界与 MIT 自托管说明。",
+    "primaryLabel": "打开 submitnow 批量提交工作台",
+    "secondaryLabel": "查看定价与免费配额",
+    "tertiaryLabel": "阅读 CLI 与 MCP 文档"
+  },
+  "breadcrumbs": {
+    "home": "首页",
+    "current": "IndexNow 工具对比"
+  }
+}

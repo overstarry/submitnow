@@ -1,0 +1,132 @@
+{
+  "metaTitle": "submitnow 定价、免费配额与 MIT 开源自托管说明",
+  "metaDescription": "submitnow 遵循 MIT 开源协议永久 $0 免费，免注册、无 200 条/天额度墙。公开托管版每 IP 公平限流阈值、浏览器工具容量与零限制本地 CLI/MCP 自托管方案。",
+  "keywords": [
+    "submitnow 定价",
+    "IndexNow 免费工具配额",
+    "开源 IndexNow 提交工具",
+    "IndexNow 限流说明",
+    "自托管 IndexNow CLI MCP"
+  ],
+  "updatedAt": "2026-11-25",
+  "badge": "透明配额 · MIT 开源免费",
+  "title": "submitnow 定价、免费配额与自托管说明",
+  "shortAnswerLabel": "直接给结论",
+  "shortAnswer": "submitnow 永久 $0 免费，无需注册账号，也无需绑定信用卡。无论是直接访问 www.submitnow.dev 在线工作台，还是在个人、代理商或商业项目中使用 MIT 开源的本地 CLI / MCP Server，均完全免费；在线托管版仅设置防滥用的每 IP 滑动窗口限流，本地运行或自托管可彻底解除托管限流。",
+  "tiers": [
+    {
+      "id": "hosted",
+      "badge": "免注册 · 服务端零留存",
+      "name": "在线托管工作台",
+      "price": "$0",
+      "priceNote": "www.submitnow.dev 永久免费",
+      "summary": "打开浏览器即可使用多端点 IndexNow 批量提交器与全部 6 款工具，免登录、不落库。",
+      "highlights": [
+        "超过 10,000 条同主机 URL 自动按批顺序提交（每 IP 每 10 分钟最多 30 次批次请求）",
+        "支持在线抓取 .xml / .xml.gz 与嵌套 sitemapindex（单次最多 20 个子文件 / 50,000 条 URL）",
+        "内置 SSRF 防护的公网密钥体检（每 IP 每 10 分钟 60 次）",
+        "纯浏览器端工具不限次数（密钥生成、URL 规范化、批次整理、6 语言代码生成、本地 Sitemap 对比）",
+        "可选浏览器 localStorage 保存多站点 Profile 与 CSV/JSON 历史导出"
+      ],
+      "ctaLabel": "打开 submitnow 工作台",
+      "ctaHref": "/"
+    },
+    {
+      "id": "self-hosted",
+      "badge": "MIT 协议 · 允许商用",
+      "name": "自托管与本地 CLI / MCP",
+      "price": "$0",
+      "priceNote": "GitHub MIT 开源免费",
+      "summary": "在 CI/CD 中运行零依赖 CLI、将 stdio MCP Server 接入 AI 编程助手，或私有化部署并自定义限流参数。",
+      "highlights": [
+        "零外部依赖 Node 22+ CLI（cli/submitnow.ts），直接接入 GitHub Actions 与终端脚本",
+        "本地 stdio MCP Server（mcp/server.ts），支持 Claude Code、Cursor 与 Antigravity",
+        "无托管端每 IP 限流——仅受上游 IndexNow 官方端点配额策略约束",
+        "完整源码可控：支持部署至 Vercel、Docker 或内网服务器并自定义环境变量限流",
+        "宽松 MIT 开源协议——免费用于个人站点、SEO 代理商与商业 SaaS 团队"
+      ],
+      "ctaLabel": "查看 GitHub 开源仓库",
+      "ctaHref": "https://github.com/overstarry/indexNow-gui",
+      "external": true
+    }
+  ],
+  "quotasTable": {
+    "title": "submitnow 完整技术配额、限流阈值与隐私边界",
+    "intro": "下表全部数值直接对应 submitnow 线上生产代码的真实配置，方便研发与 SEO 团队在选型前准确评估上限。",
+    "headers": ["能力项", "在线托管版 (www.submitnow.dev)", "本地 CLI / MCP 与自托管版", "服务端数据留存"],
+    "rows": [
+      [
+        "IndexNow 批量提交",
+        "单请求最多 10,000 条（超量自动分批）；每 IP 每 10 分钟 30 次请求",
+        "单请求最多 10,000 条（自动分批）；本地无限流 / 自托管可配环境变量",
+        "无（无状态内存转发）"
+      ],
+      [
+        "公网密钥文件体检",
+        "每 IP 每 10 分钟 60 次；8 秒超时；内置 SSRF 防护",
+        "本地不限次数（自托管可通过 KEY_CHECK_RATE_LIMIT 调整）",
+        "无（比对后即丢弃）"
+      ],
+      [
+        "远程 Sitemap 与嵌套索引抓取",
+        "每 IP 每 10 分钟 20 次；最多 20 子文件 / 50,000 条 URL；压缩 10 MB / 解压 25 MB",
+        "本地不限次数（自托管可通过 SITEMAP_FETCH_RATE_LIMIT 调整）",
+        "无（仅内存解析）"
+      ],
+      [
+        "纯浏览器工具（密钥生成、规范化、分批、代码生成、本地 Sitemap 上传）",
+        "不限次数；可选浏览器 localStorage 基线快照最多 10,000 条",
+        "不限次数",
+        "100% 留在本地浏览器"
+      ],
+      [
+        "支持提交的引擎端点",
+        "api.indexnow.org、Bing、Yandex、Seznam.cz、Naver、Yep（经 Bing 覆盖 Copilot 与 ChatGPT Search）",
+        "完全一致的多端点支持",
+        "不适用"
+      ],
+      [
+        "商业与代理商使用",
+        "允许（$0 免费、免注册）",
+        "允许（MIT 开源协议）",
+        "无账号体系与个人隐私落库"
+      ]
+    ]
+  },
+  "boundarySection": {
+    "heading": "为什么同类 IndexNow 工具月费 $9–$59，而 submitnow 能永久免费？",
+    "paragraphs": [
+      "IndexNow 协议本身是由 Bing、Yandex、Seznam.cz、Naver 和 Yep 共同支持的免费开放标准。submitnow 坚持无状态架构，不维护多租户云端数据库、持久化抓取历史与后台定时轮询队列，因此可以把托管基础设施成本压到极低并保持永久免费。",
+      "商业 SaaS 收取 $9–$59/月，核心卖点是云端无人值守的定时 Sitemap 轮询、长期可视化报表和团队告警。如果你的团队本来就使用 GitHub Actions、Cloudflare Workers 或带 MCP 的 AI 编程助手，使用 submitnow 就能以 $0 持续成本获得完全相同的上游 IndexNow 触达效果。"
+    ]
+  },
+  "faqTitle": "定价、配额与开源许可常见问题",
+  "faq": [
+    {
+      "question": "submitnow 真的完全免费吗？有没有隐藏的每日 URL 上限？",
+      "answer": "submitnow 确实永久 $0，没有注册门槛，也没有 200 条/天的匿名额度墙。在线托管版的滑动窗口限流（每 10 分钟 30 次提交、60 次密钥校验、20 次远程 Sitemap 抓取）只为防止恶意刷出站请求；由于单次批次可携带多达 10,000 条 URL，常规发版与大站迁移在托管免费版即可轻松完成。"
+    },
+    {
+      "question": "SEO 代理商和商业公司可以直接使用 submitnow 吗？",
+      "answer": "可以。无论是 www.submitnow.dev 在线版，还是 GitHub 上 MIT 开源的 overstarry/indexNow-gui 仓库，均允许个人、代理商与商业团队免费使用和二次部署。"
+    },
+    {
+      "question": "超高频自动化不想受托管 IP 限流约束怎么办？",
+      "answer": "直接拉取 MIT 仓库，在 GitHub Actions 或服务端运行 node cli/submitnow.ts，将 node mcp/server.ts 接入 Claude Code / Cursor / Antigravity，或私有部署 Next.js 应用并通过 INDEXNOW_SUBMIT_RATE_LIMIT 等环境变量自定义限额。"
+    },
+    {
+      "question": "submitnow 提供商业 SLA 或收录保证吗？",
+      "answer": "不提供。submitnow 按 MIT 协议按现状提供服务，无商业 SLA 承诺；同时 IndexNow 协议本身只负责消除发现延迟，不保证搜索引擎必然收录或排名。"
+    }
+  ],
+  "cta": {
+    "title": "现在就以 $0 成本使用 submitnow",
+    "description": "立即打开在线批量提交工作台，或横向对比 submitnow 与其他商业 IndexNow 工具的差异。",
+    "primaryLabel": "打开 submitnow 批量提交工作台",
+    "secondaryLabel": "查看 IndexNow 工具对比"
+  },
+  "breadcrumbs": {
+    "home": "首页",
+    "current": "定价与免费配额"
+  }
+}

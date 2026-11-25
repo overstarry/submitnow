@@ -20,6 +20,14 @@
         "href": "/docs"
       },
       {
+        "name": "比較",
+        "href": "/compare"
+      },
+      {
+        "name": "料金",
+        "href": "/pricing"
+      },
+      {
         "name": "ブログ",
         "href": "/blog"
       },
@@ -72,12 +80,24 @@
               "name": "ドキュメント"
             },
             {
+              "href": "/compare",
+              "name": "ツール比較"
+            },
+            {
+              "href": "/pricing",
+              "name": "料金・無料クォータ"
+            },
+            {
+              "href": "/docs/integrations/cli-and-mcp",
+              "name": "CLI・MCP サーバー"
+            },
+            {
               "href": "/blog",
               "name": "ガイド"
             },
             {
-              "href": "/blog/indexnow-bing-submission",
-              "name": "IndexNow で Bing に送信"
+              "href": "/blog/indexnow-vs-google-indexing-api",
+              "name": "IndexNow vs Google"
             },
             {
               "href": "/about",
@@ -85,7 +105,7 @@
             },
             {
               "href": "https://www.indexnow.org/documentation",
-              "name": "IndexNow",
+              "name": "IndexNow 公式仕様",
               "target": "_blank",
               "rel": "noopener noreferrer"
             }
@@ -127,19 +147,19 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "IndexNow・AI 検索インデックス送信ツール",
-    "heroTitle": "Bing・AI 検索・IndexNow 参加社へ URL を一括送信",
-    "description": "Bing、ChatGPT Search、Microsoft Copilot、Yandex、Naver、Seznam、Yep へ数秒で更新通知。公開サイトマップ取得、キー診断、10,000 件超の自動分割送信に対応—アカウント不要・サーバー保存なし。",
+    "tagLine": "無料・オープンソースの IndexNow・AI 検索ワークベンチ",
+    "heroTitle": "submitnow：無料・オープンソースの IndexNow・AI 検索一括送信ワークベンチ",
+    "description": "submitnow は開発者・テクニカル SEO 担当者・サイト運営者向けの無料オープンソース（MIT）IndexNow ワークベンチ兼ローカル CLI・MCP サーバーです。Bing・ChatGPT Search・Microsoft Copilot・Yandex・Naver・Seznam・Yep へ同一ホスト URL を一括送信（10,000 件超は自動分割）— 永久無料・登録不要・サーバー非保存。",
     "keywords": [
-      "indexnow",
-      "indexnow 送信ツール",
+      "submitnow",
+      "indexnow 一括送信ツール",
+      "無料 indexnow gui",
+      "indexnow mcp server",
+      "indexnow cli",
       "bing indexnow",
       "chatgpt search インデックス",
       "copilot seo",
-      "ai 検索 geo",
-      "サイトマップ 一括送信",
-      "indexnow api",
-      "indexnow mcp",
+      "サイトマップ 差分",
       "indexnow キー検証"
     ],
     "badge": "IndexNow・AI 検索インデックス加速",
@@ -407,8 +427,8 @@
     "breadcrumbHome": "ホーム"
   },
   "About": {
-    "title": "このサイトについて",
-    "description": "submitnow がマルチエンドポイント送信、公開サイトマップ取得、CLI/MCP ツール、サーバー非保存設計によって Bing・ChatGPT Search・Copilot などの発見を加速する仕組み。"
+    "title": "submitnow について — 無料オープンソース IndexNow ワークベンチ",
+    "description": "無料・MIT オープンソースの IndexNow ワークベンチ、ローカル CLI、MCP サーバーである submitnow が、サーバー非保存のまま Bing・ChatGPT Search・Copilot などの発見を加速する仕組みを解説します。"
   },
   "TermsOfService": {
     "title": "利用規約",
@@ -440,8 +460,8 @@
     "relatedToolsTitle": "関連ツール",
     "relatedReadingTitle": "関連記事",
     "preview": {
-      "eyebrow": "自信を持って送信",
-      "title": "より確実な IndexNow ワークフローを組む",
+      "eyebrow": "submitnow ツールキット",
+      "title": "submitnow で IndexNow 送信前の検証と差分準備を完結",
       "description": "キーを生成し、公開されていることを確認し、単一ホストのバッチを用意し、サイトマップの変更を抽出してから検索エンジンに通知します。"
     },
     "principles": {
@@ -472,13 +492,13 @@
       },
       "sitemapDiff": {
         "title": "サイトマップ差分",
-        "description": "2 つのサイトマップをローカルで比較し、追加・変更された URL からキューを作成します。",
-        "shortDescription": "追加・変更された URL を抽出。"
+        "description": "公開サイトマップ（インデックス・.xml.gz 対応）の取得やローカル XML 比較により、追加・変更・削除 URL だけを抽出します。",
+        "shortDescription": "公開またはローカルのサイトマップ差分を抽出。"
       },
       "codeGenerator": {
         "title": "IndexNow コード生成",
-        "description": "正しい IndexNow JSON、curl、JavaScript fetch を生成します。",
-        "shortDescription": "実行可能な IndexNow リクエストを生成。"
+        "description": "検証済みの IndexNow リクエストを JSON・curl・JavaScript・Python・Go・GitHub Actions の 6 形式で生成します。",
+        "shortDescription": "6 形式の IndexNow コードを即座に生成。"
       },
       "urlNormalizer": {
         "title": "URL 正規化",
@@ -516,7 +536,7 @@
       "rootFileNote": "ホスト全体の URL を送信したい場合は、キーファイルをルートに置くのが最も簡単です。",
       "article": {
         "whenToUse": {
-          "title": "このツールを使う場面",
+          "title": "submitnow IndexNow キー生成ツールを使う場面",
           "intro": "IndexNow のキーは所有権の証明です。自分のホスト上にランダムな文字列を公開し、送信がそのホストの管理者によるものだと検索エンジンに確認させます。新しいキーが必要になるのは次のような場面です。",
           "items": [
             {
@@ -538,7 +558,7 @@
           ]
         },
         "howTo": {
-          "title": "キーの生成と設置の手順",
+          "title": "submitnow で IndexNow キーを生成・設置する手順",
           "intro": "キーがブラウザの外に出ることはありません。Web Crypto API で生成され、ダウンロードもローカルで組み立てられます。",
           "steps": [
             {
@@ -560,7 +580,7 @@
           ]
         },
         "pitfalls": {
-          "title": "よくある失敗",
+          "title": "IndexNow キーファイルでよくある失敗",
           "items": [
             {
               "title": "ファイルにキー以外が含まれている",
@@ -607,8 +627,13 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "title": "IndexNow 403 と 202 サイレント破棄の解決法：Cloudflare WAF・Nginx・Next.js 対策",
+            "description": "UTF-8 BOM・ソフト 404・別ホスト転送・WAF チャレンジなど 7 つの本番障害を網羅。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
+            "title": "Bing IndexNow 実践：Key ファイル設定と一括送信",
+            "description": "キーファイルの配置から最大 10,000 件の送信手順まで。",
             "slug": "/indexnow-bing-submission"
           }
         ]
@@ -626,7 +651,7 @@
       ],
       "title": "IndexNow キーファイルが有効か確認する",
       "description": "検索エンジンと同じようにキーファイルを取得し、検証が失敗する理由をそのまま確認できます。ステータス異常、他ホストへのリダイレクト、テキストではなく HTML、キーの不一致など。",
-      "privacyNote": "キーファイルは検索エンジンと同じく公開インターネットから取得する必要があるため、この検証はサーバー側で実行されます。取得するのはその URL だけで、保存は行いません。",
+      "privacyNote": "キーファイルは検索エンジンと同様に公開インターネットから取得する必要があるため、submitnow のステートレスサーバーから検証を実行します。取得対象はその URL のみで、一切保存しません。",
       "formTitle": "キーファイル検証",
       "formHelp": "URL を送信するホストと、使用予定のキーを入力してください。既定のファイル URL は自動的に組み立てられます。",
       "hostLabel": "ホスト",
@@ -705,8 +730,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "このツールを使う場面",
-          "intro": "IndexNow の 403 は、ほぼ必ず「想定どおりにキーファイルを読めていない」ことを意味します。この検証は、その取得をあなたのネットワークの外から再現します。",
+          "title": "submitnow IndexNow キー検証ツールを使う場面",
+          "intro": "IndexNow の 403 や 202 後の静かな破棄は、ほぼ確実に公開キーファイルの取得不備が原因です。submitnow キー検証ツールは登録不要・無料で外部フェッチを再現します。",
           "items": [
             {
               "title": "最初の送信の前に",
@@ -727,7 +752,7 @@
           ]
         },
         "howTo": {
-          "title": "検証の実行手順",
+          "title": "submitnow で IndexNow キーファイルを検証する手順",
           "intro": "リクエストはサーバー側から送られ、リダイレクトも追跡します。検索エンジンのフェッチャーと同じ結果が見られます。",
           "steps": [
             {
@@ -749,7 +774,7 @@
           ]
         },
         "pitfalls": {
-          "title": "よくある失敗",
+          "title": "IndexNow キー検証が失敗する主な原因",
           "items": [
             {
               "title": "CDN のキャッシュ",
@@ -777,8 +802,8 @@
               "answer": "CORS ヘッダーがない限りブラウザはクロスオリジン応答を読めず、キーファイルは静的なプレーンテキストとして配信されるためです。取得はサーバー側で行う必要があります。"
             },
             {
-              "question": "検証したキーは保存されますか？",
-              "answer": "いいえ。キーはリクエストの組み立てと応答の照合にのみ使われ、その後破棄されます。ディスクには書き込まれません。"
+              "question": "submitnow は検証したキーを保存しますか？",
+              "answer": "いいえ。submitnow はリクエスト作成と応答照合のためだけにメモリ上でキーを使用し、完了後すぐに破棄します。"
             },
             {
               "question": "検証は通るのに Bing が 403 を返します。",
@@ -796,11 +821,47 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow 403 と 202 サイレント破棄の解決法：Cloudflare WAF・Nginx・Next.js 対策",
+            "description": "UTF-8 BOM・ソフト 404・別ホスト転送・Cloudflare WAF 遮断の根本解決。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
+            "title": "AI 検索時代の IndexNow：ChatGPT Search と Microsoft Copilot の発見を高速化",
+            "description": "キー検証とあわせて確認すべき Bingbot・OAI-SearchBot の robots.txt 設定。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow キー検証ツールの診断項目",
+          "intro": "送信前にステータスコード・ホスト境界・応答バイト列を一括チェックし、403 と 202 破棄を未然に防ぎます。",
+          "headers": [
+            "診断項目",
+            "合格条件",
+            "submitnow が検出する異常"
+          ],
+          "rows": [
+            [
+              "HTTP ステータス",
+              "対象ホストで HTTP 200 OK を返却",
+              "404 未配置、401/403 認証・WAF 遮断、5xx エラー"
+            ],
+            [
+              "リダイレクト先",
+              "同一ホスト名（apex / www を厳密区別）を維持",
+              "別ホストへの転送（例: apex -> www や CDN ドメイン）"
+            ],
+            [
+              "本文・文字コード",
+              "キー文字列のみのプレーンテキスト",
+              "HTML ソフト 404、UTF-8 BOM（EF BB BF）、余分な文字列、空ファイル"
+            ],
+            [
+              "制限・プライバシー",
+              "オンラインは 60 回/10 分（IP 単位）、CLI/MCP は無制限",
+              "SSRF 対策済み・キーと URL は一切保存せずメモリ上で破棄"
+            ]
+          ]
+        }
       }
     },
     "batchBuilder": {
@@ -845,8 +906,8 @@
       "emptyValue": "空の値",
       "article": {
         "whenToUse": {
-          "title": "このツールを使う場面",
-          "intro": "URL がすべて宣言したホストに属していなければ IndexNow はリクエストを拒否し、重複は何の効果もないまま割り当てを消費します。このツールは貼り付けたリストを送信可能な形に整えます。",
+          "title": "submitnow IndexNow バッチ整理ツールを使う場面",
+          "intro": "IndexNow は 1 リクエストにつき 1 ホストのみ受理し、重複 URL は制限枠を浪費します。submitnow バッチ整理ツールはブラウザ内で重複除去・ホスト別分割・10,000 件単位のチャンク分割を行います。",
           "items": [
             {
               "title": "CMS やクローラーからの書き出し",
@@ -867,7 +928,7 @@
           ]
         },
         "howTo": {
-          "title": "整ったバッチの作り方",
+          "title": "submitnow で送信可能な IndexNow バッチを作る手順",
           "intro": "解析・重複除去・グループ分けは入力中にその場で行われ、何もアップロードされません。",
           "steps": [
             {
@@ -889,7 +950,7 @@
           ]
         },
         "pitfalls": {
-          "title": "よくある失敗",
+          "title": "IndexNow バッチ作成でよくある失敗",
           "items": [
             {
               "title": "http と https を同一視する",
@@ -930,14 +991,19 @@
             },
             {
               "question": "10,000 件以上を送信できますか？",
-              "answer": "1 リクエストではできません。分割して順に送信してください。上限を超えると概要が警告します。"
+              "answer": "IndexNow の仕様上 1 リクエストの上限は 10,000 件です。submitnow バッチ整理ツールは 10,000 件単位へ自動分割し、トップページの submitnow 送信フォームでも 10,000 件超のリストを自動的に順次送信できます。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
+            "title": "IndexNow・Google Indexing API・XML サイトマップ徹底比較（2026 年実践ガイド）",
+            "description": "Google と Bing / AI 検索の両方を安全にカバーする二軸インデックス構成。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "Bing IndexNow 実践：Key ファイル設定と一括送信",
+            "description": "単一ホストのバッチ要件と 422 エラーの回避方法。",
             "slug": "/indexnow-bing-submission"
           }
         ]
@@ -948,8 +1014,8 @@
       "sendChunk": "このバッチを送る"
     },
     "sitemapDiff": {
-      "metaTitle": "IndexNow 向けサイトマップ差分",
-      "metaDescription": "2 つのサイトマップ XML をブラウザ内で比較し、追加・変更された URL だけを IndexNow 送信キューとして書き出します。",
+      "metaTitle": "IndexNow 向けサイトマップ差分・公開 XML 抽出ツール",
+      "metaDescription": "無料の submitnow サイトマップ差分ツール。公開 sitemap.xml・.xml.gz・ネストされたサイトマップインデックス（最大 50,000 件）の取得やローカル比較で lastmod 抽出と追加・変更・削除 URL 出力に対応。",
       "keywords": [
         "サイトマップ 差分",
         "sitemap diff",
@@ -957,27 +1023,27 @@
         "indexnow サイトマップ",
         "変更された url"
       ],
-      "title": "サーバーに送らずにサイトマップの変更を見つける",
-      "description": "古いサイトマップ XML と新しいサイトマップ XML をアップロードします。比較はローカルで行われ、追加・変更された URL だけを IndexNow 用キューとして書き出せます。",
+      "title": "ローカルまたは公開 URL からサイトマップ差分を抽出",
+      "description": "submitnow サイトマップ差分（永久無料・登録不要）は、公開 sitemap.xml・.xml.gz・ネストされたサイトマップインデックスの取得（最大 20 子ファイル / 50,000 件）とローカル XML/gzip 比較に対応し、追加・変更・削除 URL だけを出力します。",
       "privacyNote": "ローカルの .xml / .xml.gz ファイルはすべてブラウザ内で解析されます。任意のリモートサイトマップ取得のみサーバー経由で行い、URL は保存しません。",
       "previousTitle": "以前のサイトマップ",
-      "previousHelp": "基準にする古いほうのサイトマップ XML をアップロードします。",
+      "previousHelp": "公開 URL 取得、ブラウザ保存済みの基準スナップショット、または古い .xml / .xml.gz を指定します。",
       "currentTitle": "現在のサイトマップ",
-      "currentHelp": "比較したい新しいほうのサイトマップ XML をアップロードします。",
+      "currentHelp": "現在の公開サイトマップ URL（robots.txt 自動検出対応）を取得するか、新しい .xml / .xml.gz を選択します。",
       "chooseFile": "サイトマップ XML を選択",
       "replaceFile": "サイトマップ XML を差し替え",
       "entryCount": "有効な URL が {count} 件見つかりました",
       "errors": {
         "invalidXml": "このファイルは有効な XML ではありません。",
         "emptyUrlset": "この URL セットには有効な http(s) URL が含まれていません。",
-        "sitemapIndex": "これは {count} 件の子サイトマップを含むサイトマップインデックスです。ブラウザ内で完結させるため、比較したい個々のサイトマップ XML をアップロードしてください。",
+        "sitemapIndex": "アップロードされたファイルは {count} 件の子サイトマップを含むサイトマップインデックスです。上の「URL を取得」欄に公開 URL を入力すると最大 20 子ファイルを自動展開できます。ローカル比較の場合は個別の urlset XML をアップロードしてください。",
         "unsupported": "この XML はサイトマップの URL セットでもインデックスでもありません。",
         "invalidLocations": "{count} 件の無効なサイトマップ URL を比較対象から除外しました。"
       },
       "resultsTitle": "変更キュー",
-      "resultsHelp": "追加・変更された URL を選び、送信ツール用にキューをコピーまたはダウンロードします。",
+      "resultsHelp": "追加・変更・削除 URL を選択し、コピー・ダウンロードまたは submitnow 送信フォームへ直接送ります。",
       "selectedCount": "{count} 件を選択中",
-      "emptyState": "有効な 2 つのサイトマップ URL セットをアップロードすると差分を計算します。",
+      "emptyState": "公開サイトマップ URL を取得するか、ローカルの .xml / .xml.gz ファイルをアップロードしてください。",
       "stats": {
         "added": "追加",
         "changed": "変更",
@@ -995,8 +1061,8 @@
       "moreUrls": "ほか {count} 件の URL",
       "article": {
         "whenToUse": {
-          "title": "このツールを使う場面",
-          "intro": "デプロイのたびにサイトマップ全体を送信するのは、429 に到達する最短ルートです。差分を取れば、サイトマップ全体を本当に変わった URL だけに絞り込めます。",
+          "title": "submitnow サイトマップ差分ツールを IndexNow で使う場面",
+          "intro": "デプロイのたびにサイトマップ全件を再送信すると HTTP 429 レート制限を招きます。submitnow サイトマップ差分ツールなら登録不要・無料・サーバー非保存で追加・変更・削除 URL だけを抽出できます。",
           "items": [
             {
               "title": "コンテンツをデプロイした後",
@@ -1017,33 +1083,33 @@
           ]
         },
         "howTo": {
-          "title": "2 つのサイトマップを比較する手順",
-          "intro": "どちらのファイルもブラウザ内蔵の XML パーサーで解析され、アップロードはされません。",
+          "title": "submitnow でサイトマップ比較・lastmod 抽出を行う手順",
+          "intro": "ローカルの .xml / .xml.gz 解析は完全にブラウザ内で完結し、公開 URL やサイトマップインデックス取得も submitnow の SSRF 対策済みステートレス処理で安全に実行されます。",
           "steps": [
             {
-              "title": "基準となるサイトマップを保存しておく",
-              "description": "リリース前にサイトマップ XML をダウンロードするか、前回送信時のコピーを残しておきます。"
+              "title": "基準スナップショットを読み込む（任意）",
+              "description": "古い .xml / .xml.gz のアップロード、公開 URL 取得、またはブラウザ保存済みの基準（最大 10,000 件）を選びます。単一サイトマップの lastmod 抽出だけなら省略できます。"
             },
             {
-              "title": "2 つのファイルをアップロードする",
-              "description": "古いほうを基準として、新しいほうを現在のサイトマップとして指定します。"
+              "title": "現在のサイトマップを取得またはアップロード",
+              "description": "ドメイン名（robots.txt 自動探索）や公開 URL（.xml.gz や <sitemapindex> 対応）を入力するか、ローカルファイルを読み込みます。"
             },
             {
-              "title": "含める対象を選ぶ",
-              "description": "追加は新しく現れたエントリ、変更は lastmod が動いたエントリです。どちらか、または両方を選べます。"
+              "title": "差分対象または lastmod 期間を選択",
+              "description": "比較モードでは追加・変更・削除（404/410 通知用）を切り替え、単一モードでは過去 24 時間・7 日間・30 日間で絞り込みます。"
             },
             {
-              "title": "コピー・ダウンロード・送信",
-              "description": "キューをテキストとして書き出すか、該当ホストの送信フォームへそのまま送れます。"
+              "title": "submitnow へ直接送信または書き出し",
+              "description": "キューをコピー・ダウンロードするか、そのまま submitnow 一括送信ワークベンチへ渡して 10,000 件超も自動分割送信します。"
             }
           ]
         },
         "pitfalls": {
-          "title": "よくある失敗",
+          "title": "サイトマップ差分でよくある失敗",
           "items": [
             {
-              "title": "サイトマップインデックスをアップロードする",
-              "description": "インデックスは他のサイトマップを列挙するだけです。その先の個別ファイルをアップロードしてください。本ツールはブラウザ内で完結させるため、取得は行いません。"
+              "title": "サイトマップインデックスをローカルからアップロードする",
+              "description": "ローカル読み込みは完全にオフラインのため子サイトマップを取得しません。<sitemapindex> を自動展開（最大 20 子ファイル / 50,000 件）したい場合は公開 URL を「URL を取得」欄に入力してください。"
             },
             {
               "title": "毎回 lastmod を打ち直す生成ツール",
@@ -1063,34 +1129,75 @@
           "title": "よくある質問",
           "items": [
             {
-              "question": "なぜ URL 入力ではなくファイルのアップロードなのですか？",
-              "answer": "他サイトのサイトマップをブラウザから読むのは CORS で遮断され、サーバー側で取得すると URL を当方に送ることになります。アップロードなら比較をローカルに保てます。"
+              "question": "submitnow では公開 URL 取得とローカルアップロードをどう使い分けるべきですか？",
+              "answer": "完全オフライン処理やステージング環境のファイル比較にはローカルの .xml / .xml.gz アップロードを使い、robots.txt 自動探索やネストされた <sitemapindex> の展開が必要なときは submitnow の公開 URL 取得（SSRF 対策済み・非保存）を使ってください。"
             },
             {
-              "question": "変更された URL はどう判定されますか？",
-              "answer": "両方のファイルに存在し lastmod が異なる URL を変更、新しいファイルにだけある URL を追加と判定します。"
+              "question": "submitnow は変更された URL をどう判定しますか？",
+              "answer": "両方のスナップショットに存在し <lastmod> が変化したものを「変更」、新しい側のみにあるものを「追加」、新しい側から消えたものを「削除」と判定します。"
             },
             {
-              "question": "削除された URL も出力されますか？",
-              "answer": "件数は数えますが書き出しません。IndexNow は更新の通知が目的で、削除された URL は再クロールに任せるほうが適切です。"
+              "question": "削除された URL も IndexNow 用に書き出せますか？",
+              "answer": "はい。削除された URL も件数表示され、「削除された URL を含める」チェックボックスを有効にすることで、404/410 の削除通知用キューとして書き出し・送信できます。"
             },
             {
-              "question": "gzip 圧縮されたサイトマップも比較できますか？",
-              "answer": "できません。.xml.gz は先に展開してください。解析できるのはプレーンな XML のみです。"
+              "question": "submitnow サイトマップ差分は .xml.gz に対応していますか？",
+              "answer": "はい。ローカルアップロード時のブラウザ内解凍と、公開 URL 取得時の .xml.gz 展開（圧縮 10 MB / 展開後 25 MB 上限）の両方に自動対応しています。"
             },
             {
-              "question": "キューは 10,000 件の上限を守りますか？",
-              "answer": "差分が上限を超えることもあります。上限に近い場合は、結果をバッチ整理ツールに通してください。"
+              "question": "抽出したキューが 10,000 件を超えた場合はどうなりますか？",
+              "answer": "IndexNow の仕様上 1 リクエストは 10,000 件までですが、submitnow のトップページ送信フォームへ送れば 10,000 件ずつ自動的に順次分割送信されます。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
-            "slug": "/indexnow-bing-submission"
+            "title": "AI 検索時代の IndexNow：ChatGPT Search と Microsoft Copilot の発見を高速化",
+            "description": "差分 lastmod 送信と Bingbot / OAI-SearchBot 設定で AI 検索の発見遅延を短縮。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
+          },
+          {
+            "title": "IndexNow・Google Indexing API・XML サイトマップ徹底比較（2026 年実践ガイド）",
+            "description": "Google 向けサイトマップと IndexNow 差分プッシュを組み合わせる二軸設計。",
+            "slug": "/indexnow-vs-google-indexing-api"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow サイトマップ差分の動作モードと上限",
+          "intro": "プライバシー要件やサイト規模に応じてローカル比較・公開 URL 取得・CLI/MCP を使い分けられます。",
+          "headers": [
+            "モード",
+            "対応形式",
+            "上限・レート制限",
+            "向いている用途"
+          ],
+          "rows": [
+            [
+              "ローカルアップロード",
+              ".xml / .xml.gz（ブラウザ内で自動解凍）",
+              "回数無制限・ローカル基準保存は最大 10,000 件",
+              "非公開・ステージング環境や完全オフライン比較"
+            ],
+            [
+              "公開 URL 取得",
+              ".xml・.xml.gz・<sitemapindex>・robots.txt 自動検出",
+              "20 回/10 分（IP 単位）・最大 20 子ファイル / 50,000 URL",
+              "本番リリース後の確認や分割サイトマップ運用"
+            ],
+            [
+              "単一 lastmod 絞り込み",
+              "過去 24 時間 / 7 日 / 30 日 / 全件",
+              "読み込み後ブラウザ上で即時フィルタ",
+              "基準ファイルなしでの日次・週次差分抽出"
+            ],
+            [
+              "submitnow CLI / MCP",
+              "同じパーサーと SSRF 保護をローカル実行",
+              "ホスト側 IP 制限なし・MIT オープンソース",
+              "GitHub Actions や AI コーディングエージェント連携"
+            ]
+          ]
+        }
       },
       "extractHelp": "現在の sitemap だけで有効な URL を抽出できます。変更のみ必要な場合に基準を追加します。",
       "savedSnapshot": "保存済み基準：{fileName}（{date}）",
@@ -1131,17 +1238,20 @@
     },
     "codeGenerator": {
       "cardTitle": "IndexNow コード生成",
-      "cardDescription": "正しい IndexNow JSON、curl、JavaScript fetch を生成します。",
+      "cardDescription": "検証済みの IndexNow JSON・curl・JavaScript・Python・Go・GitHub Actions コードを生成します。",
       "cardShort": "実行可能な IndexNow リクエストを生成。",
-      "metaTitle": "無料 IndexNow コード生成",
-      "metaDescription": "ホストと URL を検証し、IndexNow JSON、curl、JavaScript をローカル生成。",
+      "metaTitle": "無料 IndexNow コード生成（curl・JS・Python・Go・CI）",
+      "metaDescription": "submitnow のブラウザ内で curl・JavaScript・Python・Go・GitHub Actions・JSON の 6 形式の IndexNow コードを検証・生成。api.indexnow.org ほか全エンドポイントに対応。",
       "keywords": [
         "IndexNow コード生成",
         "IndexNow curl",
+        "IndexNow Python",
+        "IndexNow Go",
+        "IndexNow GitHub Actions",
         "IndexNow JavaScript"
       ],
       "title": "IndexNow リクエストを生成",
-      "description": "検証済みホストと URL 一覧から JSON、curl、JavaScript を生成します。",
+      "description": "submitnow のブラウザ内で検証済みホストと URL リストから curl・JavaScript・Python・Go・GitHub Actions・JSON を即座に生成 — 無料・サーバー送信なし。",
       "privacyNote": "生成はブラウザ内だけで行われ、キー、ホスト、URL、コードは送信されません。",
       "inputTitle": "リクエスト入力",
       "hostLabel": "ホスト",
@@ -1165,8 +1275,8 @@
       "emptyState": "ホスト、キー、同一ホストの有効な URL を入力してください。",
       "article": {
         "whenToUse": {
-          "title": "使用する場面",
-          "intro": "CMS、デプロイ フック、バックエンドで手書きせず正しいリクエストが必要なときに使います。",
+          "title": "submitnow IndexNow コード生成を使う場面",
+          "intro": "CMS・バックエンド・CI/CD で手書きミスなく IndexNow を実装したいときに、submitnow コード生成で curl・JavaScript・Python・Go・GitHub Actions・JSON をそのまま出力できます。",
           "items": [
             {
               "title": "デプロイ フック",
@@ -1177,13 +1287,13 @@
               "description": "送信ペイロードを正しい形式と比較。"
             },
             {
-              "title": "実装形式の変更",
-              "description": "同じペイロードで curl と JavaScript を切替。"
+              "title": "複数言語・CI パイプラインの切替",
+              "description": "同一の検証済みペイロードから curl・JavaScript・Python・Go・GitHub Actions YAML・JSON を即座に切り替えられます。"
             }
           ]
         },
         "howTo": {
-          "title": "生成手順",
+          "title": "submitnow で IndexNow リクエストコードを生成する手順",
           "intro": "ホスト境界を検証してからコードを生成します。",
           "steps": [
             {
@@ -1205,7 +1315,7 @@
           ]
         },
         "pitfalls": {
-          "title": "よくある問題",
+          "title": "IndexNow 実装コードでよくある問題",
           "items": [
             {
               "title": "ブラウザでキーを実行",
@@ -1225,26 +1335,72 @@
           "title": "よくある質問",
           "items": [
             {
-              "question": "リクエストを送信しますか？",
-              "answer": "いいえ。ローカルでコードを生成するだけです。"
+              "question": "submitnow コード生成は実際にリクエストを送信したりキーを保存しますか？",
+              "answer": "いいえ。すべてのコードはブラウザ内だけで生成され、キー・ホスト・URL が外部へ送られることはありません。"
             },
             {
-              "question": "どのエンドポイントですか？",
-              "answer": "共有の api.indexnow.org を使用します。"
+              "question": "どの形式と IndexNow エンドポイントに対応していますか？",
+              "answer": "submitnow コード生成は 6 形式（curl・JavaScript・Python・Go・GitHub Actions・JSON）に対応し、api.indexnow.org（既定の全体共有）または Bing・Yandex・Seznam.cz・Naver・Yep を選択できます。"
             },
             {
-              "question": "複数ホストを含められますか？",
-              "answer": "いいえ。ホストごとに生成します。"
+              "question": "1 つのリクエストに複数ホストを含められますか？",
+              "answer": "いいえ。IndexNow は 1 リクエスト 1 ホスト必須のため、事前に submitnow バッチ整理ツールでホスト別に分割してください。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow・Google Indexing API・XML サイトマップ徹底比較（2026 年実践ガイド）",
+            "description": "自動 IndexNow フックと Google 向けサイトマップを組み合わせる運用設計。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "IndexNow 403 と 202 サイレント破棄の解決法：Cloudflare WAF・Nginx・Next.js 対策",
+            "description": "CI 自動送信を導入する前に確認すべき 7 つのキー検証チェック項目。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow コード生成の対応フォーマット",
+          "intro": "すべての出力形式はローカルで単一ホスト境界と UTF-8 JSON を検証してから生成されます。",
+          "headers": [
+            "形式",
+            "実行環境",
+            "主な用途"
+          ],
+          "rows": [
+            [
+              "curl",
+              "Shell / Linux / macOS / CI",
+              "手動テスト・シェルスクリプト・障害切り分け"
+            ],
+            [
+              "JavaScript (fetch)",
+              "Node.js 18+ / Cloudflare Workers / Edge",
+              "Next.js デプロイフック・Webhook・エッジワーカー"
+            ],
+            [
+              "Python",
+              "Python 3 (requests)",
+              "バックエンド処理・Django/FastAPI 連携・SEO スクリプト"
+            ],
+            [
+              "Go",
+              "Go net/http",
+              "高スループットサービス・静的サイト連携"
+            ],
+            [
+              "GitHub Actions",
+              "GitHub Actions Workflow YAML",
+              "Repository Secrets を使ったデプロイ後自動通知"
+            ],
+            [
+              "JSON",
+              "IndexNow 標準ペイロード",
+              "ペイロード構造の確認や API クライアントへの貼り付け"
+            ]
+          ]
+        }
       },
       "endpointLabel": "エンドポイント"
     },
@@ -1259,8 +1415,8 @@
         "UTM 削除",
         "IndexNow URL 整理"
       ],
-      "title": "送信前に URL を正規化",
-      "description": "URL 構文を統一して重複を除き、意味を変える操作は明示的に選択します。",
+      "title": "IndexNow 送信前に URL リストを正規化・クリーンアップ",
+      "description": "無料の submitnow URL 正規化ツール（ブラウザ完結）でフラグメントや UTM・広告パラメータを除去して重複排除し、IndexNow の 422 エラーや 429 制限浪費を防ぎます。",
       "privacyNote": "URL 解析はブラウザ内だけで行い、一覧を送信・保存しません。",
       "inputTitle": "URL を貼り付け",
       "inputHelp": "1 行に一つの絶対 HTTP または HTTPS URL。",
@@ -1301,8 +1457,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "使用する場面",
-          "intro": "重複排除、バッチ化、コード生成、IndexNow 送信の前に URL を整理します。",
+          "title": "submitnow 送信前に URL 正規化を使う場面",
+          "intro": "フラグメントや UTM パラメータ付きの URL は重複送信となりレート枠を浪費します。submitnow URL 正規化でローカル整理したあと、そのまま submitnow 一括送信フォームへ渡せます。",
           "items": [
             {
               "title": "エクスポート一覧の整理",
@@ -1319,7 +1475,7 @@
           ]
         },
         "howTo": {
-          "title": "正規化手順",
+          "title": "submitnow で IndexNow 向け URL を正規化する手順",
           "intro": "既定ではフラグメントだけ削除し、他の操作は明示的に選びます。",
           "steps": [
             {
@@ -1341,7 +1497,7 @@
           ]
         },
         "pitfalls": {
-          "title": "よくある問題",
+          "title": "IndexNow の URL 正規化でよくある問題",
           "items": [
             {
               "title": "パラメータの一括削除",
@@ -1376,13 +1532,25 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow で Bing に送信: キーファイル設定と一括送信",
-            "description": "キーファイルのホスティングと最大 10,000 件の送信、よくあるエラーまで。",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow・Google Indexing API・XML サイトマップ徹底比較（2026 年実践ガイド）",
+            "description": "サイトマップと IndexNow 双方で正規 HTTP 200 URL を維持する方法。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "AI 検索時代の IndexNow：ChatGPT Search と Microsoft Copilot の発見を高速化",
+            "description": "重複パラメータを除いた正規 URL を Bing・Copilot・ChatGPT Search へ正確に届ける手順。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
         ]
       },
       "resultSummaryDetailed": "有効 {valid} 件 · 重複 {duplicates} 件 · 不正 {invalid} 件"
+    },
+    "submitterCard": {
+      "title": "submitnow で一括送信する準備はできましたか？",
+      "description": "同一ホスト最大 10,000 件/リクエスト（超過時は自動分割）で Bing・ChatGPT Search・Copilot・Yandex・Seznam・Naver・Yep へ送信 — 永久無料・登録不要。",
+      "cta": "submitnow 一括送信ワークベンチを開く",
+      "compareLink": "IndexNow ツールを比較する",
+      "pricingLink": "無料クォータ・MIT セルフホスト"
     }
   },
   "Docs": {

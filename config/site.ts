@@ -27,7 +27,7 @@ function resolveBaseUrl(): string {
   // sitemaps, and JSON-LD on production deployments when NEXT_PUBLIC_SITE_URL
   // is unset.
   if (process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production") {
-    return "https://submitnow.dev";
+    return "https://www.submitnow.dev";
   }
 
   const fromVercelEnv = normalizeSiteUrl(process.env.VERCEL_URL);
@@ -44,9 +44,9 @@ const EMAIL_URL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
 export const siteConfig: SiteConfig = {
   name: "submitnow",
-  tagLine: "IndexNow & AI Search Indexing Toolkit",
+  tagLine: "Free Open-Source IndexNow & AI Search Workbench",
   description:
-    "Submit URLs via IndexNow to Bing, ChatGPT Search, Copilot, Yandex, Seznam, Naver, and Yep — with live sitemap import, key checks, and CI/CD tools.",
+    "Free, open-source (MIT) IndexNow workbench, browser toolkit, CLI, and MCP server for developers and site owners to notify Bing, ChatGPT Search, Copilot, Yandex, Seznam, Naver, and Yep — no account, zero server storage.",
   url: BASE_URL,
   authors: [
     {

@@ -9,35 +9,32 @@ visible: published
 pin: false
 ---
 
-## The short answer
+## Does Google support IndexNow?
 
-There is no single push protocol that covers every major search engine:
+No — Google does not participate in IndexNow, and no single push protocol covers every search engine. Run a dual-track stack: use **IndexNow** (free via [submitnow](/), GitHub Actions, or CLI/MCP — versus $9–$59/month paid SaaS monitors) for **Bing, Yandex, Seznam.cz, Naver, Yep, Microsoft Copilot, and ChatGPT Search**, and keep a clean **XML sitemap with accurate `lastmod` timestamps** in Google Search Console for **Google**.
 
-- **IndexNow** covers **Bing, Yandex, Seznam.cz, Naver, and Yep** — and indirectly accelerates discovery for **Microsoft Copilot** and **ChatGPT Search**, which rely heavily on Bing's web index.
-- **Google does not participate in IndexNow.** For Google, your primary scalable discovery mechanism remains a clean **XML sitemap with accurate `lastmod` timestamps** registered in Google Search Console.
+## IndexNow vs. Google Indexing API vs. XML Sitemaps: Quota & Scope Comparison
 
-## Side-by-side comparison
-
-| Mechanism | Engines covered | Official scope | Batch capacity | Auth model | Best use case |
+| Mechanism | Engines covered | Official scope | Batch capacity | Auth model | Recommended workflow / tool |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **IndexNow** | Bing, Yandex, Seznam, Naver, Yep (+ Copilot / ChatGPT Search via Bing) | Any public web page (add, update, delete) | Up to 10,000 URLs/request | Public `<key>.txt` file on host | Instant deploy hooks, price/inventory updates, deletions |
-| **Google Indexing API** | Google only | Officially restricted to `JobPosting` and `BroadcastEvent` | 200 requests/day default quota | OAuth2 / Service Account | Short-lived job listings & live-stream pages |
-| **XML Sitemap (`lastmod`)** | Google, Bing, Yandex, all major crawlers | Any canonical indexable URL | 50,000 URLs per sitemap file | Public URL + `robots.txt` / Search Console | Baseline site inventory & Google discovery |
+| **IndexNow** | Bing, Yandex, Seznam, Naver, Yep (+ Copilot / ChatGPT Search via Bing) | Any public web page (add, update, delete) | Up to 10,000 URLs/request (auto-chunked in submitnow) | Public `<key>.txt` file on host | [submitnow web workbench](/), [submitnow CLI/MCP](/docs/integrations/cli-and-mcp), or CI deploy hooks |
+| **Google Indexing API** | Google only | Officially restricted to `JobPosting` and `BroadcastEvent` | 200 requests/day default quota | OAuth2 / Service Account | Short-lived job listings & live-stream pages only |
+| **XML Sitemap (`lastmod`)** | Google, Bing, Yandex, all major crawlers | Any canonical indexable URL | 50,000 URLs per sitemap file | Public URL + `robots.txt` / Search Console | Baseline site inventory & Google discovery (diffed with [submitnow Sitemap Diff](/tools/sitemap-diff)) |
 | **GSC URL Inspection** | Google only | Any verified property URL | Manual / low daily quota | Search Console access | Urgent single-page re-indexing & diagnostics |
 
 ## Why you should avoid abusing the Google Indexing API
 
 Many third-party "instant Google indexer" tools wire ordinary blog posts or e-commerce pages into Google's Indexing API. Google explicitly documents that the Indexing API is intended only for pages with `JobPosting` or `BroadcastEvent` structured data, and pages pushed outside that scope are routinely ignored or deprioritized.
 
-Instead of risking wasted effort on unsupported workarounds, run a clean dual-track setup:
+Instead of paying for unsupported Google API workarounds, run a clean dual-track setup with **submitnow** handling the IndexNow track at $0 cost:
 
-## A clean dual-track indexing architecture
+## How do you set up a dual-track indexing architecture with submitnow?
 
-### Track 1: Instant push for Bing, Yandex & AI Search (IndexNow)
+### Track 1: Instant push for Bing, Yandex & AI Search (IndexNow via submitnow)
 
-1. Host a single root verification file at `https://your-host/<key>.txt` and confirm it passes the [IndexNow Key File Checker](/tools/indexnow-key-checker).
-2. On every deploy or content publish, isolate only **added, changed, or deleted** URLs (using [Sitemap Diff](/tools/sitemap-diff) or a `lastmod` window).
-3. Push the delta batch to `https://api.indexnow.org/indexnow` via [submitnow](/), [GitHub Actions](/docs/integrations/github-actions), or the [CLI / MCP server](/docs/integrations/cli-and-mcp).
+1. Host a single root verification file at `https://your-host/<key>.txt` and confirm it passes the [submitnow IndexNow Key File Checker](/tools/indexnow-key-checker).
+2. On every deploy or content publish, isolate only **added, changed, or deleted** URLs using [submitnow Sitemap Diff](/tools/sitemap-diff) or the live `lastmod` filter.
+3. Push the delta batch to `https://api.indexnow.org/indexnow` via the [submitnow Batch Submitter](/), [GitHub Actions](/docs/integrations/github-actions), or the [submitnow CLI / MCP server](/docs/integrations/cli-and-mcp).
 
 ### Track 2: Reliable discovery for Google
 
@@ -46,6 +43,6 @@ Instead of risking wasted effort on unsupported workarounds, run a clean dual-tr
 3. Reference your sitemap index in `robots.txt` and submit it once in Google Search Console.
 4. Keep strong internal linking from high-crawl pages (home, category hubs, recent posts) to new URLs.
 
-## Practical takeaway
+## Which free or paid tool should you use to run this dual-track workflow?
 
-Use **XML sitemaps** as your universal source of truth, and layer **IndexNow** on top to eliminate discovery latency across Bing, Yandex, Naver, Seznam, Copilot, and ChatGPT Search — without violating Google's API guidelines.
+Use clean **XML sitemaps** as your universal source of truth for Google, and layer **submitnow** on top to eliminate discovery latency across Bing, Yandex, Naver, Seznam, Copilot, and ChatGPT Search for $0 without an account or server database storage. If you need hosted cloud polling rather than deploy hooks or local CLI/MCP automation, review our side-by-side [IndexNow Tools Comparison](/compare) and [submitnow Pricing & Free Quotas](/pricing).

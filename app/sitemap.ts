@@ -1,13 +1,15 @@
 import { DEFAULT_LOCALE, LOCALES } from '@/i18n/routing'
+import { getCompareContent } from '@/lib/compare'
 import { getDocs } from '@/lib/docs'
 import { getPosts } from '@/lib/getBlogs'
 import { buildLanguageAlternates, buildLocalizedUrl } from '@/lib/metadata'
+import { getPricingContent } from '@/lib/pricing'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
 import { MetadataRoute } from 'next'
 import path from 'path'
 
-const CONTENT_RELEASE_DATE = new Date('2026-11-25')
+const FALLBACK_LAST_MODIFIED = new Date('2026-11-24')
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>
 
@@ -17,61 +19,61 @@ type StaticRoute = {
   changeFrequency: ChangeFrequency
   /** MDX file under content/ whose `lastUpdated` frontmatter drives lastModified. */
   contentDir?: string
-  /** Explicit deterministic lastModified date (avoids CI checkout mtime resets). */
+  /** Explicit per-route substantive content update date (do not bulk-restamp on every release). */
   lastModified?: Date
 }
 
-// Tool pages are the acquisition surface of the site, so they outrank the
-// legal pages. Dates come from frontmatter or explicit content release dates
-// instead of `new Date()` or filesystem mtime (which resets on every CI build).
+// Each static route tracks its own substantive content update date instead of
+// sharing one global release constant or filesystem mtime (which resets on CI
+// checkouts and causes search engines to distrust <lastmod>).
 const STATIC_ROUTES: StaticRoute[] = [
   {
     path: '/',
     priority: 1.0,
     changeFrequency: 'weekly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools',
     priority: 0.9,
     changeFrequency: 'weekly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-24'),
   },
   {
     path: '/tools/indexnow-key-generator',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools/indexnow-key-checker',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools/indexnow-batch-builder',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools/sitemap-diff',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools/url-normalizer',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   {
     path: '/tools/indexnow-code-generator',
     priority: 0.9,
     changeFrequency: 'monthly',
-    lastModified: CONTENT_RELEASE_DATE,
+    lastModified: new Date('2026-11-25'),
   },
   { path: '/about', priority: 0.5, changeFrequency: 'monthly', contentDir: 'about' },
   {
@@ -110,12 +112,12 @@ async function resolveStaticLastModified(route: StaticRoute, locale: string): Pr
     if (fromFrontmatter) return fromFrontmatter
   }
 
-  return route.lastModified ?? CONTENT_RELEASE_DATE
+  return route.lastModified ?? FALLBACK_LAST_MODIFIED
 }
 
 function newestDate(dates: Date[]): Date {
   const valid = dates.filter((d) => !Number.isNaN(d.getTime()))
-  if (valid.length === 0) return CONTENT_RELEASE_DATE
+  if (valid.length === 0) return FALLBACK_LAST_MODIFIED
   return valid.sort((a, b) => b.getTime() - a.getTime())[0]
 }
 
@@ -133,6 +135,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }))
     )
   )
+
+  const decisionPages = LOCALES.flatMap((locale) => {
+    const compare = getCompareContent(locale)
+    const pricing = getPricingContent(locale)
+    return [
+      {
+        url: buildLocalizedUrl(locale, '/compare'),
+        lastModified: new Date(compare.updatedAt),
+        changeFrequency: 'monthly' as ChangeFrequency,
+        priority: 0.85,
+        alternates: {
+          languages: buildLanguageAlternates('/compare'),
+        },
+      },
+      {
+        url: buildLocalizedUrl(locale, '/pricing'),
+        lastModified: new Date(pricing.updatedAt),
+        changeFrequency: 'monthly' as ChangeFrequency,
+        priority: 0.8,
+        alternates: {
+          languages: buildLanguageAlternates('/pricing'),
+        },
+      },
+    ]
+  })
 
   const docsIndexPages = LOCALES.map((locale) => {
     const localeDocs = getDocs(locale)
@@ -196,5 +223,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   )
 
-  return [...pages, ...docsIndexPages, ...docs, ...blogIndexPages, ...blogPosts]
+  return [...pages, ...decisionPages, ...docsIndexPages, ...docs, ...blogIndexPages, ...blogPosts]
 }

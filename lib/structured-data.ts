@@ -26,6 +26,8 @@ export function organizationSchema(): JsonLdObject {
     '@type': 'Organization',
     '@id': `${siteConfig.url}/#organization`,
     name: siteConfig.name,
+    alternateName: ['SubmitNow', 'indexNow-gui'],
+    description: siteConfig.description,
     url: siteConfig.url,
     logo: {
       '@type': 'ImageObject',
@@ -33,7 +35,39 @@ export function organizationSchema(): JsonLdObject {
       width: 512,
       height: 512,
     },
+    knowsAbout: [
+      'IndexNow',
+      'Bing Webmaster Tools',
+      'ChatGPT Search',
+      'Microsoft Copilot',
+      'XML Sitemaps',
+      'Model Context Protocol (MCP)',
+      'Technical SEO',
+    ],
     sameAs: [siteConfig.socialLinks?.github].filter(Boolean),
+  }
+}
+
+export function aboutPageSchema({
+  locale,
+  title,
+  description,
+}: {
+  locale: string
+  title: string
+  description: string
+}): JsonLdObject {
+  const url = absoluteUrl(locale, '/about')
+
+  return {
+    '@type': 'AboutPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    inLanguage: locale,
+    isPartOf: { '@id': `${siteConfig.url}/#website` },
+    mainEntity: { '@id': `${siteConfig.url}/#organization` },
   }
 }
 
@@ -72,11 +106,13 @@ export function softwareApplicationSchema({
   path,
   name,
   description,
+  featureList,
 }: {
   locale: string
   path: string
   name: string
   description: string
+  featureList?: string[]
 }): JsonLdObject {
   const url = absoluteUrl(locale, path)
 
@@ -92,7 +128,9 @@ export function softwareApplicationSchema({
     browserRequirements: 'Requires a modern browser with JavaScript enabled.',
     inLanguage: locale,
     isAccessibleForFree: true,
+    license: 'https://opensource.org/licenses/MIT',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    ...(featureList && featureList.length > 0 ? { featureList } : {}),
     publisher: { '@id': `${siteConfig.url}/#organization` },
   }
 }

@@ -1,12 +1,18 @@
 import { Link as I18nLink } from "@/i18n/routing";
 import { getDoc } from "@/lib/docs";
 import { getRelatedTools, getTool, type ToolId } from "@/lib/tools";
-import { AlertTriangle, ArrowRight, CircleHelp } from "lucide-react";
+import { AlertTriangle, ArrowRight, CircleHelp, Send } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 type Entry = { title: string; description: string };
 type FaqItem = { question: string; answer: string };
 type RelatedPost = { title: string; description: string; slug: string };
+type SpecTable = {
+  title: string;
+  intro: string;
+  headers: string[];
+  rows: string[][];
+};
 
 type ToolArticleProps = {
   locale: string;
@@ -32,6 +38,9 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
   const pitfalls = t.raw("pitfalls.items") as Entry[];
   const faq = t.raw("faq.items") as FaqItem[];
   const relatedPosts = t.raw("relatedPosts") as RelatedPost[];
+  const specTable = t.has("specTable")
+    ? (t.raw("specTable") as SpecTable)
+    : null;
   const relatedTools = getRelatedTools(toolId);
   const relatedDocs = getTool(toolId)
     .relatedDocSlugs.map((slug) => getDoc(locale, slug))
@@ -112,6 +121,48 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
           </div>
         </section>
 
+        {specTable && (
+          <section className="mt-12">
+            <h2 className="font-heading text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
+              {specTable.title}
+            </h2>
+            <p className="mt-3 text-base leading-7 text-slate-600 dark:text-slate-300">
+              {specTable.intro}
+            </p>
+            <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200 bg-white/85 shadow-sm dark:border-slate-800 dark:bg-slate-950/60">
+              <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+                <thead>
+                  <tr className="border-b border-slate-200 bg-slate-50/80 text-xs uppercase tracking-wide text-slate-600 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300">
+                    {specTable.headers.map((header) => (
+                      <th key={header} scope="col" className="px-4 py-3 font-semibold">
+                        {header}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                  {specTable.rows.map((row) => (
+                    <tr key={row[0]} className="align-top">
+                      {row.map((cell, index) => (
+                        <td
+                          key={`${row[0]}-${index}`}
+                          className={
+                            index === 0
+                              ? "px-4 py-3.5 font-semibold text-slate-950 dark:text-white"
+                              : "px-4 py-3.5 leading-6 text-slate-600 dark:text-slate-300"
+                          }
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
         <section className="mt-12">
           <h2 className="flex items-center gap-2 font-heading text-2xl font-semibold tracking-tight text-slate-950 dark:text-white">
             <CircleHelp
@@ -139,6 +190,38 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
       </article>
 
       <aside className="space-y-6 lg:sticky lg:top-24">
+        <div className="rounded-3xl border border-blue-200/80 bg-blue-50/60 p-6 shadow-sm dark:border-blue-500/30 dark:bg-blue-500/10">
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white">
+              <Send className="size-4" aria-hidden="true" />
+            </span>
+            <h2 className="font-heading text-lg font-semibold text-slate-950 dark:text-white">
+              {tTools("submitterCard.title")}
+            </h2>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-slate-700 dark:text-slate-300">
+            {tTools("submitterCard.description")}
+          </p>
+          <I18nLink
+            href="/"
+            className="group mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+          >
+            {tTools("submitterCard.cta")}
+            <ArrowRight
+              className="size-4 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5"
+              aria-hidden="true"
+            />
+          </I18nLink>
+          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-blue-700 dark:text-blue-200">
+            <I18nLink href="/compare" className="hover:underline underline-offset-4">
+              {tTools("submitterCard.compareLink")}
+            </I18nLink>
+            <I18nLink href="/pricing" className="hover:underline underline-offset-4">
+              {tTools("submitterCard.pricingLink")}
+            </I18nLink>
+          </div>
+        </div>
+
         <div className="rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
           <h2 className="font-heading text-lg font-semibold text-slate-950 dark:text-white">
             {tTools("relatedToolsTitle")}

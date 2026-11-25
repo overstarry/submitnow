@@ -20,6 +20,14 @@
         "href": "/docs"
       },
       {
+        "name": "Compare",
+        "href": "/compare"
+      },
+      {
+        "name": "Pricing",
+        "href": "/pricing"
+      },
+      {
         "name": "Blog",
         "href": "/blog"
       },
@@ -72,12 +80,24 @@
               "name": "Docs"
             },
             {
+              "href": "/compare",
+              "name": "Compare Tools"
+            },
+            {
+              "href": "/pricing",
+              "name": "Pricing & Quotas"
+            },
+            {
+              "href": "/docs/integrations/cli-and-mcp",
+              "name": "CLI & MCP Server"
+            },
+            {
               "href": "/blog",
               "name": "Guides"
             },
             {
-              "href": "/blog/indexnow-bing-submission",
-              "name": "IndexNow for Bing"
+              "href": "/blog/indexnow-vs-google-indexing-api",
+              "name": "IndexNow vs. Google"
             },
             {
               "href": "/about",
@@ -85,7 +105,7 @@
             },
             {
               "href": "https://www.indexnow.org/documentation",
-              "name": "IndexNow",
+              "name": "IndexNow Spec",
               "target": "_blank",
               "rel": "noopener noreferrer"
             }
@@ -127,19 +147,19 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "IndexNow & AI Search Indexing Tool",
-    "heroTitle": "Submit URLs to Bing, AI Search & IndexNow partners",
-    "description": "Notify Bing, ChatGPT Search, Microsoft Copilot, Yandex, Naver, Seznam, and Yep in seconds. Import live sitemaps, verify key files, and auto-batch over 10,000 URLs — no account, nothing stored.",
+    "tagLine": "Free Open-Source IndexNow & AI Search Workbench",
+    "heroTitle": "submitnow: Free Open-Source IndexNow & AI Search Bulk Submitter",
+    "description": "submitnow is a free, open-source (MIT) IndexNow workbench, CLI, and MCP server for developers, SEO engineers, and site owners. Push same-host URL batches (auto-chunked over 10,000) to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Naver, Seznam, and Yep — $0 forever, no account, zero server storage.",
     "keywords": [
-      "indexnow",
-      "indexnow submission tool",
+      "submitnow",
+      "indexnow bulk submission tool",
+      "free indexnow gui",
+      "indexnow mcp server",
+      "indexnow cli",
       "bing indexnow",
       "chatgpt search indexing",
       "copilot indexing",
-      "ai search seo",
-      "indexnow sitemap submitter",
-      "indexnow api",
-      "indexnow mcp",
+      "indexnow sitemap diff",
       "indexnow key checker"
     ],
     "badge": "IndexNow & AI Search Indexing",
@@ -407,8 +427,8 @@
     "breadcrumbHome": "Home"
   },
   "About": {
-    "title": "About",
-    "description": "Learn how submitnow accelerates Bing, ChatGPT Search, Copilot, and IndexNow partner discovery with multi-endpoint batching, live sitemap import, CLI/MCP tools, and zero server storage."
+    "title": "About submitnow — Free Open-Source IndexNow Workbench",
+    "description": "Learn how submitnow ($0 MIT open-source workbench, CLI, and MCP server) helps developers and SEO engineers accelerate Bing, ChatGPT Search, Copilot, and IndexNow partner discovery with zero server storage."
   },
   "TermsOfService": {
     "title": "Terms of Service",
@@ -440,8 +460,8 @@
     "relatedToolsTitle": "Related tools",
     "relatedReadingTitle": "Related reading",
     "preview": {
-      "eyebrow": "Publish with confidence",
-      "title": "Build a cleaner IndexNow workflow",
+      "eyebrow": "submitnow Toolkit",
+      "title": "Prepare and validate IndexNow batches with submitnow",
       "description": "Generate a key, prove it is live, prepare a single-host batch, and isolate sitemap changes before you notify search engines."
     },
     "principles": {
@@ -472,13 +492,13 @@
       },
       "sitemapDiff": {
         "title": "Sitemap Diff",
-        "description": "Compare two uploaded sitemap files locally and build a queue from new or changed URLs.",
-        "shortDescription": "Find new and changed sitemap URLs."
+        "description": "Fetch remote sitemaps (including sitemap indexes and .xml.gz) or upload local XML snapshots to extract added, changed, and removed URLs.",
+        "shortDescription": "Diff live or local sitemaps by lastmod."
       },
       "codeGenerator": {
         "title": "IndexNow Code Generator",
-        "description": "Build a correct IndexNow JSON payload, curl command, or JavaScript fetch snippet.",
-        "shortDescription": "Generate ready-to-run IndexNow request code."
+        "description": "Build validated IndexNow JSON, curl, JavaScript, Python, Go, and GitHub Actions requests across all participating endpoints.",
+        "shortDescription": "Generate IndexNow code in 6 formats."
       },
       "urlNormalizer": {
         "title": "URL Normalizer",
@@ -516,7 +536,7 @@
       "rootFileNote": "A root-level key file is the simplest option when you need to submit URLs from across your host.",
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
+          "title": "When to use submitnow IndexNow Key Generator",
           "intro": "An IndexNow key is an ownership proof: a random string you publish on your own host so search engines can confirm a submission comes from someone who controls that host. You need a new key in a few situations.",
           "items": [
             {
@@ -538,7 +558,7 @@
           ]
         },
         "howTo": {
-          "title": "How to generate and install a key",
+          "title": "How to generate and install an IndexNow key with submitnow",
           "intro": "The key never leaves your browser: it is produced with the Web Crypto API and the download is assembled locally.",
           "steps": [
             {
@@ -560,7 +580,7 @@
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common IndexNow key file pitfalls",
           "items": [
             {
               "title": "The file contains more than the key",
@@ -607,6 +627,11 @@
         },
         "relatedPosts": [
           {
+            "title": "Fixing IndexNow 403 & Silent 202 Drops: Cloudflare WAF, Nginx, and Next.js Checklist",
+            "description": "The 7 production bugs that break key verification, from UTF-8 BOMs to WAF challenges.",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
             "title": "IndexNow for Bing: Key File Setup & Batch Submission",
             "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
             "slug": "/indexnow-bing-submission"
@@ -626,7 +651,7 @@
       ],
       "title": "Check that your IndexNow key file is valid",
       "description": "Fetch your key file the way a search engine does and see exactly why verification would fail: wrong status, off-host redirect, HTML instead of text, or a key that does not match.",
-      "privacyNote": "This check runs on our server because the key file has to be fetched from the public internet, exactly as a search engine would. Only that URL is requested, and nothing is stored.",
+      "privacyNote": "This check runs on submitnow’s stateless server because public key files must be fetched from outside your network, exactly as a search engine would. Only that URL is requested, and nothing is stored.",
       "formTitle": "Key file check",
       "formHelp": "Enter the host you submit URLs for and the key you plan to use. The default file location is derived automatically.",
       "hostLabel": "Host",
@@ -705,8 +730,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
-          "intro": "A 403 from IndexNow almost always means the engine could not read your key file the way you assume it can. This check reproduces that fetch from outside your network.",
+          "title": "When to use submitnow IndexNow Key Checker",
+          "intro": "An HTTP 403 or silent 202 drop from IndexNow almost always means search engines could not read your public key file cleanly. submitnow Key Checker reproduces that external fetch for free without requiring an account.",
           "items": [
             {
               "title": "Before your first submission",
@@ -727,7 +752,7 @@
           ]
         },
         "howTo": {
-          "title": "How to run the check",
+          "title": "How to verify an IndexNow key file with submitnow",
           "intro": "The request is made server-side with redirects followed, so you see the same thing the search engine's fetcher would see.",
           "steps": [
             {
@@ -749,7 +774,7 @@
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common IndexNow key verification failures",
           "items": [
             {
               "title": "Cached CDN responses",
@@ -777,8 +802,8 @@
               "answer": "A browser cannot read a cross-origin response without a CORS header, and key files are served as plain static text. The fetch has to happen server-side."
             },
             {
-              "question": "Do you store the key I check?",
-              "answer": "No. The key is used to build the request and compare the response, then discarded. Nothing is written to disk."
+              "question": "Does submitnow store the key I check?",
+              "answer": "No. submitnow uses the key strictly in memory to fetch and compare the public response, then discards it with zero database or disk persistence."
             },
             {
               "question": "The check passes but Bing still returns 403.",
@@ -796,11 +821,47 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
-            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
-            "slug": "/indexnow-bing-submission"
+            "title": "Fixing IndexNow 403 & Silent 202 Drops: Cloudflare WAF, Nginx, and Next.js Checklist",
+            "description": "Root-cause fixes for UTF-8 BOM, soft-404 HTML shells, off-host redirects, and Cloudflare WAF challenges.",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
+            "title": "How IndexNow Accelerates ChatGPT Search & Microsoft Copilot Discovery",
+            "description": "Pair verified IndexNow keys with clean Bingbot and OAI-SearchBot rules.",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "What submitnow Key Checker inspects",
+          "intro": "Every public check validates status, host boundaries, headers, and exact response bytes before you submit a batch.",
+          "headers": [
+            "Check dimension",
+            "Passing requirement",
+            "Failure detected by submitnow"
+          ],
+          "rows": [
+            [
+              "HTTP status",
+              "HTTP 200 OK on the exact host",
+              "404 Not Found, 401/403 auth/WAF blocks, 5xx errors"
+            ],
+            [
+              "Redirect target",
+              "Stays on identical hostname (apex vs. www)",
+              "Off-host redirects (e.g. apex -> www or CDN domain)"
+            ],
+            [
+              "Content & encoding",
+              "Plain text containing only the exact key",
+              "HTML soft-404 shell, UTF-8 BOM (EF BB BF), extra text, empty body"
+            ],
+            [
+              "Rate limit & privacy",
+              "60 checks / 10 min per IP (hosted) or unlimited via CLI/MCP",
+              "SSRF-guarded outbound fetch; keys and URLs are never stored"
+            ]
+          ]
+        }
       }
     },
     "batchBuilder": {
@@ -845,8 +906,8 @@
       "emptyValue": "Empty value",
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
-          "intro": "IndexNow rejects a request whose URLs do not all belong to the declared host, and duplicates burn quota without doing anything. This tool turns a pasted list into something submittable.",
+          "title": "When to use submitnow IndexNow Batch Builder",
+          "intro": "IndexNow rejects any batch whose URLs span multiple hosts, and duplicate URLs waste rate-limit budget. submitnow Batch Builder cleans, deduplicates, groups by exact hostname, and splits large lists into 10,000-URL chunks locally in your browser.",
           "items": [
             {
               "title": "Exports from a CMS or crawler",
@@ -867,7 +928,7 @@
           ]
         },
         "howTo": {
-          "title": "How to build a clean batch",
+          "title": "How to build a clean IndexNow batch in submitnow",
           "intro": "Parsing, deduplication and grouping all happen as you type. Nothing is uploaded at any point.",
           "steps": [
             {
@@ -889,7 +950,7 @@
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common IndexNow batch formatting mistakes",
           "items": [
             {
               "title": "http and https treated as one URL",
@@ -930,14 +991,19 @@
             },
             {
               "question": "Can I submit more than 10,000 URLs?",
-              "answer": "Not in one request. Split the list and submit sequentially; the summary warns you when you are over the limit."
+              "answer": "The IndexNow protocol caps each HTTP request at 10,000 URLs. submitnow Batch Builder splits large host groups into 10,000-URL chunks automatically, and the main submitnow form also auto-submits lists over 10,000 URLs sequentially."
             }
           ]
         },
         "relatedPosts": [
           {
+            "title": "IndexNow vs. Google Indexing API vs. XML Sitemaps (2026 Practical Guide)",
+            "description": "Design a compliant dual-track pipeline covering both Google and Bing/AI Search.",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
             "title": "IndexNow for Bing: Key File Setup & Batch Submission",
-            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
+            "description": "Hosting the key file and submitting up to 10,000 URLs without 422 errors.",
             "slug": "/indexnow-bing-submission"
           }
         ]
@@ -948,8 +1014,8 @@
       "sendChunk": "Send batch"
     },
     "sitemapDiff": {
-      "metaTitle": "Sitemap Diff for IndexNow",
-      "metaDescription": "Compare two sitemap XML files in your browser and export only the added or changed URLs as an IndexNow submission queue.",
+      "metaTitle": "Sitemap Diff & Live XML Extractor for IndexNow",
+      "metaDescription": "Free submitnow Sitemap Diff: fetch remote sitemap.xml, .xml.gz, or nested sitemap indexes (up to 50,000 URLs) or upload local snapshots to filter by lastmod and export added, changed, or removed URLs for IndexNow.",
       "keywords": [
         "sitemap diff",
         "compare sitemaps",
@@ -957,27 +1023,27 @@
         "indexnow sitemap",
         "changed urls"
       ],
-      "title": "Find sitemap changes without uploading them to a server",
-      "description": "Upload an older and a newer sitemap XML file. The comparison runs locally and lets you export only added or changed URLs for an IndexNow queue.",
+      "title": "Diff sitemaps locally or via live URL for IndexNow",
+      "description": "Use submitnow Sitemap Diff ($0 free, no account) to fetch live sitemap.xml, .xml.gz, or nested sitemap indexes (up to 20 child sitemaps / 50,000 URLs) or upload local XML snapshots, filter by lastmod, and export only added, changed, or removed URLs.",
       "privacyNote": "Local .xml / .xml.gz uploads are parsed entirely in your browser. Optional remote sitemap URL fetches run server-side without storing your URLs.",
       "previousTitle": "Previous sitemap",
-      "previousHelp": "Upload the earlier sitemap XML file to use as the baseline.",
+      "previousHelp": "Fetch a live sitemap URL, load a saved local baseline, or upload an older .xml / .xml.gz file.",
       "currentTitle": "Current sitemap",
-      "currentHelp": "Upload the newer sitemap XML file that you want to compare.",
+      "currentHelp": "Fetch your current live sitemap URL (auto-discovers from robots.txt) or upload a newer .xml / .xml.gz file.",
       "chooseFile": "Choose sitemap XML",
       "replaceFile": "Replace sitemap XML",
       "entryCount": "{count, plural, one {# valid URL found} other {# valid URLs found}}",
       "errors": {
         "invalidXml": "This file is not valid XML.",
         "emptyUrlset": "This URL set does not contain any valid http(s) URLs.",
-        "sitemapIndex": "This is a sitemap index with {count} child sitemap URLs. To keep this tool browser-only, upload the individual sitemap XML files you want to compare.",
+        "sitemapIndex": "This uploaded file is a sitemap index with {count} child sitemaps. Paste its live URL into the Fetch URL field above to expand up to 20 child sitemaps automatically, or upload individual urlset XML files locally.",
         "unsupported": "This XML is not a sitemap URL set or sitemap index.",
         "invalidLocations": "{count} invalid sitemap locations were excluded from the comparison."
       },
       "resultsTitle": "Change queue",
-      "resultsHelp": "Select added and/or changed URLs, then copy or download the queue for the submission tool.",
+      "resultsHelp": "Select added, changed, and/or removed URLs, then copy, download, or send directly to submitnow.",
       "selectedCount": "{count} selected",
-      "emptyState": "Upload two valid sitemap URL sets to calculate changes.",
+      "emptyState": "Fetch a live sitemap URL or upload a local .xml / .xml.gz file to extract or diff changes.",
       "stats": {
         "added": "Added",
         "changed": "Changed",
@@ -995,8 +1061,8 @@
       "moreUrls": "{count, plural, one {+# more URL} other {+# more URLs}}",
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
-          "intro": "Submitting your whole sitemap on every deploy is the fastest way to hit a 429. A diff turns a full sitemap into just the URLs that actually changed.",
+          "title": "When to use submitnow Sitemap Diff for IndexNow",
+          "intro": "Submitting your entire sitemap on every deploy is the fastest way to trigger IndexNow HTTP 429 rate limits. submitnow Sitemap Diff isolates only added, modified, or removed URLs — free, with no account required and zero server storage.",
           "items": [
             {
               "title": "After a content deploy",
@@ -1017,33 +1083,33 @@
           ]
         },
         "howTo": {
-          "title": "How to diff two sitemaps",
-          "intro": "Both files are parsed with the browser's own XML parser. Neither file is uploaded.",
+          "title": "How to diff sitemaps or filter by lastmod in submitnow",
+          "intro": "Upload local .xml / .xml.gz files for 100% browser-side parsing, or fetch a public sitemap URL / nested sitemap index via submitnow’s stateless SSRF-guarded fetcher.",
           "steps": [
             {
-              "title": "Save a baseline sitemap",
-              "description": "Download your sitemap XML before a release, or keep the copy from your last submission."
+              "title": "Load your baseline (optional)",
+              "description": "Upload a previous .xml / .xml.gz file, fetch an earlier snapshot, or pick a baseline saved locally in your browser (up to 10,000 entries). Skip this step if you only need lastmod filtering on a single sitemap."
             },
             {
-              "title": "Upload both files",
-              "description": "Add the older file as the baseline and the newer one as the current sitemap."
+              "title": "Fetch live sitemap or upload current file",
+              "description": "Enter a bare domain (auto-discovers sitemaps from robots.txt) or sitemap URL — including .xml.gz and nested <sitemapindex> — or upload a local XML/gzip snapshot."
             },
             {
-              "title": "Choose what to include",
-              "description": "Added URLs are new entries; changed URLs are entries whose lastmod moved. Include either or both."
+              "title": "Choose delta scope or lastmod window",
+              "description": "In diff mode, toggle Added, Changed (lastmod moved), and Removed URLs (to signal 404/410 deletions). In single-sitemap mode, filter by last 24h, 7d, or 30d."
             },
             {
-              "title": "Copy, download, or submit",
-              "description": "Export the queue as text, or send it straight to the submission form for the matching host."
+              "title": "Send directly to submitnow or export",
+              "description": "Copy, download, or hand off the delta queue straight into the submitnow Batch Submitter, which auto-batches lists over 10,000 URLs."
             }
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common IndexNow sitemap diff pitfalls",
           "items": [
             {
-              "title": "Uploading a sitemap index",
-              "description": "An index only lists other sitemaps. Upload the individual sitemap files it points to — this tool stays browser-only and does not fetch them."
+              "title": "Uploading a local sitemap index instead of fetching its URL",
+              "description": "Local file uploads stay strictly offline and cannot fetch remote child sitemaps. To expand a <sitemapindex> automatically (up to 20 child files / 50,000 URLs), paste its public URL into the Fetch URL field instead."
             },
             {
               "title": "Generators that restamp every lastmod",
@@ -1063,34 +1129,75 @@
           "title": "Frequently asked questions",
           "items": [
             {
-              "question": "Why upload files instead of entering a sitemap URL?",
-              "answer": "Reading another site's sitemap from the browser is blocked by CORS, and fetching it server-side would mean sending us your URLs. Uploading keeps the comparison local."
+              "question": "When should I fetch a remote sitemap URL vs. upload local XML files in submitnow?",
+              "answer": "Upload local .xml or .xml.gz files when you want 100% browser-only processing or need to diff staging files not on the public internet. Use submitnow’s Fetch URL field when you want automatic robots.txt discovery or nested <sitemapindex> expansion — remote fetches run statelessly in memory with SSRF protection and zero database storage."
             },
             {
-              "question": "How is a changed URL detected?",
-              "answer": "A URL present in both files whose lastmod value differs counts as changed. URLs found only in the newer file count as added."
+              "question": "How does submitnow detect a changed URL?",
+              "answer": "In two-sitemap diff mode, any URL present in both snapshots whose <lastmod> value changed counts as Changed, URLs only in the newer snapshot count as Added, and URLs missing from the newer snapshot count as Removed."
             },
             {
-              "question": "Are removed URLs reported?",
-              "answer": "They are counted but not exported. IndexNow notifies about updates, and a deleted URL is better handled by letting the engine recrawl it."
+              "question": "Can submitnow export removed URLs for IndexNow?",
+              "answer": "Yes. Removed URLs are counted and can be toggled into your export queue via the \"Include removed URLs\" checkbox so participating search engines re-crawl deleted pages and observe their HTTP 404/410 status promptly."
             },
             {
-              "question": "Can I compare gzipped sitemaps?",
-              "answer": "No. Decompress the .xml.gz file first — only plain XML is parsed."
+              "question": "Does submitnow Sitemap Diff support gzipped (.xml.gz) sitemaps?",
+              "answer": "Yes. Both local .xml.gz file uploads (decompressed directly in modern browsers) and remote .xml.gz sitemap URLs (up to 10 MB compressed / 25 MB decompressed) are supported automatically."
             },
             {
-              "question": "Does the queue respect the 10,000 URL limit?",
-              "answer": "A diff can produce more than that. Run a large result through the batch builder if you are near the limit."
+              "question": "What if my sitemap diff queue exceeds 10,000 URLs?",
+              "answer": "IndexNow accepts up to 10,000 same-host URLs per HTTP request. Send your queue straight to the submitnow Batch Submitter on the homepage and it will automatically split and submit sequential 10,000-URL batches."
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
-            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
-            "slug": "/indexnow-bing-submission"
+            "title": "How IndexNow Accelerates ChatGPT Search & Microsoft Copilot Discovery",
+            "description": "Use delta-only lastmod diffs alongside Bingbot and OAI-SearchBot rules for faster AI discovery.",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
+          },
+          {
+            "title": "IndexNow vs. Google Indexing API vs. XML Sitemaps (2026 Practical Guide)",
+            "description": "Combine accurate XML sitemaps for Google with IndexNow delta pushes for Bing & AI Search.",
+            "slug": "/indexnow-vs-google-indexing-api"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow Sitemap Diff modes & limits",
+          "intro": "Choose local browser parsing or live URL fetching depending on your privacy and sitemap-index needs.",
+          "headers": [
+            "Mode",
+            "Supported formats",
+            "Capacity & rate limit",
+            "Best use case"
+          ],
+          "rows": [
+            [
+              "Local file upload",
+              ".xml and .xml.gz (decompressed in browser)",
+              "Unlimited runs; optional localStorage baseline up to 10,000 URLs",
+              "Private/staging sitemaps or offline diffing"
+            ],
+            [
+              "Live remote URL fetch",
+              ".xml, .xml.gz, nested <sitemapindex>, robots.txt discovery",
+              "20 fetches / 10 min per IP (hosted); up to 20 child sitemaps / 50,000 URLs",
+              "Production deploy checks & large multi-sitemap sites"
+            ],
+            [
+              "Single-sitemap lastmod filter",
+              "Last 24h / 7d / 30d / All URLs",
+              "Instant client-side filtering after load",
+              "Quick daily/weekly delta extraction without a baseline"
+            ],
+            [
+              "submitnow CLI / MCP",
+              "Same parser & SSRF guards locally",
+              "No hosted IP rate limit; MIT open source",
+              "Automated GitHub Actions & AI coding agent workflows"
+            ]
+          ]
+        }
       },
       "extractHelp": "Upload a current sitemap to extract every valid URL. Add a baseline only when you need a change-only queue.",
       "savedSnapshot": "Saved baseline: {fileName} ({date})",
@@ -1131,18 +1238,20 @@
     },
     "codeGenerator": {
       "cardTitle": "IndexNow Code Generator",
-      "cardDescription": "Build a correct IndexNow JSON payload, curl command, or JavaScript fetch snippet.",
+      "cardDescription": "Build validated IndexNow JSON, curl, JavaScript, Python, Go, and GitHub Actions snippets across all endpoints.",
       "cardShort": "Generate ready-to-run IndexNow request code.",
-      "metaTitle": "Free IndexNow Code Generator",
-      "metaDescription": "Generate IndexNow JSON, curl, and JavaScript requests locally with host and URL validation.",
+      "metaTitle": "Free IndexNow Code Generator (curl, JS, Python, Go, CI)",
+      "metaDescription": "Generate validated IndexNow requests locally in submitnow across 6 formats — curl, JavaScript, Python, Go, GitHub Actions, and JSON — for api.indexnow.org, Bing, Yandex, Seznam, Naver, and Yep.",
       "keywords": [
         "IndexNow code generator",
         "IndexNow curl",
-        "IndexNow JavaScript",
-        "IndexNow JSON"
+        "IndexNow Python",
+        "IndexNow Go",
+        "IndexNow GitHub Actions",
+        "IndexNow JavaScript"
       ],
       "title": "Generate an IndexNow request",
-      "description": "Turn one validated host and URL list into copy-ready JSON, curl, or JavaScript.",
+      "description": "Turn one validated host and URL list into copy-ready curl, JavaScript, Python, Go, GitHub Actions, or JSON snippets locally in submitnow — $0 free, zero server upload.",
       "privacyNote": "Generation runs entirely in your browser. Keys, hosts, URLs, and snippets are never uploaded.",
       "inputTitle": "Request inputs",
       "hostLabel": "Host",
@@ -1166,8 +1275,8 @@
       "emptyState": "Enter a host, key, and valid single-host URL list to generate code.",
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
-          "intro": "Use the generator when a CMS, deploy hook, or backend needs a protocol-correct request without hand-writing JSON.",
+          "title": "When to use submitnow IndexNow Code Generator",
+          "intro": "Use submitnow Code Generator when a CMS, backend service, or CI/CD pipeline needs a protocol-valid IndexNow request across curl, JavaScript, Python, Go, GitHub Actions, or raw JSON without hand-crafting payloads.",
           "items": [
             {
               "title": "Building a deploy hook",
@@ -1178,13 +1287,13 @@
               "description": "Compare your outgoing payload with a known-good shape."
             },
             {
-              "title": "Testing another language",
-              "description": "Switch between curl and JavaScript without changing the payload."
+              "title": "Switching languages or CI pipelines",
+              "description": "Toggle instantly between curl, JavaScript, Python, Go, GitHub Actions YAML, and JSON using the same validated payload."
             }
           ]
         },
         "howTo": {
-          "title": "How to generate a request",
+          "title": "How to generate IndexNow request code with submitnow",
           "intro": "The tool validates host boundaries before it produces executable code.",
           "steps": [
             {
@@ -1206,7 +1315,7 @@
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common IndexNow integration coding mistakes",
           "items": [
             {
               "title": "Running secret-bearing code in the browser",
@@ -1226,26 +1335,72 @@
           "title": "Frequently asked questions",
           "items": [
             {
-              "question": "Does this send the request?",
-              "answer": "No. It only generates code locally."
+              "question": "Does submitnow Code Generator send the request or store my key?",
+              "answer": "No. submitnow generates all snippets 100% locally in your browser; keys, hosts, and URLs are never uploaded."
             },
             {
-              "question": "Which endpoint is used?",
-              "answer": "Generated snippets use the shared api.indexnow.org endpoint."
+              "question": "Which IndexNow endpoints and formats are supported?",
+              "answer": "submitnow Code Generator supports 6 formats (curl, JavaScript, Python, Go, GitHub Actions, and JSON) and lets you select api.indexnow.org (default fan-out) or Bing, Yandex, Seznam.cz, Naver, and Yep directly."
             },
             {
-              "question": "Can one request contain multiple hosts?",
-              "answer": "No. Generate one request for each exact hostname."
+              "question": "Can one generated IndexNow request contain multiple hosts?",
+              "answer": "No. IndexNow requires one exact hostname per request; use submitnow Batch Builder to split multi-host lists first."
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
-            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow vs. Google Indexing API vs. XML Sitemaps (2026 Practical Guide)",
+            "description": "Wire automated IndexNow deploy hooks alongside clean XML sitemaps for Google.",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "Fixing IndexNow 403 & Silent 202 Drops: Cloudflare WAF, Nginx, and Next.js Checklist",
+            "description": "Verify key files and middleware matchers before automating requests in CI.",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "Supported output formats & endpoints in submitnow Code Generator",
+          "intro": "All snippets enforce single-host URL boundaries and UTF-8 JSON encoding before code is generated locally.",
+          "headers": [
+            "Format",
+            "Runtime / Target",
+            "Best for"
+          ],
+          "rows": [
+            [
+              "curl",
+              "Shell / Linux / macOS / CI",
+              "Manual testing, shell deploy scripts, quick debugging"
+            ],
+            [
+              "JavaScript (fetch)",
+              "Node.js 18+ / Cloudflare Workers / Edge",
+              "Next.js deploy hooks, serverless webhooks, edge workers"
+            ],
+            [
+              "Python",
+              "Python 3 (requests)",
+              "Backend pipelines, Django/FastAPI publish signals, SEO scripts"
+            ],
+            [
+              "Go",
+              "Go net/http",
+              "High-throughput services, static site tooling, backend jobs"
+            ],
+            [
+              "GitHub Actions",
+              "GitHub Actions workflow YAML",
+              "Automated post-deploy notifications using repository secrets"
+            ],
+            [
+              "JSON",
+              "Raw IndexNow payload",
+              "Inspecting exact payload structure or pasting into API clients"
+            ]
+          ]
+        }
       },
       "endpointLabel": "Endpoint"
     },
@@ -1260,8 +1415,8 @@
         "remove UTM parameters",
         "IndexNow URL cleaner"
       ],
-      "title": "Normalize URLs before submission",
-      "description": "Make URL syntax consistent and remove duplicates while keeping semantic changes opt-in.",
+      "title": "Normalize & clean URLs for IndexNow batches",
+      "description": "Use submitnow URL Normalizer ($0 free, browser-only) to strip fragments, remove UTM/click-ID tracking parameters, deduplicate lists, and prevent IndexNow HTTP 422/429 quota waste.",
       "privacyNote": "All URL parsing runs locally in your browser. The pasted list is not uploaded or stored.",
       "inputTitle": "Paste URLs",
       "inputHelp": "Use one absolute HTTP or HTTPS URL per line.",
@@ -1302,8 +1457,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "When to use this tool",
-          "intro": "Normalize URLs before deduplication, batching, code generation, or IndexNow submission.",
+          "title": "When to use submitnow URL Normalizer before IndexNow submission",
+          "intro": "Dirty URL exports with fragments or UTM parameters create duplicate IndexNow entries and burn rate-limit quota. submitnow URL Normalizer cleans and deduplicates lists locally before you hand them off to the submitnow Batch Submitter.",
           "items": [
             {
               "title": "Cleaning exported lists",
@@ -1320,7 +1475,7 @@
           ]
         },
         "howTo": {
-          "title": "How to normalize a URL list",
+          "title": "How to normalize IndexNow URL lists with submitnow",
           "intro": "Conservative defaults remove fragments only; every potentially semantic rewrite is explicit.",
           "steps": [
             {
@@ -1342,7 +1497,7 @@
           ]
         },
         "pitfalls": {
-          "title": "What usually goes wrong",
+          "title": "Common URL normalization mistakes for IndexNow",
           "items": [
             {
               "title": "Removing parameters blindly",
@@ -1377,13 +1532,25 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow for Bing: Key File Setup & Batch Submission",
-            "description": "Hosting the key file and submitting up to 10,000 URLs, with the common errors.",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow vs. Google Indexing API vs. XML Sitemaps (2026 Practical Guide)",
+            "description": "Keep canonical HTTP 200 URLs clean across both XML sitemaps and IndexNow.",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "How IndexNow Accelerates ChatGPT Search & Microsoft Copilot Discovery",
+            "description": "Ensure clean canonical URLs reach Bing, Copilot, and ChatGPT Search without crawl waste.",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
         ]
       },
       "resultSummaryDetailed": "{valid} valid · {duplicates} duplicate · {invalid} invalid"
+    },
+    "submitterCard": {
+      "title": "Ready to submit with submitnow?",
+      "description": "Send up to 10,000 same-host URLs per request (auto-batched for larger lists) to Bing, ChatGPT Search, Copilot, Yandex, Seznam, Naver, and Yep — $0 forever, no account.",
+      "cta": "Open submitnow Batch Submitter",
+      "compareLink": "Compare IndexNow tools",
+      "pricingLink": "Free quotas & MIT self-hosting"
     }
   },
   "Docs": {

@@ -50,8 +50,16 @@ export default async function Home({ params }: { params: Params }) {
     softwareApplicationSchema({
       locale,
       path: "/",
-      name: t("title"),
+      name: `${t("title")} — ${t("tagLine")}`,
       description: t("description"),
+      featureList: [
+        "Multi-endpoint IndexNow submission (api.indexnow.org, Bing, Yandex, Seznam.cz, Naver, Yep)",
+        "Live XML sitemap, .xml.gz, and nested sitemap-index import with lastmod filtering",
+        "Automatic sequential batching for lists over 10,000 same-host URLs",
+        "Pre-flight public key file diagnostics (404, soft-404 HTML, UTF-8 BOM, off-host redirects)",
+        "Six browser-first IndexNow utilities with zero server database storage",
+        "Zero-dependency local CLI and stdio MCP server for AI coding agents",
+      ],
     }),
     howToSchema({
       name: t("howItWorks.title"),

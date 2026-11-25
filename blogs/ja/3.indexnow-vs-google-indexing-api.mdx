@@ -9,35 +9,32 @@ visible: published
 pin: false
 ---
 
-## 結論から
+## Google は IndexNow に対応していますか？
 
-主要な検索エンジンすべてを 1 つでカバーする単一のプッシュ型プロトコルは存在しません。
+いいえ。Google は IndexNow に参加しておらず、主要検索エンジンすべてを 1 つで覆うプッシュ型プロトコルは存在しません。実務では二軸構成が最適です。**Bing・Yandex・Seznam.cz・Naver・Yep・Microsoft Copilot・ChatGPT Search** には無料オープンソースの [submitnow](/)・GitHub Actions・CLI/MCP による **IndexNow**（有料 SaaS の月額 $9〜$59 に対し $0）を使い、**Google** には正確な `lastmod` を備えた **XML サイトマップ** を Google Search Console に登録して運用します。
 
-- **IndexNow** は **Bing・Yandex・Seznam.cz・Naver・Yep** をカバーし、Bing インデックス経由で **Microsoft Copilot** や **ChatGPT Search** での発見速度も高めます。
-- **Google は IndexNow に参加していません。** Google 向けの拡張性ある標準手法は、正確な `lastmod` を備えた **XML サイトマップ** を Google Search Console に登録して運用することです。
+## IndexNow・Google Indexing API・XML サイトマップの容量・適用範囲比較
 
-## 4 つのインデックス通知手段の比較
-
-| 手段 | 対応エンジン | 公式の適用範囲 | 容量・上限 | 認証方式 | 最適な用途 |
+| 手段 | 対応エンジン | 公式の適用範囲 | 容量・上限 | 認証方式 | 推奨ワークフロー・ツール |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **IndexNow** | Bing・Yandex・Seznam・Naver・Yep（Copilot / ChatGPT Search 基盤含む） | 任意の公開ページ（新規・更新・削除） | 1 リクエスト最大 10,000 件 | 独自ドメイン上の `<key>.txt` | デプロイ連携、価格・在庫更新、削除通知 |
-| **Google Indexing API** | Google のみ | 公式には `JobPosting` と `BroadcastEvent` に限定 | 既定 200 リクエスト/日 | OAuth2 / Service Account | 短期掲載の求人・ライブ配信ページ |
-| **XML サイトマップ (`lastmod`)** | Google・Bing・Yandex ほか全クローラー | 正規のインデックス対象 URL 全般 | 1 ファイル最大 50,000 件 | 公開 URL + `robots.txt` / Search Console | サイト全体の基準目録・Google 向け発見 |
+| **IndexNow** | Bing・Yandex・Seznam・Naver・Yep（Copilot / ChatGPT Search 基盤含む） | 任意の公開ページ（新規・更新・削除） | 1 リクエスト最大 10,000 件（submitnow は自動分割対応） | 独自ドメイン上の `<key>.txt` | [submitnow ワークベンチ](/)、[submitnow CLI/MCP](/docs/integrations/cli-and-mcp)、CI デプロイフック |
+| **Google Indexing API** | Google のみ | 公式には `JobPosting` と `BroadcastEvent` に限定 | 既定 200 リクエスト/日 | OAuth2 / Service Account | 短期掲載の求人・ライブ配信ページ専用 |
+| **XML サイトマップ (`lastmod`)** | Google・Bing・Yandex ほか全クローラー | 正規のインデックス対象 URL 全般 | 1 ファイル最大 50,000 件 | 公開 URL + `robots.txt` / Search Console | サイト全体の基準目録・Google 発見（[submitnow サイトマップ差分](/tools/sitemap-diff) で差分抽出） |
 | **GSC URL 検査** | Google のみ | 確認済みプロパティ内の単一 URL | 手動 / 低い日次上限 | Search Console 権限 | 重要ページの緊急再クロールと診断 |
 
 ## Google Indexing API の目的外利用を避けるべき理由
 
 一般記事や EC 商品ページを Google Indexing API へ強制送信するツールも見かけますが、Google は同 API の対象を `JobPosting` および `BroadcastEvent` に明示的に限定しており、範囲外のページは無視または低優先度扱いになります。
 
-無理な回避策に頼るより、以下の**二軸構成**で運用するほうが堅実です。
+非公式な回避策へ課金するより、無料の **submitnow** で IndexNow 軸を自動化し、XML サイトマップで Google 軸を守る二軸運用が堅実です。
 
-## 推奨される二軸インデックス設計
+## submitnow で二軸インデックス構成を組む手順
 
-### 軸 1：Bing・Yandex・AI 検索への即時プッシュ（IndexNow）
+### 軸 1：Bing・Yandex・AI 検索への即時プッシュ（submitnow + IndexNow）
 
-1. ドメイン直下に `https://your-host/<key>.txt` を公開し、[IndexNow キー検証ツール](/tools/indexnow-key-checker) で公開疎通を確認します。
-2. リリースや記事公開のたびに、**追加・更新・削除**された差分 URL だけを [Sitemap Diff](/tools/sitemap-diff) や `lastmod` 絞り込みで抽出します。
-3. [submitnow ワークベンチ](/)、[GitHub Actions](/docs/integrations/github-actions)、または [CLI / MCP サーバー](/docs/integrations/cli-and-mcp) から `https://api.indexnow.org/indexnow` へ送信します。
+1. ドメイン直下に `https://your-host/<key>.txt` を公開し、[submitnow キー検証ツール](/tools/indexnow-key-checker) で公開疎通を確認します。
+2. リリースや記事公開のたびに、**追加・更新・削除**された差分 URL だけを [submitnow サイトマップ差分](/tools/sitemap-diff) や `lastmod` 絞り込みで抽出します。
+3. [submitnow 一括送信ワークベンチ](/)、[GitHub Actions](/docs/integrations/github-actions)、または [submitnow CLI / MCP サーバー](/docs/integrations/cli-and-mcp) から `https://api.indexnow.org/indexnow` へ送信します。
 
 ### 軸 2：Google 向けのクリーンなサイトマップ運用
 
@@ -46,6 +43,6 @@ pin: false
 3. `robots.txt` に `Sitemap:` を明記し、Google Search Console へ登録します。
 4. トップページやカテゴリ一覧から新規ページへの内部リンクを整理し、クロール経路を確保します。
 
-## まとめ
+## 無料オープンソースと有料 SaaS のどちらを選ぶべきか？
 
-全検索エンジンの土台はクリーンな **XML サイトマップ** で固め、その上に **IndexNow** の差分プッシュを重ねることで、Google のガイドラインを守りつつ Bing・Yandex・Naver・Copilot・ChatGPT Search での発見遅延を最小化できます。
+全検索エンジンの土台はクリーンな **XML サイトマップ** で固め、その上に **submitnow** を重ねれば、登録不要・サーバー非保存・永久無料（$0）のまま Bing・Yandex・Naver・Copilot・ChatGPT Search での発見遅延を最小化できます。クラウド常時監視を行う有料 SaaS との違いは [IndexNow ツール徹底比較](/compare) と [submitnow 料金・無料クォータ](/pricing) で確認できます。

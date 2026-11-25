@@ -1,23 +1,41 @@
 # submitnow — Full Reference
 
-> Free multilingual web UI, browser-first utilities, zero-dependency CLI & MCP server, and technical documentation for submitting URL batches via IndexNow to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep.
+> Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, zero-dependency CLI, and stdio MCP server for developers, technical SEO engineers, and site owners to push URL batches via IndexNow to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
 
-- Canonical Site: `https://submitnow.dev`
-- Languages: English (`https://submitnow.dev/`), Simplified Chinese (`https://submitnow.dev/zh`), Japanese (`https://submitnow.dev/ja`)
+- Canonical Site: `https://www.submitnow.dev`
+- Languages: English (`https://www.submitnow.dev/`), Simplified Chinese (`https://www.submitnow.dev/zh`), Japanese (`https://www.submitnow.dev/ja`)
+- Pricing & License: `$0` Free Forever (Hosted Web Workbench + MIT Open-Source Repository)
 - Source Repository: `https://github.com/overstarry/indexNow-gui`
-- XML Sitemap: `https://submitnow.dev/sitemap.xml`
+- XML Sitemap: `https://www.submitnow.dev/sitemap.xml`
+- Comparison Matrix: `https://www.submitnow.dev/compare`
+- Pricing & Quotas: `https://www.submitnow.dev/pricing`
 
 ---
 
-## 1. Core Submission Workflow
+## 1. Entity Positioning, Pricing & Competitive Boundaries
+
+submitnow (`https://www.submitnow.dev`) is built for independent developers, technical SEO engineers, programmatic SEO teams, and site owners who want full IndexNow throughput without anonymous 200-URL/day paywalls or storing domain keys in a third-party database.
+
+- **Cost**: `$0` forever for personal, agency, and commercial usage. No account or credit card required.
+- **Hosted Fair-Use Limits (`www.submitnow.dev`)**:
+  - Batch submissions: up to `10,000` same-host URLs per HTTP request (auto-chunked sequentially for larger lists); `30` batch requests / `10 min` per IP.
+  - Public key file verification: `60` checks / `10 min` per IP (`8 s` timeout, SSRF-guarded).
+  - Remote sitemap fetch: `20` fetches / `10 min` per IP, up to `20` child sitemaps / `50,000` URLs, `10 MB` compressed / `25 MB` decompressed.
+  - Browser-only utilities (Key Generator, URL Normalizer, Batch Builder, Code Generator, local Sitemap upload): unlimited; optional `localStorage` baseline holds up to `10,000` URLs.
+- **Local CLI / MCP & Self-Hosted (`overstarry/indexNow-gui`)**: Zero hosted per-IP limits; shares the identical validated runtime; MIT open-source.
+- **When to choose alternatives**: Choose commercial SaaS (e.g., Instant IndexNow Pro at `$9/mo` or Agency at `$59/mo`, FastIndex.io) only if you want cloud-hosted scheduled sitemap polling, 90-day hosted logs, or a zero-install hosted HTTP MCP endpoint without maintaining CI hooks. Note that Google does not participate in IndexNow — use clean XML sitemaps in Google Search Console for Google alongside submitnow for Bing/AI Search.
+
+---
+
+## 2. Core Submission Workflow
 
 submitnow forwards IndexNow batch submission requests server-side to `https://api.indexnow.org/indexnow` (or a selected partner endpoint: Bing, Yandex, Seznam.cz, Naver, Yep) without storing submitted keys or URL lists in an application database.
 
-1. **Generate a key** (`https://submitnow.dev/tools/indexnow-key-generator`): Create an 8–128 character key containing only `a-z`, `A-Z`, `0-9`, and `-`, then download `<key>.txt`.
+1. **Generate a key** (`https://www.submitnow.dev/tools/indexnow-key-generator`): Create a cryptographically random 48-character key locally via Web Crypto API and download `<key>.txt`.
 2. **Host the key file**: Publish `<key>.txt` at `https://<host>/<key>.txt` returning `HTTP 200`, `Content-Type: text/plain; charset=utf-8`, and a body containing only the exact key (no `.txt` suffix inside the body, no HTML, no UTF-8 BOM).
-3. **Verify public accessibility** (`https://submitnow.dev/tools/indexnow-key-checker`): Confirm no 404, soft-404 HTML, WAF challenge, or off-host redirect interferes with external verification. Server-side fetches enforce SSRF protections and rate limits.
-4. **Import, normalize & diff URLs** (`https://submitnow.dev`, `https://submitnow.dev/tools/url-normalizer`, `https://submitnow.dev/tools/indexnow-batch-builder`, `https://submitnow.dev/tools/sitemap-diff`): Fetch live `sitemap.xml`, `.xml.gz`, or nested `<sitemapindex>` files with optional `lastmod` filtering (24h/7d/30d), compare snapshots for added/changed/removed URLs, normalize queries, and split by hostname or 10,000-URL chunks.
-5. **Submit or automate** (`https://submitnow.dev`, `https://submitnow.dev/tools/indexnow-code-generator`, `https://submitnow.dev/docs/integrations/cli-and-mcp`): Submit directly from the web UI (auto-chunking lists > 10,000 URLs), export JSON/`curl`/JavaScript/Python/Go/GitHub Actions snippets, or run the local CLI (`cli/submitnow.ts`) and stdio MCP server (`mcp/server.ts`).
+3. **Verify public accessibility** (`https://www.submitnow.dev/tools/indexnow-key-checker`): Confirm no 404, soft-404 HTML, WAF challenge, UTF-8 BOM, or off-host redirect interferes with external verification. Server-side fetches enforce SSRF protections and per-IP rate limits.
+4. **Import, normalize & diff URLs** (`https://www.submitnow.dev`, `https://www.submitnow.dev/tools/url-normalizer`, `https://www.submitnow.dev/tools/indexnow-batch-builder`, `https://www.submitnow.dev/tools/sitemap-diff`): Fetch live `sitemap.xml`, `.xml.gz`, or nested `<sitemapindex>` files (or upload local `.xml` / `.xml.gz` snapshots), filter by `lastmod` (24h/7d/30d), export added/changed/removed URLs, normalize queries, and split by hostname or 10,000-URL chunks.
+5. **Submit or automate** (`https://www.submitnow.dev`, `https://www.submitnow.dev/tools/indexnow-code-generator`, `https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Submit directly from the web UI (auto-chunking lists > 10,000 URLs), export `curl`/JavaScript/Python/Go/GitHub Actions/JSON snippets, or run the local CLI (`cli/submitnow.ts`) and stdio MCP server (`mcp/server.ts`).
 
 ### Standard IndexNow Payload
 
@@ -35,65 +53,67 @@ submitnow forwards IndexNow batch submission requests server-side to `https://ap
 
 ---
 
-## 2. HTTP Status Code Reference
+## 3. HTTP Status Code Reference
 
-- **200 OK** (`https://submitnow.dev/docs/status-codes/200`): Request accepted and key validated. Confirms receipt, not guaranteed indexing.
-- **202 Accepted** (`https://submitnow.dev/docs/status-codes/202`): Request accepted; asynchronous key verification pending. Do not retry in a tight loop.
-- **400 Bad Request** (`https://submitnow.dev/docs/status-codes/400`): Malformed JSON, invalid key format/length, missing fields, or invalid `urlList`. Fix payload before retrying.
-- **403 Forbidden** (`https://submitnow.dev/docs/status-codes/403`): Key not valid or key file unreachable/mismatched (check BOM, soft 404, WAF challenges, off-host redirects).
-- **422 Unprocessable Entity** (`https://submitnow.dev/docs/status-codes/422`): URLs do not belong to `host` (e.g., apex vs. `www` mismatch) or violate subdirectory `keyLocation` prefix scope.
-- **429 Too Many Requests** (`https://submitnow.dev/docs/status-codes/429`): Rate limited. Deduplicate URLs, send sitemap diffs only, coordinate publishers, and apply exponential backoff with jitter.
-
----
-
-## 3. Platform Integration & AI Search Guides
-
-- **AI Search & `robots.txt`** (`https://submitnow.dev/docs/guides/ai-search-robots-txt`): How Bing's index supports Microsoft Copilot and ChatGPT Search; separating `Bingbot` / `OAI-SearchBot` from `GPTBot` in `robots.txt`.
-- **WordPress** (`https://submitnow.dev/docs/integrations/wordpress`): Run a single maintained IndexNow publisher and exclude draft/noindex archives.
-- **Next.js** (`https://submitnow.dev/docs/integrations/nextjs`): Serve `public/<key>.txt`, exclude dotted static files from middleware matchers, and submit post-deploy sitemap diffs.
-- **Cloudflare Workers** (`https://submitnow.dev/docs/integrations/cloudflare-workers`): Serve `/<key>.txt` at the edge, submit asynchronously with `ctx.waitUntil()`, and bypass WAF challenges on the key file path.
-- **Shopify** (`https://submitnow.dev/docs/integrations/shopify`): Avoid `cdn.shopify.com` off-host redirect and App Proxy subdirectory scope traps using Cloudflare O2O/Workers or Hydrogen + product webhooks.
-- **GitHub Actions** (`https://submitnow.dev/docs/integrations/github-actions`): Post-deploy key verification and delta-only submission with `INDEXNOW_KEY` secrets.
-- **Astro, Hugo & Static Sites** (`https://submitnow.dev/docs/integrations/astro-hugo`): Static key file placement and canonical trailing-slash alignment.
-- **CLI & MCP Server** (`https://submitnow.dev/docs/integrations/cli-and-mcp`): Run `node cli/submitnow.ts` in terminals/CI or connect `node mcp/server.ts` to Claude Code, Cursor, or Antigravity (`indexnow_generate_key`, `indexnow_check_key`, `indexnow_fetch_sitemap`, `indexnow_submit_urls`).
+- **200 OK** (`https://www.submitnow.dev/docs/status-codes/200`): Request accepted and key validated. Confirms receipt, not guaranteed indexing.
+- **202 Accepted** (`https://www.submitnow.dev/docs/status-codes/202`): Request accepted; asynchronous key verification pending. Do not retry in a tight loop.
+- **400 Bad Request** (`https://www.submitnow.dev/docs/status-codes/400`): Malformed JSON, invalid key format/length, missing fields, or invalid `urlList`. Fix payload before retrying.
+- **403 Forbidden** (`https://www.submitnow.dev/docs/status-codes/403`): Key not valid or key file unreachable/mismatched (check BOM, soft 404, WAF challenges, off-host redirects).
+- **422 Unprocessable Entity** (`https://www.submitnow.dev/docs/status-codes/422`): URLs do not belong to `host` (e.g., apex vs. `www` mismatch) or violate subdirectory `keyLocation` prefix scope.
+- **429 Too Many Requests** (`https://www.submitnow.dev/docs/status-codes/429`): Rate limited. Deduplicate URLs, send sitemap diffs only, coordinate publishers, and apply exponential backoff with jitter.
 
 ---
 
-## 4. Complete Public URL Directory
+## 4. Platform Integration & AI Search Guides
+
+- **AI Search & `robots.txt`** (`https://www.submitnow.dev/docs/guides/ai-search-robots-txt`): How Bing's index supports Microsoft Copilot and ChatGPT Search; separating `Bingbot` / `OAI-SearchBot` from `GPTBot` in `robots.txt`.
+- **WordPress** (`https://www.submitnow.dev/docs/integrations/wordpress`): Run a single maintained IndexNow publisher and exclude draft/noindex archives.
+- **Next.js** (`https://www.submitnow.dev/docs/integrations/nextjs`): Serve `public/<key>.txt`, exclude dotted static files from middleware matchers, and submit post-deploy sitemap diffs.
+- **Cloudflare Workers** (`https://www.submitnow.dev/docs/integrations/cloudflare-workers`): Serve `/<key>.txt` at the edge, submit asynchronously with `ctx.waitUntil()`, and bypass WAF challenges on the key file path.
+- **Shopify** (`https://www.submitnow.dev/docs/integrations/shopify`): Avoid `cdn.shopify.com` off-host redirect and App Proxy subdirectory scope traps using Cloudflare O2O/Workers or Hydrogen + product webhooks.
+- **GitHub Actions** (`https://www.submitnow.dev/docs/integrations/github-actions`): Post-deploy key verification and delta-only submission with `INDEXNOW_KEY` secrets.
+- **Astro, Hugo & Static Sites** (`https://www.submitnow.dev/docs/integrations/astro-hugo`): Static key file placement and canonical trailing-slash alignment.
+- **CLI & MCP Server** (`https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Run `node cli/submitnow.ts` in terminals/CI or connect `node mcp/server.ts` to Claude Code, Cursor, or Antigravity (`indexnow_generate_key`, `indexnow_check_key`, `indexnow_fetch_sitemap`, `indexnow_submit_urls`).
+
+---
+
+## 5. Complete Public URL Directory
 
 ### English (Default)
-- `https://submitnow.dev`
-- `https://submitnow.dev/tools`
-- `https://submitnow.dev/tools/indexnow-key-generator`
-- `https://submitnow.dev/tools/indexnow-key-checker`
-- `https://submitnow.dev/tools/url-normalizer`
-- `https://submitnow.dev/tools/indexnow-batch-builder`
-- `https://submitnow.dev/tools/sitemap-diff`
-- `https://submitnow.dev/tools/indexnow-code-generator`
-- `https://submitnow.dev/docs`
-- `https://submitnow.dev/docs/indexnow-bing-submission`
-- `https://submitnow.dev/docs/guides/ai-search-robots-txt`
-- `https://submitnow.dev/docs/status-codes/200`
-- `https://submitnow.dev/docs/status-codes/202`
-- `https://submitnow.dev/docs/status-codes/400`
-- `https://submitnow.dev/docs/status-codes/403`
-- `https://submitnow.dev/docs/status-codes/422`
-- `https://submitnow.dev/docs/status-codes/429`
-- `https://submitnow.dev/docs/integrations/wordpress`
-- `https://submitnow.dev/docs/integrations/nextjs`
-- `https://submitnow.dev/docs/integrations/cloudflare-workers`
-- `https://submitnow.dev/docs/integrations/shopify`
-- `https://submitnow.dev/docs/integrations/github-actions`
-- `https://submitnow.dev/docs/integrations/astro-hugo`
-- `https://submitnow.dev/docs/integrations/cli-and-mcp`
-- `https://submitnow.dev/blog`
-- `https://submitnow.dev/blog/indexnow-bing-submission`
-- `https://submitnow.dev/blog/indexnow-vs-google-indexing-api`
-- `https://submitnow.dev/blog/indexnow-chatgpt-search-copilot-geo`
-- `https://submitnow.dev/blog/indexnow-403-waf-cloudflare-nginx-fix`
-- `https://submitnow.dev/about`
-- `https://submitnow.dev/privacy-policy`
-- `https://submitnow.dev/terms-of-service`
+- `https://www.submitnow.dev`
+- `https://www.submitnow.dev/compare`
+- `https://www.submitnow.dev/pricing`
+- `https://www.submitnow.dev/tools`
+- `https://www.submitnow.dev/tools/indexnow-key-generator`
+- `https://www.submitnow.dev/tools/indexnow-key-checker`
+- `https://www.submitnow.dev/tools/url-normalizer`
+- `https://www.submitnow.dev/tools/indexnow-batch-builder`
+- `https://www.submitnow.dev/tools/sitemap-diff`
+- `https://www.submitnow.dev/tools/indexnow-code-generator`
+- `https://www.submitnow.dev/docs`
+- `https://www.submitnow.dev/docs/indexnow-bing-submission`
+- `https://www.submitnow.dev/docs/guides/ai-search-robots-txt`
+- `https://www.submitnow.dev/docs/status-codes/200`
+- `https://www.submitnow.dev/docs/status-codes/202`
+- `https://www.submitnow.dev/docs/status-codes/400`
+- `https://www.submitnow.dev/docs/status-codes/403`
+- `https://www.submitnow.dev/docs/status-codes/422`
+- `https://www.submitnow.dev/docs/status-codes/429`
+- `https://www.submitnow.dev/docs/integrations/wordpress`
+- `https://www.submitnow.dev/docs/integrations/nextjs`
+- `https://www.submitnow.dev/docs/integrations/cloudflare-workers`
+- `https://www.submitnow.dev/docs/integrations/shopify`
+- `https://www.submitnow.dev/docs/integrations/github-actions`
+- `https://www.submitnow.dev/docs/integrations/astro-hugo`
+- `https://www.submitnow.dev/docs/integrations/cli-and-mcp`
+- `https://www.submitnow.dev/blog`
+- `https://www.submitnow.dev/blog/indexnow-bing-submission`
+- `https://www.submitnow.dev/blog/indexnow-vs-google-indexing-api`
+- `https://www.submitnow.dev/blog/indexnow-chatgpt-search-copilot-geo`
+- `https://www.submitnow.dev/blog/indexnow-403-waf-cloudflare-nginx-fix`
+- `https://www.submitnow.dev/about`
+- `https://www.submitnow.dev/privacy-policy`
+- `https://www.submitnow.dev/terms-of-service`
 
 ### Localized Equivalents
-Every path above is also published under `/zh` (Simplified Chinese) and `/ja` (Japanese), cross-referenced via `hreflang` and `https://submitnow.dev/sitemap.xml`.
+Every path above is also published under `/zh` (Simplified Chinese) and `/ja` (Japanese), cross-referenced via `hreflang` and `https://www.submitnow.dev/sitemap.xml`.

@@ -20,6 +20,14 @@
         "href": "/docs"
       },
       {
+        "name": "对比",
+        "href": "/compare"
+      },
+      {
+        "name": "定价",
+        "href": "/pricing"
+      },
+      {
         "name": "博客",
         "href": "/blog"
       },
@@ -72,12 +80,24 @@
               "name": "文档"
             },
             {
+              "href": "/compare",
+              "name": "工具横向对比"
+            },
+            {
+              "href": "/pricing",
+              "name": "定价与免费配额"
+            },
+            {
+              "href": "/docs/integrations/cli-and-mcp",
+              "name": "CLI 与 MCP Server"
+            },
+            {
               "href": "/blog",
               "name": "指南"
             },
             {
-              "href": "/blog/indexnow-bing-submission",
-              "name": "IndexNow 提交 Bing"
+              "href": "/blog/indexnow-vs-google-indexing-api",
+              "name": "IndexNow vs Google"
             },
             {
               "href": "/about",
@@ -85,7 +105,7 @@
             },
             {
               "href": "https://www.indexnow.org/documentation",
-              "name": "IndexNow",
+              "name": "IndexNow 官方文档",
               "target": "_blank",
               "rel": "noopener noreferrer"
             }
@@ -127,19 +147,19 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "IndexNow 与 AI 搜索索引提交工作台",
-    "heroTitle": "面向 Bing、AI 搜索与 IndexNow 的免费批量提交工作台",
-    "description": "一键通知 Bing、ChatGPT Search、Microsoft Copilot、Yandex、Naver、Seznam 与 Yep。支持在线抓取 Sitemap、密钥体检与超万条自动分批——免注册、服务端零留存。",
+    "tagLine": "免费开源 IndexNow 与 AI 搜索索引工作台",
+    "heroTitle": "submitnow：免费开源的 IndexNow 与 AI 搜索批量提交工作台",
+    "description": "submitnow 是面向开发者、技术 SEO 工程师与站长的免费开源（MIT）IndexNow 工作台、本地 CLI 与 MCP Server。一键向 Bing、ChatGPT Search、Microsoft Copilot、Yandex、Naver、Seznam 与 Yep 推送同主机批次（超 10,000 条自动分批）——永久免费、免注册、服务端零留存。",
     "keywords": [
-      "indexnow",
-      "indexnow 在线提交工具",
+      "submitnow",
+      "indexnow 批量提交工具",
+      "免费 indexnow gui",
+      "indexnow mcp server",
+      "indexnow cli",
       "bing indexnow",
       "chatgpt search 收录",
       "copilot 收录优化",
-      "ai 搜索 geo",
-      "sitemap 批量推送",
-      "indexnow api",
-      "indexnow mcp",
+      "sitemap 对比工具",
       "indexnow 密钥校验"
     ],
     "badge": "IndexNow 与 AI 搜索加速",
@@ -407,8 +427,8 @@
     "breadcrumbHome": "首页"
   },
   "About": {
-    "title": "关于",
-    "description": "了解 submitnow 如何通过多端点批量推送、远程 Sitemap 抓取、CLI/MCP 工具与零持久化架构加速 Bing、ChatGPT Search、Copilot 及 IndexNow 合作引擎收录。"
+    "title": "关于 submitnow — 免费开源 IndexNow 与 AI 搜索工作台",
+    "description": "了解 submitnow（永久免费 MIT 开源 IndexNow 工作台、本地 CLI 与 MCP Server）如何帮助开发者与技术 SEO 工程师零留存加速 Bing、ChatGPT Search、Copilot 及合作引擎发现。"
   },
   "TermsOfService": {
     "title": "服务条款",
@@ -440,8 +460,8 @@
     "relatedToolsTitle": "相关工具",
     "relatedReadingTitle": "延伸阅读",
     "preview": {
-      "eyebrow": "放心提交",
-      "title": "搭建更干净的 IndexNow 工作流",
+      "eyebrow": "submitnow 工具套件",
+      "title": "用 submitnow 完成提交前的密钥校验与增量准备",
       "description": "生成密钥、确认它已生效、准备单主机批次、找出 sitemap 变化，然后再通知搜索引擎。"
     },
     "principles": {
@@ -472,13 +492,13 @@
       },
       "sitemapDiff": {
         "title": "Sitemap 对比",
-        "description": "在本地对比两个 sitemap 文件，从新增或变更的 URL 生成提交队列。",
-        "shortDescription": "找出新增和变更的 sitemap URL。"
+        "description": "支持直接拉取公网 Sitemap（含嵌套索引与 .xml.gz）或上传本地快照，按 lastmod 过滤并导出新增、变更与已删除 URL。",
+        "shortDescription": "在线或本地对比 Sitemap 增量变更。"
       },
       "codeGenerator": {
         "title": "IndexNow 代码生成器",
-        "description": "生成正确的 IndexNow JSON、curl 或 JavaScript fetch 请求。",
-        "shortDescription": "生成可直接使用的 IndexNow 请求代码。"
+        "description": "本地生成并校验 IndexNow 的 JSON、curl、JavaScript、Python、Go 与 GitHub Actions 代码，支持切换全部合作端点。",
+        "shortDescription": "生成 6 种格式的 IndexNow 请求代码。"
       },
       "urlNormalizer": {
         "title": "URL 规范化器",
@@ -516,7 +536,7 @@
       "rootFileNote": "如果需要提交整个主机范围内的 URL，把密钥文件放在根目录是最省事的做法。",
       "article": {
         "whenToUse": {
-          "title": "什么时候用这个工具",
+          "title": "什么时候使用 submitnow IndexNow 密钥生成器",
           "intro": "IndexNow 密钥是所有权证明：你在自己的主机上发布一个随机字符串，让搜索引擎确认提交来自控制该主机的人。以下几种情况需要新密钥。",
           "items": [
             {
@@ -538,7 +558,7 @@
           ]
         },
         "howTo": {
-          "title": "如何生成并部署密钥",
+          "title": "如何用 submitnow 生成并部署 IndexNow 密钥",
           "intro": "密钥不会离开浏览器：它由 Web Crypto API 生成，下载文件也在本地组装。",
           "steps": [
             {
@@ -560,7 +580,7 @@
           ]
         },
         "pitfalls": {
-          "title": "常见坑",
+          "title": "IndexNow 密钥文件常见坑",
           "items": [
             {
               "title": "文件里不只有密钥",
@@ -607,8 +627,13 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
+            "title": "彻底解决 IndexNow 403 与静默 202 丢包：Cloudflare WAF、Nginx 与 Next.js 排障清单",
+            "description": "覆盖 UTF-8 BOM、软 404 HTML、跨主机跳转与 WAF 拦截的 7 大生产故障。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
+            "title": "Bing IndexNow 实战：Key 文件配置与批量提交",
+            "description": "如何托管密钥文件、提交最多 10,000 条 URL 以及常见报错。",
             "slug": "/indexnow-bing-submission"
           }
         ]
@@ -626,7 +651,7 @@
       ],
       "title": "检查 IndexNow 密钥文件是否有效",
       "description": "像搜索引擎那样抓取你的密钥文件，直接看到验证失败的原因：状态码不对、跨主机跳转、返回 HTML 而不是纯文本，或者密钥内容不匹配。",
-      "privacyNote": "这个校验在我们的服务端执行，因为密钥文件必须从公网抓取，就像搜索引擎那样。只会请求这个地址，不做任何存储。",
+      "privacyNote": "该校验由 submitnow 无状态服务端从公网视角发起抓取，以复现搜索引擎的真实校验路径。仅请求所填地址，绝不落库保存。",
       "formTitle": "密钥文件校验",
       "formHelp": "填写你提交 URL 所属的主机和准备使用的密钥，默认文件地址会自动推导。",
       "hostLabel": "主机",
@@ -705,8 +730,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "什么时候用这个工具",
-          "intro": "IndexNow 返回 403，几乎总是意味着搜索引擎读不到你以为它能读到的密钥文件。这个校验会从你的网络之外复现那次抓取。",
+          "title": "什么时候使用 submitnow IndexNow 密钥校验器",
+          "intro": "IndexNow 返回 403 或 202 后静默丢弃，几乎都源于公网无法干净读取你的密钥文件。submitnow 密钥校验器免注册免费复现搜索引擎的外部抓取。",
           "items": [
             {
               "title": "首次提交之前",
@@ -727,7 +752,7 @@
           ]
         },
         "howTo": {
-          "title": "怎么执行校验",
+          "title": "如何用 submitnow 校验 IndexNow 密钥文件",
           "intro": "请求在服务端发出并跟随跳转，因此你看到的就是搜索引擎抓取器会看到的内容。",
           "steps": [
             {
@@ -749,7 +774,7 @@
           ]
         },
         "pitfalls": {
-          "title": "常见坑",
+          "title": "IndexNow 密钥验证常见失败原因",
           "items": [
             {
               "title": "CDN 缓存",
@@ -777,8 +802,8 @@
               "answer": "没有 CORS 响应头，浏览器读不到跨域响应，而密钥文件是以纯静态文本提供的。所以这次抓取必须在服务端完成。"
             },
             {
-              "question": "你们会保存我校验的密钥吗？",
-              "answer": "不会。密钥只用于构造请求和比对响应，之后即丢弃，不会写入磁盘。"
+              "question": "submitnow 会保存我校验的密钥吗？",
+              "answer": "不会。submitnow 仅在内存中构造请求并比对公网响应，完成后立即丢弃，不做任何磁盘或数据库存储。"
             },
             {
               "question": "校验通过了，Bing 还是返回 403。",
@@ -796,11 +821,47 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
-            "slug": "/indexnow-bing-submission"
+            "title": "彻底解决 IndexNow 403 与静默 202 丢包：Cloudflare WAF、Nginx 与 Next.js 排障清单",
+            "description": "定位 UTF-8 BOM、软 404、跨主机跳转与 Cloudflare Bot Fight Mode 拦截。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
+          },
+          {
+            "title": "AI 搜索时代：如何用 IndexNow 加速 ChatGPT Search 与 Microsoft Copilot 收录",
+            "description": "结合密钥校验与 Bingbot / OAI-SearchBot 爬虫放行清单。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow 密钥校验器检查清单",
+          "intro": "提交前一次性核验 HTTP 状态、主机边界、响应头与原始字节，提前排除 403 与静默 202 丢包。",
+          "headers": [
+            "检查维度",
+            "合规标准",
+            "submitnow 可拦截的问题"
+          ],
+          "rows": [
+            [
+              "HTTP 状态码",
+              "目标主机直接返回 HTTP 200 OK",
+              "404 不存在、401/403 鉴权或 WAF 拦截、5xx 异常"
+            ],
+            [
+              "跳转与主机边界",
+              "最终 URL 保持同一主机名（区分 apex 与 www）",
+              "跨主机跳转（如裸域跳 www 或跳转至 CDN 域）"
+            ],
+            [
+              "正文与编码",
+              "纯文本且只包含精确密钥字符串",
+              "软 404 HTML 页面、UTF-8 BOM（EF BB BF）、多余内容或空文件"
+            ],
+            [
+              "限流与隐私",
+              "在线每 IP 每 10 分钟 60 次；本地 CLI/MCP 无上限",
+              "内置 SSRF 防护，密钥与 URL 仅内存比对不落库"
+            ]
+          ]
+        }
       }
     },
     "batchBuilder": {
@@ -845,8 +906,8 @@
       "emptyValue": "空值",
       "article": {
         "whenToUse": {
-          "title": "什么时候用这个工具",
-          "intro": "只要 URL 没有全部属于你声明的主机，IndexNow 就会拒绝该请求；而重复项则会白白消耗配额。这个工具把粘贴来的列表变成可提交的内容。",
+          "title": "什么时候使用 submitnow IndexNow 批次整理器",
+          "intro": "IndexNow 要求单次请求只能包含同一主机下的 URL，重复地址会白白消耗配额。submitnow 批次整理器在浏览器本地完成去重、主机分组与每批 10,000 条自动切片。",
           "items": [
             {
               "title": "来自 CMS 或爬虫的导出",
@@ -867,7 +928,7 @@
           ]
         },
         "howTo": {
-          "title": "如何整理出干净的批次",
+          "title": "如何用 submitnow 整理干净的 IndexNow 批次",
           "intro": "解析、去重和分组都在你输入时实时完成，全程不会上传任何内容。",
           "steps": [
             {
@@ -889,7 +950,7 @@
           ]
         },
         "pitfalls": {
-          "title": "常见坑",
+          "title": "IndexNow URL 批次常见格式错误",
           "items": [
             {
               "title": "把 http 和 https 当成同一条",
@@ -930,14 +991,19 @@
             },
             {
               "question": "能一次提交超过 10,000 条吗？",
-              "answer": "单次请求不行。需要拆分后依次提交，超限时概览会提示你。"
+              "answer": "IndexNow 协议规定单次 HTTP 请求最多 10,000 条。submitnow 批次整理器会自动把超限列表按每批 10,000 条切片，首页 submitnow 提交表单也支持超过 10,000 条时自动顺序分批提交。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
+            "title": "IndexNow vs Google Indexing API vs XML Sitemap（2026 实战对比）",
+            "description": "用合规双轨架构同时覆盖 Google 与 Bing / AI 搜索收录。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "Bing IndexNow 实战：Key 文件配置与批量提交",
+            "description": "单主机批量提交规范与 422 报错规避指南。",
             "slug": "/indexnow-bing-submission"
           }
         ]
@@ -948,8 +1014,8 @@
       "sendChunk": "发送此批"
     },
     "sitemapDiff": {
-      "metaTitle": "面向 IndexNow 的 Sitemap 对比",
-      "metaDescription": "在浏览器内对比两个 sitemap XML 文件，只导出新增或变更的 URL 作为 IndexNow 提交队列。",
+      "metaTitle": "IndexNow Sitemap 对比与在线增量提取工具",
+      "metaDescription": "免费使用 submitnow Sitemap 对比工具：直接拉取远程 sitemap.xml / .xml.gz / 嵌套 sitemapindex（最多 50,000 条 URL）或上传本地快照，按 lastmod 过滤并导出新增、变更与已删除 URL。",
       "keywords": [
         "sitemap 对比",
         "sitemap diff",
@@ -957,27 +1023,27 @@
         "indexnow sitemap",
         "变更 url"
       ],
-      "title": "不上传服务器也能找出 sitemap 的变化",
-      "description": "上传较旧和较新的两个 sitemap XML 文件。对比在本地完成，你可以只导出新增或变更的 URL 作为 IndexNow 队列。",
+      "title": "本地或在线对比 Sitemap 变更并生成 IndexNow 队列",
+      "description": "submitnow Sitemap 对比工具（永久免费、免注册）支持直接抓取公网 sitemap.xml、.xml.gz 与嵌套 sitemapindex（最多展开 20 个子文件 / 50,000 条 URL），或上传本地 XML/gzip 快照，按 lastmod 过滤并导出新增、变更与已删除 URL。",
       "privacyNote": "本地上传的 .xml / .xml.gz 完全在浏览器内解析；可选的远程 Sitemap URL 抓取通过服务端转发，不会存储你的 URL。",
       "previousTitle": "旧 sitemap",
-      "previousHelp": "上传较早的 sitemap XML 文件作为基线。",
+      "previousHelp": "输入旧 Sitemap 链接、选用浏览器已保存基线，或上传较早的 .xml / .xml.gz 文件。",
       "currentTitle": "新 sitemap",
-      "currentHelp": "上传要对比的、较新的 sitemap XML 文件。",
+      "currentHelp": "输入当前公网 Sitemap 链接（支持从 robots.txt 自动探测）或上传较新的 .xml / .xml.gz 文件。",
       "chooseFile": "选择 sitemap XML",
       "replaceFile": "更换 sitemap XML",
       "entryCount": "找到 {count} 条有效 URL",
       "errors": {
         "invalidXml": "该文件不是有效的 XML。",
         "emptyUrlset": "该 URL 集合中没有任何有效的 http(s) 地址。",
-        "sitemapIndex": "这是一个 sitemap 索引，包含 {count} 个子 sitemap 地址。为保持工具完全在浏览器内运行，请上传你要对比的各个 sitemap XML 文件。",
+        "sitemapIndex": "你上传的是包含 {count} 个子文件的 sitemap 索引。若想自动展开最多 20 个子 sitemap，请直接把它的公网 URL 粘贴到上方「拉取 URL」输入框；若需纯离线对比，请上传单个 urlset XML 文件。",
         "unsupported": "该 XML 既不是 sitemap URL 集合，也不是 sitemap 索引。",
         "invalidLocations": "有 {count} 个无效的 sitemap 地址已被排除在对比之外。"
       },
       "resultsTitle": "变更队列",
-      "resultsHelp": "勾选新增和/或变更的 URL，然后复制或下载队列，交给提交工具。",
+      "resultsHelp": "按需勾选新增、变更与已删除 URL，一键复制、下载或直接发送到 submitnow 提交表单。",
       "selectedCount": "已选 {count} 条",
-      "emptyState": "上传两个有效的 sitemap URL 集合以计算变化。",
+      "emptyState": "输入公网 Sitemap 地址或上传本地 .xml / .xml.gz 文件即可开始提取或对比变化。",
       "stats": {
         "added": "新增",
         "changed": "变更",
@@ -995,8 +1061,8 @@
       "moreUrls": "还有 {count} 条 URL",
       "article": {
         "whenToUse": {
-          "title": "什么时候用这个工具",
-          "intro": "每次发布都把整个 sitemap 提交一遍，是最快触发 429 的方式。做一次对比，就能把整份 sitemap 收敛成真正变化过的那些 URL。",
+          "title": "什么时候使用 submitnow Sitemap 对比工具",
+          "intro": "每次发版把全站 Sitemap 重推一遍极易触发 IndexNow HTTP 429 限流。submitnow Sitemap 对比工具免费免注册，可精准提取新增、修改与已删除 URL，服务端零存储。",
           "items": [
             {
               "title": "内容发布之后",
@@ -1017,33 +1083,33 @@
           ]
         },
         "howTo": {
-          "title": "如何对比两个 sitemap",
-          "intro": "两个文件都由浏览器自带的 XML 解析器处理，不会上传任何一个。",
+          "title": "如何用 submitnow 对比 Sitemap 或按 lastmod 提取增量",
+          "intro": "支持纯浏览器离线解析本地 .xml / .xml.gz，也支持通过 submitnow 无状态 SSRF 防护接口拉取公网 Sitemap 与嵌套索引。",
           "steps": [
             {
-              "title": "保留一份基线 sitemap",
-              "description": "在发布前下载 sitemap XML，或者保留上次提交时用的那份。"
+              "title": "加载基线快照（可选）",
+              "description": "上传旧版 .xml / .xml.gz、拉取基线 URL，或使用浏览器本地保存的基线（最多 10,000 条）。如果只需按单份 Sitemap 的 lastmod 筛选，可跳过此步。"
             },
             {
-              "title": "上传两个文件",
-              "description": "把较旧的作为基线，较新的作为当前 sitemap。"
+              "title": "在线拉取或上传最新 Sitemap",
+              "description": "输入域名（自动探测 robots.txt）或公开 Sitemap 地址——支持 .xml.gz 与嵌套 <sitemapindex>——或直接上传本地文件。"
             },
             {
-              "title": "选择要包含的内容",
-              "description": "新增指新出现的条目，变更指 lastmod 发生变化的条目，两者可任选或全选。"
+              "title": "选择增量类型或 lastmod 时间窗口",
+              "description": "对比模式下可勾选「新增」「变更（lastmod 变化）」与「已删除（提示引擎重抓 404/410）」；单文件模式下可按近 24 小时 / 7 天 / 30 天筛选。"
             },
             {
-              "title": "复制、下载或直接提交",
-              "description": "把队列导出为文本，或直接发送到对应主机的提交表单。"
+              "title": "导出或一键送入 submitnow 提交",
+              "description": "复制、下载队列，或直接送入 submitnow 首页批量提交器，超过 10,000 条将自动分批顺序提交。"
             }
           ]
         },
         "pitfalls": {
-          "title": "常见坑",
+          "title": "IndexNow Sitemap 对比常见坑",
           "items": [
             {
-              "title": "上传的是 sitemap 索引",
-              "description": "索引只列出其他 sitemap。请上传它指向的各个 sitemap 文件——本工具坚持只在浏览器内运行，不会去抓取它们。"
+              "title": "本地上传了 sitemap 索引文件",
+              "description": "本地文件上传全程离线，无法自动抓取远端子文件。若要自动展开 <sitemapindex>（最多 20 个子文件 / 50,000 条 URL），请把公开链接填入「拉取 URL」输入框。"
             },
             {
               "title": "生成器每次都刷新 lastmod",
@@ -1063,34 +1129,75 @@
           "title": "常见问题",
           "items": [
             {
-              "question": "为什么要上传文件而不是填 sitemap 地址？",
-              "answer": "浏览器读取别的站点的 sitemap 会被 CORS 拦住，而在服务端抓取则意味着要把你的 URL 发给我们。上传文件能让对比留在本地。"
+              "question": "在 submitnow 里什么时候该用「在线拉取」，什么时候该用「本地上传」？",
+              "answer": "如果文件尚未上线或希望数据完全不经过网络，直接本地上传 .xml / .xml.gz 即可；如果需要自动从 robots.txt 探测或展开嵌套 <sitemapindex>，使用 submitnow 的在线拉取功能即可（服务端仅在内存处理并具备 SSRF 防护，不落库保存）。"
             },
             {
-              "question": "怎么判定一条 URL 变更了？",
-              "answer": "两个文件里都存在、但 lastmod 不同的 URL 算变更；只出现在新文件里的算新增。"
+              "question": "submitnow 如何判定一条 URL 发生了变更？",
+              "answer": "在双快照对比模式下，两份文件都有但 <lastmod> 不同的 URL 记为「变更」，只在新文件出现的记为「新增」，从新文件消失的记为「已删除」。"
             },
             {
-              "question": "会报告被删除的 URL 吗？",
-              "answer": "会计数但不会导出。IndexNow 用于通知更新，被删除的 URL 更适合交给搜索引擎自行重新抓取。"
+              "question": "submitnow 可以导出已删除的 URL 用于 IndexNow 通知吗？",
+              "answer": "可以。对比结果会统计已删除 URL，勾选「包含已删除 URL」即可一并导出或送入 submitnow 提交，通知搜索引擎尽快重抓确认 HTTP 404/410 下线状态。"
             },
             {
-              "question": "可以对比 gz 压缩的 sitemap 吗？",
-              "answer": "不行。请先解压 .xml.gz，工具只解析纯 XML。"
+              "question": "submitnow Sitemap 对比支持 .xml.gz 压缩文件吗？",
+              "answer": "支持。无论是本地上传 .xml.gz（现代浏览器直接解压）还是在线拉取 .xml.gz 链接（单文件最大 10 MB 压缩 / 25 MB 解压），均可自动识别解析。"
             },
             {
-              "question": "队列会遵守 10,000 条上限吗？",
-              "answer": "对比结果可能超出这个数。接近上限时，把结果再过一遍批次整理器。"
+              "question": "提取出的队列超过 10,000 条怎么办？",
+              "answer": "IndexNow 协议单次请求上限为 10,000 条同主机 URL。点击发送到 submitnow 首页提交表单后，submitnow 会自动按每批 10,000 条顺序完成提交。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
-            "slug": "/indexnow-bing-submission"
+            "title": "AI 搜索时代：如何用 IndexNow 加速 ChatGPT Search 与 Microsoft Copilot 收录",
+            "description": "结合增量 lastmod 推送与 Bingbot / OAI-SearchBot 规则，缩短 AI 搜索发现延迟。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
+          },
+          {
+            "title": "IndexNow vs Google Indexing API vs XML Sitemap（2026 实战对比）",
+            "description": "如何用 XML Sitemap 守住 Google 盘子，同时用 IndexNow 加速 Bing 与 AI 搜索。",
+            "slug": "/indexnow-vs-google-indexing-api"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow Sitemap 对比模式与容量边界",
+          "intro": "根据隐私与站点规模在纯本地上传、公网拉取与本地 CLI/MCP 之间自由选择。",
+          "headers": [
+            "使用模式",
+            "支持格式",
+            "容量与限流边界",
+            "适用场景"
+          ],
+          "rows": [
+            [
+              "本地文件上传",
+              ".xml 与 .xml.gz（浏览器原生解压）",
+              "不限次数；本地保存基线最多 10,000 条",
+              "内网/预发环境或纯离线对比"
+            ],
+            [
+              "在线公网拉取",
+              ".xml、.xml.gz、嵌套 <sitemapindex>、robots.txt 探测",
+              "在线每 IP 每 10 分钟 20 次；单次最多 20 个子文件 / 50,000 条 URL",
+              "生产发版排查与多子文件大型站点"
+            ],
+            [
+              "单文件 lastmod 筛选",
+              "近 24 小时 / 7 天 / 30 天 / 全部",
+              "加载后前端即时筛选",
+              "无需历史基线的日常增量推送"
+            ],
+            [
+              "submitnow CLI / MCP",
+              "复用同一解析器与 SSRF 防护",
+              "无托管 IP 限流；MIT 开源自运行",
+              "GitHub Actions 与 AI 编程助手自动化"
+            ]
+          ]
+        }
       },
       "extractHelp": "上传当前 sitemap 即可提取全部有效 URL；只有需要变化队列时才添加基线。",
       "savedSnapshot": "已保存基线：{fileName}（{date}）",
@@ -1131,17 +1238,20 @@
     },
     "codeGenerator": {
       "cardTitle": "IndexNow 代码生成器",
-      "cardDescription": "生成正确的 IndexNow JSON、curl 或 JavaScript fetch 请求。",
+      "cardDescription": "生成经校验的 IndexNow JSON、curl、JavaScript、Python、Go 与 GitHub Actions 请求代码。",
       "cardShort": "生成可直接使用的 IndexNow 请求代码。",
-      "metaTitle": "免费 IndexNow 代码生成器",
-      "metaDescription": "在浏览器本地生成并校验 IndexNow JSON、curl 和 JavaScript 请求。",
+      "metaTitle": "免费 IndexNow 代码生成器（curl / JS / Python / Go / CI）",
+      "metaDescription": "在 submitnow 浏览器本地生成并校验 6 种格式的 IndexNow 请求代码：curl、JavaScript、Python、Go、GitHub Actions 与 JSON，支持 api.indexnow.org 及全部参与引擎端点。",
       "keywords": [
         "IndexNow 代码生成器",
         "IndexNow curl",
+        "IndexNow Python",
+        "IndexNow Go",
+        "IndexNow GitHub Actions",
         "IndexNow JavaScript"
       ],
       "title": "生成 IndexNow 请求",
-      "description": "把已校验的主机和 URL 列表转换成可复制的 JSON、curl 或 JavaScript。",
+      "description": "在 submitnow 本地将已校验的主机和 URL 列表一键生成 curl、JavaScript、Python、Go、GitHub Actions 或 JSON 代码——免费、零上传。",
       "privacyNote": "全部生成逻辑在浏览器中运行，key、主机、URL 和代码不会上传。",
       "inputTitle": "请求参数",
       "hostLabel": "主机",
@@ -1165,8 +1275,8 @@
       "emptyState": "输入主机、key 和有效的同主机 URL 列表后生成代码。",
       "article": {
         "whenToUse": {
-          "title": "何时使用",
-          "intro": "当 CMS、部署钩子或后端需要符合协议的请求时，用它避免手写 JSON。",
+          "title": "什么时候使用 submitnow IndexNow 代码生成器",
+          "intro": "当 CMS、后端服务或 CI/CD 流水线需要符合协议规范的 IndexNow 请求时，用 submitnow 代码生成器直接导出 curl、JavaScript、Python、Go、GitHub Actions 或 JSON，避免手写出错。",
           "items": [
             {
               "title": "构建部署钩子",
@@ -1177,13 +1287,13 @@
               "description": "将实际负载与已知正确结构进行对比。"
             },
             {
-              "title": "切换实现语言",
-              "description": "在不改变负载的前提下切换 curl 和 JavaScript。"
+              "title": "切换开发语言与 CI 流水线",
+              "description": "同一份已校验负载可一键在 curl、JavaScript、Python、Go、GitHub Actions 与 JSON 之间切换。"
             }
           ]
         },
         "howTo": {
-          "title": "如何生成请求",
+          "title": "如何用 submitnow 生成 IndexNow 集成代码",
           "intro": "只有主机边界校验通过后才会生成代码。",
           "steps": [
             {
@@ -1205,7 +1315,7 @@
           ]
         },
         "pitfalls": {
-          "title": "常见问题",
+          "title": "IndexNow 代码接入常见误区",
           "items": [
             {
               "title": "在浏览器执行含 key 的代码",
@@ -1225,26 +1335,72 @@
           "title": "常见问题",
           "items": [
             {
-              "question": "会直接发送请求吗？",
-              "answer": "不会，只在本地生成代码。"
+              "question": "submitnow 代码生成器会直接发出请求或上传密钥吗？",
+              "answer": "不会。所有代码均在浏览器本地生成，密钥、主机与 URL 不会发送到任何服务器。"
             },
             {
-              "question": "使用哪个端点？",
-              "answer": "代码使用共享的 api.indexnow.org。"
+              "question": "支持哪些编程语言和 IndexNow 端点？",
+              "answer": "submitnow 代码生成器支持 6 种格式（curl、JavaScript、Python、Go、GitHub Actions、JSON），并可自由选择 api.indexnow.org（默认全网同步）或 Bing、Yandex、Seznam.cz、Naver、Yep 端点。"
             },
             {
-              "question": "能包含多个主机吗？",
-              "answer": "不能，每个准确主机单独生成。"
+              "question": "单个生成的代码请求能包含多个主机吗？",
+              "answer": "不能。IndexNow 要求每次请求只覆盖一个准确主机，多主机列表请先用 submitnow 批次整理器拆分。"
             }
           ]
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow vs Google Indexing API vs XML Sitemap（2026 实战对比）",
+            "description": "把自动化 IndexNow 钩子与 Google XML Sitemap 组合成合规双轨方案。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "彻底解决 IndexNow 403 与静默 202 丢包：Cloudflare WAF、Nginx 与 Next.js 排障清单",
+            "description": "上线 CI 自动推送前务必核查的 7 项密钥与中间件配置。",
+            "slug": "/indexnow-403-waf-cloudflare-nginx-fix"
           }
-        ]
+        ],
+        "specTable": {
+          "title": "submitnow 代码生成器支持的格式与场景",
+          "intro": "所有模板均在本地先校验主机一致性与 UTF-8 JSON 格式，再生成可复制代码。",
+          "headers": [
+            "代码格式",
+            "运行环境",
+            "典型适用场景"
+          ],
+          "rows": [
+            [
+              "curl",
+              "Linux / macOS / CI Shell",
+              "命令行手工验证、部署脚本与快速排障"
+            ],
+            [
+              "JavaScript (fetch)",
+              "Node.js 18+ / Cloudflare Workers / Edge",
+              "Next.js 部署钩子、Serverless Webhook 与边缘函数"
+            ],
+            [
+              "Python",
+              "Python 3 (requests)",
+              "后端任务、Django/FastAPI 发布事件与 SEO 脚本"
+            ],
+            [
+              "Go",
+              "Go net/http",
+              "高并发后端服务与静态站构建工具"
+            ],
+            [
+              "GitHub Actions",
+              "GitHub Actions Workflow YAML",
+              "结合 Repository Secrets 实现发版后自动推送"
+            ],
+            [
+              "JSON",
+              "标准 IndexNow 请求体",
+              "核对载荷字段或粘贴至 API 调试客户端"
+            ]
+          ]
+        }
       },
       "endpointLabel": "提交端点"
     },
@@ -1259,8 +1415,8 @@
         "移除 UTM",
         "IndexNow URL 清理"
       ],
-      "title": "提交前规范化 URL",
-      "description": "统一 URL 语法并去重，可能改变语义的操作默认关闭。",
+      "title": "在提交 IndexNow 前规范化并清理 URL 列表",
+      "description": "使用免费的 submitnow URL 规范化器（纯浏览器运行）移除片段与 UTM/广告跟踪参数、自动去重，避免 IndexNow 触发 422 或浪费 429 配额。",
       "privacyNote": "全部解析在浏览器本地完成，URL 列表不会上传或保存。",
       "inputTitle": "粘贴 URL",
       "inputHelp": "每行一个绝对 HTTP 或 HTTPS URL。",
@@ -1301,8 +1457,8 @@
       },
       "article": {
         "whenToUse": {
-          "title": "何时使用",
-          "intro": "在去重、分批、代码生成或 IndexNow 提交前规范化 URL。",
+          "title": "什么时候在 submitnow 提交前先规范化 URL",
+          "intro": "带锚点片段或 UTM 参数的导出列表会产生大量重复提交并浪费配额。submitnow URL 规范化器在本地清理去重后，可一键交给 submitnow 批量提交器。",
           "items": [
             {
               "title": "清理导出列表",
@@ -1319,7 +1475,7 @@
           ]
         },
         "howTo": {
-          "title": "如何规范化",
+          "title": "如何用 submitnow 规范化 IndexNow URL 列表",
           "intro": "保守默认值只移除片段，其他操作需明确启用。",
           "steps": [
             {
@@ -1341,7 +1497,7 @@
           ]
         },
         "pitfalls": {
-          "title": "常见问题",
+          "title": "IndexNow URL 规范化常见误区",
           "items": [
             {
               "title": "盲目删除参数",
@@ -1376,13 +1532,25 @@
         },
         "relatedPosts": [
           {
-            "title": "IndexNow 提交 Bing：密钥文件配置与批量提交",
-            "description": "如何托管密钥文件、提交最多 10,000 条 URL，以及常见报错。",
-            "slug": "/indexnow-bing-submission"
+            "title": "IndexNow vs Google Indexing API vs XML Sitemap（2026 实战对比）",
+            "description": "保持 Sitemap 与 IndexNow 推送列表均为干净的规范 HTTP 200 URL。",
+            "slug": "/indexnow-vs-google-indexing-api"
+          },
+          {
+            "title": "AI 搜索时代：如何用 IndexNow 加速 ChatGPT Search 与 Microsoft Copilot 收录",
+            "description": "避免重复参数 URL 稀释抓取配额，确保规范页被 AI 搜索准确引用。",
+            "slug": "/indexnow-chatgpt-search-copilot-geo"
           }
         ]
       },
       "resultSummaryDetailed": "{valid} 条有效 · {duplicates} 条重复 · {invalid} 条无效"
+    },
+    "submitterCard": {
+      "title": "准备好用 submitnow 批量提交了吗？",
+      "description": "单次最多推送 10,000 条同主机 URL（超量自动分批），一键触达 Bing、ChatGPT Search、Copilot、Yandex、Seznam、Naver 与 Yep —— 永久免费、免注册。",
+      "cta": "打开 submitnow 批量提交工作台",
+      "compareLink": "查看 IndexNow 工具对比",
+      "pricingLink": "免费配额与 MIT 自托管"
     }
   },
   "Docs": {

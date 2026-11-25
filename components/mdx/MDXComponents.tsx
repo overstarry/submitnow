@@ -1,6 +1,8 @@
 import { Aside } from "@/components/mdx/Aside";
 import { Callout } from "@/components/mdx/Callout";
 import { MdxCard } from "@/components/mdx/MdxCard";
+import { Link as I18nLink } from "@/i18n/routing";
+import { classifyMdxHref } from "@/lib/mdx-links";
 import React, { ReactNode } from "react";
 
 interface HeadingProps {
@@ -84,7 +86,23 @@ const MDXComponents: MDXComponentsProps = {
     />
   ),
   a: ({ href, rel, target, ...rest }) => {
-    const isExternal = typeof href === "string" && /^https?:\/\//i.test(href);
+    const kind = classifyMdxHref(typeof href === "string" ? href : undefined);
+    const linkClassName =
+      "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors underline underline-offset-4";
+
+    if (kind === "localized-internal" && typeof href === "string") {
+      return (
+        <I18nLink
+          href={href}
+          target={target}
+          rel={rel}
+          className={linkClassName}
+          {...rest}
+        />
+      );
+    }
+
+    const isExternal = kind === "external";
     const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
     const resolvedRel =
       rel ?? (resolvedTarget === "_blank" ? "noopener noreferrer" : undefined);
@@ -94,7 +112,7 @@ const MDXComponents: MDXComponentsProps = {
         href={href}
         target={resolvedTarget}
         rel={resolvedRel}
-        className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors underline underline-offset-4"
+        className={linkClassName}
         {...rest}
       />
     );
