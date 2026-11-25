@@ -51,7 +51,17 @@ test('llms.txt and llms-full.txt use canonical www.submitnow.dev URLs and list /
       /https:\/\/submitnow\.dev\b/,
       `${file} must not contain non-canonical apex https://submitnow.dev links`
     );
+    assert.doesNotMatch(
+      content,
+      /overstarry\/indexNow-gui/i,
+      `${file} should reference canonical overstarry/submitnow repository`
+    );
   }
+
+  assert.ok(
+    readText('config/site.ts').includes('https://github.com/overstarry/submitnow'),
+    'config/site.ts SOURCE_CODE_URL should point to overstarry/submitnow'
+  );
 });
 
 test('localized compare and pricing datasets stay complete across en, zh, and ja', () => {

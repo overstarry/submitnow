@@ -46,7 +46,7 @@
         "MIT ライセンスにより個人・SEO 代理店・商用 SaaS チームでも無料利用可能"
       ],
       "ctaLabel": "GitHub リポジトリを見る",
-      "ctaHref": "https://github.com/overstarry/indexNow-gui",
+      "ctaHref": "https://github.com/overstarry/submitnow",
       "external": true
     }
   ],
@@ -108,7 +108,7 @@
     },
     {
       "question": "SEO 代理店や法人の商用案件で使えますか？",
-      "answer": "はい。www.submitnow.dev のオンライン版および MIT ライセンスの GitHub リポジトリ（overstarry/indexNow-gui）はいずれも商用・法人・代理店業務で無料利用できます。"
+      "answer": "はい。www.submitnow.dev のオンライン版および MIT ライセンスの GitHub リポジトリ（overstarry/submitnow）はいずれも商用・法人・代理店業務で無料利用できます。"
     },
     {
       "question": "大量の自動化でホスト側 IP 制限を外す方法はありますか？",

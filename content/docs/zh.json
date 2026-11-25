@@ -1005,7 +1005,7 @@
         "paragraphs": [
           "mcp/server.ts 实现了基于 stdio 的 JSON-RPC 2.0 MCP 协议。配置后，AI Agent 在完成部署后即可直接调用工具完成密钥体检、抓取 Sitemap 与增量推送。"
         ],
-        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/indexnow-gui/mcp/server.ts\"]\n    }\n  }\n}"
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/submitnow/mcp/server.ts\"]\n    }\n  }\n}"
       },
       {
         "title": "内置 MCP 工具一览",

@@ -1005,7 +1005,7 @@
         "paragraphs": [
           "Run mcp/server.ts over stdio JSON-RPC 2.0 so agents in Claude Code, Cursor, or Antigravity can generate keys, verify live key files, inspect sitemaps, and submit changed URLs right after a deploy."
         ],
-        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/indexnow-gui/mcp/server.ts\"]\n    }\n  }\n}"
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/submitnow/mcp/server.ts\"]\n    }\n  }\n}"
       },
       {
         "title": "Exposed MCP tools",

@@ -46,7 +46,7 @@
         "宽松 MIT 开源协议——免费用于个人站点、SEO 代理商与商业 SaaS 团队"
       ],
       "ctaLabel": "查看 GitHub 开源仓库",
-      "ctaHref": "https://github.com/overstarry/indexNow-gui",
+      "ctaHref": "https://github.com/overstarry/submitnow",
       "external": true
     }
   ],
@@ -108,7 +108,7 @@
     },
     {
       "question": "SEO 代理商和商业公司可以直接使用 submitnow 吗？",
-      "answer": "可以。无论是 www.submitnow.dev 在线版，还是 GitHub 上 MIT 开源的 overstarry/indexNow-gui 仓库，均允许个人、代理商与商业团队免费使用和二次部署。"
+      "answer": "可以。无论是 www.submitnow.dev 在线版，还是 GitHub 上 MIT 开源的 overstarry/submitnow 仓库，均允许个人、代理商与商业团队免费使用和二次部署。"
     },
     {
       "question": "超高频自动化不想受托管 IP 限流约束怎么办？",

@@ -38,7 +38,7 @@ function resolveBaseUrl(): string {
 
 export const BASE_URL = resolveBaseUrl();
 
-export const SOURCE_CODE_URL = "https://github.com/overstarry/indexNow-gui";
+export const SOURCE_CODE_URL = "https://github.com/overstarry/submitnow";
 
 const EMAIL_URL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 

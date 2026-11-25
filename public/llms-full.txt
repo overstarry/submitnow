@@ -5,7 +5,7 @@
 - Canonical Site: `https://www.submitnow.dev`
 - Languages: English (`https://www.submitnow.dev/`), Simplified Chinese (`https://www.submitnow.dev/zh`), Japanese (`https://www.submitnow.dev/ja`)
 - Pricing & License: `$0` Free Forever (Hosted Web Workbench + MIT Open-Source Repository)
-- Source Repository: `https://github.com/overstarry/indexNow-gui`
+- Source Repository: `https://github.com/overstarry/submitnow`
 - XML Sitemap: `https://www.submitnow.dev/sitemap.xml`
 - Comparison Matrix: `https://www.submitnow.dev/compare`
 - Pricing & Quotas: `https://www.submitnow.dev/pricing`
@@ -22,7 +22,7 @@ submitnow (`https://www.submitnow.dev`) is built for independent developers, tec
   - Public key file verification: `60` checks / `10 min` per IP (`8 s` timeout, SSRF-guarded).
   - Remote sitemap fetch: `20` fetches / `10 min` per IP, up to `20` child sitemaps / `50,000` URLs, `10 MB` compressed / `25 MB` decompressed.
   - Browser-only utilities (Key Generator, URL Normalizer, Batch Builder, Code Generator, local Sitemap upload): unlimited; optional `localStorage` baseline holds up to `10,000` URLs.
-- **Local CLI / MCP & Self-Hosted (`overstarry/indexNow-gui`)**: Zero hosted per-IP limits; shares the identical validated runtime; MIT open-source.
+- **Local CLI / MCP & Self-Hosted (`overstarry/submitnow`)**: Zero hosted per-IP limits; shares the identical validated runtime; MIT open-source.
 - **When to choose alternatives**: Choose commercial SaaS (e.g., Instant IndexNow Pro at `$9/mo` or Agency at `$59/mo`, FastIndex.io) only if you want cloud-hosted scheduled sitemap polling, 90-day hosted logs, or a zero-install hosted HTTP MCP endpoint without maintaining CI hooks. Note that Google does not participate in IndexNow — use clean XML sitemaps in Google Search Console for Google alongside submitnow for Bing/AI Search.
 
 ---

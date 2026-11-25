@@ -46,7 +46,7 @@
         "Permissive MIT license — free for agencies, SaaS teams, and commercial products"
       ],
       "ctaLabel": "View GitHub Repository",
-      "ctaHref": "https://github.com/overstarry/indexNow-gui",
+      "ctaHref": "https://github.com/overstarry/submitnow",
       "external": true
     }
   ],
@@ -108,7 +108,7 @@
     },
     {
       "question": "Can agencies and commercial teams use submitnow?",
-      "answer": "Yes. Both the hosted workbench at www.submitnow.dev and the MIT-licensed repository (overstarry/indexNow-gui) are free for commercial, enterprise, and SEO agency workflows."
+      "answer": "Yes. Both the hosted workbench at www.submitnow.dev and the MIT-licensed repository (overstarry/submitnow) are free for commercial, enterprise, and SEO agency workflows."
     },
     {
       "question": "How do I run high-volume automation without hosted IP rate limits?",
