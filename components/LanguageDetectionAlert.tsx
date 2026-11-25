@@ -12,6 +12,7 @@ import { useCallback, useEffect, useState } from "react";
 export function LanguageDetectionAlert() {
   const [countdown, setCountdown] = useState(10); // countdown 10s and dismiss
   const [isVisible, setIsVisible] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
   const locale = useLocale();
   const [detectedLocale, setDetectedLocale] = useState<string | null>(null);
   const {
@@ -25,7 +26,7 @@ export function LanguageDetectionAlert() {
     setIsVisible(false);
     setTimeout(() => {
       dismissLanguageAlert();
-    }, 300);
+    }, 200);
   }, [dismissLanguageAlert]);
 
   const handleSwitchLanguage = useCallback(() => {
@@ -49,15 +50,25 @@ export function LanguageDetectionAlert() {
           setDetectedLocale(supportedLang);
           setShowLanguageAlert(true);
         }, 0);
-        setTimeout(() => setIsVisible(true), 100);
+        setTimeout(() => setIsVisible(true), 50);
       }
     }
   }, [locale, getLangAlertDismissed, setShowLanguageAlert]);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsPaused(document.hidden);
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (showLanguageAlert && countdown > 0) {
+    if (showLanguageAlert && countdown > 0 && !isPaused) {
       timer = setInterval(() => {
         setCountdown((prev) => prev - 1);
       }, 1000);
@@ -66,7 +77,7 @@ export function LanguageDetectionAlert() {
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [showLanguageAlert, countdown]);
+  }, [showLanguageAlert, countdown, isPaused]);
 
   useEffect(() => {
     if (countdown === 0 && showLanguageAlert) {
@@ -84,21 +95,25 @@ export function LanguageDetectionAlert() {
   return (
     <div
       className={cn(
-        "fixed top-16 right-4 z-50 max-w-sm w-full mx-4 sm:mx-0 sm:w-96",
-        "transform transition-all duration-300 ease-in-out",
+        "fixed top-20 right-4 z-50 max-w-sm w-[calc(100%-2rem)] sm:w-96",
+        "origin-top-right transition-[transform,opacity] ease-out-strong",
         isVisible
-          ? "translate-x-0 translate-y-0 opacity-100"
-          : "translate-x-full opacity-0"
+          ? "[transition-duration:240ms] translate-y-0 scale-100 opacity-100"
+          : "[transition-duration:180ms] translate-y-2 scale-[0.97] opacity-0 pointer-events-none"
       )}
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+      onFocus={() => setIsPaused(true)}
+      onBlur={() => setIsPaused(false)}
       role="banner"
       aria-live="polite"
       aria-label="Language detection alert"
     >
-      <div className="bg-background/95 backdrop-blur-md border border-border rounded-xl shadow-lg p-4 relative">
+      <div className="bg-background/95 backdrop-blur-md border border-border/80 rounded-2xl shadow-lg p-4 relative">
         <Button
           variant="ghost"
           size="icon"
-          className="absolute right-2 top-2 h-6 w-6 opacity-50 hover:opacity-100"
+          className="absolute right-2 top-2 h-7 w-7 opacity-60 hover:opacity-100"
           onClick={handleDismiss}
           aria-label="Dismiss language suggestion"
         >
@@ -106,7 +121,7 @@ export function LanguageDetectionAlert() {
         </Button>
 
         <div className="pr-8">
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-2.5">
             <Globe className="h-4 w-4 text-primary" />
             <h3 className="font-medium text-sm text-foreground">
               {alertMessages.title}
@@ -126,23 +141,24 @@ export function LanguageDetectionAlert() {
                 className={cn(
                   "flex items-center gap-2 px-3 py-2 rounded-lg",
                   "bg-primary text-primary-foreground hover:bg-primary/90",
-                  "text-sm font-medium transition-colors",
-                  "group focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  "text-sm font-medium group"
                 )}
                 aria-label={`${alertMessages.switchTo} ${LOCALE_NAMES[detectedLocale]}`}
               >
                 <span>
                   {alertMessages.switchTo} {LOCALE_NAMES[detectedLocale]}
                 </span>
-                <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="h-3 w-3 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5" />
               </I18nLink>
             </Button>
 
-            <span className="text-xs text-muted-foreground">{countdown}s</span>
+            <span className="text-xs tabular-nums text-muted-foreground">
+              {countdown}s
+            </span>
           </div>
         </div>
 
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary/10 to-transparent pointer-events-none opacity-50" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/10 to-transparent pointer-events-none opacity-50" />
       </div>
     </div>
   );

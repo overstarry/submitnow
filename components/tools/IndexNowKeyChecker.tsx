@@ -78,7 +78,7 @@ export default function IndexNowKeyChecker() {
               required
               placeholder={t("hostPlaceholder")}
               disabled={state === "loading"}
-              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600"
+              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:ring-blue-900/40"
             />
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {t("hostHelp")}
@@ -99,7 +99,7 @@ export default function IndexNowKeyChecker() {
               required
               placeholder={t("keyPlaceholder")}
               disabled={state === "loading"}
-              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600"
+              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:ring-blue-900/40"
             />
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {t("keyHelp")}
@@ -118,7 +118,7 @@ export default function IndexNowKeyChecker() {
               name="keyLocation"
               placeholder={t("keyLocationPlaceholder")}
               disabled={state === "loading"}
-              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600"
+              className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 font-mono text-sm text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:ring-blue-900/40"
             />
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               {t("keyLocationHelp")}
@@ -131,7 +131,7 @@ export default function IndexNowKeyChecker() {
             className="h-11 w-full rounded-xl bg-blue-600 font-semibold text-white hover:bg-blue-700"
           >
             {state === "loading" ? (
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+              <Loader2 className="size-4 animate-spin-fast" aria-hidden="true" />
             ) : (
               <Search className="size-4" aria-hidden="true" />
             )}
@@ -142,7 +142,7 @@ export default function IndexNowKeyChecker() {
         <div className="mt-6 min-h-5">
           {state === "error" && (
             <p
-              className="rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200"
+              className="animate-surface-in rounded-2xl border border-red-200 bg-red-50/80 px-4 py-3 text-sm text-red-800 dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-200"
               aria-live="polite"
             >
               {errorMessage}

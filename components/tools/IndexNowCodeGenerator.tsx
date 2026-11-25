@@ -85,7 +85,7 @@ export default function IndexNowCodeGenerator() {
               placeholder="www.example.com"
               autoCapitalize="none"
               spellCheck={false}
-              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
             />
           </label>
           <label className="block text-sm font-medium text-slate-800 dark:text-slate-200">
@@ -97,7 +97,7 @@ export default function IndexNowCodeGenerator() {
               placeholder="your-indexnow-key"
               autoCapitalize="none"
               spellCheck={false}
-              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
             />
           </label>
           <label className="block text-sm font-medium text-slate-800 dark:text-slate-200">
@@ -109,7 +109,7 @@ export default function IndexNowCodeGenerator() {
               placeholder={t("keyLocationPlaceholder")}
               autoCapitalize="none"
               spellCheck={false}
-              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+              className="mt-2 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
             />
           </label>
           <label className="block text-sm font-medium text-slate-800 dark:text-slate-200">
@@ -119,7 +119,7 @@ export default function IndexNowCodeGenerator() {
               onChange={(event) => setUrls(event.target.value)}
               rows={7}
               placeholder={"https://www.example.com/page-1\nhttps://www.example.com/page-2"}
-              className="mt-2 w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+              className="mt-2 w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
             />
           </label>
         </div>
@@ -151,7 +151,7 @@ export default function IndexNowCodeGenerator() {
             className="rounded-xl"
           >
             {copied ? (
-              <Check className="size-4 text-emerald-600" aria-hidden="true" />
+              <Check className="size-4 animate-pop-in text-emerald-600" aria-hidden="true" />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}
@@ -170,9 +170,9 @@ export default function IndexNowCodeGenerator() {
                 setFormat(item);
                 setCopied(false);
               }}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${
+              className={`rounded-lg px-3 py-2 text-sm font-semibold transition-[transform,background-color,color] duration-150 ease-out-strong active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/70 ${
                 format === item
-                  ? "bg-blue-500 text-white"
+                  ? "bg-blue-500 text-white shadow-sm"
                   : "bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white"
               }`}
             >

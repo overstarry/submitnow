@@ -30,12 +30,12 @@ export default async function Footer() {
             <div className="w-full flex flex-col sm:flex-row lg:flex-col gap-4 col-span-full md:col-span-2">
               <div className="space-y-4 flex-1">
                 <div className="items-center space-x-2 flex">
-                  <p className="highlight-text text-2xl font-bold">
+                  <p className="font-heading text-white text-2xl font-bold tracking-tight">
                     {t("title")}
                   </p>
                 </div>
 
-                <p className="text-sm p4-4 md:pr-12">{t("tagLine")}</p>
+                <p className="text-sm pr-4 md:pr-12 text-gray-400 leading-relaxed">{t("tagLine")}</p>
 
                 <div className="flex items-center gap-2">
                   {siteConfig.socialLinks?.discord && (
@@ -46,7 +46,7 @@ export default async function Footer() {
                       rel="noreferrer nofollow noopener"
                       aria-label="Discord"
                       title="Join Discord"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white/10 hover:text-white active:scale-95"
                     >
                       <SiDiscord className="w-4 h-4" aria-hidden="true" />
                     </Link>
@@ -59,7 +59,7 @@ export default async function Footer() {
                       rel="noreferrer nofollow noopener"
                       aria-label="Twitter"
                       title="View on Twitter"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white/10 hover:text-white active:scale-95"
                     >
                       <TwitterX className="w-4 h-4" aria-hidden="true" />
                     </Link>
@@ -72,7 +72,7 @@ export default async function Footer() {
                       rel="noreferrer nofollow noopener"
                       aria-label="Blue Sky"
                       title="View on Bluesky"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white/10 hover:text-white active:scale-95"
                     >
                       <SiBluesky className="w-4 h-4" aria-hidden="true" />
                     </Link>
@@ -85,7 +85,7 @@ export default async function Footer() {
                       rel="noreferrer nofollow noopener"
                       aria-label="Email"
                       title="Email"
-                      className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white/10 hover:text-white active:scale-95"
                     >
                       <MailIcon className="w-4 h-4" />
                     </Link>
@@ -150,7 +150,7 @@ export default async function Footer() {
                 href="/privacy-policy"
                 title={tFooter("PrivacyPolicy")}
                 prefetch={false}
-                className="text-gray-400 hover:text-white text-sm"
+                className="text-gray-400 transition-colors duration-150 hover:text-white text-sm"
               >
                 {tFooter("PrivacyPolicy")}
               </I18nLink>
@@ -158,7 +158,7 @@ export default async function Footer() {
                 href="/terms-of-service"
                 title={tFooter("TermsOfService")}
                 prefetch={false}
-                className="text-gray-400 hover:text-white text-sm"
+                className="text-gray-400 transition-colors duration-150 hover:text-white text-sm"
               >
                 {tFooter("TermsOfService")}
               </I18nLink>

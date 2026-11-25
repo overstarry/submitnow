@@ -58,9 +58,9 @@ export function Newsletter() {
   };
   return (
     <div className="">
-      <h4 className="mb-3 font-semibold">{t("title")}</h4>
-      <p className="text-sm mb-3">{t("description")}</p>
-      <form onSubmit={handleSubscribe} className="flex flex-col gap-2 max-w-64">
+      <h4 className="mb-3 font-semibold text-white">{t("title")}</h4>
+      <p className="text-sm mb-3 text-gray-400">{t("description")}</p>
+      <form onSubmit={handleSubscribe} className="flex flex-col gap-2.5 max-w-64">
         <div className="relative">
           <input
             type="email"
@@ -68,11 +68,15 @@ export function Newsletter() {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
             required
-            className="w-full px-3 py-2 bg-gray-200 text-black text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-3 py-2 bg-slate-800/80 text-white placeholder:text-slate-400 text-sm border border-slate-700 rounded-lg transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/30 disabled:opacity-60"
             disabled={subscribeStatus === "loading"}
           />
         </div>
-        <Button type="submit" disabled={subscribeStatus === "loading"}>
+        <Button
+          type="submit"
+          disabled={subscribeStatus === "loading"}
+          className="rounded-lg bg-blue-600 text-white hover:bg-blue-500"
+        >
           {subscribeStatus === "loading" ? (
             t("subscribing")
           ) : (
@@ -82,10 +86,14 @@ export function Newsletter() {
           )}
         </Button>
         {subscribeStatus === "success" && (
-          <p className="text-xs text-green-600 mt-1">{t("subscribed")}</p>
+          <p className="animate-surface-in text-xs text-emerald-400 mt-1" aria-live="polite">
+            {t("subscribed")}
+          </p>
         )}
         {subscribeStatus === "error" && (
-          <p className="text-xs text-red-600 mt-1">{errorMessage}</p>
+          <p className="animate-surface-in text-xs text-red-400 mt-1" aria-live="polite">
+            {errorMessage}
+          </p>
         )}
       </form>
     </div>

@@ -166,9 +166,9 @@ export default async function DocPage({ params }: { params: Params }) {
             <div className="mt-12 border-t border-slate-200 pt-6 dark:border-slate-800">
               <Link
                 href="/docs"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700 dark:text-slate-300 dark:hover:text-blue-300"
+                className="group inline-flex items-center gap-2 rounded-xl px-2 py-1.5 -ml-2 text-sm font-medium text-slate-600 transition-[transform,color] duration-150 ease-out-strong hover:text-blue-700 active:scale-[0.98] dark:text-slate-300 dark:hover:text-blue-300"
               >
-                <ArrowLeft className="size-4" aria-hidden="true" />
+                <ArrowLeft className="size-4 transition-transform duration-150 ease-out-strong group-hover:-translate-x-0.5" aria-hidden="true" />
                 {t("back")}
               </Link>
             </div>
@@ -217,11 +217,11 @@ export default async function DocPage({ params }: { params: Params }) {
                   <li key={related.slug}>
                     <Link
                       href={`/docs/${related.slug}`}
-                      className="group flex items-start justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white hover:text-blue-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-blue-200"
+                      className="group flex items-start justify-between gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white hover:text-blue-700 active:scale-[0.985] dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-blue-200"
                     >
                       {related.title}
                       <ArrowRight
-                        className="mt-0.5 size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+                        className="mt-0.5 size-3.5 shrink-0 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5"
                         aria-hidden="true"
                       />
                     </Link>

@@ -40,7 +40,7 @@ export default function HowItWorks() {
               key={step.title}
               className="flex flex-col rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950/60"
             >
-              <span className="flex size-8 items-center justify-center rounded-full bg-blue-100 text-sm font-bold text-blue-700 dark:bg-blue-500/20 dark:text-blue-100">
+              <span className="flex size-8 items-center justify-center rounded-full bg-blue-100 text-sm font-bold tabular-nums text-blue-700 dark:bg-blue-500/20 dark:text-blue-100">
                 {index + 1}
               </span>
               <h3 className="mt-4 font-semibold text-slate-950 dark:text-white">
@@ -52,10 +52,13 @@ export default function HowItWorks() {
               {tool && (
                 <I18nLink
                   href={tool.href}
-                  className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-blue-700 hover:underline dark:text-blue-200"
+                  className="group mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold text-blue-700 transition-colors duration-150 hover:text-blue-800 hover:underline underline-offset-4 dark:text-blue-200 dark:hover:text-blue-100"
                 >
                   {tTools(`cards.${tool.id}.title`)}
-                  <ArrowRight className="size-3.5" aria-hidden="true" />
+                  <ArrowRight
+                    className="size-3.5 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  />
                 </I18nLink>
               )}
             </li>

@@ -83,7 +83,7 @@ export default function IndexNowKeyGenerator() {
             className="h-11 flex-1 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             {copyState === "copied" ? (
-              <Check className="size-4 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+              <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}
@@ -102,10 +102,10 @@ export default function IndexNowKeyGenerator() {
 
         <p className="mt-4 min-h-5 text-sm" aria-live="polite">
           {copyState === "copied" && (
-            <span className="text-emerald-700 dark:text-emerald-300">{t("copySuccess")}</span>
+            <span className="animate-surface-in inline-block text-emerald-700 dark:text-emerald-300">{t("copySuccess")}</span>
           )}
           {copyState === "failed" && (
-            <span className="text-red-700 dark:text-red-300">{t("copyFailure")}</span>
+            <span className="animate-surface-in inline-block text-red-700 dark:text-red-300">{t("copyFailure")}</span>
           )}
         </p>
       </section>

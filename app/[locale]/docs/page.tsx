@@ -91,17 +91,17 @@ export default async function DocsPage({ params }: { params: Params }) {
                     <Link
                       key={doc.slug}
                       href={`/docs/${doc.slug}`}
-                      className="group flex items-start justify-between gap-6 px-5 py-5 transition-colors hover:bg-blue-50/60 dark:hover:bg-blue-500/10 sm:px-6"
+                      className="group flex items-start justify-between gap-6 px-5 py-5 transition-colors duration-150 hover:bg-blue-50/60 dark:hover:bg-blue-500/10 sm:px-6"
                     >
                       <span>
-                        <span className="font-semibold text-slate-950 dark:text-white">
+                        <span className="font-semibold text-slate-950 transition-colors duration-150 group-hover:text-blue-700 dark:text-white dark:group-hover:text-blue-200">
                           {doc.title}
                         </span>
                         <span className="mt-1 block text-sm leading-6 text-slate-600 dark:text-slate-300">
                           {doc.summary}
                         </span>
                       </span>
-                      <ArrowRight className="mt-1 size-4 shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-600" aria-hidden="true" />
+                      <ArrowRight className="mt-1 size-4 shrink-0 text-slate-400 transition-[transform,color] duration-150 ease-out-strong group-hover:translate-x-1 group-hover:text-blue-600 dark:group-hover:text-blue-300" aria-hidden="true" />
                     </Link>
                   ))}
                 </div>

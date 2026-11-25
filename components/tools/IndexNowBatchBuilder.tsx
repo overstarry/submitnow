@@ -83,7 +83,7 @@ export default function IndexNowBatchBuilder() {
                 {t("inputHelp")}
               </p>
             </div>
-            <label className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+            <label className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition-[transform,background-color,border-color,color] duration-150 ease-out-strong hover:bg-slate-50 active:scale-[0.97] focus-within:ring-2 focus-within:ring-blue-500/40 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
               <FileUp className="size-4" aria-hidden="true" />
               {t("importFile")}
               <input
@@ -104,7 +104,7 @@ export default function IndexNowBatchBuilder() {
             onChange={(event) => setRawUrls(event.target.value)}
             placeholder={t("placeholder")}
             rows={14}
-            className="mt-6 w-full resize-y rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-3 font-mono text-sm leading-6 text-slate-950 outline-none transition-colors placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-600 dark:focus:border-blue-400 dark:focus:ring-blue-500/20"
+            className="mt-6 w-full resize-y rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-3 font-mono text-sm leading-6 text-slate-950 outline-none transition-[border-color,box-shadow,background-color] duration-150 ease-out-strong placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 dark:border-slate-800 dark:bg-slate-900/60 dark:text-white dark:placeholder:text-slate-600 dark:focus:border-blue-400 dark:focus:ring-blue-500/20"
           />
           {importError && (
             <p className="mt-3 text-sm text-red-700 dark:text-red-300" role="alert">
@@ -153,7 +153,7 @@ export default function IndexNowBatchBuilder() {
             className="mt-6 h-11 w-full rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             {copyTarget === "all" ? (
-              <Check className="size-4 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+              <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}
@@ -210,7 +210,7 @@ export default function IndexNowBatchBuilder() {
                     className="h-10 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
                   >
                     {copyTarget === group.host ? (
-                      <Check className="size-4 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+                      <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
                     ) : (
                       <Copy className="size-4" aria-hidden="true" />
                     )}

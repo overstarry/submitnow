@@ -39,9 +39,9 @@ export default function ToolsHub() {
               <I18nLink
                 key={tool.id}
                 href={tool.href}
-                className="group flex min-h-64 cursor-pointer flex-col rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm transition-colors duration-200 hover:border-blue-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-950/70 dark:hover:border-blue-500/50"
+                className="group flex min-h-64 cursor-pointer flex-col rounded-3xl border border-slate-200 bg-white/85 p-6 shadow-sm transition-[transform,border-color,box-shadow,background-color] duration-200 ease-out-strong hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 dark:border-slate-800 dark:bg-slate-950/70 dark:hover:border-blue-500/50"
               >
-                <span className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-colors duration-200 group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-500/10 dark:text-blue-200 dark:group-hover:bg-blue-500 dark:group-hover:text-slate-950">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-colors duration-200 ease-out-strong group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-500/10 dark:text-blue-200 dark:group-hover:bg-blue-500 dark:group-hover:text-slate-950">
                   <Icon className="size-6" aria-hidden="true" />
                 </span>
                 <h2 className="mt-6 font-heading text-xl font-semibold text-slate-950 dark:text-white">
@@ -52,7 +52,7 @@ export default function ToolsHub() {
                 </p>
                 <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-blue-700 dark:text-blue-200">
                   {t("openTool")}
-                  <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+                  <ArrowRight className="size-4 transition-transform duration-200 ease-out-strong group-hover:translate-x-1" aria-hidden="true" />
                 </span>
               </I18nLink>
             );

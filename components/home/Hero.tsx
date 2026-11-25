@@ -27,18 +27,18 @@ export default function Hero() {
 
   return (
     <section className="w-full text-center lg:text-left">
-      <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/70 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm backdrop-blur dark:border-blue-500/30 dark:bg-slate-900/50 dark:text-blue-200 lg:mx-0">
+      <div className="animate-hero-enter mx-auto inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-white/75 px-4 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm backdrop-blur dark:border-blue-500/30 dark:bg-slate-900/50 dark:text-blue-200 lg:mx-0">
         <span className="size-1.5 rounded-full bg-blue-500" aria-hidden="true" />
         {t("badge")}
       </div>
-      <h1 className="mx-auto mt-6 max-w-4xl text-balance font-heading text-4xl font-semibold text-slate-900 sm:text-5xl lg:mx-0 lg:text-6xl dark:text-slate-100">
+      <h1 className="animate-hero-enter [animation-delay:45ms] mx-auto mt-6 max-w-4xl text-balance font-heading text-4xl font-semibold tracking-tight text-slate-900 sm:text-5xl lg:mx-0 lg:text-6xl dark:text-slate-100">
         {t("heroTitle")}
       </h1>
-      <p className="mx-auto mt-4 max-w-2xl text-pretty text-lg text-slate-700 dark:text-slate-300 lg:mx-0">
+      <p className="animate-hero-enter [animation-delay:85ms] mx-auto mt-4 max-w-2xl text-pretty text-lg text-slate-700 dark:text-slate-300 lg:mx-0">
         {t("description")}
       </p>
 
-      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+      <div className="animate-hero-enter [animation-delay:125ms] mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
         <Button
           className="h-11 w-full rounded-xl bg-blue-600 px-6 text-base font-semibold text-white shadow-sm hover:bg-blue-700 sm:w-auto"
           asChild
@@ -61,23 +61,23 @@ export default function Hero() {
 
       </div>
 
-      <div className="mt-10 grid gap-4 text-left sm:grid-cols-3">
+      <div className="animate-hero-enter [animation-delay:160ms] mt-10 grid gap-4 text-left sm:grid-cols-3">
         {highlights.map((item) => {
           const Icon = item.icon;
           return (
             <div
               key={item.title}
-              className="rounded-2xl border border-slate-200/80 bg-white/70 px-4 py-4 shadow-sm backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/60"
+              className="rounded-2xl border border-slate-200/80 bg-white/75 px-4 py-4 shadow-sm backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/60"
             >
-              <div className="flex items-center gap-3">
-                <span className="flex size-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-200">
+              <div className="flex items-start gap-3">
+                <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-200">
                   <Icon className="size-4" aria-hidden="true" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                     {item.title}
                   </p>
-                  <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
+                  <p className="mt-1 text-xs leading-5 text-slate-600 dark:text-slate-400">
                     {item.description}
                   </p>
                 </div>

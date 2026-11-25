@@ -19,21 +19,21 @@ export default function LocaleNotFound() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <I18nLink
             href="/"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-[transform,background-color] duration-150 ease-out-strong hover:bg-blue-700 active:scale-[0.97]"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
             Home
           </I18nLink>
           <I18nLink
             href="/tools"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-[transform,background-color,border-color] duration-150 ease-out-strong hover:bg-slate-50 active:scale-[0.97] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             <Wrench className="size-4" aria-hidden="true" />
             Tools
           </I18nLink>
           <I18nLink
             href="/docs"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-[transform,background-color,border-color] duration-150 ease-out-strong hover:bg-slate-50 active:scale-[0.97] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             <BookOpen className="size-4" aria-hidden="true" />
             Docs

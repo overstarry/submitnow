@@ -2,6 +2,9 @@ import type { Config } from "tailwindcss"
 
 const config = {
   darkMode: ["class"],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -69,6 +72,11 @@ const config = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)'
       },
+      transitionTimingFunction: {
+        'out-strong': 'var(--ease-out)',
+        'in-out-strong': 'var(--ease-in-out)',
+        drawer: 'var(--ease-drawer)',
+      },
       keyframes: {
         'accordion-down': {
           from: {
@@ -85,11 +93,45 @@ const config = {
           to: {
             height: '0'
           }
-        }
+        },
+        'surface-in': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(6px) scale(0.985)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0) scale(1)',
+          },
+        },
+        'hero-enter': {
+          from: {
+            opacity: '0',
+            transform: 'translateY(8px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'pop-in': {
+          from: {
+            opacity: '0',
+            transform: 'scale(0.9)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'scale(1)',
+          },
+        },
       },
       animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-down': 'accordion-down 0.2s var(--ease-out)',
+        'accordion-up': 'accordion-up 0.16s var(--ease-out)',
+        'surface-in': 'surface-in 200ms var(--ease-out) both',
+        'hero-enter': 'hero-enter 300ms var(--ease-out) both',
+        'pop-in': 'pop-in 160ms var(--ease-out) both',
+        'spin-fast': 'spin 0.65s linear infinite',
       }
     }
   },

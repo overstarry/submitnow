@@ -51,7 +51,7 @@ export default function SubmissionHistory({
           {entries.slice(0, 10).map((entry) => (
             <li
               key={entry.id}
-              className="flex items-center gap-3 bg-white px-4 py-3 text-sm dark:bg-slate-950/60"
+              className="flex items-center gap-3 bg-white px-4 py-3 text-sm transition-colors duration-150 hover:bg-slate-50/80 dark:bg-slate-950/60 dark:hover:bg-slate-900/60"
             >
               {entry.outcome === "success" ? (
                 <CheckCircle2 className="size-4 shrink-0 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
@@ -62,7 +62,7 @@ export default function SubmissionHistory({
                 <p className="truncate font-medium text-slate-800 dark:text-slate-100">
                   {entry.host || t("unknownHost")}
                 </p>
-                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                <p className="mt-0.5 text-xs tabular-nums text-slate-500 dark:text-slate-400">
                   {t(entry.outcome, {
                     count: entry.urlCount,
                     status: entry.httpStatus ?? "—",

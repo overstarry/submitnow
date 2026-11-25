@@ -127,7 +127,7 @@ export default async function BlogPage({ params }: { params: Params }) {
     : [];
 
   return (
-    <article className="w-full md:w-3/5 px-2 md:px-12 py-6">
+    <article className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
       <JsonLd data={jsonLd} />
       <nav
         aria-label="Breadcrumb"
@@ -135,14 +135,14 @@ export default async function BlogPage({ params }: { params: Params }) {
       >
         <I18nLink
           href="/"
-          className="rounded-lg px-1.5 py-0.5 transition-colors hover:text-slate-950 dark:hover:text-white"
+          className="rounded-lg px-1.5 py-0.5 transition-colors duration-150 hover:text-slate-950 dark:hover:text-white"
         >
           {tBlog("breadcrumbHome")}
         </I18nLink>
         <ChevronRight className="size-3.5" aria-hidden="true" />
         <I18nLink
           href="/blog"
-          className="rounded-lg px-1.5 py-0.5 transition-colors hover:text-slate-950 dark:hover:text-white"
+          className="rounded-lg px-1.5 py-0.5 transition-colors duration-150 hover:text-slate-950 dark:hover:text-white"
         >
           {tBlog("title")}
         </I18nLink>
@@ -152,31 +152,33 @@ export default async function BlogPage({ params }: { params: Params }) {
         </span>
       </nav>
 
-      <h1 className="break-words text-4xl font-bold mt-4 mb-3">{post.title}</h1>
+      <h1 className="mt-6 break-words text-balance font-heading text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl dark:text-white">
+        {post.title}
+      </h1>
       {formattedDate && publishedDate && (
-        <p className="mb-4 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-3 mb-6 text-sm tabular-nums text-slate-500 dark:text-slate-400">
           <time dateTime={publishedDate.toISOString()}>{formattedDate}</time>
         </p>
       )}
       {post.image && (
-        <div className="relative mb-4 overflow-hidden rounded-sm">
+        <div className="relative mb-6 overflow-hidden rounded-2xl border border-slate-200/80 shadow-sm dark:border-slate-800">
           <Image
             src={post.image}
             alt={post.title}
             width={1200}
             height={630}
             priority
-            sizes="(max-width: 768px) 100vw, 60vw"
-            className="w-full h-auto rounded-sm"
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="w-full h-auto"
           />
         </div>
       )}
       {tags.length > 0 && (
-        <div className="mb-4 flex flex-wrap gap-2">
+        <div className="mb-6 flex flex-wrap gap-2">
           {tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-md bg-gray-200 dark:bg-[#24272E] flex px-2.5 py-1 text-sm font-medium text-gray-600 dark:text-[#9CA3AF]"
+              className="rounded-lg border border-slate-200/80 bg-slate-100/80 px-2.5 py-1 text-xs font-medium text-slate-600 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
             >
               {tag}
             </span>

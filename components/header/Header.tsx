@@ -12,12 +12,12 @@ const Header = () => {
 
   return (
     <header className="sticky top-4 z-50 w-full px-4">
-      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 shadow-sm backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/60">
-        <div className="flex items-center space-x-6 md:space-x-6 lg:space-x-12">
+      <nav className="mx-auto flex w-full max-w-6xl items-center justify-between rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_8px_24px_-12px_rgba(15,23,42,0.12)] backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-950/70 dark:shadow-[0_1px_2px_rgba(0,0,0,0.25),0_12px_28px_-14px_rgba(0,0,0,0.6)]">
+        <div className="flex items-center space-x-6 md:space-x-6 lg:space-x-10">
           <I18nLink
             href="/"
             prefetch={false}
-            className="flex items-center space-x-1 font-bold"
+            className="-ml-1.5 flex items-center space-x-2 rounded-xl px-1.5 py-1 font-bold transition-[transform,opacity] duration-150 ease-out-strong hover:opacity-90 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
           >
             <Image
               alt={siteConfig.name}

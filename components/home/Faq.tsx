@@ -22,12 +22,12 @@ export default function Faq() {
         {items.map((item) => (
           <details
             key={item.question}
-            className="group rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 shadow-sm dark:border-slate-800 dark:bg-slate-950/60"
+            className="group rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 shadow-sm transition-colors duration-150 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-slate-700"
           >
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-slate-950 marker:content-none dark:text-white">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-lg font-semibold text-slate-950 marker:content-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 dark:text-white">
               {item.question}
               <ChevronDown
-                className="size-4 shrink-0 text-slate-400 transition-transform group-open:rotate-180"
+                className="size-4 shrink-0 text-slate-400 transition-transform duration-200 ease-out-strong group-open:rotate-180"
                 aria-hidden="true"
               />
             </summary>

@@ -54,11 +54,15 @@ export default function ResponseCodes() {
           </thead>
           <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
             {codes.map((item) => (
-              <tr key={item.code} id={`code-${item.code}`} className="scroll-mt-28 align-top">
+              <tr
+                key={item.code}
+                id={`code-${item.code}`}
+                className="scroll-mt-28 align-top transition-colors duration-150 hover:bg-slate-50/80 dark:hover:bg-slate-900/50"
+              >
                 <td className="px-5 py-4">
                   <Link
                     href={`/docs/status-codes/${item.code}`}
-                    className={`inline-flex items-center rounded-lg px-2.5 py-1 font-mono text-xs font-semibold underline-offset-4 hover:underline ${TONE_STYLES[item.tone]}`}
+                    className={`inline-flex items-center rounded-lg px-2.5 py-1 font-mono text-xs font-semibold tabular-nums underline-offset-4 transition-[transform,opacity] duration-150 ease-out-strong hover:underline active:scale-[0.97] ${TONE_STYLES[item.tone]}`}
                   >
                     {item.code}
                   </Link>

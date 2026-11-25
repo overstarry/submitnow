@@ -23,7 +23,7 @@ export default function KeyCheckReport({
   const Icon = result.valid ? CheckCircle2 : TriangleAlert;
 
   return (
-    <div className={`rounded-2xl border p-4 ${tone}`} aria-live="polite">
+    <div className={`animate-surface-in rounded-2xl border p-4 ${tone}`} aria-live="polite">
       <div className="flex items-start gap-3">
         <Icon
           className={`mt-0.5 size-5 shrink-0 ${
@@ -84,7 +84,7 @@ export default function KeyCheckReport({
                 <dt className="font-semibold text-slate-700 dark:text-slate-200">
                   {t("fields.status")}
                 </dt>
-                <dd className="mt-0.5 font-mono text-slate-600 dark:text-slate-300">
+                <dd className="mt-0.5 font-mono tabular-nums text-slate-600 dark:text-slate-300">
                   {result.status}
                 </dd>
               </div>

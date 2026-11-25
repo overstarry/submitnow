@@ -22,10 +22,10 @@ export default function ToolsPreview() {
         </div>
         <I18nLink
           href="/tools"
-          className="inline-flex items-center gap-2 self-start rounded-xl px-3 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50 dark:text-blue-200 dark:hover:bg-blue-500/10 sm:self-auto"
+          className="group inline-flex items-center gap-2 self-start rounded-xl px-3 py-2 text-sm font-semibold text-blue-700 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-blue-50 active:scale-[0.97] dark:text-blue-200 dark:hover:bg-blue-500/10 sm:self-auto"
         >
           {t("allTools")}
-          <ArrowRight className="size-4" aria-hidden="true" />
+          <ArrowRight className="size-4 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5" aria-hidden="true" />
         </I18nLink>
       </div>
 
@@ -37,9 +37,9 @@ export default function ToolsPreview() {
             <I18nLink
               key={tool.id}
               href={tool.href}
-              className="group cursor-pointer rounded-2xl border border-slate-200 bg-white/75 p-5 shadow-sm transition-colors hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-blue-500/50"
+              className="group cursor-pointer rounded-2xl border border-slate-200 bg-white/75 p-5 shadow-sm transition-[transform,border-color,box-shadow,background-color] duration-200 ease-out-strong hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md active:scale-[0.985] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 dark:border-slate-800 dark:bg-slate-950/60 dark:hover:border-blue-500/50"
             >
-              <span className="flex size-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-500/10 dark:text-blue-200 dark:group-hover:bg-blue-500 dark:group-hover:text-slate-950">
+              <span className="flex size-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600 transition-colors duration-200 ease-out-strong group-hover:bg-blue-600 group-hover:text-white dark:bg-blue-500/10 dark:text-blue-200 dark:group-hover:bg-blue-500 dark:group-hover:text-slate-950">
                 <Icon className="size-5" aria-hidden="true" />
               </span>
               <h3 className="mt-4 font-semibold text-slate-950 dark:text-white">

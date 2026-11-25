@@ -89,10 +89,10 @@ export default function UrlNormalizer() {
           }}
           rows={12}
           placeholder={"https://example.com/article/?utm_source=email#intro\nhttps://example.com/docs/?b=2&a=1"}
-          className="mt-5 w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm leading-6 text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+          className="mt-5 w-full resize-y rounded-2xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm leading-6 text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
         />
 
-        <fieldset className="mt-5 space-y-3">
+        <fieldset className="mt-5 space-y-2.5">
           <legend className="text-sm font-semibold text-slate-900 dark:text-white">
             {t("optionsTitle")}
           </legend>
@@ -100,7 +100,7 @@ export default function UrlNormalizer() {
             (option) => (
               <label
                 key={option}
-                className="flex cursor-pointer items-start gap-3 text-sm leading-6 text-slate-700 dark:text-slate-300"
+                className="flex cursor-pointer items-start gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm leading-6 text-slate-700 transition-colors duration-150 hover:bg-slate-50 has-[:checked]:border-blue-200/80 has-[:checked]:bg-blue-50/40 dark:text-slate-300 dark:hover:bg-slate-900/60 dark:has-[:checked]:border-blue-500/30 dark:has-[:checked]:bg-blue-500/10"
               >
                 <input
                   type="checkbox"
@@ -184,7 +184,7 @@ export default function UrlNormalizer() {
             className="h-11 flex-1 rounded-xl"
           >
             {copied ? (
-              <Check className="size-4 text-emerald-600" aria-hidden="true" />
+              <Check className="size-4 animate-pop-in text-emerald-600" aria-hidden="true" />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}

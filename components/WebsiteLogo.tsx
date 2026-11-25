@@ -77,7 +77,7 @@ const WebsiteLogo = ({
         height={size}
         onError={handleError}
         onLoad={handleLoad}
-        className={`inline-block transition-opacity duration-300 ${
+        className={`inline-block transition-opacity duration-200 ease-out-strong ${
           isLoading ? "opacity-0" : "opacity-100"
         }`}
         style={{

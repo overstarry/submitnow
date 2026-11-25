@@ -120,9 +120,12 @@ export default async function ToolPageShell({
           <div className="mt-12">
             <I18nLink
               href="/tools"
-              className="inline-flex items-center gap-2 rounded-xl px-2 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-950 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white"
+              className="group inline-flex items-center gap-2 rounded-xl px-2.5 py-2 text-sm font-medium text-slate-600 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white hover:text-slate-950 active:scale-[0.98] dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-white"
             >
-              <ArrowLeft className="size-4" aria-hidden="true" />
+              <ArrowLeft
+                className="size-4 transition-transform duration-150 ease-out-strong group-hover:-translate-x-0.5"
+                aria-hidden="true"
+              />
               {tCommon("backToTools")}
             </I18nLink>
           </div>

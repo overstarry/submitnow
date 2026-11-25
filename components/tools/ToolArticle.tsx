@@ -150,7 +150,7 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
                 <li key={tool.id}>
                   <I18nLink
                     href={tool.href}
-                    className="group flex gap-3 rounded-2xl border border-transparent p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
+                    className="group flex gap-3 rounded-2xl border border-transparent p-3 transition-[transform,background-color,border-color] duration-150 ease-out-strong hover:border-blue-200 hover:bg-blue-50/60 active:scale-[0.985] dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
                   >
                     <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-200">
                       <Icon className="size-4" aria-hidden="true" />
@@ -180,12 +180,12 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
                 <li key={doc.slug}>
                   <I18nLink
                     href={`/docs/${doc.slug}`}
-                    className="group block rounded-2xl border border-transparent p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
+                    className="group block rounded-2xl border border-transparent p-3 transition-[transform,background-color,border-color] duration-150 ease-out-strong hover:border-blue-200 hover:bg-blue-50/60 active:scale-[0.985] dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
                   >
                     <span className="flex items-center gap-1.5 text-sm font-semibold text-slate-950 dark:text-white">
                       {doc.title}
                       <ArrowRight
-                        className="size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+                        className="size-3.5 shrink-0 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5"
                         aria-hidden="true"
                       />
                     </span>
@@ -209,12 +209,12 @@ export default async function ToolArticle({ locale, toolId }: ToolArticleProps) 
                 <li key={post.slug}>
                   <I18nLink
                     href={`/blog${post.slug}`}
-                    className="group block rounded-2xl border border-transparent p-3 transition-colors hover:border-blue-200 hover:bg-blue-50/60 dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
+                    className="group block rounded-2xl border border-transparent p-3 transition-[transform,background-color,border-color] duration-150 ease-out-strong hover:border-blue-200 hover:bg-blue-50/60 active:scale-[0.985] dark:hover:border-blue-500/30 dark:hover:bg-blue-500/10"
                   >
                     <span className="flex items-center gap-1.5 text-sm font-semibold text-slate-950 dark:text-white">
                       {post.title}
                       <ArrowRight
-                        className="size-3.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+                        className="size-3.5 shrink-0 transition-transform duration-150 ease-out-strong group-hover:translate-x-0.5"
                         aria-hidden="true"
                       />
                     </span>

@@ -223,7 +223,7 @@ export default function IndexNowSubmission() {
 
   return (
     <section id="indexnow-form" className="w-full scroll-mt-24">
-      <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/80 shadow-xl backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/70">
+      <div className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-white/85 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_20px_40px_-24px_rgba(15,23,42,0.18)] backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/75 dark:shadow-[0_1px_2px_rgba(0,0,0,0.3),0_24px_48px_-24px_rgba(0,0,0,0.7)]">
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-br from-blue-50 via-white to-transparent dark:from-blue-500/10 dark:via-slate-950"
           aria-hidden="true"
@@ -292,7 +292,7 @@ export default function IndexNowSubmission() {
                 placeholder={t("urlsPlaceholder")}
                 required
                 rows={6}
-                className="w-full resize-y rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
+                className="w-full resize-y rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow,background-color] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                 disabled={status === "loading"}
               />
               <p className="mt-2 text-pretty text-xs text-slate-500 dark:text-slate-400">
@@ -317,7 +317,7 @@ export default function IndexNowSubmission() {
                   onChange={(event) => setKey(event.target.value)}
                   placeholder={t("keyPlaceholder")}
                   required
-                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow,background-color] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
                   autoCapitalize="none"
                   autoCorrect="off"
@@ -342,7 +342,7 @@ export default function IndexNowSubmission() {
                   value={host}
                   onChange={(event) => setHost(event.target.value)}
                   placeholder={t("hostPlaceholder")}
-                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow,background-color] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
                   autoCapitalize="none"
                   autoCorrect="off"
@@ -368,7 +368,7 @@ export default function IndexNowSubmission() {
                   value={keyLocationInput}
                   onChange={(event) => setKeyLocationInput(event.target.value)}
                   placeholder={t("keyLocationPlaceholder")}
-                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
+                  className="w-full rounded-xl border border-slate-300 bg-white/90 px-4 py-3 text-slate-900 placeholder-slate-400 shadow-sm transition-[border-color,box-shadow,background-color] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200/70 dark:border-slate-800 dark:bg-slate-950/80 dark:text-slate-100 dark:placeholder-slate-600 dark:focus:border-blue-500 dark:focus:ring-blue-900/40"
                   disabled={status === "loading"}
                   autoCapitalize="none"
                   autoCorrect="off"
@@ -379,7 +379,7 @@ export default function IndexNowSubmission() {
               </p>
             </div>
 
-            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 text-sm dark:border-slate-800 dark:bg-slate-900/50">
+            <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-slate-200 bg-slate-50/70 px-4 py-4 text-sm transition-colors duration-150 hover:border-slate-300 has-[:checked]:border-blue-200 has-[:checked]:bg-blue-50/40 dark:border-slate-800 dark:bg-slate-900/50 dark:hover:border-slate-700 dark:has-[:checked]:border-blue-500/30 dark:has-[:checked]:bg-blue-500/10">
               <input
                 type="checkbox"
                 checked={rememberProfile}
@@ -414,7 +414,7 @@ export default function IndexNowSubmission() {
                   className="h-10 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
                 >
                   {preflightStatus === "loading" ? (
-                    <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                    <Loader2 className="size-4 animate-spin-fast" aria-hidden="true" />
                   ) : (
                     <ShieldCheck className="size-4" aria-hidden="true" />
                   )}
@@ -426,7 +426,7 @@ export default function IndexNowSubmission() {
 
               {preflightStatus === "error" && (
                 <p
-                  className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-200"
+                  className="animate-surface-in mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-200"
                   aria-live="polite"
                 >
                   {preflightError}
@@ -447,7 +447,7 @@ export default function IndexNowSubmission() {
               >
                 {status === "loading" ? (
                   <span className="flex items-center gap-2">
-                    <Loader2 className="size-4 animate-spin" />
+                    <Loader2 className="size-4 animate-spin-fast" />
                     {t("submitting")}
                   </span>
                 ) : (
@@ -460,7 +460,7 @@ export default function IndexNowSubmission() {
 
               <div className="flex min-h-12 items-center justify-center" aria-live="polite">
                 {status === "success" && (
-                  <div className="flex w-full items-start gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 tabular-nums dark:border-green-900/40 dark:bg-green-900/20 dark:text-green-200">
+                  <div className="animate-surface-in flex w-full items-start gap-2 rounded-xl border border-green-200 bg-green-50 px-4 py-2 text-sm text-green-700 tabular-nums dark:border-green-900/40 dark:bg-green-900/20 dark:text-green-200">
                     <CheckCircleIcon className="size-5 flex-shrink-0 mt-0.5" />
                     <span className="w-full break-words text-left text-pretty">
                       {statusMessage}
@@ -468,7 +468,7 @@ export default function IndexNowSubmission() {
                   </div>
                 )}
                 {status === "error" && (
-                  <div className="flex w-full items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-200">
+                  <div className="animate-surface-in flex w-full items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-200">
                     <AlertCircleIcon className="size-5 flex-shrink-0 mt-0.5" />
                     <span className="w-full break-words text-left text-pretty">
                       {errorMessage}

@@ -205,7 +205,7 @@ export default function SitemapDiff() {
           {isPrevious ? t("previousHelp") : t("currentHelp")}
         </p>
 
-        <label className="mt-5 flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50/70 px-4 text-center transition-colors hover:border-blue-400 hover:bg-blue-50/70 dark:border-slate-700 dark:bg-slate-900/50 dark:hover:border-blue-500 dark:hover:bg-blue-500/10">
+        <label className="mt-5 flex min-h-36 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50/70 px-4 text-center transition-[transform,border-color,background-color] duration-150 ease-out-strong hover:border-blue-400 hover:bg-blue-50/70 active:scale-[0.985] focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/30 dark:border-slate-700 dark:bg-slate-900/50 dark:hover:border-blue-500 dark:hover:bg-blue-500/10">
           <FileUp className="size-5 text-blue-600 dark:text-blue-200" aria-hidden="true" />
           <span className="mt-3 text-sm font-semibold text-slate-800 dark:text-slate-100">
             {uploaded ? t("replaceFile") : t("chooseFile")}
@@ -347,7 +347,7 @@ export default function SitemapDiff() {
 
             {diff && (
               <fieldset className="mt-6 grid gap-3 sm:grid-cols-2">
-                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
+                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-[transform,border-color,background-color] duration-150 ease-out-strong hover:border-blue-300 active:scale-[0.99] has-[:checked]:border-blue-200 has-[:checked]:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50 dark:has-[:checked]:border-blue-500/30 dark:has-[:checked]:bg-blue-500/10">
                   <input
                     type="checkbox"
                     checked={includeAdded}
@@ -356,7 +356,7 @@ export default function SitemapDiff() {
                   />
                   {t("includeAdded", { count: diff.added.length })}
                 </label>
-                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-colors hover:border-blue-300 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50">
+                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-800 transition-[transform,border-color,background-color] duration-150 ease-out-strong hover:border-blue-300 active:scale-[0.99] has-[:checked]:border-blue-200 has-[:checked]:bg-blue-50/50 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-100 dark:hover:border-blue-500/50 dark:has-[:checked]:border-blue-500/30 dark:has-[:checked]:bg-blue-500/10">
                   <input
                     type="checkbox"
                     checked={includeChanged}
@@ -406,7 +406,7 @@ export default function SitemapDiff() {
                 className="h-11 flex-1 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800"
               >
                 {copyState === "copied" ? (
-                  <Check className="size-4 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+                  <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
                 ) : (
                   <Copy className="size-4" aria-hidden="true" />
                 )}

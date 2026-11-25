@@ -35,21 +35,30 @@ export default async function Page({ params }: { params: Params }) {
   const t = await getTranslations({ locale, namespace: "Blog" });
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-center">{t("title")}</h1>
-
-      {posts.length === 0 ? (
-        <p className="text-center text-sm text-gray-600 dark:text-gray-400">
-          {t("emptyState")}
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <BlogCard key={post.slug} locale={locale} post={post} />
-          ))}
+    <section className="relative w-full overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50/70 py-12 dark:from-slate-950 dark:via-slate-950 dark:to-slate-900/70 sm:py-16">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl">
+          <h1 className="font-heading text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl dark:text-white">
+            {t("title")}
+          </h1>
+          <p className="mt-4 text-pretty text-base leading-7 text-slate-600 sm:text-lg dark:text-slate-300">
+            {t("description")}
+          </p>
         </div>
-      )}
-    </div>
+
+        {posts.length === 0 ? (
+          <p className="mt-10 rounded-2xl border border-dashed border-slate-300 px-6 py-12 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
+            {t("emptyState")}
+          </p>
+        ) : (
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <BlogCard key={post.slug} locale={locale} post={post} />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 

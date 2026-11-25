@@ -49,11 +49,11 @@ export default function LocaleSwitcher() {
       value={locale}
       onValueChange={onSelectChange}
     >
-      <SelectTrigger className="w-fit">
-        <Globe className="w-4 h-4 mr-1" />
+      <SelectTrigger className="w-fit" aria-label="Change language">
+        <Globe className="w-4 h-4 opacity-70" aria-hidden="true" />
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent align="end">
         {routing.locales.map((cur) => (
           <SelectItem key={cur} value={cur}>
             {LOCALE_NAMES[cur]}
