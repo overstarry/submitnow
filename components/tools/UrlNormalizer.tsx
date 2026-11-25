@@ -29,18 +29,19 @@ export default function UrlNormalizer() {
   const [copied, setCopied] = useState(false);
 
   const results = useMemo(() => normalizeUrlList(raw, options), [options, raw]);
-  const validUrls = useMemo(
+  const validResults = useMemo(
     () =>
-      Array.from(
-        new Set(
-          results
-            .map((result) => result.normalized)
-            .filter((url): url is string => Boolean(url))
-        )
-      ),
+      results
+        .map((result) => result.normalized)
+        .filter((url): url is string => Boolean(url)),
     [results]
   );
-  const invalidCount = results.length - validUrls.length;
+  const validUrls = useMemo(
+    () => Array.from(new Set(validResults)),
+    [validResults]
+  );
+  const invalidCount = results.length - validResults.length;
+  const duplicateCount = validResults.length - validUrls.length;
 
   const toggleOption = (option: keyof UrlNormalizationOptions) => {
     setOptions((current) => ({ ...current, [option]: !current[option] }));
@@ -128,9 +129,10 @@ export default function UrlNormalizer() {
             <h2 className="font-heading text-xl font-semibold text-slate-950 dark:text-white">
               {t("resultsTitle")}
             </h2>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              {t("resultSummary", {
+            <p className="mt-2 text-sm tabular-nums text-slate-600 dark:text-slate-300">
+              {t("resultSummaryDetailed", {
                 valid: validUrls.length,
+                duplicates: duplicateCount,
                 invalid: invalidCount,
               })}
             </p>

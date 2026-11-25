@@ -44,8 +44,9 @@ const EMAIL_URL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
 export const siteConfig: SiteConfig = {
   name: "submitnow",
-  tagLine: "Bing IndexNow Submission Tool",
-  description: "Submit URLs to Bing via IndexNow.",
+  tagLine: "IndexNow & AI Search Indexing Toolkit",
+  description:
+    "Submit URLs via IndexNow to Bing, ChatGPT Search, Copilot, Yandex, Seznam, Naver, and Yep — with live sitemap import, key checks, and CI/CD tools.",
   url: BASE_URL,
   authors: [
     {

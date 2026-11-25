@@ -127,28 +127,31 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "Bing IndexNow Submission Tool",
-    "heroTitle": "Free IndexNow submission tool for Bing",
-    "description": "Submit up to 10,000 URLs to Bing and IndexNow partners in one request. Host your key file, paste same-host URLs, and send — no account, nothing stored.",
+    "tagLine": "IndexNow & AI Search Indexing Tool",
+    "heroTitle": "Submit URLs to Bing, AI Search & IndexNow partners",
+    "description": "Notify Bing, ChatGPT Search, Microsoft Copilot, Yandex, Naver, Seznam, and Yep in seconds. Import live sitemaps, verify key files, and auto-batch over 10,000 URLs — no account, nothing stored.",
     "keywords": [
       "indexnow",
+      "indexnow submission tool",
       "bing indexnow",
-      "submit url to bing",
+      "chatgpt search indexing",
+      "copilot indexing",
+      "ai search seo",
+      "indexnow sitemap submitter",
       "indexnow api",
-      "url submission tool",
-      "seo indexing tool",
-      "indexnow key"
+      "indexnow mcp",
+      "indexnow key checker"
     ],
-    "badge": "IndexNow Batch Submission",
+    "badge": "IndexNow & AI Search Indexing",
     "ctaDocs": "IndexNow Documentation",
     "ctaSource": "View Source",
     "highlights": {
-      "speedTitle": "Submit in one request",
-      "speedDescription": "Send up to 10,000 URLs with a single batch call.",
-      "verificationTitle": "Key-based verification",
-      "verificationDescription": "Host the key file on your domain to prove ownership.",
-      "reachTitle": "Multi-engine reach",
-      "reachDescription": "One submission notifies Bing and IndexNow partners."
+      "speedTitle": "Live sitemap & auto-batch",
+      "speedDescription": "Import remote sitemap indexes, filter by lastmod, and auto-batch over 10,000 URLs.",
+      "verificationTitle": "Pre-flight key verification",
+      "verificationDescription": "Catch 404s, soft-404 HTML, BOMs, and off-host redirects before submitting.",
+      "reachTitle": "Search & AI discovery reach",
+      "reachDescription": "One submission reaches Bing (Copilot & ChatGPT Search), Yandex, Seznam, Naver, and Yep."
     },
     "howItWorks": {
       "eyebrow": "Workflow",
@@ -237,15 +240,23 @@
       "items": [
         {
           "question": "Does IndexNow guarantee my page gets indexed?",
-          "answer": "No. IndexNow tells participating engines that a URL changed, which removes the discovery delay. Whether the page is indexed still depends on the engine's own quality, duplication and crawl-budget checks."
+          "answer": "No. IndexNow tells participating engines that a URL changed, which removes the discovery delay. Whether the page is indexed still depends on the engine’s own quality, canonical, robots, and crawl-budget checks."
         },
         {
-          "question": "Which search engines receive my submission?",
-          "answer": "One request to the Bing endpoint is shared with all IndexNow participants — currently Bing, Yandex, Seznam.cz, Naver and Yep. Google does not participate in IndexNow."
+          "question": "Which search engines and AI search tools receive my submission?",
+          "answer": "One request to api.indexnow.org or Bing is shared across all IndexNow participants — Bing, Yandex, Seznam.cz, Naver, and Yep. Because Bing’s index powers Microsoft Copilot and informs ChatGPT Search, timely IndexNow pings also accelerate AI search discovery."
+        },
+        {
+          "question": "Does IndexNow help with ChatGPT Search and Microsoft Copilot visibility?",
+          "answer": "Yes, indirectly through discovery speed. Bing’s index feeds Microsoft Copilot and supports ChatGPT Search web retrieval. Pair IndexNow with clean robots.txt access for Bingbot and OAI-SearchBot and avoid unintended noindex directives."
+        },
+        {
+          "question": "Why doesn’t IndexNow cover Google, and what should I use for Google?",
+          "answer": "Google does not participate in IndexNow, and Google’s Indexing API is officially restricted to JobPosting and BroadcastEvent pages. For Google, keep an accurate XML sitemap with reliable lastmod dates in Google Search Console and use URL Inspection for critical single-page recrawls."
         },
         {
           "question": "How many URLs can I send at once?",
-          "answer": "Up to 10,000 URLs in a single request, and all of them must be on the same host. Use the batch builder to split a mixed list."
+          "answer": "The IndexNow protocol allows up to 10,000 same-host URLs per HTTP request. When you paste or import more than 10,000 same-host URLs in submitnow, the form automatically splits and submits them in sequential 10,000-URL batches."
         },
         {
           "question": "Is my IndexNow key a secret?",
@@ -253,27 +264,27 @@
         },
         {
           "question": "Can I use one key for several domains?",
-          "answer": "Yes, if you host the same key file on each domain. Every request still covers a single host, so submit each domain separately."
+          "answer": "Yes, if you host the same key file on each domain. Every request still covers a single host, so submit each domain separately. You can save multiple site profiles locally on your device."
         },
         {
           "question": "Where should the key file live?",
-          "answer": "The root — https://your-host/your-key.txt — authorises every URL on the host. A key file inside a subdirectory only authorises URLs under that directory."
+          "answer": "The root — https://your-host/your-key.txt — authorizes every URL on the host. A key file inside a subdirectory (such as /blog/key.txt) only authorizes URLs under that exact directory prefix."
         },
         {
           "question": "Does submitnow store my key or my URLs?",
-          "answer": "No. The submission is forwarded to the IndexNow endpoint and nothing is persisted. The browser tools never send your input to a server at all."
+          "answer": "No. Requests are forwarded server-side without storing keys or URLs in any database. Optional multi-site profiles, sitemap baselines, and history exports stay strictly inside your browser’s localStorage."
         },
         {
           "question": "How often should I submit?",
-          "answer": "Only when content actually changes. Re-submitting unchanged URLs consumes quota and can trigger a 429."
+          "answer": "Only when content actually changes (new, updated, or deleted pages). Use Sitemap Diff or the lastmod filter to send delta-only batches and avoid triggering HTTP 429 rate limits."
         }
       ]
     }
   },
   "IndexNow": {
-    "title": "Submit URLs to Bing",
-    "description": "Send a batch request to the Bing IndexNow endpoint.",
-    "bingOnlyNote": "Submission endpoint: Bing (shared with IndexNow partners).",
+    "title": "Submit URLs via IndexNow",
+    "description": "Send a batch request to api.indexnow.org or a participating search engine endpoint.",
+    "bingOnlyNote": "Multi-endpoint support (shared across IndexNow partners).",
     "supportedEnginesTitle": "IndexNow participants",
     "supportedEnginesNote": "One submission reaches all participating search engines.",
     "urlsLabel": "URL list",
@@ -288,7 +299,7 @@
     "keyLocationLabel": "Key file URL (optional)",
     "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
     "keyLocationHelp": "If omitted, it will be set to https://{host}/{key}.txt. The hostname must match the submitted URLs.",
-    "submit": "Submit to Bing",
+    "submit": "Submit URLs",
     "submitting": "Submitting...",
     "successMessage": "Submitted successfully.",
     "successMessageWithDetails": "Submitted {count} URLs for {host}. Key file: {keyLocation}",
@@ -308,36 +319,96 @@
       "mixed_hosts": "URLs contain multiple hosts. Please submit one host per request.",
       "host_mismatch": "Host does not match the URL host. Please leave it empty or match the URLs.",
       "too_many_urls": "Too many URLs. Maximum is 10,000 per request.",
-      "bing_invalid_request": "Bing rejected the request (HTTP {status}). Please check your host, key, and URL list.",
-      "bing_invalid_key": "Bing rejected the key (HTTP {status}). Ensure your key file is accessible and matches the key.",
-      "bing_invalid_url_list": "Bing rejected the URL list (HTTP {status}). Ensure URLs are valid and belong to the host.",
-      "bing_rate_limited": "Rate limited by Bing (HTTP {status}). Please retry later.",
-      "bing_error": "Bing IndexNow request failed (HTTP {status}). Please verify your key and URL list.",
+      "bing_invalid_request": "The IndexNow endpoint rejected the request (HTTP {status}). Check host, key, and URL list.",
+      "bing_invalid_key": "The IndexNow endpoint rejected the key (HTTP {status}). Ensure your key file is reachable and matches exactly.",
+      "bing_invalid_url_list": "The IndexNow endpoint rejected the URL list (HTTP {status}). Ensure URLs are valid and match the host/key scope.",
+      "bing_rate_limited": "Rate limited by the IndexNow endpoint (HTTP {status}). Please retry later.",
+      "bing_error": "IndexNow request failed (HTTP {status}). Please verify your key and URL list.",
       "network_error": "Network error. Please try again.",
       "timeout": "Request timed out. Please try again.",
-      "explainCode": "What does {status} mean?"
+      "explainCode": "What does {status} mean?",
+      "rate_limited": "Too many submissions from this IP. Please retry in about {seconds} seconds.",
+      "key_location_protocol_mismatch": "Key file URL protocol (http/https) must match the submitted URLs.",
+      "key_location_scope_mismatch": "A key file under {prefix} only authorizes URLs inside that directory.",
+      "detailInvalidUrl": "Invalid URL: {url}",
+      "detailHosts": "Hosts found: {hosts}",
+      "detailCount": "Provided {got}, max per request is {max}"
     },
     "rememberProfile": "Remember this key and host on this device",
     "rememberProfileHelp": "Opt-in only. Stored in this browser local storage and never included in analytics.",
     "history": {
       "title": "Recent submissions",
-      "privacy": "Stored only on this device. Keys and full URL lists are never saved.",
+      "privacy": "Stored only on this device (keys are never saved here; up to 200 URLs kept per entry for quick reload).",
       "clear": "Clear",
       "empty": "Successful and failed submissions will appear here.",
       "unknownHost": "Unknown host",
       "success": "{count} URLs accepted (HTTP {status})",
-      "error": "{count} URLs failed (HTTP {status})"
-    }
+      "error": "{count} URLs failed (HTTP {status})",
+      "exportCsv": "CSV",
+      "exportJson": "JSON",
+      "reload": "Reload",
+      "batchesBadge": "{count} batches",
+      "showAll": "Show all ({count})",
+      "showLess": "Show fewer"
+    },
+    "submitBatched": "Submit in {batches} batches",
+    "submittingBatch": "Submitting batch {current} of {total}...",
+    "batchFailedPrefix": "Batch {current}/{total} failed ({submitted} URLs already accepted):",
+    "successMessageBatched": "Submitted {count} URLs across {batches} batches for {host} via {endpoint}.",
+    "savedProfilesTitle": "Saved sites on this device",
+    "removeProfile": "Remove saved site {host}",
+    "importFile": "Import .txt / .csv",
+    "importFailure": "Could not read the selected file.",
+    "endpointLabel": "Submission endpoint",
+    "endpointHelp": "Default api.indexnow.org fans out to Bing, Yandex, Seznam.cz, Naver, and Yep.",
+    "verifyInBingWebmaster": "Check receipt in Bing Webmaster Tools",
+    "dismiss": "Dismiss message",
+    "sitemapImport": {
+      "toggle": "Fetch sitemap URL",
+      "title": "Import URLs from a live XML sitemap",
+      "description": "Enter a sitemap URL or bare domain (auto-discovers from robots.txt). Supports .xml, .xml.gz, and nested sitemap indexes (up to 20 child sitemaps / 50,000 URLs).",
+      "placeholder": "example.com or https://www.example.com/sitemap.xml",
+      "lastmodLabel": "Filter by lastmod",
+      "lastmod": {
+        "all": "All URLs",
+        "last24h": "Updated in last 24h",
+        "last7d": "Updated in last 7 days",
+        "last30d": "Updated in last 30 days"
+      },
+      "fetch": "Fetch",
+      "fetching": "Fetching...",
+      "summary": "Loaded {count} URLs from {sitemaps} sitemap file(s) ({total} extracted before filtering).",
+      "errors": {
+        "invalid_url": "Enter a valid public http(s) sitemap URL.",
+        "blocked_url": "This URL is not a permitted public address.",
+        "rate_limited": "Too many sitemap fetches. Please retry in a few minutes.",
+        "http_error": "Sitemap returned HTTP {status}.",
+        "invalid_xml": "The fetched document is not a valid XML sitemap.",
+        "empty_sitemap": "No valid http(s) URLs were found in this sitemap.",
+        "response_too_large": "The sitemap exceeds the size limit.",
+        "timeout": "Fetching the sitemap timed out.",
+        "fetch_failed": "Could not fetch the sitemap. Check the URL and server availability."
+      }
+    },
+    "liveStats": {
+      "valid": "{count} valid URLs",
+      "duplicates": "{count} duplicates (auto-removed)",
+      "invalid": "{count} invalid",
+      "multipleHosts": "{count} hosts detected (split before submitting)",
+      "autoBatch": "Will auto-submit in {batches} sequential batches"
+    },
+    "generateKeyShortcut": "Generate",
+    "downloadKeyShortcut": "Download <key>.txt file"
   },
   "Blog": {
     "title": "Guides",
-    "description": "Practical guides on IndexNow, key files, and getting changed pages crawled sooner.",
+    "description": "In-depth guides on IndexNow vs. Google Indexing API, AI search (ChatGPT Search & Copilot) discovery, WAF/403 troubleshooting, and clean indexing workflows.",
     "emptyState": "No posts available yet.",
     "breadcrumbHome": "Home"
   },
   "About": {
     "title": "About",
-    "description": "Learn how submitnow works, how the IndexNow protocol notifies Bing and participating search engines, and how requests are forwarded without storing keys."
+    "description": "Learn how submitnow accelerates Bing, ChatGPT Search, Copilot, and IndexNow partner discovery with multi-endpoint batching, live sitemap import, CLI/MCP tools, and zero server storage."
   },
   "TermsOfService": {
     "title": "Terms of Service",
@@ -472,7 +543,7 @@
           "steps": [
             {
               "title": "Generate the key",
-              "description": "You get a 32-character hexadecimal string — well inside the protocol's 8–128 character limit, and made only of characters IndexNow accepts."
+              "description": "You get a 48-character hexadecimal string — well inside the protocol's 8–128 character limit, and made only of characters IndexNow accepts."
             },
             {
               "title": "Download the text file",
@@ -514,7 +585,7 @@
           "items": [
             {
               "question": "How long should an IndexNow key be?",
-              "answer": "Between 8 and 128 characters, using letters, digits and dashes. This tool produces 32 hexadecimal characters — long enough to be unguessable, short enough to stay readable in logs."
+              "answer": "Between 8 and 128 characters, using letters, digits and dashes. This tool produces 48 hexadecimal characters — long enough to be unguessable, short enough to stay readable in logs."
             },
             {
               "question": "Can I write the key myself?",
@@ -628,7 +699,9 @@
         "invalid_key": "Invalid key. Use 8–128 characters (letters, numbers, dashes).",
         "invalid_key_location": "Invalid key file URL. It must be an http(s) URL on the same host.",
         "fetch_failed": "The key file could not be fetched. The host may be unreachable, or DNS/TLS may be failing.",
-        "timeout": "The request timed out after 8 seconds."
+        "timeout": "The request timed out after 8 seconds.",
+        "blocked_url": "This host or IP address is not a permitted public internet target.",
+        "rate_limited": "Too many key checks from this IP. Please retry in a few minutes."
       },
       "article": {
         "whenToUse": {
@@ -868,7 +941,11 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "chunksCount": "{count} batches (10,000 max each)",
+      "sendGroup": "Send to submitter",
+      "chunkLabel": "Batch {index}/{total} ({count} URLs)",
+      "sendChunk": "Send batch"
     },
     "sitemapDiff": {
       "metaTitle": "Sitemap Diff for IndexNow",
@@ -882,7 +959,7 @@
       ],
       "title": "Find sitemap changes without uploading them to a server",
       "description": "Upload an older and a newer sitemap XML file. The comparison runs locally and lets you export only added or changed URLs for an IndexNow queue.",
-      "privacyNote": "Both sitemap files are parsed in your browser. Nothing is uploaded, and the comparison never leaves this tab.",
+      "privacyNote": "Local .xml / .xml.gz uploads are parsed entirely in your browser. Optional remote sitemap URL fetches run server-side without storing your URLs.",
       "previousTitle": "Previous sitemap",
       "previousHelp": "Upload the earlier sitemap XML file to use as the baseline.",
       "currentTitle": "Current sitemap",
@@ -905,7 +982,8 @@
         "added": "Added",
         "changed": "Changed",
         "unchanged": "Unchanged",
-        "extracted": "Extracted URLs"
+        "extracted": "Extracted URLs",
+        "removed": "Removed"
       },
       "includeAdded": "Include {count, plural, one {# added URL} other {# added URLs}}",
       "includeChanged": "Include {count, plural, one {# changed URL} other {# changed URLs}}",
@@ -1025,6 +1103,30 @@
         "saved": "Baseline saved on this device.",
         "too_large": "This sitemap exceeds the 10,000-entry local snapshot limit.",
         "storage_error": "The browser could not save this baseline."
+      },
+      "remoteUrlPlaceholder": "example.com or https://www.example.com/sitemap.xml",
+      "fetchRemote": "Fetch URL",
+      "fetchingRemote": "Fetching...",
+      "sitemapsFetched": "{count} sitemaps merged",
+      "lastmodFilterLabel": "Filter by lastmod",
+      "lastmodOptions": {
+        "all": "All URLs",
+        "last24h": "Last 24 hours",
+        "last7d": "Last 7 days",
+        "last30d": "Last 30 days"
+      },
+      "lastmodSummary": "{matched} matched ({older} older, {missing} without lastmod)",
+      "includeRemoved": "Include {count, plural, one {# removed URL} other {# removed URLs}}",
+      "remoteErrors": {
+        "invalid_url": "Enter a valid public http(s) sitemap URL.",
+        "blocked_url": "This URL is not a permitted public address.",
+        "rate_limited": "Too many sitemap fetches. Please retry in a few minutes.",
+        "http_error": "Sitemap returned HTTP {status}.",
+        "invalid_xml": "The fetched document is not a valid XML sitemap.",
+        "empty_sitemap": "No valid http(s) URLs were found in this sitemap.",
+        "response_too_large": "The sitemap exceeds the size limit.",
+        "timeout": "Fetching the sitemap timed out.",
+        "fetch_failed": "Could not fetch the sitemap. Check the URL and server availability."
       }
     },
     "codeGenerator": {
@@ -1056,7 +1158,10 @@
       "formats": {
         "json": "JSON",
         "curl": "curl",
-        "javascript": "JavaScript"
+        "javascript": "JavaScript",
+        "python": "Python",
+        "go": "Go",
+        "github-actions": "GitHub Actions"
       },
       "emptyState": "Enter a host, key, and valid single-host URL list to generate code.",
       "article": {
@@ -1141,7 +1246,8 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "endpointLabel": "Endpoint"
     },
     "urlNormalizer": {
       "cardTitle": "URL Normalizer",
@@ -1276,17 +1382,20 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "resultSummaryDetailed": "{valid} valid · {duplicates} duplicate · {invalid} invalid"
     }
   },
   "Docs": {
-    "metaTitle": "IndexNow Documentation & Integration Guides",
-    "metaDescription": "Practical IndexNow documentation for status codes, WordPress, Next.js, Cloudflare Workers, key validation, and safe URL submission.",
+    "metaTitle": "IndexNow Documentation, Platform Integrations & AI Search Guides",
+    "metaDescription": "Technical documentation for IndexNow status codes, Shopify, WordPress, Next.js, Astro/Hugo, Cloudflare Workers, GitHub Actions, CLI/MCP automation, and AI crawler robots.txt checks.",
     "keywords": [
       "IndexNow documentation",
       "IndexNow status codes",
-      "IndexNow integrations",
-      "Bing URL submission"
+      "IndexNow Shopify",
+      "IndexNow GitHub Actions",
+      "IndexNow MCP server",
+      "ChatGPT Search Bingbot robots.txt"
     ],
     "title": "IndexNow documentation",
     "description": "Stable reference material for implementing, validating, and operating IndexNow without guesswork.",

@@ -1,19 +1,22 @@
 🌍 *[English](README.md) ∙ [简体中文](README_zh.md) ∙ [日本語](README_ja.md)*
 
-# submitnow（仅 Bing）
+# submitnow
 
-一个支持多语言的 Web 界面，用于通过 IndexNow 协议向 Bing 批量提交 URL。
+免费、开源、支持多语言的 **IndexNow** 批量提交工作台、浏览器端 SEO 工具箱以及零依赖 CLI / MCP Server，一键触达 Bing（支撑 Microsoft Copilot 与 ChatGPT Search 发现）、Yandex、Seznam.cz、Naver 和 Yep。
 
-## 功能
+## 核心功能
 
-- 单次最多提交 10,000 条 URL
-- 可从 URL 列表自动推断 host（也可手动填写）
-- 多语言界面（English / 中文 / 日本語）
-- 不做持久化：请求在服务端转发，不存储输入内容
+- **多端点与超万条自动分批提交**：支持 `api.indexnow.org`（默认）、Bing、Yandex、Seznam.cz、Naver、Yep，超过 10,000 条自动按批顺序提交
+- **在线 Sitemap 与嵌套 Index 拉取**：直接抓取公网 `sitemap.xml`、`.xml.gz` 和嵌套 `<sitemapindex>`，支持按 `lastmod`（24 小时 / 7 天 / 30 天）过滤增量
+- **六款浏览器端配套工具**：密钥生成器、带 SSRF 防护的密钥校验器、URL 规范化、批次整理器（按主机与 10,000 条切片）、Sitemap 对比（新增 / 变更 / 已删除）与代码生成器（`curl` / JS / Python / Go / GitHub Actions / JSON）
+- **多站点本地 Profile 与历史导出**：纯本地可选保存多站点配置、分域名 Sitemap 基线、历史记录一键重载与 CSV/JSON 导出
+- **内置零依赖 CLI 与 MCP Server**：终端直接运行 `cli/submitnow.ts`，或将 `mcp/server.ts` 接入 Claude Code / Cursor / Antigravity
+- **安全与隐私加固**：服务端零数据库持久化、出站请求 SSRF 防护、退订链接 HMAC 签名、按 IP 维度的 Upstash / 内存限流
+- **完整三语界面与文档**：English / 简体中文 / 日本語
 
-## 依赖
+## 环境依赖
 
-- Node.js 20+
+- Node.js 22+
 - pnpm（推荐）
 
 ## 快速开始
@@ -27,17 +30,25 @@ pnpm dev
 
 访问 `http://localhost:3000`。
 
-## IndexNow 前置条件
+## CLI 与 MCP Server
 
-你需要在站点上托管 key 文件：
+```bash
+# CLI 示例
+node cli/submitnow.ts --help
+node cli/submitnow.ts check-key --host www.example.com --key "$INDEXNOW_KEY"
+node cli/submitnow.ts submit --sitemap https://www.example.com/sitemap.xml --lastmod-days 7 --key "$INDEXNOW_KEY" --dry-run
 
-- 位置：`https://<host>/<key>.txt`
-- 内容：仅包含 key（纯文本）
+# 启动 stdio MCP Server（接入 Claude Code / Cursor / Antigravity）
+node mcp/server.ts
+```
 
-## 说明
+## 测试与构建
 
-- 当前仅对接 Bing 端点（`https://www.bing.com/indexnow`）。
-- 如果公开部署，建议增加鉴权与限流。
+```bash
+pnpm test
+pnpm lint
+pnpm build
+```
 
 ## License
 

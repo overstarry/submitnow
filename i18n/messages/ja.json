@@ -127,28 +127,31 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "Bing IndexNow 送信ツール",
-    "heroTitle": "Bing 向け無料 IndexNow 送信ツール",
-    "description": "1 回のリクエストで最大 10,000 件の URL を Bing と IndexNow 参加エンジンへ送信できます。ドメインにキーファイルを置き、同一ホストの URL リストを貼り付けて送るだけ。アカウント不要、保存もしません。",
+    "tagLine": "IndexNow・AI 検索インデックス送信ツール",
+    "heroTitle": "Bing・AI 検索・IndexNow 参加社へ URL を一括送信",
+    "description": "Bing、ChatGPT Search、Microsoft Copilot、Yandex、Naver、Seznam、Yep へ数秒で更新通知。公開サイトマップ取得、キー診断、10,000 件超の自動分割送信に対応—アカウント不要・サーバー保存なし。",
     "keywords": [
       "indexnow",
+      "indexnow 送信ツール",
       "bing indexnow",
-      "bing url 送信",
+      "chatgpt search インデックス",
+      "copilot seo",
+      "ai 検索 geo",
+      "サイトマップ 一括送信",
       "indexnow api",
-      "url 送信ツール",
-      "seo インデックス ツール",
-      "indexnow キー"
+      "indexnow mcp",
+      "indexnow キー検証"
     ],
-    "badge": "IndexNow 一括送信",
+    "badge": "IndexNow・AI 検索インデックス加速",
     "ctaDocs": "IndexNow ドキュメント",
     "ctaSource": "ソースを見る",
     "highlights": {
-      "speedTitle": "1 リクエストで送信",
-      "speedDescription": "1 回の一括呼び出しで最大 10,000 件の URL を送信できます。",
-      "verificationTitle": "キーによる所有権確認",
-      "verificationDescription": "自分のドメインにキーファイルを置くだけで所有権を証明できます。",
-      "reachTitle": "複数エンジンに到達",
-      "reachDescription": "1 回の送信で Bing と IndexNow 参加エンジンに通知されます。"
+      "speedTitle": "公開サイトマップ取得・自動分割",
+      "speedDescription": "公開サイトマップインデックスを直接読み込み、lastmod 抽出と 10,000 件超の自動順次送信に対応。",
+      "verificationTitle": "送信前キーファイル診断",
+      "verificationDescription": "404・ソフト 404 HTML・UTF-8 BOM・別ホストリダイレクトを送信前に検知します。",
+      "reachTitle": "検索エンジン・AI 検索へ一括到達",
+      "reachDescription": "1 回の通知で Bing（Copilot・ChatGPT Search 基盤）、Yandex、Seznam、Naver、Yep に届きます。"
     },
     "howItWorks": {
       "eyebrow": "ワークフロー",
@@ -236,44 +239,52 @@
       "title": "IndexNow のよくある疑問",
       "items": [
         {
-          "question": "IndexNow を使えばインデックス登録は保証されますか？",
-          "answer": "いいえ。IndexNow は URL が更新されたことを参加エンジンに伝え、発見までの遅延をなくすだけです。実際に登録されるかは、エンジン側の品質評価・重複判定・クロール予算によります。"
+          "question": "IndexNow で送信すれば必ずインデックスされますか？",
+          "answer": "いいえ。IndexNow は更新の発見遅延をなくす通知プロトコルであり、実際にクロール・登録されるかは各検索エンジンの品質評価、canonical、robots 指示、クロール予算によって決まります。"
         },
         {
-          "question": "送信はどの検索エンジンに届きますか？",
-          "answer": "Bing のエンドポイントへの 1 回のリクエストが、IndexNow 参加社すべてに共有されます。現在は Bing、Yandex、Seznam.cz、Naver、Yep です。Google は IndexNow に参加していません。"
+          "question": "1 回の送信でどの検索エンジンと AI 検索に届きますか？",
+          "answer": "api.indexnow.org または Bing へ 1 回送信すると、Bing・Yandex・Seznam.cz・Naver・Yep の全参加エンジンへ共有されます。Bing のインデックスは Microsoft Copilot の基盤であり、ChatGPT Search の Web 検索にも活用されます。"
+        },
+        {
+          "question": "IndexNow は ChatGPT Search や Microsoft Copilot での発見速度に役立ちますか？",
+          "answer": "はい。Bing のインデックス更新が早まることで、Microsoft Copilot や ChatGPT Search が最新ページを見つけるまでの時間を短縮できます。あわせて robots.txt で Bingbot と OAI-SearchBot を許可し、意図しない noindex がないか確認してください。"
+        },
+        {
+          "question": "Google は IndexNow に対応していますか？Google 向けの対策は？",
+          "answer": "Google は IndexNow に参加しておらず、Google Indexing API も公式には求人（JobPosting）とライブ配信（BroadcastEvent）に限定されています。Google 向けには正確な lastmod を含む XML サイトマップを Search Console に登録し、重要な個別ページは URL 検査でインデックス登録をリクエストしてください。"
         },
         {
           "question": "一度に何件の URL を送信できますか？",
-          "answer": "1 リクエストあたり最大 10,000 件で、すべて同じホストに属している必要があります。混在したリストはバッチ整理ツールで分割してください。"
+          "answer": "IndexNow の仕様上、1 リクエストあたり同一ホストで最大 10,000 件です。submitnow に 10,000 件を超える同一ホストの URL を入力した場合は、自動的に 10,000 件ずつのバッチへ分割して順次送信します。"
         },
         {
-          "question": "IndexNow のキーは秘密情報ですか？",
-          "answer": "いいえ。キーファイルは設計上公開されるものです。検索エンジンが通常の HTTP で取得し、ホストの所有者であることを確認します。認証情報ではなく所有権トークンとして扱ってください。"
+          "question": "IndexNow キーは機密情報ですか？",
+          "answer": "いいえ。キーファイルは検索エンジンがホスト所有権を確認するため公開前提で設置します。認証パスワードではなく所有権トークンとして扱ってください。"
         },
         {
-          "question": "1 つのキーを複数ドメインで使えますか？",
-          "answer": "各ドメインに同じキーファイルを置けば使えます。ただし 1 リクエストは 1 ホストのみを対象とするため、ドメインごとに送信してください。"
+          "question": "1 つのキーを複数ドメインで使い回せますか？",
+          "answer": "各ドメインに同じキーファイルを配置すれば可能です。ただしリクエスト自体は 1 ホスト単位のためドメインごとに送信してください。端末内に複数サイトのプロファイルを保存して切り替えられます。"
         },
         {
           "question": "キーファイルはどこに置くべきですか？",
-          "answer": "ルート、つまり https://ホスト名/キー.txt に置けば、そのホストのすべての URL を認可できます。サブディレクトリ内のキーファイルは、その配下の URL しか認可しません。"
+          "answer": "ルート（https://ホスト名/キー.txt）に置くとホスト全体の URL を認可できます。サブディレクトリ（例: /blog/key.txt）に置いた場合は、そのディレクトリ配下の URL のみが認可対象になります。"
         },
         {
-          "question": "submitnow はキーや URL を保存しますか？",
-          "answer": "いいえ。送信内容は IndexNow エンドポイントへ転送されるだけで、保存はしません。ブラウザ側のツールに至っては入力をサーバーへ送りません。"
+          "question": "submitnow はキーや URL をサーバーに保存しますか？",
+          "answer": "いいえ。送信はサーバー側で中継するだけでデータベースへは一切保存しません。任意の複数サイトプロファイル、サイトマップ基準、CSV/JSON 履歴はブラウザの localStorage 内だけに保持されます。"
         },
         {
           "question": "どのくらいの頻度で送信すべきですか？",
-          "answer": "コンテンツが実際に変わったときだけです。変更のない URL の再送信は割り当てを消費し、429 の原因にもなります。"
+          "answer": "新規公開・更新・削除が実際に発生したときだけ送信してください。Sitemap Diff や lastmod フィルターで差分だけを送り、HTTP 429 レート制限を防ぎましょう。"
         }
       ]
     }
   },
   "IndexNow": {
-    "title": "Bing に URL を送信",
-    "description": "Bing の IndexNow エンドポイントへ一括リクエストを送信します。",
-    "bingOnlyNote": "送信先エンドポイント: Bing（IndexNow 参加社と共有）。",
+    "title": "IndexNow で URL を送信",
+    "description": "api.indexnow.org または参加検索エンジンのエンドポイントへ一括リクエストを送信します。",
+    "bingOnlyNote": "マルチエンドポイント対応（IndexNow 参加社と共有）。",
     "supportedEnginesTitle": "IndexNow 参加社",
     "supportedEnginesNote": "1 回の送信で参加中のすべての検索エンジンに届きます。",
     "urlsLabel": "URL リスト",
@@ -288,7 +299,7 @@
     "keyLocationLabel": "キーファイルの URL（任意）",
     "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
     "keyLocationHelp": "省略した場合は https://{host}/{key}.txt になります。ホスト名は送信する URL と一致している必要があります。",
-    "submit": "Bing に送信",
+    "submit": "URL を送信",
     "submitting": "送信中...",
     "successMessage": "送信しました。",
     "successMessageWithDetails": "{host} の URL を {count} 件送信しました。キーファイル: {keyLocation}",
@@ -308,36 +319,96 @@
       "mixed_hosts": "URL に複数のホストが含まれています。1 リクエストにつき 1 ホストで送信してください。",
       "host_mismatch": "ホストが URL のホストと一致しません。空欄にするか、URL に合わせてください。",
       "too_many_urls": "URL が多すぎます。1 リクエストあたり最大 10,000 件です。",
-      "bing_invalid_request": "Bing がリクエストを拒否しました（HTTP {status}）。ホスト・キー・URL リストを確認してください。",
-      "bing_invalid_key": "Bing がキーを拒否しました（HTTP {status}）。キーファイルにアクセスでき、内容が一致しているか確認してください。",
-      "bing_invalid_url_list": "Bing が URL リストを拒否しました（HTTP {status}）。URL が有効でホストに属しているか確認してください。",
-      "bing_rate_limited": "Bing によるレート制限です（HTTP {status}）。しばらくしてから再試行してください。",
-      "bing_error": "Bing IndexNow リクエストが失敗しました（HTTP {status}）。キーと URL リストを確認してください。",
+      "bing_invalid_request": "IndexNow エンドポイントがリクエストを拒否しました（HTTP {status}）。ホスト・キー・URL リストを確認してください。",
+      "bing_invalid_key": "IndexNow エンドポイントがキーを拒否しました（HTTP {status}）。キーファイルにアクセスでき、内容が完全に一致しているか確認してください。",
+      "bing_invalid_url_list": "IndexNow エンドポイントが URL リストを拒否しました（HTTP {status}）。URL が有効でホストとキー範囲に一致しているか確認してください。",
+      "bing_rate_limited": "IndexNow エンドポイントによりレート制限されました（HTTP {status}）。しばらくしてから再試行してください。",
+      "bing_error": "IndexNow リクエストが失敗しました（HTTP {status}）。キーと URL リストを確認してください。",
       "network_error": "ネットワークエラーです。もう一度お試しください。",
       "timeout": "リクエストがタイムアウトしました。もう一度お試しください。",
-      "explainCode": "{status} の意味を見る"
+      "explainCode": "{status} の意味を見る",
+      "rate_limited": "この IP からの送信回数が上限に達しました。約 {seconds} 秒後に再試行してください。",
+      "key_location_protocol_mismatch": "キーファイルの URL のプロトコル（http/https）は送信する URL と一致する必要があります。",
+      "key_location_scope_mismatch": "{prefix} 配下のキーファイルは、そのディレクトリ内の URL のみ認可できます。",
+      "detailInvalidUrl": "不正な URL: {url}",
+      "detailHosts": "検出されたホスト: {hosts}",
+      "detailCount": "入力 {got} 件（1 リクエスト上限 {max} 件）"
     },
     "rememberProfile": "この端末にキーとホストを保存",
     "rememberProfileHelp": "選択した場合だけ localStorage に保存し、分析イベントには含めません。",
     "history": {
       "title": "最近の送信",
-      "privacy": "この端末だけに保存し、キーと完全な URL 一覧は保存しません。",
+      "privacy": "この端末のみに保存されます（キーは履歴に保存されず、再送用に最大 200 件の URL を保持します）。",
       "clear": "消去",
       "empty": "成功・失敗した送信がここに表示されます。",
       "unknownHost": "不明なホスト",
       "success": "{count} URL を受理（HTTP {status}）",
-      "error": "{count} URL が失敗（HTTP {status}）"
-    }
+      "error": "{count} URL が失敗（HTTP {status}）",
+      "exportCsv": "CSV",
+      "exportJson": "JSON",
+      "reload": "再読込",
+      "batchesBadge": "{count} バッチ",
+      "showAll": "すべて表示（{count} 件）",
+      "showLess": "折りたたむ"
+    },
+    "submitBatched": "{batches} バッチに分けて送信",
+    "submittingBatch": "バッチ {current} / {total} を送信中...",
+    "batchFailedPrefix": "バッチ {current}/{total} で失敗（{submitted} 件は受理済み）:",
+    "successMessageBatched": "{endpoint} 経由で {host} の URL {count} 件を {batches} バッチで送信しました。",
+    "savedProfilesTitle": "この端末に保存されたサイト",
+    "removeProfile": "保存済みサイト {host} を削除",
+    "importFile": ".txt / .csv を読み込む",
+    "importFailure": "選択したファイルを読み込めませんでした。",
+    "endpointLabel": "送信エンドポイント",
+    "endpointHelp": "既定の api.indexnow.org は Bing・Yandex・Seznam.cz・Naver・Yep へ自動共有されます。",
+    "verifyInBingWebmaster": "Bing Webmaster Tools で受信状況を確認",
+    "dismiss": "閉じる",
+    "sitemapImport": {
+      "toggle": "サイトマップ URL を取得",
+      "title": "公開 XML サイトマップから URL を読み込む",
+      "description": "サイトマップ URL またはドメインを入力（robots.txt から自動検出）。.xml・.xml.gz・ネストされたサイトマップインデックスに対応（最大 20 件 / 50,000 URL）。",
+      "placeholder": "example.com または https://www.example.com/sitemap.xml",
+      "lastmodLabel": "lastmod で絞り込み",
+      "lastmod": {
+        "all": "すべての URL",
+        "last24h": "過去 24 時間以内に更新",
+        "last7d": "過去 7 日以内に更新",
+        "last30d": "過去 30 日以内に更新"
+      },
+      "fetch": "取得",
+      "fetching": "取得中...",
+      "summary": "{sitemaps} 件のサイトマップから {count} 件の URL を読み込みました（絞り込み前: {total} 件）。",
+      "errors": {
+        "invalid_url": "有効な公開 http(s) サイトマップ URL を入力してください。",
+        "blocked_url": "この URL は許可された公開アドレスではありません。",
+        "rate_limited": "サイトマップ取得回数の上限に達しました。しばらくしてから再試行してください。",
+        "http_error": "サイトマップが HTTP {status} を返しました。",
+        "invalid_xml": "取得したドキュメントは有効な XML サイトマップではありません。",
+        "empty_sitemap": "このサイトマップに有効な http(s) URL が見つかりませんでした。",
+        "response_too_large": "サイトマップのサイズが上限を超えています。",
+        "timeout": "サイトマップの取得がタイムアウトしました。",
+        "fetch_failed": "サイトマップを取得できませんでした。URL とサーバーの応答を確認してください。"
+      }
+    },
+    "liveStats": {
+      "valid": "有効 {count} 件",
+      "duplicates": "重複 {count} 件（自動除外）",
+      "invalid": "不正 {count} 件",
+      "multipleHosts": "{count} 件のホストを検出（送信前に分割してください）",
+      "autoBatch": "{batches} バッチに自動分割して順次送信します"
+    },
+    "generateKeyShortcut": "自動生成",
+    "downloadKeyShortcut": "<key>.txt をダウンロード"
   },
   "Blog": {
     "title": "ガイド",
-    "description": "IndexNow、キーファイル、更新ページを早くクロールさせるための実践ガイド。",
+    "description": "IndexNow と Google Indexing API の比較、ChatGPT Search / Copilot 向け AI 検索対策、WAF・403 トラブルシューティングの実践記事。",
     "emptyState": "まだ記事がありません。",
     "breadcrumbHome": "ホーム"
   },
   "About": {
     "title": "このサイトについて",
-    "description": "submitnow の仕組み、IndexNow プロトコルで Bing や参加検索エンジンへ更新通知する流れ、およびキーを保存しない転送方式について解説します。"
+    "description": "submitnow がマルチエンドポイント送信、公開サイトマップ取得、CLI/MCP ツール、サーバー非保存設計によって Bing・ChatGPT Search・Copilot などの発見を加速する仕組み。"
   },
   "TermsOfService": {
     "title": "利用規約",
@@ -472,7 +543,7 @@
           "steps": [
             {
               "title": "キーを生成する",
-              "description": "32 文字の 16 進数文字列が得られます。規格の 8〜128 文字の範囲に十分収まり、IndexNow が受け付ける文字だけで構成されています。"
+              "description": "48 文字の 16 進数文字列が得られます。規格の 8〜128 文字の範囲に十分収まり、IndexNow が受け付ける文字だけで構成されています。"
             },
             {
               "title": "テキストファイルをダウンロードする",
@@ -514,7 +585,7 @@
           "items": [
             {
               "question": "IndexNow のキーはどのくらいの長さが必要ですか？",
-              "answer": "8〜128 文字で、英数字とハイフンが使えます。このツールは 32 文字の 16 進数を生成します。推測されない長さでありながら、ログ上でも読みやすい長さです。"
+              "answer": "8〜128 文字で、英数字とハイフンが使えます。このツールは 48 文字の 16 進数を生成します。推測されない長さでありながら、ログ上でも読みやすい長さです。"
             },
             {
               "question": "キーを自分で決めても構いませんか？",
@@ -628,7 +699,9 @@
         "invalid_key": "キーが不正です。8〜128 文字（英数字とハイフン）で入力してください。",
         "invalid_key_location": "キーファイルの URL が不正です。同じホスト上の http(s) URL である必要があります。",
         "fetch_failed": "キーファイルを取得できませんでした。ホストに到達できないか、DNS／TLS に問題がある可能性があります。",
-        "timeout": "8 秒でリクエストがタイムアウトしました。"
+        "timeout": "8 秒でリクエストがタイムアウトしました。",
+        "blocked_url": "このホストまたは IP アドレスは公開インターネットの対象として許可されていません。",
+        "rate_limited": "この IP からの検証回数が上限に達しました。しばらくしてから再試行してください。"
       },
       "article": {
         "whenToUse": {
@@ -868,7 +941,11 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "chunksCount": "{count} バッチ（各最大 10,000 件）",
+      "sendGroup": "送信ツールへ送る",
+      "chunkLabel": "バッチ {index}/{total}（{count} 件）",
+      "sendChunk": "このバッチを送る"
     },
     "sitemapDiff": {
       "metaTitle": "IndexNow 向けサイトマップ差分",
@@ -882,7 +959,7 @@
       ],
       "title": "サーバーに送らずにサイトマップの変更を見つける",
       "description": "古いサイトマップ XML と新しいサイトマップ XML をアップロードします。比較はローカルで行われ、追加・変更された URL だけを IndexNow 用キューとして書き出せます。",
-      "privacyNote": "2 つのサイトマップはどちらもブラウザ内で解析されます。アップロードは行われず、比較がこのタブの外に出ることはありません。",
+      "privacyNote": "ローカルの .xml / .xml.gz ファイルはすべてブラウザ内で解析されます。任意のリモートサイトマップ取得のみサーバー経由で行い、URL は保存しません。",
       "previousTitle": "以前のサイトマップ",
       "previousHelp": "基準にする古いほうのサイトマップ XML をアップロードします。",
       "currentTitle": "現在のサイトマップ",
@@ -905,7 +982,8 @@
         "added": "追加",
         "changed": "変更",
         "unchanged": "変更なし",
-        "extracted": "抽出 URL"
+        "extracted": "抽出 URL",
+        "removed": "削除"
       },
       "includeAdded": "追加された {count} 件を含める",
       "includeChanged": "変更された {count} 件を含める",
@@ -1025,6 +1103,30 @@
         "saved": "この端末に基準を保存しました。",
         "too_large": "sitemap が 10,000 件の保存上限を超えています。",
         "storage_error": "ブラウザに基準を保存できませんでした。"
+      },
+      "remoteUrlPlaceholder": "example.com または https://www.example.com/sitemap.xml",
+      "fetchRemote": "URL を取得",
+      "fetchingRemote": "取得中...",
+      "sitemapsFetched": "{count} 件のサイトマップを統合",
+      "lastmodFilterLabel": "lastmod で絞り込み",
+      "lastmodOptions": {
+        "all": "すべての URL",
+        "last24h": "過去 24 時間",
+        "last7d": "過去 7 日間",
+        "last30d": "過去 30 日間"
+      },
+      "lastmodSummary": "該当 {matched} 件（対象外 {older} 件・lastmod なし {missing} 件）",
+      "includeRemoved": "削除された URL {count} 件を含める",
+      "remoteErrors": {
+        "invalid_url": "有効な公開 http(s) サイトマップ URL を入力してください。",
+        "blocked_url": "この URL は許可された公開アドレスではありません。",
+        "rate_limited": "サイトマップ取得回数の上限に達しました。しばらくしてから再試行してください。",
+        "http_error": "サイトマップが HTTP {status} を返しました。",
+        "invalid_xml": "取得したドキュメントは有効な XML サイトマップではありません。",
+        "empty_sitemap": "このサイトマップに有効な http(s) URL が見つかりませんでした。",
+        "response_too_large": "サイトマップのサイズが上限を超えています。",
+        "timeout": "サイトマップの取得がタイムアウトしました。",
+        "fetch_failed": "サイトマップを取得できませんでした。URL とサーバーの応答を確認してください。"
       }
     },
     "codeGenerator": {
@@ -1055,7 +1157,10 @@
       "formats": {
         "json": "JSON",
         "curl": "curl",
-        "javascript": "JavaScript"
+        "javascript": "JavaScript",
+        "python": "Python",
+        "go": "Go",
+        "github-actions": "GitHub Actions"
       },
       "emptyState": "ホスト、キー、同一ホストの有効な URL を入力してください。",
       "article": {
@@ -1140,7 +1245,8 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "endpointLabel": "エンドポイント"
     },
     "urlNormalizer": {
       "cardTitle": "URL 正規化",
@@ -1275,17 +1381,20 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "resultSummaryDetailed": "有効 {valid} 件 · 重複 {duplicates} 件 · 不正 {invalid} 件"
     }
   },
   "Docs": {
-    "metaTitle": "IndexNow ドキュメントと統合ガイド",
-    "metaDescription": "ステータス コード、WordPress、Next.js、Cloudflare Workers、キー検証、安全な送信の実用ドキュメント。",
+    "metaTitle": "IndexNow ドキュメント・プラットフォーム連携・AI 検索ガイド",
+    "metaDescription": "IndexNow ステータスコード対処、Shopify・WordPress・Next.js・Astro/Hugo・Cloudflare Workers・GitHub Actions・CLI/MCP 自動化・AI クローラー robots.txt 検証の実践リファレンス。",
     "keywords": [
       "IndexNow ドキュメント",
-      "IndexNow ステータス コード",
-      "IndexNow 統合",
-      "Bing URL 送信"
+      "IndexNow ステータスコード",
+      "Shopify IndexNow",
+      "GitHub Actions IndexNow",
+      "IndexNow MCP",
+      "ChatGPT Search Bingbot robots.txt"
     ],
     "title": "IndexNow ドキュメント",
     "description": "IndexNow の実装、検証、安定運用に使えるリファレンスです。",

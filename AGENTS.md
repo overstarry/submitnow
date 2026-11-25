@@ -22,9 +22,9 @@
 - ESLint is configured via `eslint.config.mjs` and `.eslintrc.json`.
 
 ## Testing Guidelines
-- No automated test runner is configured in `package.json`.
-- Use `pnpm lint` plus manual UI checks for now.
-- If you add tests, document the runner and naming conventions here and in `package.json`.
+- Unit tests run via Node's built-in test runner (`pnpm test`, executing `node --test tests/*.test.ts`).
+- Place pure utility, protocol, and security tests under `tests/*.test.ts` using `node:test` and `node:assert/strict`.
+- Run `pnpm test`, `pnpm lint`, and `pnpm build` after changes.
 
 ## Commit & Pull Request Guidelines
 - Commit messages are short, imperative, and sentence case (for example, "Add deployment support"). PR numbers are sometimes appended in parentheses.

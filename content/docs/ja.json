@@ -735,5 +735,309 @@
       "codeGenerator",
       "keyChecker"
     ]
+  },
+  {
+    "locale": "ja",
+    "slug": "guides/ai-search-robots-txt",
+    "category": "guide",
+    "title": "IndexNow・AI 検索（ChatGPT Search / Copilot）と robots.txt ガイド",
+    "description": "IndexNow が Bing・Microsoft Copilot・ChatGPT Search での発見速度を高める仕組みと、Bingbot・OAI-SearchBot・noindex の正しい設定方法。",
+    "summary": "IndexNow 通知と Bingbot / OAI-SearchBot 向けの適切な robots.txt 設計を組み合わせ、AI 検索の可視性を高めます。",
+    "keywords": [
+      "ChatGPT Search インデックス",
+      "Microsoft Copilot SEO",
+      "IndexNow AI 検索",
+      "OAI-SearchBot robots.txt",
+      "Bingbot"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "IndexNow と AI 検索のつながり",
+        "paragraphs": [
+          "IndexNow はページの追加・更新・削除を Bing・Yandex・Seznam.cz・Naver・Yep へ即座に通知します。Microsoft Copilot は Bing のインデックスを直接利用しており、ChatGPT Search も Web 検索の発見シグナルとして Bing のインデックスを広く活用するため、タイムリーな通知は AI 回答に最新情報が反映されるまでの待ち時間を短縮します。",
+          "なお IndexNow は発見通知専用であり、robots.txt の拒否設定や noindex、HTTP エラー、品質評価をバイパスするものではありません。"
+        ]
+      },
+      {
+        "title": "検索クローラーと学習クローラーを区別する",
+        "items": [
+          {
+            "title": "Bingbot",
+            "description": "Bing 検索および Microsoft Copilot の根拠データ収集に使われます。IndexNow の通知をインデックスにつなげるにはクロール許可が必要です。"
+          },
+          {
+            "title": "OAI-SearchBot",
+            "description": "ChatGPT Search で最新ページやリンクを提示するための検索クローラーです。モデル学習用の GPTBot とは独立しています。"
+          },
+          {
+            "title": "GPTBot",
+            "description": "OpenAI のモデル学習用クローラーです。検索引用のみ許可して学習をオプトアウトしたい場合は、GPTBot だけ Disallow できます。"
+          }
+        ]
+      },
+      {
+        "title": "推奨 robots.txt ベースライン",
+        "paragraphs": [
+          "robots.txt 内の Noindex: 記述は非推奨であり無視されます。クロール制御は robots.txt、インデックス除外は <meta name=\"robots\" content=\"noindex\"> または X-Robots-Tag ヘッダーで行ってください。"
+        ],
+        "code": "User-agent: *\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\n# 任意: 検索発見は維持しつつ学習クローラーのみ拒否\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: https://www.example.com/sitemap.xml"
+      },
+      {
+        "title": "AI 検索向けチェックリスト",
+        "items": [
+          {
+            "title": "SSR で完全な HTML を返す",
+            "description": "タイトル・本文・JSON-LD を初期 HTML に含めることで、検索クローラーと AI 取得パイプラインの双方が確実に読み取れます。"
+          },
+          {
+            "title": "リダイレクトや noindex をサイトマップから除外する",
+            "description": "正規の HTTP 200 URL（または削除通知用の 404/410 URL）のみを送信します。"
+          },
+          {
+            "title": "WAF や Bot 対策の誤遮断を確認する",
+            "description": "Bingbot や /<key>.txt に対してチャレンジ画面が返されていないか事前チェックします。"
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/403",
+      "integrations/github-actions"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "ja",
+    "slug": "integrations/shopify",
+    "category": "integration",
+    "platform": "Shopify",
+    "title": "Shopify の IndexNow 連携",
+    "description": "ルートディレクトリへ直接 .txt を置けない Shopify ストアで、別ホストリダイレクトやサブディレクトリ制約を回避して IndexNow を導入する方法。",
+    "summary": "cdn.shopify.com へのリダイレクト罠を避け、Cloudflare や Hydrogen で安全にキー公開・商品更新通知を行います。",
+    "keywords": [
+      "Shopify IndexNow",
+      "Shopify キーファイル",
+      "Shopify Bing インデックス",
+      "Hydrogen IndexNow"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "Shopify におけるルートファイル制約",
+        "paragraphs": [
+          "標準の Shopify Online Store テーマでは独自ドメイン直下に任意の静的 .txt（https://store.example.com/<key>.txt）を配置できません。URL リダイレクトで cdn.shopify.com 上のファイルへ飛ばすと別ホストへのリダイレクトとなり、IndexNow 検証で 403 エラーになります。",
+          "また Shopify App Proxy で /apps/indexnow/key.txt に配置した場合、IndexNow のサブディレクトリ規定により /apps/indexnow/ 配下しか認可されず、/products/ や /collections/ の通知には使えません。"
+        ]
+      },
+      {
+        "title": "Shopify で機能する 3 つの構成",
+        "items": [
+          {
+            "title": "Cloudflare Worker / O2O プロキシを前段に配置",
+            "description": "エッジ側で /<key>.txt のみ HTTP 200 text/plain で直接応答し、それ以外の全リクエストを Shopify へ中継します。"
+          },
+          {
+            "title": "Shopify Hydrogen / Oxygen ヘッドレス構成",
+            "description": "public/<key>.txt またはルートローダーから直接応答することで、リダイレクトなしに同一ホストで配信できます。"
+          },
+          {
+            "title": "Webhook による商品・価格変更の自動通知",
+            "description": "products/create・products/update・products/delete Webhook を受け取り、新商品・在庫復活・セール価格更新の URL だけを即時送信します。"
+          }
+        ]
+      },
+      {
+        "title": "エッジプロキシでのキー配信例",
+        "code": "export default {\n  async fetch(request, env) {\n    const url = new URL(request.url);\n    if (url.pathname === `/${env.INDEXNOW_KEY}.txt`) {\n      return new Response(env.INDEXNOW_KEY, {\n        status: 200,\n        headers: {\n          \"Content-Type\": \"text/plain; charset=utf-8\",\n          \"Cache-Control\": \"public, max-age=3600\",\n        },\n      });\n    }\n    return fetch(request);\n  },\n};"
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cloudflare-workers",
+      "status-codes/403",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "keyChecker",
+      "codeGenerator"
+    ]
+  },
+  {
+    "locale": "ja",
+    "slug": "integrations/github-actions",
+    "category": "integration",
+    "platform": "GitHub Actions",
+    "title": "GitHub Actions で IndexNow を自動送信",
+    "description": "本番デプロイ完了後に GitHub Actions と Repository Secrets を使ってキー確認と差分 URL 送信を自動化する方法。",
+    "summary": "外部 SaaS に頼らず、CI/CD パイプライン内でサイトマップ抽出と IndexNow 送信を完結させます。",
+    "keywords": [
+      "IndexNow GitHub Actions",
+      "CI/CD IndexNow",
+      "サイトマップ自動送信",
+      "デプロイ後インデックス"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "CI/CD 自動化の設計ポイント",
+        "items": [
+          {
+            "title": "キーは GitHub Secrets に保管する",
+            "description": "Settings -> Secrets and variables -> Actions に INDEXNOW_KEY を登録し、ログ出力を自動マスクします。"
+          },
+          {
+            "title": "本番反映完了後に実行する",
+            "description": "ホスティングのデプロイ完了を待ってから通知することで、更新前ページや未反映キーによる失敗を防ぎます。"
+          },
+          {
+            "title": "全量ではなく差分のみ送信する",
+            "description": "lastmod（過去 24 時間など）やリリース差分で更新ページだけを送り、HTTP 429 レート制限を回避します。"
+          }
+        ]
+      },
+      {
+        "title": "GitHub Actions ワークフロー例",
+        "paragraphs": [
+          "キーファイルの疎通を確認したうえで、curl またはリポジトリ同梱のゼロ依存 CLI を使って api.indexnow.org へ送信できます。"
+        ],
+        "code": "name: Notify IndexNow after deploy\n\non:\n  workflow_dispatch:\n  push:\n    branches: [main]\n\njobs:\n  indexnow:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Check key file and submit recent sitemap URLs\n        env:\n          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}\n        run: |\n          curl --fail --silent \"https://www.example.com/${INDEXNOW_KEY}.txt\" | grep -qx \"${INDEXNOW_KEY}\"\n          curl --fail-with-body -X POST \"https://api.indexnow.org/indexnow\" \\\n            -H \"Content-Type: application/json; charset=utf-8\" \\\n            -d \"{\\\"host\\\":\\\"www.example.com\\\",\\\"key\\\":\\\"${INDEXNOW_KEY}\\\",\\\"keyLocation\\\":\\\"https://www.example.com/${INDEXNOW_KEY}.txt\\\",\\\"urlList\\\":[\\\"https://www.example.com/\\\"]}\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cli-and-mcp",
+      "integrations/astro-hugo",
+      "status-codes/429"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "sitemapDiff",
+      "keyChecker"
+    ]
+  },
+  {
+    "locale": "ja",
+    "slug": "integrations/astro-hugo",
+    "category": "integration",
+    "platform": "Astro & Hugo",
+    "title": "Astro・Hugo など静的サイトの IndexNow 導入",
+    "description": "Astro・Hugo・Hexo・Eleventy でのキーファイル配置場所と、末尾スラッシュのズレを防いだデプロイ後送信手順。",
+    "summary": "静的サイトジェネレーター（SSG）向けに正規 URL のまま確実に IndexNow を運用する実践手順です。",
+    "keywords": [
+      "Astro IndexNow",
+      "Hugo IndexNow",
+      "静的サイト IndexNow",
+      "SSG SEO"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "主要 SSG でのキーファイル配置先",
+        "items": [
+          {
+            "title": "Astro",
+            "description": "public/<key>.txt に配置します。ビルド時にテンプレート処理なしで dist/ 直下へコピーされます。"
+          },
+          {
+            "title": "Hugo",
+            "description": "static/<key>.txt に配置すると、robots.txt や sitemap.xml と同じルート階層に出力されます。"
+          },
+          {
+            "title": "Eleventy / Hexo / Jekyll",
+            "description": "静的パススルーディレクトリ（Hexo は source/）へ置き、.txt パスに末尾スラッシュが付与されないことを確認します。"
+          }
+        ]
+      },
+      {
+        "title": "末尾スラッシュと正規 URL の不一致を防ぐ",
+        "paragraphs": [
+          "Cloudflare Pages・Netlify・Vercel・GitHub Pages は /about と /about/ の扱いが異なります。手書き URL ではなく、生成された sitemap.xml に記載された正規 URL をそのまま送信してください。"
+        ],
+        "code": "# 公開サイトマップインデックスから過去 1 日の更新 URL を抽出して送信\nnode cli/submitnow.ts submit \\\n  --sitemap https://www.example.com/sitemap-index.xml \\\n  --lastmod-days 1 \\\n  --key \"$INDEXNOW_KEY\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "integrations/nextjs",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "ja",
+    "slug": "integrations/cli-and-mcp",
+    "category": "integration",
+    "platform": "CLI & MCP",
+    "title": "submitnow CLI・MCP サーバーによる自動化",
+    "description": "依存関係ゼロの Node CLI と標準 stdio MCP サーバーを使い、ターミナルや Claude Code・Cursor・Antigravity から直接 IndexNow を操作します。",
+    "summary": "キー診断、サイトマップ取得、自動分割送信をターミナルと AI コーディングエージェントへ組み込みます。",
+    "keywords": [
+      "IndexNow CLI",
+      "IndexNow MCP サーバー",
+      "Model Context Protocol IndexNow",
+      "Claude Code SEO"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "依存関係ゼロのローカル CLI",
+        "paragraphs": [
+          "リポジトリ同梱の cli/submitnow.ts は Web UI と同一の SSRF 対策・キー範囲検証・サイトマップインデックス展開・自動分割ロジックを共有し、Node 22+ でそのまま実行できます。"
+        ],
+        "code": "# 48 文字の 16 進キーを生成して <key>.txt を書き出す\nnode cli/submitnow.ts generate-key --write\n\n# 公開キーファイルを診断する\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# 公開サイトマップから過去 7 日の更新 URL を取得する\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# URL を送信する（10,000 件超は自動分割）\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
+      },
+      {
+        "title": "AI コーディングエージェントへ MCP サーバーを接続",
+        "paragraphs": [
+          "mcp/server.ts は stdio ベースの JSON-RPC 2.0 MCP サーバーです。Claude Code・Cursor・Antigravity に登録すれば、デプロイ直後のキー確認や更新送信をエージェントから直接実行できます。"
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/indexnow-gui/mcp/server.ts\"]\n    }\n  }\n}"
+      },
+      {
+        "title": "提供される MCP ツール",
+        "items": [
+          {
+            "title": "indexnow_generate_key",
+            "description": "暗号学的に安全な 48 文字の IndexNow キーをローカルで生成します。"
+          },
+          {
+            "title": "indexnow_check_key",
+            "description": "SSRF 対策付きで公開キーを取得し、404・HTML 応答・UTF-8 BOM・別ホストリダイレクト・本文不一致を診断します。"
+          },
+          {
+            "title": "indexnow_fetch_sitemap",
+            "description": "公開 sitemap.xml・.xml.gz・ネストされた sitemapindex を取得し、lastmod 日数で絞り込みます。"
+          },
+          {
+            "title": "indexnow_submit_urls",
+            "description": "ホスト・プロトコル・サブディレクトリ keyLocation 範囲を検証したうえで、選択エンドポイントへ自動分割送信します。"
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "guides/ai-search-robots-txt",
+      "indexnow-bing-submission"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "keyChecker",
+      "sitemapDiff"
+    ]
   }
 ]

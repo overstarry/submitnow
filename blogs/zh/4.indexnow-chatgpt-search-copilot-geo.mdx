@@ -1,0 +1,56 @@
+---
+title: "AI 搜索时代：如何用 IndexNow 加速 ChatGPT Search 与 Microsoft Copilot 收录"
+description: "拆解 Bing 索引与 ChatGPT Search、Microsoft Copilot 的底层关联，以及 Bingbot 与 OAI-SearchBot 在 robots.txt 中的正确排查姿势。"
+slug: /indexnow-chatgpt-search-copilot-geo
+tags: indexnow,chatgpt search,copilot,geo,ai search,robots.txt
+date: 2026-11-23
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## 为什么 AI 搜索时代更需要 IndexNow
+
+IndexNow 刚推出时，很多开发者觉得“只推 Bing 收益有限”。但今天这个前提已经彻底改变。
+
+目前 Bing 索引不仅直接驱动 **Microsoft Copilot**，也是 **ChatGPT Search** 网页发现的重要来源之一（配合 OpenAI 自有的 `OAI-SearchBot`）。当你发布新文档、更新产品定价、上线新品或发布故障通告时，被动等待一周抓取意味着 AI 助手会在整整一周里继续引用过时信息。
+
+IndexNow 把这段“发现空窗期”缩短到了秒级：一次 `POST` 请求就能把精确的变更 URL 推入 Bing 的抓取队列。
+
+## 认清 IndexNow 能做什么、不能做什么
+
+- **它能消除发现延迟**：把新增、更新、删除的 URL 即时通知参与引擎。
+- **它不能绕过爬虫限制或 `noindex`**：如果 `robots.txt` 屏蔽了 `Bingbot` 或 `OAI-SearchBot`，或者页面带了 `meta noindex`，AI 搜索无法引用该页面。
+- **它无法替代清晰的服务端 HTML**：许多检索管线优先解析初始 HTML，不会等待复杂的客户端 JS 渲染完成。
+
+## 落地 GEO 前务必核对这 4 件事
+
+### 1. 在 `robots.txt` 中把“搜索爬虫”和“训练爬虫”分开控制
+
+很多团队想禁止大模型抓取训练语料，结果把搜索爬虫一并封死，导致站点在 ChatGPT Search 中隐身。正确做法是分开配置：
+
+```text
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# 可选：屏蔽模型训练爬虫，但不影响 ChatGPT Search 实时检索引用
+User-agent: GPTBot
+Disallow: /
+```
+
+更多关于 `X-Robots-Tag` 与 `noindex` 的说明可查看 [AI 搜索与 robots.txt 指南](/docs/guides/ai-search-robots-txt)。
+
+### 2. 用 `lastmod` 或 Sitemap Diff 坚持增量推送
+
+每次发版把几千条未改动的 URL 全量重推，很容易触发 [HTTP 429 限流](/docs/status-codes/429)。在首页点击**抓取 Sitemap URL**并选择 `近 24 小时` / `近 7 天`，或使用 [Sitemap 对比工具](/tools/sitemap-diff)，确保推送的每一条都是真实变更。
+
+### 3. 从公网侧核验密钥文件是否被 WAF 拦截
+
+接口返回 `202 Accepted` 仅代表收到请求，**不代表密钥校验已通过**。如果 Cloudflare Bot Fight Mode 或登录鉴权拦截了 `/<key>.txt`，整批 URL 会被静默丢弃。每次变更 CDN 或部署规则后，建议用 [IndexNow 密钥校验器](/tools/indexnow-key-checker) 实测一次。
+
+### 4. 提供清晰的结构化事实
+
+合理的 H1/H2 层级、明确的结论段落、准确的 `dateModified`、规范 canonical 以及合法的 JSON-LD（`TechArticle`、`FAQPage`、`SoftwareApplication`），能让新抓取的页面更容易被搜索引擎和 AI 回答系统准确引用。

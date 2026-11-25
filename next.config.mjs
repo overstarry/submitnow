@@ -2,8 +2,36 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin();
 
+const SECURITY_HEADERS = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "X-Frame-Options", value: "DENY" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    serverActions: {
+      // A legitimate 10,000-URL IndexNow batch can exceed Next.js's 1 MB default.
+      bodySizeLimit: "4mb",
+    },
+  },
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: SECURITY_HEADERS,
+      },
+    ];
+  },
   async rewrites() {
     const defaultLocaleRoutes = [
       "",

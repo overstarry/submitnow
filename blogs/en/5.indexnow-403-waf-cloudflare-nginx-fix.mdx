@@ -1,0 +1,69 @@
+---
+title: "Fixing IndexNow 403 & Silent 202 Drops: Cloudflare WAF, Nginx, and Next.js Checklist"
+description: "The 7 most common production bugs that break IndexNow key verification — UTF-8 BOM, soft-404 HTML shells, off-host redirects, Cloudflare WAF challenges, and subdirectory keyLocation traps."
+slug: /indexnow-403-waf-cloudflare-nginx-fix
+tags: indexnow,403,cloudflare,nginx,nextjs,troubleshooting
+date: 2026-11-25
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## Why IndexNow returns 403 (or silently drops a 202 batch)
+
+When you submit URLs to `api.indexnow.org` or `www.bing.com/indexnow`, the search engine fetches your verification text file over plain, unauthenticated HTTP from the public internet. If anything alters the status code, host, or exact bytes of that file, verification fails — either immediately with **[HTTP 403](/docs/status-codes/403)** or silently after an initial **[HTTP 202](/docs/status-codes/202)**.
+
+Here are the 7 root causes that account for almost every production failure and how to fix each one.
+
+## 1. UTF-8 Byte-Order Mark (BOM)
+
+Files saved on Windows editors (Notepad, older PowerShell `Out-File`) often prepend invisible bytes `EF BB BF`. The file looks identical in your browser, yet byte comparison against your key fails.
+
+**Fix:** Re-save as **UTF-8 without BOM** (or download the clean file directly from the [IndexNow Key Generator](/tools/indexnow-key-generator)).
+
+## 2. File content contains `<key>.txt` instead of `<key>`
+
+A surprisingly common mistake is pasting the filename `my-key-1234.txt` inside the file. The file body must contain **only** `my-key-1234` (with no `.txt`, HTML, or extra labels).
+
+## 3. Soft-404 HTML response (SPA / Next.js middleware catch-all)
+
+Single-page apps and i18n middlewares frequently intercept `/<key>.txt` and return `HTTP 200` with your HTML layout or redirect to `/en/<key>.txt`.
+
+**Fix in Next.js middleware / proxy:** Exclude dotted static filenames in your matcher:
+
+```ts
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+};
+```
+
+## 4. Off-host redirect (`example.com` ↔ `www.example.com`)
+
+If you submit URLs for `example.com`, but `https://example.com/<key>.txt` redirects `301` to `https://www.example.com/<key>.txt`, the final host no longer matches the submitted host.
+
+**Fix:** Always submit URLs using your canonical host (the one that serves `200 OK` directly without redirecting).
+
+## 5. Cloudflare Bot Fight Mode or WAF challenge
+
+Your browser passes Cloudflare's JavaScript challenge with a cookie, so the key file opens fine for you — while Bing's fetcher receives `403` or an HTML challenge page.
+
+**Fix:** Add a Cloudflare WAF Custom Rule (`Skip` Bot Fight Mode / Managed Challenge) matching exact URI path `/<your-key>.txt`.
+
+## 6. Nginx `try_files` fallback masking a missing file
+
+If Nginx is configured with `try_files $uri $uri/ /index.html;` and the key file wasn't copied into your deploy artifact, Nginx returns `200 OK` with `index.html`.
+
+**Fix:** Add an explicit static location for `.txt` verification files so missing files fail loudly with `404`:
+
+```nginx
+location = /your-indexnow-key.txt {
+  default_type text/plain;
+  try_files $uri =404;
+}
+```
+
+## 7. Subdirectory `keyLocation` scope mismatch
+
+Putting a key file at `https://example.com/blog/<key>.txt` only authorizes URLs starting with `https://example.com/blog/`. Submitting `https://example.com/pricing` against that `keyLocation` results in **[HTTP 422](/docs/status-codes/422)** or silent rejection.
+
+**Fix:** Host `<key>.txt` at the domain root whenever you need to submit URLs across multiple sections of your site, and verify the live response with our [IndexNow Key File Checker](/tools/indexnow-key-checker) before submitting your batch.

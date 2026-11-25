@@ -1,18 +1,35 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics";
 import {
   buildIndexNowPayload,
   generateIndexNowCode,
   type CodeFormat,
 } from "@/lib/indexnow-codegen";
-import { trackEvent } from "@/lib/analytics";
+import {
+  DEFAULT_ENDPOINT_ID,
+  INDEXNOW_ENDPOINTS,
+  resolveIndexNowEndpoint,
+  type IndexNowEndpointId,
+} from "@/lib/indexnow-endpoints";
+import {
+  loadIndexNowProfiles,
+  type IndexNowProfile,
+} from "@/lib/indexnow-profile";
 import { analyzeUrlList, copyText } from "@/lib/seo-tools";
 import { Check, Code2, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const FORMATS: CodeFormat[] = ["json", "curl", "javascript"];
+const FORMATS: CodeFormat[] = [
+  "curl",
+  "javascript",
+  "python",
+  "go",
+  "github-actions",
+  "json",
+];
 
 export default function IndexNowCodeGenerator() {
   const t = useTranslations("Tools.codeGenerator");
@@ -20,9 +37,26 @@ export default function IndexNowCodeGenerator() {
   const [host, setHost] = useState("");
   const [key, setKey] = useState("");
   const [keyLocation, setKeyLocation] = useState("");
+  const [endpointId, setEndpointId] =
+    useState<IndexNowEndpointId>(DEFAULT_ENDPOINT_ID);
   const [urls, setUrls] = useState("");
   const [format, setFormat] = useState<CodeFormat>("curl");
   const [copied, setCopied] = useState(false);
+  const [savedProfiles, setSavedProfiles] = useState<IndexNowProfile[]>([]);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const { profiles, activeProfile } = loadIndexNowProfiles();
+      setSavedProfiles(profiles);
+      if (activeProfile) {
+        setHost(activeProfile.host);
+        setKey(activeProfile.key);
+        setKeyLocation(activeProfile.keyLocation);
+        if (activeProfile.endpointId) setEndpointId(activeProfile.endpointId);
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   const analysis = useMemo(() => analyzeUrlList(urls), [urls]);
   const normalizedHost = host.trim().toLowerCase();
@@ -35,6 +69,8 @@ export default function IndexNowCodeGenerator() {
     analysis.invalidInputs.length === 0 &&
     !hasHostMismatch;
 
+  const endpoint = resolveIndexNowEndpoint(endpointId);
+
   const code = useMemo(() => {
     if (!canGenerate) return "";
     return generateIndexNowCode(
@@ -44,11 +80,13 @@ export default function IndexNowCodeGenerator() {
         keyLocation: keyLocation.trim() || undefined,
         urlList: analysis.validUrls,
       }),
-      format
+      format,
+      endpoint.url
     );
   }, [
     analysis.validUrls,
     canGenerate,
+    endpoint.url,
     format,
     key,
     keyLocation,
@@ -75,7 +113,45 @@ export default function IndexNowCodeGenerator() {
         <h2 className="font-heading text-xl font-semibold text-slate-950 dark:text-white">
           {t("inputTitle")}
         </h2>
+
+        {savedProfiles.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {savedProfiles.map((profile) => (
+              <button
+                key={profile.host}
+                type="button"
+                onClick={() => {
+                  setHost(profile.host);
+                  setKey(profile.key);
+                  setKeyLocation(profile.keyLocation);
+                  if (profile.endpointId) setEndpointId(profile.endpointId);
+                }}
+                className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 font-mono text-xs text-slate-700 transition-colors hover:border-blue-300 hover:bg-blue-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+              >
+                {profile.host}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="mt-6 space-y-5">
+          <label className="block text-sm font-medium text-slate-800 dark:text-slate-200">
+            {t("endpointLabel")}
+            <select
+              value={endpointId}
+              onChange={(event) =>
+                setEndpointId(event.target.value as IndexNowEndpointId)
+              }
+              className="mt-2 h-[46px] w-full rounded-xl border border-slate-300 bg-white px-3.5 text-sm text-slate-950 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
+            >
+              {INDEXNOW_ENDPOINTS.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <label className="block text-sm font-medium text-slate-800 dark:text-slate-200">
             {t("hostLabel")}
             <input
@@ -118,7 +194,9 @@ export default function IndexNowCodeGenerator() {
               value={urls}
               onChange={(event) => setUrls(event.target.value)}
               rows={7}
-              placeholder={"https://www.example.com/page-1\nhttps://www.example.com/page-2"}
+              placeholder={
+                "https://www.example.com/page-1\nhttps://www.example.com/page-2"
+              }
               className="mt-2 w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 font-mono text-sm text-slate-950 shadow-sm transition-[border-color,box-shadow] duration-150 ease-out-strong focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:ring-blue-900"
             />
           </label>
@@ -139,9 +217,7 @@ export default function IndexNowCodeGenerator() {
             <h2 className="font-heading text-xl font-semibold">
               {t("outputTitle")}
             </h2>
-            <p className="mt-1 text-sm text-slate-400">
-              {t("outputHelp")}
-            </p>
+            <p className="mt-1 text-sm text-slate-400">{t("outputHelp")}</p>
           </div>
           <Button
             type="button"
@@ -151,7 +227,10 @@ export default function IndexNowCodeGenerator() {
             className="rounded-xl"
           >
             {copied ? (
-              <Check className="size-4 animate-pop-in text-emerald-600" aria-hidden="true" />
+              <Check
+                className="size-4 animate-pop-in text-emerald-600"
+                aria-hidden="true"
+              />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}
@@ -159,7 +238,11 @@ export default function IndexNowCodeGenerator() {
           </Button>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label={t("formatLabel")}>
+        <div
+          className="mt-6 flex flex-wrap gap-2"
+          role="tablist"
+          aria-label={t("formatLabel")}
+        >
           {FORMATS.map((item) => (
             <button
               key={item}

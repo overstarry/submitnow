@@ -1,28 +1,31 @@
 ---
 title: About
-description: About submitnow (Bing-only)
-lastUpdated: 2026-01-14
+description: About submitnow — free multi-endpoint IndexNow submission workbench and AI Search indexing toolkit
+lastUpdated: 2026-11-25
 ---
 
-> Update date: 2026-01-14
+> Update date: 2026-11-25
 
 # About submitnow
 
-submitnow is a lightweight web UI for submitting URL batches to Bing via the IndexNow protocol.
+**submitnow** is a free, open-source, privacy-first web workbench and developer toolkit for notifying search engines and AI search indexes about content changes via the **IndexNow** protocol.
 
-## How IndexNow works
+## Why IndexNow matters for search and AI discovery
 
-To use IndexNow, you need:
+Instead of waiting days or weeks for passive crawlers to re-discover updated pages, IndexNow lets site owners actively push new, modified, or deleted URLs. Submitting once to `api.indexnow.org` (or a participating search engine endpoint) automatically shares the notification across **Bing, Yandex, Seznam.cz, Naver, and Yep** — and because Bing's index underpins **Microsoft Copilot** and informs **ChatGPT Search**, timely IndexNow signals shorten discovery latency across both traditional and AI search experiences.
 
-1. An IndexNow key
-2. A public key file hosted on your site:
-   - URL: `https://<host>/<key>.txt`
-   - Content: the key only (plain text)
+## What submitnow provides
 
-Then you can send a batch request to Bing:
+- **Multi-endpoint batch submitter**: Submit to `api.indexnow.org`, Bing, Yandex, Seznam.cz, Naver, or Yep, with automatic sequential batching for lists over 10,000 URLs.
+- **Live sitemap & sitemap-index import**: Fetch remote `sitemap.xml`, `.xml.gz`, and nested `<sitemapindex>` files with optional `lastmod` freshness filtering (24h / 7d / 30d).
+- **Pre-flight key file diagnostics**: Verify live `<key>.txt` files from the public internet for 404s, soft-404 HTML shells, UTF-8 BOMs, off-host redirects, and exact content matches.
+- **Six browser-first utilities**: Key Generator, Key Checker, URL Normalizer, Batch Builder, Sitemap Diff (added, changed, and removed URLs), and Code Generator (`curl`, JavaScript, Python, Go, GitHub Actions, JSON).
+- **Developer automation**: Zero-dependency local CLI and MCP server included in the repository for terminal workflows and AI coding agents.
+
+## Reference request
 
 ```bash
-curl -X POST "https://www.bing.com/indexnow" \
+curl -X POST "https://api.indexnow.org/indexnow" \
   -H "Content-Type: application/json; charset=utf-8" \
   -d '{
     "host": "www.example.com",
@@ -35,13 +38,8 @@ curl -X POST "https://www.bing.com/indexnow" \
   }'
 ```
 
-## Using this site
+## Privacy and security guarantees
 
-- Paste URLs (one per line) and enter your key.
-- Optionally set `host` and `keyLocation`.
-- Submit the request. The server will send it to Bing.
-
-## Limitations
-
-- Currently targets the Bing endpoint only.
-- No persistence: inputs are not stored.
+- **No account and no server database**: Submitted keys, URLs, and fetched sitemaps are processed in memory and never stored server-side.
+- **Opt-in local convenience**: Multi-site profiles, sitemap baselines, and exportable CSV/JSON submission history stay strictly in your browser's `localStorage`.
+- **Hardened outbound fetching**: Server-side key checks and remote sitemap fetches enforce SSRF guards (blocking private/reserved IP ranges and unsafe redirects) and per-IP rate limits.

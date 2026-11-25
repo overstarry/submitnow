@@ -1,0 +1,51 @@
+---
+title: "IndexNow vs Google Indexing API vs XML Sitemap（2026 实战对比）"
+description: "为什么 Google 不加入 IndexNow、Google Indexing API 的真实合规边界在哪里，以及如何用双轨架构同时搞定 Google 与 Bing / AI 搜索收录。"
+slug: /indexnow-vs-google-indexing-api
+tags: indexnow,google indexing api,sitemap,seo,bing
+date: 2026-11-20
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## 先给结论
+
+目前没有任何单一推送协议能够同时覆盖所有主流搜索引擎：
+
+- **IndexNow** 覆盖 **Bing、Yandex、Seznam.cz、Naver 和 Yep**，并通过 Bing 索引直接加速 **Microsoft Copilot** 与 **ChatGPT Search** 的网页发现。
+- **Google 未加入 IndexNow。** 针对 Google，可扩展且合规的主力机制仍然是提交到 Google Search Console 且维护准确 `lastmod` 的 **XML Sitemap**。
+
+## 四种提交机制横向对比
+
+| 机制 | 覆盖引擎 | 官方适用范围 | 单次/每日容量 | 鉴权方式 | 最佳场景 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **IndexNow** | Bing、Yandex、Seznam、Naver、Yep（含 Copilot / ChatGPT Search 发现链路） | 任意公开网页（新增、修改、删除） | 单请求最多 10,000 条 URL | 域名公开托管 `<key>.txt` | 发布钩子、商品调价/补货、下架清理 |
+| **Google Indexing API** | 仅 Google | 官方明确限定 `JobPosting` 与 `BroadcastEvent` | 默认 200 次/天 | OAuth2 / Service Account | 短时效职位页、直播活动页 |
+| **XML Sitemap (`lastmod`)** | Google、Bing、Yandex 及所有主流爬虫 | 任意可索引规范 URL | 单文件最多 50,000 条 | 公开地址 + `robots.txt` / 站长平台 | 全站基线清单、Google 增量发现 |
+| **GSC URL 检查工具** | 仅 Google | 已验证站点的单条 URL | 人工触发 / 较低日配额 | Search Console 权限 | 关键单页紧急重抓与排障 |
+
+## 为什么不要滥用 Google Indexing API
+
+市面上不少所谓“Google 秒收工具”会把普通博客或电商商品页硬推给 Google Indexing API。Google 官方文档早已明确指出该接口仅面向包含 `JobPosting` 或 `BroadcastEvent` 结构化数据的页面，超范围提交通常会被静默忽略甚至降低抓取优先级。
+
+更稳妥的做法是搭建一套清晰的**双轨索引架构**：
+
+## 推荐的双轨索引架构
+
+### 轨道一：Bing、Yandex 与 AI 搜索实时推送（IndexNow）
+
+1. 在站点根目录托管 `https://你的主机/<key>.txt`，并用 [IndexNow 密钥校验器](/tools/indexnow-key-checker) 做一次公网体检。
+2. 每次发布或内容更新后，只提取**新增、修改或已删除**的增量 URL（借助 [Sitemap 对比工具](/tools/sitemap-diff) 或 `lastmod` 时间窗口）。
+3. 通过 [submitnow 工作台](/)、[GitHub Actions](/docs/integrations/github-actions) 或 [CLI / MCP Server](/docs/integrations/cli-and-mcp) 推送至 `https://api.indexnow.org/indexnow`。
+
+### 轨道二：面向 Google 的高质量 Sitemap 发现
+
+1. 保证 XML Sitemap 中只有最终规范的 HTTP 200 页面（剔除 `301` 跳转、`404` 和 `noindex` 页面）。
+2. **仅在主体内容真实改动时更新 `<lastmod>`**——如果构建工具每次发版把全站时间都改写为当天，Google 会直接忽略你的 `lastmod`。
+3. 在 `robots.txt` 中声明 `Sitemap:` 并在 Google Search Console 完成一次注册。
+4. 保持首页、分类页与最新文章列表对新页面的清晰内链，提升自然发现速度。
+
+## 实操小结
+
+用干净的 **XML Sitemap** 守住 Google 与全引擎的基准盘，再在上面叠加 **IndexNow** 增量推送，即可零风险地同时解决传统搜索与 AI 搜索的发现延迟。

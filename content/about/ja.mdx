@@ -1,28 +1,31 @@
 ---
 title: サイトについて
-description: submitnow（Bing のみ）について
-lastUpdated: 2026-01-14
+description: submitnow について — 無料・オープンソースの IndexNow 一括送信・AI 検索インデックス支援ワークベンチ
+lastUpdated: 2026-11-25
 ---
 
-> 更新日: 2026-01-14
+> 更新日: 2026-11-25
 
 # submitnow について
 
-submitnow は、IndexNow プロトコルを使って Bing に URL をまとめて送信するための軽量 Web UI です。
+**submitnow** は、**IndexNow** プロトコルを通じて検索エンジンおよび AI 検索インデックスへページの追加・更新・削除をリアルタイム通知するための、無料・オープンソース・プライバシー重視の Web ワークベンチ兼開発者ツールキットです。
 
-## IndexNow の要件
+## 検索エンジンと AI 検索において IndexNow が重要な理由
 
-IndexNow を使うには以下が必要です：
+従来のクロール待ちでは、新しいページや更新内容の発見に数日から数週間かかることがあります。IndexNow で `api.indexnow.org`（または参加検索エンジンのエンドポイント）へ 1 回通知するだけで、**Bing・Yandex・Seznam.cz・Naver・Yep** へ自動的に共有されます。Bing のインデックスは **Microsoft Copilot** の基盤であり **ChatGPT Search** の Web 検索にも深く関わるため、タイムリーな通知は従来の検索と AI 検索双方の発見遅延を短縮します。
 
-1. IndexNow key
-2. サイト上で公開されている key ファイル：
-   - URL: `https://<host>/<key>.txt`
-   - 内容: key のみ（プレーンテキスト）
+## 主な機能
 
-その後、Bing にバッチリクエストを送信できます：
+- **マルチエンドポイント一括送信**：`api.indexnow.org`、Bing、Yandex、Seznam.cz、Naver、Yep を選択可能。10,000 件を超える URL リストも自動的に分割して順次送信します。
+- **公開サイトマップ・サイトマップインデックス取得**：公開中の `sitemap.xml`、`.xml.gz`、ネストされた `<sitemapindex>` を直接取得し、`lastmod`（24 時間 / 7 日 / 30 日）で更新ページのみを抽出できます。
+- **送信前キーファイル診断**：404、ソフト 404 の HTML 応答、UTF-8 BOM、別ホストへのリダイレクト、本文不一致を公開インターネット側から事前検知します。
+- **6 つのブラウザ完結型ツール**：キー生成、キー検証、URL 正規化、バッチ整理（ホスト別・10,000 件単位分割）、サイトマップ差分比較（追加・更新・削除）、コード生成（`curl` / JavaScript / Python / Go / GitHub Actions / JSON）。
+- **開発者向け自動化**：リポジトリ内に依存関係ゼロのローカル CLI と軽量 MCP サーバーを同梱し、ターミナル作業や AI コーディングエージェントから直接利用できます。
+
+## リクエスト例
 
 ```bash
-curl -X POST "https://www.bing.com/indexnow" \
+curl -X POST "https://api.indexnow.org/indexnow" \
   -H "Content-Type: application/json; charset=utf-8" \
   -d '{
     "host": "www.example.com",
@@ -35,13 +38,8 @@ curl -X POST "https://www.bing.com/indexnow" \
   }'
 ```
 
-## このサイトの使い方
+## プライバシーとセキュリティ
 
-- URL（1 行に 1 件）を貼り付けて key を入力します。
-- 必要に応じて `host` と `keyLocation` を指定します。
-- 送信すると、サーバー側から Bing にリクエストを送ります。
-
-## 制限
-
-- 現在は Bing エンドポイントのみ対応です。
-- 永続化は行いません（入力内容は保存しません）。
+- **アカウント不要・サーバー保存なし**：送信したキーや URL、取得したサイトマップはメモリ上でのみ処理し、サーバー側には一切保存しません。
+- **端末内のみの任意保存**：複数サイトのプロファイル、サイトマップ基準スナップショット、CSV/JSON 出力対応の送信履歴はブラウザの `localStorage` のみに保存されます。
+- **安全な外部取得**：サーバー側のキー検証とサイトマップ取得には、プライベート IP や危険なリダイレクトを遮断する SSRF 対策および IP 単位のレート制限を実装しています。

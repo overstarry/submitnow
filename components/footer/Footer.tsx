@@ -6,7 +6,7 @@ import { FooterLink } from "@/types/common";
 import { MailIcon } from "lucide-react";
 import { getMessages, getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { SiBluesky, SiDiscord } from "react-icons/si";
+import { SiBluesky, SiDiscord, SiGithub } from "react-icons/si";
 
 export default async function Footer() {
   const messages = await getMessages();
@@ -15,12 +15,6 @@ export default async function Footer() {
   const tFooter = await getTranslations("Footer");
 
   const footerLinks: FooterLink[] = tFooter.raw("Links.groups");
-  footerLinks.forEach((group) => {
-    const pricingLink = group.links.find((link) => link.id === "pricing");
-    if (pricingLink) {
-      pricingLink.href = process.env.NEXT_PUBLIC_PRICING_PATH!;
-    }
-  });
 
   return (
     <div className="bg-gray-900 text-gray-300">
@@ -38,6 +32,19 @@ export default async function Footer() {
                 <p className="text-sm pr-4 md:pr-12 text-gray-400 leading-relaxed">{t("tagLine")}</p>
 
                 <div className="flex items-center gap-2">
+                  {siteConfig.socialLinks?.github && (
+                    <Link
+                      href={siteConfig.socialLinks.github}
+                      prefetch={false}
+                      target="_blank"
+                      rel="noreferrer nofollow noopener"
+                      aria-label="GitHub"
+                      title="View source on GitHub"
+                      className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-[transform,background-color,color] duration-150 ease-out-strong hover:bg-white/10 hover:text-white active:scale-95"
+                    >
+                      <SiGithub className="w-4 h-4" aria-hidden="true" />
+                    </Link>
+                  )}
                   {siteConfig.socialLinks?.discord && (
                     <Link
                       href={siteConfig.socialLinks.discord}

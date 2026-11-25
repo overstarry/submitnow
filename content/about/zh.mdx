@@ -1,28 +1,31 @@
 ---
 title: 关于
-description: 关于 submitnow（仅 Bing）
-lastUpdated: 2026-01-14
+description: 关于 submitnow —— 免费开源的 IndexNow 批量提交与 AI 搜索索引加速工作台
+lastUpdated: 2026-11-25
 ---
 
-> 更新日期：2026-01-14
+> 更新日期：2026-11-25
 
 # 关于 submitnow
 
-submitnow 是一个轻量的 Web 界面，用于通过 IndexNow 协议向 Bing 批量提交 URL。
+**submitnow** 是一个免费、开源、隐私优先的 Web 工作台与开发者工具箱，用于通过 **IndexNow** 协议向参与搜索引擎及 AI 搜索生态实时推送页面新增、更新与删除通知。
 
-## IndexNow 的基本要求
+## 为什么 IndexNow 对传统搜索与 AI 搜索同样关键
 
-要使用 IndexNow，你需要：
+传统被动抓取往往需要数天甚至数周才能发现深层页面变更。通过 IndexNow，站点只需向 `api.indexnow.org`（或任一参与引擎端点）发送一次请求，通知就会同步至 **Bing、Yandex、Seznam.cz、Naver 和 Yep**。由于 Bing 索引同时支撑 **Microsoft Copilot** 并直接影响 **ChatGPT Search** 的网页检索，及时推送变更能够明显缩短内容在传统搜索与 AI 搜索中的发现延迟。
 
-1. 一个 IndexNow key
-2. 在你的网站上公开托管 key 文件：
-   - URL：`https://<host>/<key>.txt`
-   - 内容：仅包含 key（纯文本）
+## 本站提供的核心能力
 
-随后即可向 Bing 发送批量请求：
+- **多端点批量提交**：支持切换 `api.indexnow.org`、Bing、Yandex、Seznam.cz、Naver、Yep；超过 10,000 条 URL 自动按批顺序提交。
+- **在线 Sitemap 与嵌套 Index 拉取**：支持直接抓取公网 `sitemap.xml`、`.xml.gz` 以及嵌套 `<sitemapindex>`，并可按 `lastmod`（近 24 小时 / 7 天 / 30 天）筛选增量页面。
+- **提交前密钥文件体检**：从公网验证 `<key>.txt` 是否存在 404、软 404 HTML、UTF-8 BOM、跨主机跳转或内容不完全匹配等问题。
+- **六款浏览器端配套工具**：密钥生成器、密钥校验器、URL 规范化、批次整理器（自动按域名与 10,000 条切片）、Sitemap 对比（新增 / 变更 / 已删除）以及代码生成器（`curl` / JavaScript / Python / Go / GitHub Actions / JSON）。
+- **开发者自动化**：仓库内置零依赖的本地 CLI 与轻量 MCP Server，可直接接入终端脚本、CI/CD 流水线与 AI 编程助手。
+
+## 参考请求
 
 ```bash
-curl -X POST "https://www.bing.com/indexnow" \
+curl -X POST "https://api.indexnow.org/indexnow" \
   -H "Content-Type: application/json; charset=utf-8" \
   -d '{
     "host": "www.example.com",
@@ -35,13 +38,8 @@ curl -X POST "https://www.bing.com/indexnow" \
   }'
 ```
 
-## 如何使用本站
+## 隐私与安全设计
 
-- 粘贴 URL（每行一条）并填写 key。
-- 可选填写 `host` 与 `keyLocation`。
-- 提交后，服务端会将请求发送到 Bing。
-
-## 限制
-
-- 当前仅对接 Bing 端点。
-- 不做持久化：不会存储你的输入内容。
+- **免注册、服务端零持久化**：提交的密钥、URL 与远程抓取的 Sitemap 仅在内存中处理转发，不落库、不留存。
+- **纯本地可选保存**：多站点 Profile、Sitemap 基线快照和可导出的 CSV/JSON 历史记录仅存放在当前浏览器的 `localStorage` 中。
+- **出站请求安全防护**：服务端密钥校验与远程 Sitemap 抓取均具备 SSRF 防护（拦截私网/保留地址、元数据地址及不安全跳转）与按 IP 维度的限流保护。

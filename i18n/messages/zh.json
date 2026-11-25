@@ -127,28 +127,31 @@
   },
   "Home": {
     "title": "submitnow",
-    "tagLine": "Bing IndexNow 提交工具",
-    "heroTitle": "免费的 Bing IndexNow 提交工具",
-    "description": "一次请求最多向 Bing 及其 IndexNow 合作引擎提交 10,000 条 URL。在域名上托管密钥文件，粘贴同一主机的 URL 列表，直接发送——无需注册，不存储任何内容。",
+    "tagLine": "IndexNow 与 AI 搜索索引提交工作台",
+    "heroTitle": "面向 Bing、AI 搜索与 IndexNow 的免费批量提交工作台",
+    "description": "一键通知 Bing、ChatGPT Search、Microsoft Copilot、Yandex、Naver、Seznam 与 Yep。支持在线抓取 Sitemap、密钥体检与超万条自动分批——免注册、服务端零留存。",
     "keywords": [
       "indexnow",
+      "indexnow 在线提交工具",
       "bing indexnow",
-      "向 bing 提交 url",
+      "chatgpt search 收录",
+      "copilot 收录优化",
+      "ai 搜索 geo",
+      "sitemap 批量推送",
       "indexnow api",
-      "url 提交工具",
-      "seo 收录工具",
-      "indexnow 密钥"
+      "indexnow mcp",
+      "indexnow 密钥校验"
     ],
-    "badge": "IndexNow 批量提交",
+    "badge": "IndexNow 与 AI 搜索加速",
     "ctaDocs": "IndexNow 文档",
     "ctaSource": "查看源码",
     "highlights": {
-      "speedTitle": "一次请求提交",
-      "speedDescription": "单次批量调用最多可发送 10,000 条 URL。",
-      "verificationTitle": "基于密钥的验证",
-      "verificationDescription": "在你的域名上托管密钥文件即可证明所有权。",
-      "reachTitle": "多引擎触达",
-      "reachDescription": "一次提交即可通知 Bing 及 IndexNow 合作引擎。"
+      "speedTitle": "在线 Sitemap 与自动分批",
+      "speedDescription": "直接抓取远程 Sitemap Index，按 lastmod 过滤，超 10,000 条自动顺序分批提交。",
+      "verificationTitle": "提交前密钥体检",
+      "verificationDescription": "提前识别 404、软 404 HTML、UTF-8 BOM 与跨主机跳转，避免白白触发 403。",
+      "reachTitle": "传统搜索与 AI 搜索双触达",
+      "reachDescription": "一次推送覆盖 Bing（支撑 Copilot 与 ChatGPT Search）、Yandex、Seznam、Naver 与 Yep。"
     },
     "howItWorks": {
       "eyebrow": "工作流",
@@ -236,44 +239,52 @@
       "title": "关于 IndexNow 的常见疑问",
       "items": [
         {
-          "question": "IndexNow 能保证页面被收录吗？",
-          "answer": "不能。IndexNow 只是告诉参与的搜索引擎某个 URL 变了，省掉了发现环节的延迟。是否收录仍取决于引擎自身的质量判断、重复内容判断和抓取预算。"
+          "question": "使用 IndexNow 就能保证网页被收录吗？",
+          "answer": "不能。IndexNow 的作用是把页面变更即时通知参与搜索引擎，消除抓取发现延迟；最终是否收录仍取决于搜索引擎的内容质量、canonical、robots 规则和抓取预算评估。"
         },
         {
-          "question": "提交后哪些搜索引擎会收到？",
-          "answer": "向 Bing 端点发一次请求，会共享给所有 IndexNow 参与方——目前是 Bing、Yandex、Seznam.cz、Naver 和 Yep。Google 不参与 IndexNow。"
+          "question": "提交一次后哪些搜索引擎和 AI 搜索会收到通知？",
+          "answer": "向 api.indexnow.org 或 Bing 端点提交一次，会自动共享给所有 IndexNow 参与方——Bing、Yandex、Seznam.cz、Naver 和 Yep。同时 Bing 索引直接支撑 Microsoft Copilot 并为 ChatGPT Search 提供网页检索来源。"
         },
         {
-          "question": "一次能提交多少条 URL？",
-          "answer": "单次请求最多 10,000 条，且必须全部属于同一个主机。混合列表可以用批次整理器拆分。"
+          "question": "IndexNow 能加快 ChatGPT Search 和 Microsoft Copilot 发现新内容吗？",
+          "answer": "可以显著缩短发现延迟。Microsoft Copilot 与 ChatGPT Search 均高度依赖 Bing 索引及实时抓取信号。建议在推送 IndexNow 的同时，确认 robots.txt 未屏蔽 Bingbot 和 OAI-SearchBot，且页面不存在误加的 noindex。"
         },
         {
-          "question": "IndexNow 密钥算机密吗？",
-          "answer": "不算。密钥文件设计上就是公开的——搜索引擎要通过普通 HTTP 抓取它来验证你控制该主机。把它当作所有权令牌，而不是凭证。"
+          "question": "为什么 IndexNow 不覆盖 Google？Google 应该怎么提交？",
+          "answer": "Google 目前未加入 IndexNow，且 Google 官方 Indexing API 严格限定用于 JobPosting（职位）和 BroadcastEvent（直播）页面。针对 Google，建议维护带准确 lastmod 的 XML Sitemap 提交至 Google Search Console，关键单页配合 URL 检查工具请求编入索引。"
         },
         {
-          "question": "同一个密钥能用于多个域名吗？",
-          "answer": "可以，前提是每个域名都托管同一份密钥文件。但每次请求仍然只覆盖一个主机，所以要分别提交。"
+          "question": "一次最多能提交多少条 URL？",
+          "answer": "IndexNow 协议规定单次 HTTP 请求最多提交 10,000 条同主机 URL。在本站粘贴或导入超过 10,000 条同主机 URL 时，表单会自动按每批 10,000 条顺序完成提交。"
         },
         {
-          "question": "密钥文件应该放在哪里？",
-          "answer": "放在根目录，即 https://你的主机/你的密钥.txt，可以授权该主机下的所有 URL。放在子目录里的密钥文件只授权该目录下的 URL。"
+          "question": "IndexNow 密钥属于敏感机密吗？",
+          "answer": "不是。密钥文件按协议设计本就公开托管在域名下，用于让搜索引擎验证主机所有权，请将其视为所有权凭证而非账号密码。"
+        },
+        {
+          "question": "多个域名可以共用同一个密钥吗？",
+          "answer": "可以，前提是每个域名都要独立托管对应的密钥文件。每次请求仍只能覆盖单个主机，需按域名分别提交；你可以在本站本地保存多个站点 Profile 随时切换。"
+        },
+        {
+          "question": "密钥文件应该放在什么位置？",
+          "answer": "放在站点根目录 https://你的主机/密钥.txt 可授权整站 URL；若放在子目录（例如 /blog/key.txt），则仅能授权该目录前缀下的 URL。"
         },
         {
           "question": "submitnow 会保存我的密钥或 URL 吗？",
-          "answer": "不会。提交会转发到 IndexNow 端点，不做任何持久化。浏览器端的工具则完全不会把你的输入发到服务器。"
+          "answer": "不会。服务端仅实时转发请求，不做任何数据库持久化。可选的多站点配置、Sitemap 基线与 CSV/JSON 历史记录仅保存在当前浏览器的 localStorage 中。"
         },
         {
-          "question": "应该多久提交一次？",
-          "answer": "只在内容确实发生变化时提交。重复提交未变化的 URL 会消耗配额，还可能触发 429。"
+          "question": "应该以什么频率提交？",
+          "answer": "只在页面真正发生新增、更新或删除时提交。配合 Sitemap 对比或 lastmod 筛选只推增量变更，避免反复全量提交触发 HTTP 429 限流。"
         }
       ]
     }
   },
   "IndexNow": {
-    "title": "向 Bing 提交 URL",
-    "description": "向 Bing IndexNow 端点发送批量请求。",
-    "bingOnlyNote": "提交端点：Bing（与 IndexNow 合作方共享）。",
+    "title": "通过 IndexNow 提交 URL",
+    "description": "向 api.indexnow.org 或指定参与搜索引擎端点发送批量请求。",
+    "bingOnlyNote": "支持多端点选择（提交内容与 IndexNow 合作引擎共享）。",
     "supportedEnginesTitle": "IndexNow 参与方",
     "supportedEnginesNote": "一次提交即可触达所有参与的搜索引擎。",
     "urlsLabel": "URL 列表",
@@ -288,7 +299,7 @@
     "keyLocationLabel": "密钥文件地址（可选）",
     "keyLocationPlaceholder": "https://www.example.com/your-indexnow-key.txt",
     "keyLocationHelp": "留空时默认为 https://{host}/{key}.txt。主机名必须与提交的 URL 一致。",
-    "submit": "提交到 Bing",
+    "submit": "提交 URL",
     "submitting": "提交中...",
     "successMessage": "提交成功。",
     "successMessageWithDetails": "已为 {host} 提交 {count} 条 URL。密钥文件：{keyLocation}",
@@ -308,36 +319,96 @@
       "mixed_hosts": "URL 包含多个主机。每次请求只能提交一个主机。",
       "host_mismatch": "主机与 URL 的主机不一致。请留空或与 URL 保持一致。",
       "too_many_urls": "URL 过多。单次请求最多 10,000 条。",
-      "bing_invalid_request": "Bing 拒绝了请求（HTTP {status}）。请检查主机、密钥和 URL 列表。",
-      "bing_invalid_key": "Bing 拒绝了密钥（HTTP {status}）。请确认密钥文件可访问且内容一致。",
-      "bing_invalid_url_list": "Bing 拒绝了 URL 列表（HTTP {status}）。请确认 URL 合法且属于该主机。",
-      "bing_rate_limited": "被 Bing 限流（HTTP {status}），请稍后重试。",
-      "bing_error": "Bing IndexNow 请求失败（HTTP {status}）。请核对密钥与 URL 列表。",
+      "bing_invalid_request": "IndexNow 端点拒绝了请求（HTTP {status}）。请检查主机、密钥和 URL 列表。",
+      "bing_invalid_key": "IndexNow 端点拒绝了密钥（HTTP {status}）。请确认密钥文件可访问且内容完全一致。",
+      "bing_invalid_url_list": "IndexNow 端点拒绝了 URL 列表（HTTP {status}）。请确认 URL 合法且符合主机和密钥目录范围。",
+      "bing_rate_limited": "被 IndexNow 端点限流（HTTP {status}），请稍后重试。",
+      "bing_error": "IndexNow 请求失败（HTTP {status}）。请核对密钥与 URL 列表。",
       "network_error": "网络错误，请重试。",
       "timeout": "请求超时，请重试。",
-      "explainCode": "{status} 是什么意思？"
+      "explainCode": "{status} 是什么意思？",
+      "rate_limited": "当前 IP 提交过于频繁，请约 {seconds} 秒后重试。",
+      "key_location_protocol_mismatch": "密钥文件地址的协议（http/https）必须与提交的 URL 一致。",
+      "key_location_scope_mismatch": "位于 {prefix} 目录下的密钥文件仅可授权该目录前缀下的 URL。",
+      "detailInvalidUrl": "无效 URL：{url}",
+      "detailHosts": "检测到的主机：{hosts}",
+      "detailCount": "当前共 {got} 条，单次请求上限为 {max} 条"
     },
     "rememberProfile": "在此设备记住 key 和主机",
     "rememberProfileHelp": "仅在明确勾选后保存到浏览器 localStorage，且不会进入埋点。",
     "history": {
       "title": "最近提交",
-      "privacy": "仅保存在当前设备，不保存 key 和完整 URL 列表。",
+      "privacy": "仅保存在当前设备（历史记录不保存密钥，每条最多保留 200 条 URL 以便一键重载重试）。",
       "clear": "清空",
       "empty": "成功和失败的提交会显示在这里。",
       "unknownHost": "未知主机",
       "success": "{count} 个 URL 已接受（HTTP {status}）",
-      "error": "{count} 个 URL 失败（HTTP {status}）"
-    }
+      "error": "{count} 个 URL 失败（HTTP {status}）",
+      "exportCsv": "导出 CSV",
+      "exportJson": "导出 JSON",
+      "reload": "重载",
+      "batchesBadge": "{count} 批",
+      "showAll": "展开全部（{count} 条）",
+      "showLess": "收起"
+    },
+    "submitBatched": "分 {batches} 批自动提交",
+    "submittingBatch": "正在提交第 {current} / {total} 批...",
+    "batchFailedPrefix": "第 {current}/{total} 批失败（已成功受理 {submitted} 条）：",
+    "successMessageBatched": "已通过 {endpoint} 分 {batches} 批为 {host} 提交共 {count} 条 URL。",
+    "savedProfilesTitle": "本设备已保存的站点",
+    "removeProfile": "移除已保存站点 {host}",
+    "importFile": "导入 .txt / .csv",
+    "importFailure": "无法读取所选文件。",
+    "endpointLabel": "提交端点",
+    "endpointHelp": "默认 api.indexnow.org 会自动同步到 Bing、Yandex、Seznam.cz、Naver 和 Yep。",
+    "verifyInBingWebmaster": "前往 Bing 站长平台查看接收状态",
+    "dismiss": "关闭提示",
+    "sitemapImport": {
+      "toggle": "抓取 Sitemap URL",
+      "title": "从在线 XML Sitemap 导入 URL",
+      "description": "输入 Sitemap 地址或根域名（自动从 robots.txt 探测）。支持 .xml、.xml.gz 与嵌套 Sitemap Index（最多展开 20 个子 sitemap / 50,000 条 URL）。",
+      "placeholder": "example.com 或 https://www.example.com/sitemap.xml",
+      "lastmodLabel": "按 lastmod 筛选",
+      "lastmod": {
+        "all": "全部 URL",
+        "last24h": "近 24 小时更新",
+        "last7d": "近 7 天更新",
+        "last30d": "近 30 天更新"
+      },
+      "fetch": "拉取",
+      "fetching": "拉取中...",
+      "summary": "已从 {sitemaps} 个 sitemap 文件加载 {count} 条 URL（筛选前共提取 {total} 条）。",
+      "errors": {
+        "invalid_url": "请输入有效的公网 http(s) Sitemap 地址。",
+        "blocked_url": "该地址不属于允许访问的公网目标。",
+        "rate_limited": "Sitemap 抓取过于频繁，请稍后再试。",
+        "http_error": "Sitemap 返回了 HTTP {status}。",
+        "invalid_xml": "拉取到的内容不是有效的 XML Sitemap。",
+        "empty_sitemap": "该 Sitemap 中未找到有效的 http(s) URL。",
+        "response_too_large": "Sitemap 文件体积超出限制。",
+        "timeout": "抓取 Sitemap 超时。",
+        "fetch_failed": "无法获取 Sitemap，请检查地址与服务器可达性。"
+      }
+    },
+    "liveStats": {
+      "valid": "{count} 条有效 URL",
+      "duplicates": "{count} 条重复（提交时自动去重）",
+      "invalid": "{count} 条无效",
+      "multipleHosts": "检测到 {count} 个主机（提交前请拆分）",
+      "autoBatch": "将自动分为 {batches} 批顺序提交"
+    },
+    "generateKeyShortcut": "随机生成",
+    "downloadKeyShortcut": "下载 <key>.txt 文件"
   },
   "Blog": {
     "title": "指南",
-    "description": "关于 IndexNow、密钥文件，以及如何让变更页面更快被抓取的实操指南。",
+    "description": "聚焦 IndexNow 与 Google Indexing API 对比、ChatGPT Search / Copilot AI 搜索发现机制、Cloudflare/Nginx 403 排障与增量推送实践的深度专栏。",
     "emptyState": "暂无文章。",
     "breadcrumbHome": "首页"
   },
   "About": {
     "title": "关于",
-    "description": "了解 submitnow 的工作原理、IndexNow 协议如何向 Bing 及合作搜索引擎推送 URL 更新，以及本站无持久化转发机制。"
+    "description": "了解 submitnow 如何通过多端点批量推送、远程 Sitemap 抓取、CLI/MCP 工具与零持久化架构加速 Bing、ChatGPT Search、Copilot 及 IndexNow 合作引擎收录。"
   },
   "TermsOfService": {
     "title": "服务条款",
@@ -472,7 +543,7 @@
           "steps": [
             {
               "title": "生成密钥",
-              "description": "会得到一个 32 位十六进制字符串——远在协议 8–128 位限制之内，且只包含 IndexNow 接受的字符。"
+              "description": "会得到一个 48 位十六进制字符串——远在协议 8–128 位限制之内，且只包含 IndexNow 接受的字符。"
             },
             {
               "title": "下载文本文件",
@@ -514,7 +585,7 @@
           "items": [
             {
               "question": "IndexNow 密钥应该多长？",
-              "answer": "8 到 128 位字符，可用字母、数字和短横线。本工具生成 32 位十六进制字符——足够难猜，同时在日志里仍然可读。"
+              "answer": "8 到 128 位字符，可用字母、数字和短横线。本工具生成 48 位十六进制字符——足够难猜，同时在日志里仍然可读。"
             },
             {
               "question": "可以自己写密钥吗？",
@@ -628,7 +699,9 @@
         "invalid_key": "密钥无效。请使用 8–128 位字符（字母、数字、短横线）。",
         "invalid_key_location": "密钥文件地址无效。它必须是同一主机下的 http(s) 地址。",
         "fetch_failed": "无法抓取密钥文件。主机可能不可达，或 DNS/TLS 存在问题。",
-        "timeout": "请求在 8 秒后超时。"
+        "timeout": "请求在 8 秒后超时。",
+        "blocked_url": "该主机或 IP 地址不属于允许探测的公网目标。",
+        "rate_limited": "当前 IP 校验次数过多，请稍后再试。"
       },
       "article": {
         "whenToUse": {
@@ -868,7 +941,11 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "chunksCount": "分为 {count} 批（每批最多 10,000 条）",
+      "sendGroup": "发送到提交工具",
+      "chunkLabel": "第 {index}/{total} 批（{count} 条 URL）",
+      "sendChunk": "发送此批"
     },
     "sitemapDiff": {
       "metaTitle": "面向 IndexNow 的 Sitemap 对比",
@@ -882,7 +959,7 @@
       ],
       "title": "不上传服务器也能找出 sitemap 的变化",
       "description": "上传较旧和较新的两个 sitemap XML 文件。对比在本地完成，你可以只导出新增或变更的 URL 作为 IndexNow 队列。",
-      "privacyNote": "两个 sitemap 文件都在浏览器内解析。不会上传任何内容，对比过程也不会离开这个标签页。",
+      "privacyNote": "本地上传的 .xml / .xml.gz 完全在浏览器内解析；可选的远程 Sitemap URL 抓取通过服务端转发，不会存储你的 URL。",
       "previousTitle": "旧 sitemap",
       "previousHelp": "上传较早的 sitemap XML 文件作为基线。",
       "currentTitle": "新 sitemap",
@@ -905,7 +982,8 @@
         "added": "新增",
         "changed": "变更",
         "unchanged": "未变化",
-        "extracted": "已提取 URL"
+        "extracted": "已提取 URL",
+        "removed": "已删除"
       },
       "includeAdded": "包含 {count} 条新增 URL",
       "includeChanged": "包含 {count} 条变更 URL",
@@ -1025,6 +1103,30 @@
         "saved": "基线已保存在本机。",
         "too_large": "该 sitemap 超过 10,000 条本地快照上限。",
         "storage_error": "浏览器无法保存该基线。"
+      },
+      "remoteUrlPlaceholder": "example.com 或 https://www.example.com/sitemap.xml",
+      "fetchRemote": "拉取 URL",
+      "fetchingRemote": "拉取中...",
+      "sitemapsFetched": "已合并 {count} 个 sitemap",
+      "lastmodFilterLabel": "按 lastmod 筛选",
+      "lastmodOptions": {
+        "all": "全部 URL",
+        "last24h": "近 24 小时",
+        "last7d": "近 7 天",
+        "last30d": "近 30 天"
+      },
+      "lastmodSummary": "命中 {matched} 条（{older} 条较旧，{missing} 条无 lastmod）",
+      "includeRemoved": "包含 {count} 条已删除 URL",
+      "remoteErrors": {
+        "invalid_url": "请输入有效的公网 http(s) Sitemap 地址。",
+        "blocked_url": "该地址不属于允许访问的公网目标。",
+        "rate_limited": "Sitemap 抓取过于频繁，请稍后再试。",
+        "http_error": "Sitemap 返回了 HTTP {status}。",
+        "invalid_xml": "拉取到的内容不是有效的 XML Sitemap。",
+        "empty_sitemap": "该 Sitemap 中未找到有效的 http(s) URL。",
+        "response_too_large": "Sitemap 文件体积超出限制。",
+        "timeout": "抓取 Sitemap 超时。",
+        "fetch_failed": "无法获取 Sitemap，请检查地址与服务器可达性。"
       }
     },
     "codeGenerator": {
@@ -1055,7 +1157,10 @@
       "formats": {
         "json": "JSON",
         "curl": "curl",
-        "javascript": "JavaScript"
+        "javascript": "JavaScript",
+        "python": "Python",
+        "go": "Go",
+        "github-actions": "GitHub Actions"
       },
       "emptyState": "输入主机、key 和有效的同主机 URL 列表后生成代码。",
       "article": {
@@ -1140,7 +1245,8 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "endpointLabel": "提交端点"
     },
     "urlNormalizer": {
       "cardTitle": "URL 规范化器",
@@ -1275,17 +1381,20 @@
             "slug": "/indexnow-bing-submission"
           }
         ]
-      }
+      },
+      "resultSummaryDetailed": "{valid} 条有效 · {duplicates} 条重复 · {invalid} 条无效"
     }
   },
   "Docs": {
-    "metaTitle": "IndexNow 文档与接入指南",
-    "metaDescription": "IndexNow 状态码、WordPress、Next.js、Cloudflare Workers、key 校验和安全提交的实用文档。",
+    "metaTitle": "IndexNow 技术文档、平台集成与 AI 搜索指南",
+    "metaDescription": "涵盖 IndexNow 状态码排查、Shopify、WordPress、Next.js、Astro/Hugo、Cloudflare Workers、GitHub Actions、CLI/MCP 自动化及 AI 爬虫 robots.txt 配置的稳定参考文档。",
     "keywords": [
       "IndexNow 文档",
       "IndexNow 状态码",
-      "IndexNow 接入",
-      "Bing URL 提交"
+      "Shopify IndexNow 配置",
+      "GitHub Actions IndexNow",
+      "IndexNow MCP",
+      "ChatGPT Search Bingbot robots.txt"
     ],
     "title": "IndexNow 文档",
     "description": "用于实现、校验和稳定运行 IndexNow 的长期参考资料。",

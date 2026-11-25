@@ -1,0 +1,51 @@
+---
+title: "IndexNow vs. Google Indexing API vs. XML Sitemaps (2026 Practical Guide)"
+description: "Why Google does not participate in IndexNow, what Google's Indexing API is actually allowed for, and how to design a dual-track indexing pipeline covering both Google and Bing/AI Search."
+slug: /indexnow-vs-google-indexing-api
+tags: indexnow,google indexing api,sitemap,seo,bing
+date: 2026-11-20
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## The short answer
+
+There is no single push protocol that covers every major search engine:
+
+- **IndexNow** covers **Bing, Yandex, Seznam.cz, Naver, and Yep** — and indirectly accelerates discovery for **Microsoft Copilot** and **ChatGPT Search**, which rely heavily on Bing's web index.
+- **Google does not participate in IndexNow.** For Google, your primary scalable discovery mechanism remains a clean **XML sitemap with accurate `lastmod` timestamps** registered in Google Search Console.
+
+## Side-by-side comparison
+
+| Mechanism | Engines covered | Official scope | Batch capacity | Auth model | Best use case |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **IndexNow** | Bing, Yandex, Seznam, Naver, Yep (+ Copilot / ChatGPT Search via Bing) | Any public web page (add, update, delete) | Up to 10,000 URLs/request | Public `<key>.txt` file on host | Instant deploy hooks, price/inventory updates, deletions |
+| **Google Indexing API** | Google only | Officially restricted to `JobPosting` and `BroadcastEvent` | 200 requests/day default quota | OAuth2 / Service Account | Short-lived job listings & live-stream pages |
+| **XML Sitemap (`lastmod`)** | Google, Bing, Yandex, all major crawlers | Any canonical indexable URL | 50,000 URLs per sitemap file | Public URL + `robots.txt` / Search Console | Baseline site inventory & Google discovery |
+| **GSC URL Inspection** | Google only | Any verified property URL | Manual / low daily quota | Search Console access | Urgent single-page re-indexing & diagnostics |
+
+## Why you should avoid abusing the Google Indexing API
+
+Many third-party "instant Google indexer" tools wire ordinary blog posts or e-commerce pages into Google's Indexing API. Google explicitly documents that the Indexing API is intended only for pages with `JobPosting` or `BroadcastEvent` structured data, and pages pushed outside that scope are routinely ignored or deprioritized.
+
+Instead of risking wasted effort on unsupported workarounds, run a clean dual-track setup:
+
+## A clean dual-track indexing architecture
+
+### Track 1: Instant push for Bing, Yandex & AI Search (IndexNow)
+
+1. Host a single root verification file at `https://your-host/<key>.txt` and confirm it passes the [IndexNow Key File Checker](/tools/indexnow-key-checker).
+2. On every deploy or content publish, isolate only **added, changed, or deleted** URLs (using [Sitemap Diff](/tools/sitemap-diff) or a `lastmod` window).
+3. Push the delta batch to `https://api.indexnow.org/indexnow` via [submitnow](/), [GitHub Actions](/docs/integrations/github-actions), or the [CLI / MCP server](/docs/integrations/cli-and-mcp).
+
+### Track 2: Reliable discovery for Google
+
+1. Generate accurate, canonical-only XML sitemaps (never include `301` redirects, `404`s, or `noindex` pages).
+2. Update `<lastmod>` **only when main content meaningfully changes** — Google explicitly ignores `<lastmod>` if your build tool restamps every URL on every deploy.
+3. Reference your sitemap index in `robots.txt` and submit it once in Google Search Console.
+4. Keep strong internal linking from high-crawl pages (home, category hubs, recent posts) to new URLs.
+
+## Practical takeaway
+
+Use **XML sitemaps** as your universal source of truth, and layer **IndexNow** on top to eliminate discovery latency across Bing, Yandex, Naver, Seznam, Copilot, and ChatGPT Search — without violating Google's API guidelines.

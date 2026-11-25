@@ -1,0 +1,69 @@
+---
+title: "IndexNow 403 与 202 静默丢弃排障手册：Cloudflare WAF、Nginx 与 Next.js 实录"
+description: "总结生产环境破坏 IndexNow 密钥验证的 7 大真实根因——UTF-8 BOM、软 404 HTML、跨主机跳转、Cloudflare 质询与子目录 keyLocation 陷阱，附可直接复制的修复配置。"
+slug: /indexnow-403-waf-cloudflare-nginx-fix
+tags: indexnow,403,cloudflare,nginx,nextjs,troubleshooting
+date: 2026-11-25
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## 为什么会返回 403，或者返回 202 却毫无抓取？
+
+当你向 `api.indexnow.org` 或 `www.bing.com/indexnow` 提交批次时，搜索引擎会以匿名 HTTP 请求直接从公网抓取你的验证文件。只要状态码、最终主机名或文件字节有任何偏差，验证就会失败——要么立刻返回 **[HTTP 403](/docs/status-codes/403)**，要么在返回 **[HTTP 202](/docs/status-codes/202)** 后静默丢弃整批 URL。
+
+以下 7 类根因几乎覆盖了生产环境 95% 以上的失败案例：
+
+## 1. 文件头部隐藏了 UTF-8 BOM
+
+Windows 记事本或旧版 PowerShell `Out-File` 保存的文件常带有 `EF BB BF` 三个不可见字节。浏览器打开看起来完全一样，但引擎按字节比对密钥时会直接判错。
+
+**修复**：重新保存为**无 BOM 的 UTF-8**，或直接从 [IndexNow 密钥生成器](/tools/indexnow-key-generator) 下载纯净文件。
+
+## 2. 文件正文错写成了 `<key>.txt`
+
+高频低级错误是把文件名 `my-key-1234.txt` 粘贴进了文件正文。正文只能包含纯密钥 `my-key-1234`，不得附带 `.txt`、HTML 标签或说明文字。
+
+## 3. SPA / Next.js 中间件返回了软 404 HTML
+
+前端路由或 `next-intl` 等多语言中间件如果拦截了 `/<key>.txt`，常见后果是返回 `HTTP 200` + 应用 HTML 外壳，或者重定向到 `/zh/<key>.txt`。
+
+**Next.js 中间件修复**：在 `matcher` 中明确放行带后缀的静态文件：
+
+```ts
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+};
+```
+
+## 4. 跨主机跳转（裸域与 `www` 不一致）
+
+如果你提交的 URL 属于 `example.com`，但 `https://example.com/<key>.txt` 301 跳转到了 `https://www.example.com/<key>.txt`，最终主机与提交主机不一致，验证直接失败。
+
+**修复**：统一使用最终返回 `200 OK`、无跨主机跳转的规范域名提交 URL。
+
+## 5. Cloudflare Bot Fight Mode 或 WAF 质询拦截
+
+你在浏览器里带着 Cookie 通过了 Cloudflare JS 质询，以为文件可访问，但 Bing 校验请求拿到的是 `403` 或质询 HTML 页。
+
+**修复**：在 Cloudflare WAF Custom Rules 中针对精确路径 `/<your-key>.txt` 添加放行规则（Skip Bot Fight Mode / Managed Challenge）。
+
+## 6. Nginx `try_files` 兜底掩盖了文件缺失
+
+如果 Nginx 配了 `try_files $uri $uri/ /index.html;`，一旦发布漏拷密钥文件，Nginx 会悄悄返回 `200 OK` + `index.html`。
+
+**修复**：为验证文件增加显式精确匹配，缺失时直接返回 `404` 暴露问题：
+
+```nginx
+location = /your-indexnow-key.txt {
+  default_type text/plain;
+  try_files $uri =404;
+}
+```
+
+## 7. 子目录 `keyLocation` 超出授权边界
+
+将密钥文件放在 `https://example.com/blog/<key>.txt` 时，按协议规范它**只能授权 `/blog/` 前缀下的 URL**。拿这个 `keyLocation` 去提交 `https://example.com/pricing` 会触发 **[HTTP 422](/docs/status-codes/422)** 或被丢弃。
+
+**修复**：需要提交整站多目录页面时，务必把 `<key>.txt` 托管在域名根目录，并在提交前使用 [IndexNow 密钥校验器](/tools/indexnow-key-checker) 从公网视角核验一次。

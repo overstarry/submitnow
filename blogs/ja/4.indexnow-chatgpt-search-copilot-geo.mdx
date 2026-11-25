@@ -1,0 +1,56 @@
+---
+title: "AI 検索時代の IndexNow 活用：ChatGPT Search・Microsoft Copilot の発見を早める方法"
+description: "Bing インデックスが Microsoft Copilot と ChatGPT Search に与える影響、IndexNow が発見遅延を縮める仕組み、Bingbot・OAI-SearchBot 向け robots.txt 確認手順を整理します。"
+slug: /indexnow-chatgpt-search-copilot-geo
+tags: indexnow,chatgpt search,copilot,geo,ai search,robots.txt
+date: 2026-11-23
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## AI 検索の普及で IndexNow の重要度が変わった理由
+
+登場当初、IndexNow は「Bing 対策の補助機能」と見なされがちでした。しかし現在、その前提は大きく変わっています。
+
+Bing の Web インデックスは **Microsoft Copilot** の中核であり、OpenAI の **ChatGPT Search** でも独自の `OAI-SearchBot` と並んで重要な発見基盤となっています。料金改定、新機能リリース、技術ドキュメントの修正を公開したあと 1 週間も自然クロールを待っていては、AI 検索が古い情報を引用し続けてしまいます。
+
+IndexNow を使えば、1 回の `POST` リクエストで変更された正確な URL を数秒以内に通知できます。
+
+## IndexNow が解決すること・しないこと
+
+- **解決すること**：新規公開・更新・削除ページの発見待ち時間を短縮します。
+- **解決しないこと**：`robots.txt` によるクロール拒否や `meta noindex` を上書きすることはできません。
+- **HTML の可読性も必須**：AI 検索の取得パイプラインは初期 HTML をそのまま解析するケースが多いため、重要な見出しや本文は SSR で出力しておくべきです。
+
+## GEO 向けに必ず確認したい 4 つのポイント
+
+### 1. `robots.txt` で「検索クローラー」と「学習クローラー」を分ける
+
+AI 学習用途を拒否しようとして検索クローラーまで遮断してしまうケースが頻発しています。用途別に明示的に書き分けてください：
+
+```text
+User-agent: Bingbot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# 任意: ChatGPT Search の発見は維持しつつ学習クローラーのみ拒否
+User-agent: GPTBot
+Disallow: /
+```
+
+ヘッダー設定や `X-Robots-Tag` の詳細は [AI 検索と robots.txt ガイド](/docs/guides/ai-search-robots-txt) を参照してください。
+
+### 2. `lastmod` または Sitemap Diff で差分のみ送信する
+
+変更のない全サイトマップを繰り返し送信すると [HTTP 429 レート制限](/docs/status-codes/429) を誘発します。トップページの **サイトマップ URL を取得** から `過去 24 時間` / `過去 7 日間` で絞り込むか、[Sitemap Diff](/tools/sitemap-diff) を使って更新分だけ送信しましょう。
+
+### 3. 公開インターネット側からキーファイルを検証する
+
+`202 Accepted` は「受理した」という意味であり、キー検証の成功保証ではありません。Cloudflare Bot Fight Mode や認証ゲートが `/<key>.txt` にチャレンジを返していると、バッチ全体が静かに破棄されます。設定変更後は [IndexNow キー検証ツール](/tools/indexnow-key-checker) で確認してください。
+
+### 4. 構造化データと事実情報を明確に出力する
+
+整理された見出し構造、正確な `dateModified`、正規 canonical、そして有効な JSON-LD（`TechArticle`・`FAQPage`・`SoftwareApplication`）を備えることで、クロール直後から検索エンジンと AI 回答の双方に正確に引用されやすくなります。

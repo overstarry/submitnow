@@ -7,7 +7,7 @@ import matter from 'gray-matter'
 import { MetadataRoute } from 'next'
 import path from 'path'
 
-const CONTENT_RELEASE_DATE = new Date('2026-11-24')
+const CONTENT_RELEASE_DATE = new Date('2026-11-25')
 
 type ChangeFrequency = NonNullable<MetadataRoute.Sitemap[number]['changeFrequency']>
 

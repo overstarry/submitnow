@@ -4,7 +4,12 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "@/i18n/routing";
 import { trackEvent } from "@/lib/analytics";
 import { stageUrlsForSubmission } from "@/lib/handoff";
-import { analyzeUrlList, copyText } from "@/lib/seo-tools";
+import {
+  analyzeUrlList,
+  chunkUrls,
+  copyText,
+  MAX_INDEXNOW_BATCH_SIZE,
+} from "@/lib/seo-tools";
 import {
   Check,
   ClipboardCheck,
@@ -36,7 +41,11 @@ export default function IndexNowBatchBuilder() {
     try {
       setRawUrls(await file.text());
       setImportError(false);
-      trackEvent({ name: "tool_used", toolId: "batchBuilder", action: "import_file" });
+      trackEvent({
+        name: "tool_used",
+        toolId: "batchBuilder",
+        action: "import_file",
+      });
     } catch {
       setImportError(true);
     }
@@ -57,8 +66,6 @@ export default function IndexNowBatchBuilder() {
     window.setTimeout(() => setCopyTarget(null), 2500);
   };
 
-  // A submission covers exactly one host, so the handoff carries the first
-  // group rather than the whole list.
   const handleSendToSubmitter = (urls: string[]) => {
     stageUrlsForSubmission(urls);
     trackEvent({
@@ -138,9 +145,11 @@ export default function IndexNowBatchBuilder() {
             ))}
           </div>
           <p className="mt-5 text-sm leading-6 text-slate-600 dark:text-slate-300">
-            {analysis.hostGroups.length > 1 ? t("multipleHosts") : t("singleHost")}
+            {analysis.hostGroups.length > 1
+              ? t("multipleHosts")
+              : t("singleHost")}
           </p>
-          {analysis.validUrls.length > 10_000 && (
+          {analysis.validUrls.length > MAX_INDEXNOW_BATCH_SIZE && (
             <p className="mt-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100">
               {t("tooManyUrls", { count: analysis.validUrls.length })}
             </p>
@@ -153,7 +162,10 @@ export default function IndexNowBatchBuilder() {
             className="mt-6 h-11 w-full rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
           >
             {copyTarget === "all" ? (
-              <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+              <Check
+                className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300"
+                aria-hidden="true"
+              />
             ) : (
               <Copy className="size-4" aria-hidden="true" />
             )}
@@ -163,26 +175,13 @@ export default function IndexNowBatchBuilder() {
       </div>
 
       <section className="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/80 sm:p-8">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="font-heading text-xl font-semibold text-slate-950 dark:text-white">
-              {t("groupsTitle")}
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
-              {t("groupsHelp")}
-            </p>
-          </div>
-          <Button
-            type="button"
-            onClick={() => handleSendToSubmitter(analysis.hostGroups[0].urls)}
-            disabled={analysis.hostGroups.length === 0}
-            className="h-11 self-start rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-700 sm:self-auto"
-          >
-            <ClipboardCheck className="size-4" aria-hidden="true" />
-            {analysis.hostGroups.length > 1
-              ? t("sendFirstGroup", { host: analysis.hostGroups[0].host })
-              : t("openSubmitter")}
-          </Button>
+        <div>
+          <h2 className="font-heading text-xl font-semibold text-slate-950 dark:text-white">
+            {t("groupsTitle")}
+          </h2>
+          <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+            {t("groupsHelp")}
+          </p>
         </div>
 
         {analysis.hostGroups.length === 0 ? (
@@ -191,56 +190,142 @@ export default function IndexNowBatchBuilder() {
           </p>
         ) : (
           <div className="mt-6 space-y-4">
-            {analysis.hostGroups.map((group) => (
-              <div
-                key={group.host}
-                className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-800 dark:bg-slate-900/40"
-              >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="font-mono text-sm font-semibold text-slate-950 dark:text-white">{group.host}</p>
-                    <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                      {t("hostCount", { count: group.urls.length })}
-                    </p>
+            {analysis.hostGroups.map((group) => {
+              const chunks = chunkUrls(group.urls, MAX_INDEXNOW_BATCH_SIZE);
+
+              return (
+                <div
+                  key={group.host}
+                  className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5 dark:border-slate-800 dark:bg-slate-900/40"
+                >
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <p className="font-mono text-sm font-semibold text-slate-950 dark:text-white">
+                        {group.host}
+                      </p>
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+                        {t("hostCount", { count: group.urls.length })}
+                        {chunks.length > 1 && (
+                          <span className="ml-2 rounded-md bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700 dark:bg-blue-500/15 dark:text-blue-200">
+                            {t("chunksCount", { count: chunks.length })}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => handleCopy(group.host, group.urls)}
+                        className="h-10 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
+                      >
+                        {copyTarget === group.host ? (
+                          <Check
+                            className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <Copy className="size-4" aria-hidden="true" />
+                        )}
+                        {copyTarget === group.host
+                          ? tCommon("copied")
+                          : t("copyGroup")}
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => handleSendToSubmitter(group.urls)}
+                        className="h-10 rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                      >
+                        <ClipboardCheck className="size-4" aria-hidden="true" />
+                        {t("sendGroup")}
+                      </Button>
+                    </div>
                   </div>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => handleCopy(group.host, group.urls)}
-                    className="h-10 rounded-xl border-slate-200 bg-white font-semibold text-slate-800 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
-                  >
-                    {copyTarget === group.host ? (
-                      <Check className="size-4 animate-pop-in text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
-                    ) : (
-                      <Copy className="size-4" aria-hidden="true" />
-                    )}
-                    {copyTarget === group.host ? tCommon("copied") : t("copyGroup")}
-                  </Button>
-                </div>
-                <ul className="mt-4 space-y-2 border-t border-slate-200 pt-4 font-mono text-xs leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
-                  {group.urls.slice(0, 5).map((url) => (
-                    <li key={url} className="truncate">
-                      {url}
-                    </li>
-                  ))}
-                  {group.urls.length > 5 && (
-                    <li className="font-sans text-slate-500 dark:text-slate-400">
-                      {t("moreUrls", { count: group.urls.length - 5 })}
-                    </li>
+
+                  {chunks.length > 1 && (
+                    <div className="mt-4 space-y-2 border-t border-slate-200 pt-4 dark:border-slate-800">
+                      {chunks.map((chunk, chunkIndex) => {
+                        const chunkKey = `${group.host}#${chunkIndex}`;
+                        return (
+                          <div
+                            key={chunkKey}
+                            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs dark:border-slate-800 dark:bg-slate-950/70"
+                          >
+                            <span className="font-medium tabular-nums text-slate-700 dark:text-slate-200">
+                              {t("chunkLabel", {
+                                index: chunkIndex + 1,
+                                total: chunks.length,
+                                count: chunk.length,
+                              })}
+                            </span>
+                            <div className="flex items-center gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                onClick={() => handleCopy(chunkKey, chunk)}
+                                className="h-8 rounded-lg text-xs"
+                              >
+                                {copyTarget === chunkKey ? (
+                                  <Check
+                                    className="size-3.5 text-emerald-600 dark:text-emerald-300"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <Copy className="size-3.5" aria-hidden="true" />
+                                )}
+                                {copyTarget === chunkKey
+                                  ? tCommon("copied")
+                                  : tCommon("copy")}
+                              </Button>
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="outline"
+                                onClick={() => handleSendToSubmitter(chunk)}
+                                className="h-8 rounded-lg border-blue-200 bg-blue-50 text-xs font-semibold text-blue-700 hover:bg-blue-100 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-200"
+                              >
+                                {t("sendChunk")}
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   )}
-                </ul>
-              </div>
-            ))}
+
+                  <ul className="mt-4 space-y-2 border-t border-slate-200 pt-4 font-mono text-xs leading-5 text-slate-600 dark:border-slate-800 dark:text-slate-300">
+                    {group.urls.slice(0, 5).map((url) => (
+                      <li key={url} className="truncate">
+                        {url}
+                      </li>
+                    ))}
+                    {group.urls.length > 5 && (
+                      <li className="font-sans text-slate-500 dark:text-slate-400">
+                        {t("moreUrls", { count: group.urls.length - 5 })}
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         )}
 
         {analysis.invalidInputs.length > 0 && (
           <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm dark:border-amber-500/30 dark:bg-amber-500/10">
             <div className="flex items-start gap-3">
-              <TriangleAlert className="mt-0.5 size-4 shrink-0 text-amber-700 dark:text-amber-300" aria-hidden="true" />
+              <TriangleAlert
+                className="mt-0.5 size-4 shrink-0 text-amber-700 dark:text-amber-300"
+                aria-hidden="true"
+              />
               <div>
-                <p className="font-semibold text-amber-900 dark:text-amber-100">{t("invalidTitle")}</p>
-                <p className="mt-1 text-amber-800 dark:text-amber-200">{t("invalidHelp")}</p>
+                <p className="font-semibold text-amber-900 dark:text-amber-100">
+                  {t("invalidTitle")}
+                </p>
+                <p className="mt-1 text-amber-800 dark:text-amber-200">
+                  {t("invalidHelp")}
+                </p>
                 <ul className="mt-3 space-y-1 font-mono text-xs text-amber-800 dark:text-amber-200">
                   {analysis.invalidInputs.slice(0, 5).map((input, index) => (
                     <li key={`${input}-${index}`} className="truncate">

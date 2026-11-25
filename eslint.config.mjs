@@ -1,8 +1,10 @@
 import nextCoreWebVitals from "eslint-config-next/core-web-vitals";
 
-export default [
+const eslintConfig = [
   ...nextCoreWebVitals,
   {
     ignores: [".tmp/**"],
   },
 ];
+
+export default eslintConfig;

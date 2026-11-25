@@ -1,0 +1,69 @@
+---
+title: "IndexNow 403・202 サイレント破棄の解決チェックリスト：Cloudflare WAF / Nginx / Next.js"
+description: "本番環境で IndexNow キー検証が失敗する 7 大原因（UTF-8 BOM、ソフト 404 HTML、別ホストリダイレクト、Cloudflare チャレンジ、サブディレクトリ keyLocation 範囲外など）と修正例を解説します。"
+slug: /indexnow-403-waf-cloudflare-nginx-fix
+tags: indexnow,403,cloudflare,nginx,nextjs,troubleshooting
+date: 2026-11-25
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## なぜ 403 が返るのか（あるいは 202 のまま反映されないのか）
+
+`api.indexnow.org` や `www.bing.com/indexnow` へ送信すると、検索エンジンは公開インターネットから未認証の HTTP リクエストでキーファイルを取得します。ステータスコード・最終ホスト・本文バイト列のいずれかにズレがあると、即座に **[HTTP 403](/docs/status-codes/403)** となるか、**[HTTP 202](/docs/status-codes/202)** の後に静かに破棄されます。
+
+本番運用で特に多い 7 つの原因と対策をまとめました。
+
+## 1. 先頭に UTF-8 BOM が付いている
+
+Windows のエディタや旧 PowerShell の `Out-File` は先頭に不可視の `EF BB BF` を付与することがあります。画面上は一致して見えてもバイト比較で失敗します。
+
+**対策**：**BOM なし UTF-8** で保存し直すか、[IndexNow キー生成ツール](/tools/indexnow-key-generator) から直接 `.txt` をダウンロードします。
+
+## 2. ファイル本文に `.txt` まで書いてしまっている
+
+ファイル名 `my-key-1234.txt` をそのまま中身に貼り付けてしまうミスが非常に多く見られます。本文はキー文字列 `my-key-1234` のみにしてください。
+
+## 3. SPA や Next.js ミドルウェアがソフト 404 HTML を返している
+
+多言語ミドルウェアや SPA フォールバックが `/<key>.txt` を捕捉すると、`HTTP 200` で HTML シェルを返したり `/ja/<key>.txt` へリダイレクトしたりします。
+
+**Next.js 側の修正**：拡張子付き静的ファイルを `matcher` から除外します：
+
+```ts
+export const config = {
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
+};
+```
+
+## 4. 別ホストへのリダイレクト（apex と `www` の不一致）
+
+`example.com` として送信したのに `https://example.com/<key>.txt` が `https://www.example.com/<key>.txt` へ 301 リダイレクトされると、最終ホスト不一致で失敗します。
+
+**対策**：リダイレクトなしで `200 OK` を返す正規ホスト側で統一して送信してください。
+
+## 5. Cloudflare Bot Fight Mode や WAF チャレンジ
+
+自分のブラウザでは Cookie 通過後に正常表示されても、検索エンジンのフェッチャーには `403` やチャレンジ HTML が返っていることがあります。
+
+**対策**：Cloudflare WAF Custom Rule で完全一致パス `/<your-key>.txt` に対し Bot Fight Mode / Managed Challenge をスキップするルールを追加します。
+
+## 6. Nginx の `try_files` フォールバック
+
+`try_files $uri $uri/ /index.html;` が有効だと、キーファイルを配置し忘れても `200 OK` で `index.html` が返ってしまいます。
+
+**対策**：キーファイル専用の完全一致 location を追加し、未配置時に明示的な `404` を返します：
+
+```nginx
+location = /your-indexnow-key.txt {
+  default_type text/plain;
+  try_files $uri =404;
+}
+```
+
+## 7. サブディレクトリ `keyLocation` のスコープ超過
+
+`https://example.com/blog/<key>.txt` に置いたキーは `/blog/` 配下の URL のみ認可します。その `keyLocation` で `https://example.com/pricing` を送ると **[HTTP 422](/docs/status-codes/422)** または破棄対象になります。
+
+**対策**：サイト全体の複数ディレクトリを送信する場合はドメインルートに配置し、送信前に [IndexNow キー検証ツール](/tools/indexnow-key-checker) で公開応答を確認してください。

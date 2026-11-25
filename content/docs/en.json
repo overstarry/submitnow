@@ -735,5 +735,309 @@
       "codeGenerator",
       "keyChecker"
     ]
+  },
+  {
+    "locale": "en",
+    "slug": "guides/ai-search-robots-txt",
+    "category": "guide",
+    "title": "IndexNow, AI Search (ChatGPT Search & Copilot) & robots.txt",
+    "description": "How IndexNow accelerates discovery in Bing, Microsoft Copilot, and ChatGPT Search, and how to configure robots.txt and meta robots cleanly.",
+    "summary": "Connect IndexNow notifications with clean Bingbot and OAI-SearchBot crawler access for AI search visibility.",
+    "keywords": [
+      "ChatGPT Search indexing",
+      "Microsoft Copilot SEO",
+      "IndexNow AI search",
+      "OAI-SearchBot robots.txt",
+      "Bingbot"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "How IndexNow connects to AI search",
+        "paragraphs": [
+          "IndexNow notifies participating engines — Bing, Yandex, Seznam.cz, Naver, and Yep — the moment a URL is created, updated, or deleted. Because Microsoft Copilot relies directly on Bing’s index and ChatGPT Search draws heavily on Bing web discovery alongside its own search crawler, pushing fresh URLs via IndexNow shortens the delay before updated pages appear in AI-assisted answers.",
+          "IndexNow is a discovery signal only: it never bypasses robots.txt rules, noindex tags, HTTP errors, or quality evaluation."
+        ]
+      },
+      {
+        "title": "Distinguish search crawlers from training crawlers",
+        "items": [
+          {
+            "title": "Bingbot",
+            "description": "Crawls pages for Bing search results, Microsoft Copilot grounding, and downstream partners. Must be allowed if you want IndexNow notifications to lead to indexing."
+          },
+          {
+            "title": "OAI-SearchBot",
+            "description": "OpenAI’s web search crawler used to surface links and fresh facts in ChatGPT Search. Separate from GPTBot (model training)."
+          },
+          {
+            "title": "GPTBot",
+            "description": "OpenAI’s training crawler. You can disallow GPTBot while keeping OAI-SearchBot and Bingbot allowed if you want search citations without training use."
+          }
+        ]
+      },
+      {
+        "title": "Recommended robots.txt baseline",
+        "paragraphs": [
+          "Do not use a Noindex: directive inside robots.txt — it is deprecated and ignored by modern crawlers. Control crawling in robots.txt and control indexing with <meta name=\"robots\" content=\"noindex\"> or an X-Robots-Tag HTTP header."
+        ],
+        "code": "User-agent: *\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\n# Optional: opt out of AI model training while keeping search discovery\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: https://www.example.com/sitemap.xml"
+      },
+      {
+        "title": "Pre-flight AI search audit checklist",
+        "items": [
+          {
+            "title": "Serve meaningful SSR HTML",
+            "description": "Many search and AI retrieval pipelines prefer or fall back to raw HTML. Ensure titles, headings, main prose, and JSON-LD are server-rendered."
+          },
+          {
+            "title": "Keep sitemaps free of redirects and noindex URLs",
+            "description": "Only submit canonical HTTP 200 URLs (or 404/410 URLs you intentionally want removed from indexes)."
+          },
+          {
+            "title": "Verify your key file publicly",
+            "description": "Confirm your WAF or bot protection does not challenge Bingbot or your IndexNow key file path."
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/403",
+      "integrations/github-actions"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/shopify",
+    "category": "integration",
+    "platform": "Shopify",
+    "title": "IndexNow for Shopify",
+    "description": "How to handle IndexNow key-file hosting on Shopify storefronts without hitting off-host redirect or subdirectory scope errors.",
+    "summary": "Understand Shopify root-file limits, avoid cdn.shopify.com redirect traps, and automate product/price notifications.",
+    "keywords": [
+      "Shopify IndexNow",
+      "Shopify key file",
+      "Shopify Bing indexing",
+      "Hydrogen IndexNow"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "The Shopify root-file constraint",
+        "paragraphs": [
+          "Standard Shopify Online Store themes do not let you upload arbitrary static .txt files to your custom domain root (https://store.example.com/<key>.txt). Creating a Shopify URL Redirect pointing to a file on cdn.shopify.com fails IndexNow verification because search engines reject off-host redirects.",
+          "Similarly, serving a key via a Shopify App Proxy under /apps/indexnow/key.txt only authorizes URLs starting with /apps/indexnow/ — it cannot authorize /products/ or /collections/ pages due to IndexNow’s subdirectory scope rule."
+        ]
+      },
+      {
+        "title": "Three reliable architectures on Shopify",
+        "items": [
+          {
+            "title": "Cloudflare Worker / O2O proxy in front of your custom domain",
+            "description": "Intercept exact requests to /<key>.txt at the edge and return HTTP 200 text/plain with the key body while proxying all other storefront traffic to Shopify."
+          },
+          {
+            "title": "Shopify Hydrogen / Oxygen headless storefront",
+            "description": "Place <key>.txt in public/<key>.txt (or return it from a root route loader) so it serves natively at https://store.example.com/<key>.txt with zero redirects."
+          },
+          {
+            "title": "Webhook-driven product & collection pushes",
+            "description": "Subscribe to Shopify products/create, products/update, and products/delete webhooks in a lightweight worker to submit only changed product URLs for flash sales, restocks, and price updates."
+          }
+        ]
+      },
+      {
+        "title": "Edge route example for serving the key file",
+        "code": "export default {\n  async fetch(request, env) {\n    const url = new URL(request.url);\n    if (url.pathname === `/${env.INDEXNOW_KEY}.txt`) {\n      return new Response(env.INDEXNOW_KEY, {\n        status: 200,\n        headers: {\n          \"Content-Type\": \"text/plain; charset=utf-8\",\n          \"Cache-Control\": \"public, max-age=3600\",\n        },\n      });\n    }\n    return fetch(request);\n  },\n};"
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cloudflare-workers",
+      "status-codes/403",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "keyChecker",
+      "codeGenerator"
+    ]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/github-actions",
+    "category": "integration",
+    "platform": "GitHub Actions",
+    "title": "IndexNow with GitHub Actions",
+    "description": "Automate delta-only IndexNow URL submissions after production deploys using GitHub Actions and repository secrets.",
+    "summary": "Run post-deploy sitemap extraction and IndexNow notifications directly inside CI/CD without third-party SaaS.",
+    "keywords": [
+      "IndexNow GitHub Actions",
+      "CI/CD IndexNow",
+      "automate IndexNow sitemap",
+      "post-deploy indexing"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "Design rules for CI/CD submissions",
+        "items": [
+          {
+            "title": "Store the key in GitHub Secrets",
+            "description": "Add INDEXNOW_KEY under Settings -> Secrets and variables -> Actions so workflow logs mask the value automatically."
+          },
+          {
+            "title": "Wait until production is live",
+            "description": "Trigger IndexNow after your hosting deploy finishes (for example via deployment_status or after a deploy step) so crawlers never hit stale pages or a missing key file."
+          },
+          {
+            "title": "Submit only recently modified URLs",
+            "description": "Filter your live sitemap by lastmod (e.g. last 24 hours) or diff against the previous release instead of pushing your entire sitemap on every commit."
+          }
+        ]
+      },
+      {
+        "title": "Workflow example using submitnow CLI",
+        "paragraphs": [
+          "You can submit recently updated URLs straight from your live sitemap using Node 22+ and the zero-dependency CLI included in the submitnow repository, or call api.indexnow.org directly with curl."
+        ],
+        "code": "name: Notify IndexNow after deploy\n\non:\n  workflow_dispatch:\n  push:\n    branches: [main]\n\njobs:\n  indexnow:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Check key file and submit recent sitemap URLs\n        env:\n          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}\n        run: |\n          curl --fail --silent \"https://www.example.com/${INDEXNOW_KEY}.txt\" | grep -qx \"${INDEXNOW_KEY}\"\n          curl --fail-with-body -X POST \"https://api.indexnow.org/indexnow\" \\\n            -H \"Content-Type: application/json; charset=utf-8\" \\\n            -d \"{\\\"host\\\":\\\"www.example.com\\\",\\\"key\\\":\\\"${INDEXNOW_KEY}\\\",\\\"keyLocation\\\":\\\"https://www.example.com/${INDEXNOW_KEY}.txt\\\",\\\"urlList\\\":[\\\"https://www.example.com/\\\"]}\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cli-and-mcp",
+      "integrations/astro-hugo",
+      "status-codes/429"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "sitemapDiff",
+      "keyChecker"
+    ]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/astro-hugo",
+    "category": "integration",
+    "platform": "Astro & Hugo",
+    "title": "IndexNow for Astro, Hugo & Static Sites",
+    "description": "Host your IndexNow key file cleanly in Astro, Hugo, Hexo, or Eleventy and submit canonical post-build sitemap updates.",
+    "summary": "Serve static key files without trailing-slash rewrites and wire post-deploy IndexNow pings for SSGs.",
+    "keywords": [
+      "Astro IndexNow",
+      "Hugo IndexNow",
+      "static site IndexNow",
+      "SSG SEO indexing"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "Where to place the key file in static site generators",
+        "items": [
+          {
+            "title": "Astro",
+            "description": "Place <key>.txt in public/<key>.txt. Astro copies public/ verbatim to dist/ without applying layout wrappers or HTML transforms."
+          },
+          {
+            "title": "Hugo",
+            "description": "Place <key>.txt in static/<key>.txt so Hugo publishes it directly at /<key>.txt alongside robots.txt and sitemap.xml."
+          },
+          {
+            "title": "Eleventy / Hexo / Jekyll",
+            "description": "Add <key>.txt to your passthrough copy directory (or source/ in Hexo) and ensure clean-URL rules do not append a trailing slash to .txt paths."
+          }
+        ]
+      },
+      {
+        "title": "Avoid canonical and trailing-slash drift",
+        "paragraphs": [
+          "Static hosts (Cloudflare Pages, Netlify, Vercel, GitHub Pages) differ in whether /about redirects to /about/. Always submit the exact canonical URLs emitted in your sitemap.xml rather than hand-constructed paths."
+        ],
+        "code": "# Example: fetch live sitemap (with nested sitemap-index support) and submit URLs changed in the last 1 day\nnode cli/submitnow.ts submit \\\n  --sitemap https://www.example.com/sitemap-index.xml \\\n  --lastmod-days 1 \\\n  --key \"$INDEXNOW_KEY\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "integrations/nextjs",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "en",
+    "slug": "integrations/cli-and-mcp",
+    "category": "integration",
+    "platform": "CLI & MCP",
+    "title": "Automate IndexNow with CLI & MCP Server",
+    "description": "Run IndexNow key checks, sitemap-index extraction, and batched submissions from your terminal or directly inside AI coding agents via MCP.",
+    "summary": "Use submitnow’s zero-dependency Node CLI and stdio MCP server with Claude Code, Cursor, or Antigravity.",
+    "keywords": [
+      "IndexNow CLI",
+      "IndexNow MCP server",
+      "Model Context Protocol IndexNow",
+      "Claude Code SEO tool"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "Zero-dependency local CLI",
+        "paragraphs": [
+          "The submitnow repository ships a standalone Node 22+ CLI at cli/submitnow.ts sharing the exact same SSRF guards, key-scope validation, sitemap-index parser, and auto-batching logic as the web UI."
+        ],
+        "code": "# Generate a 48-char hex key and write <key>.txt\nnode cli/submitnow.ts generate-key --write\n\n# Verify a live key file publicly\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# Extract URLs modified in the last 7 days from a live sitemap index\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# Submit URLs (auto-chunks lists > 10,000)\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
+      },
+      {
+        "title": "Connect the local MCP Server to AI coding agents",
+        "paragraphs": [
+          "Run mcp/server.ts over stdio JSON-RPC 2.0 so agents in Claude Code, Cursor, or Antigravity can generate keys, verify live key files, inspect sitemaps, and submit changed URLs right after a deploy."
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/indexnow-gui/mcp/server.ts\"]\n    }\n  }\n}"
+      },
+      {
+        "title": "Exposed MCP tools",
+        "items": [
+          {
+            "title": "indexnow_generate_key",
+            "description": "Creates a cryptographically random 48-character hexadecimal IndexNow key locally."
+          },
+          {
+            "title": "indexnow_check_key",
+            "description": "Fetches a public key file with SSRF guards and reports 404, soft-404 HTML, UTF-8 BOM, off-host redirects, or exact content mismatches."
+          },
+          {
+            "title": "indexnow_fetch_sitemap",
+            "description": "Fetches a remote sitemap.xml, .xml.gz, or nested sitemapindex with optional lastmod day filtering."
+          },
+          {
+            "title": "indexnow_submit_urls",
+            "description": "Validates host, protocol, and subdirectory keyLocation scope, then submits up to 10,000 URLs per batch to your chosen IndexNow endpoint."
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "guides/ai-search-robots-txt",
+      "indexnow-bing-submission"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "keyChecker",
+      "sitemapDiff"
+    ]
   }
 ]

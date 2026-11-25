@@ -735,5 +735,309 @@
       "codeGenerator",
       "keyChecker"
     ]
+  },
+  {
+    "locale": "zh",
+    "slug": "guides/ai-search-robots-txt",
+    "category": "guide",
+    "title": "IndexNow、AI 搜索（ChatGPT Search / Copilot）与 robots.txt 排查",
+    "description": "解析 IndexNow 如何加速 Bing、Microsoft Copilot 与 ChatGPT Search 发现新内容，以及 Bingbot、OAI-SearchBot 与 noindex 的正确配置方式。",
+    "summary": "把 IndexNow 实时推送与清晰的 Bingbot / OAI-SearchBot 抓取策略结合起来，提升 AI 搜索可见性。",
+    "keywords": [
+      "ChatGPT Search 收录",
+      "Microsoft Copilot SEO",
+      "IndexNow AI 搜索",
+      "OAI-SearchBot robots.txt",
+      "Bingbot"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "IndexNow 与 AI 搜索的关系",
+        "paragraphs": [
+          "IndexNow 会在页面新增、更新或删除的第一时间通知 Bing、Yandex、Seznam.cz、Naver 和 Yep。由于 Microsoft Copilot 直接依托 Bing 索引，ChatGPT Search 的实时网页检索同样深度参考 Bing 发现信号并配合自有搜索爬虫抓取，及时推送 IndexNow 能明显缩短更新内容进入 AI 回答引用的等待周期。",
+          "需要注意的是，IndexNow 仅负责加速发现，不会绕过 robots.txt 限制、noindex 指令、HTTP 错误或质量评估。"
+        ]
+      },
+      {
+        "title": "区分搜索爬虫与模型训练爬虫",
+        "items": [
+          {
+            "title": "Bingbot",
+            "description": "负责 Bing 搜索、Microsoft Copilot 检索增强及合作方索引。若希望 IndexNow 推送真正转化为收录，必须允许 Bingbot 抓取。"
+          },
+          {
+            "title": "OAI-SearchBot",
+            "description": "OpenAI 用于 ChatGPT Search 网页搜索与引用展示的搜索爬虫，与模型训练爬虫 GPTBot 相互独立。"
+          },
+          {
+            "title": "GPTBot",
+            "description": "OpenAI 的模型训练爬虫。若希望被 AI 搜索引用但不参与训练，可单独屏蔽 GPTBot，同时放行 Bingbot 与 OAI-SearchBot。"
+          }
+        ]
+      },
+      {
+        "title": "推荐的 robots.txt 基准配置",
+        "paragraphs": [
+          "切勿在 robots.txt 中编写已废弃的 Noindex: 指令。robots.txt 只控制抓取，控制收录请使用 <meta name=\"robots\" content=\"noindex\"> 或 X-Robots-Tag 响应头。"
+        ],
+        "code": "User-agent: *\nAllow: /\n\nUser-agent: Bingbot\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\n# 可选：屏蔽模型训练爬虫，同时保留搜索与 AI 搜索发现\nUser-agent: GPTBot\nDisallow: /\n\nSitemap: https://www.example.com/sitemap.xml"
+      },
+      {
+        "title": "AI 搜索收录自查清单",
+        "items": [
+          {
+            "title": "输出完整的服务端渲染 HTML",
+            "description": "大量搜索与 AI 检索管线会直接解析初始 HTML，请确保标题、正文与结构化数据（JSON-LD）无需执行重型客户端 JS 即可读取。"
+          },
+          {
+            "title": "保持 Sitemap 干净无重定向",
+            "description": "仅向 IndexNow 提交规范的 HTTP 200 URL（或确实需要清理索引的 404/410 页面）。"
+          },
+          {
+            "title": "公网核验密钥文件与 WAF 规则",
+            "description": "确认 CDN / WAF 的质询或防机器人规则不会误拦 Bingbot 或 /<key>.txt 验证路径。"
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "indexnow-bing-submission",
+      "status-codes/403",
+      "integrations/github-actions"
+    ],
+    "relatedTools": [
+      "keyChecker",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "zh",
+    "slug": "integrations/shopify",
+    "category": "integration",
+    "platform": "Shopify",
+    "title": "Shopify 配置 IndexNow 指南",
+    "description": "解决 Shopify 独立站无法直接上传根目录验证文件的痛点，避开 cdn.shopify.com 跨主机跳转与 App Proxy 子目录限制。",
+    "summary": "拆解 Shopify 托管密钥文件的三种可靠方案，实现新品上架、调价与补货的即时推送。",
+    "keywords": [
+      "Shopify IndexNow",
+      "Shopify 密钥文件",
+      "Shopify Bing 收录",
+      "Hydrogen IndexNow"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "Shopify 根目录限制与常见误区",
+        "paragraphs": [
+          "标准 Shopify Online Store 主题不允许直接在自定义域名根目录上传任意静态 .txt 文件（https://store.example.com/<key>.txt）。如果使用 Shopify URL Redirect 将 /<key>.txt 跳转到 cdn.shopify.com 上的文件，会因为跨主机跳转而被 IndexNow 判为 403 失败。",
+          "同样，如果通过 Shopify App Proxy 把文件挂在 /apps/indexnow/key.txt，按照 IndexNow 子目录作用域规范，该密钥仅能授权 /apps/indexnow/ 前缀下的 URL，无法提交 /products/ 或 /collections/ 商品页。"
+        ]
+      },
+      {
+        "title": "Shopify 可靠落地方案",
+        "items": [
+          {
+            "title": "在自定义域名前置 Cloudflare Worker / O2O 代理",
+            "description": "在边缘节点精准拦截 /<key>.txt 请求并直接返回 HTTP 200 text/plain 密钥内容，其余商店流量透明回源 Shopify。"
+          },
+          {
+            "title": "Shopify Hydrogen / Oxygen 无头架构",
+            "description": "直接将 <key>.txt 放入 public/<key>.txt 或根路由 loader，原生以同主机 200 OK 返回，无任何跳转。"
+          },
+          {
+            "title": "Webhook 驱动商品与价格增量推送",
+            "description": "监听 Shopify 的 products/create、products/update、products/delete Webhook，在闪购、调价、补货或下架时立即推送受影响的商品 URL。"
+          }
+        ]
+      },
+      {
+        "title": "边缘代理托管密钥文件示例",
+        "code": "export default {\n  async fetch(request, env) {\n    const url = new URL(request.url);\n    if (url.pathname === `/${env.INDEXNOW_KEY}.txt`) {\n      return new Response(env.INDEXNOW_KEY, {\n        status: 200,\n        headers: {\n          \"Content-Type\": \"text/plain; charset=utf-8\",\n          \"Cache-Control\": \"public, max-age=3600\",\n        },\n      });\n    }\n    return fetch(request);\n  },\n};"
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cloudflare-workers",
+      "status-codes/403",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "keyChecker",
+      "codeGenerator"
+    ]
+  },
+  {
+    "locale": "zh",
+    "slug": "integrations/github-actions",
+    "category": "integration",
+    "platform": "GitHub Actions",
+    "title": "使用 GitHub Actions 自动推送 IndexNow",
+    "description": "在生产部署完成后通过 GitHub Actions 与 Repository Secrets 自动校验密钥并推送增量变更 URL。",
+    "summary": "把 Sitemap 增量提取与 IndexNow 推送直接集成进 CI/CD 流水线，无需依赖第三方付费监控。",
+    "keywords": [
+      "IndexNow GitHub Actions",
+      "CI/CD IndexNow",
+      "自动推送 Sitemap",
+      "部署后自动收录"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "CI/CD 集成最佳实践",
+        "items": [
+          {
+            "title": "通过 GitHub Secrets 管理密钥",
+            "description": "在 Settings -> Secrets and variables -> Actions 中保存 INDEXNOW_KEY，避免硬编码进仓库并让日志自动脱敏。"
+          },
+          {
+            "title": "确保在生产站点生效后再触发",
+            "description": "等待 Vercel / Cloudflare Pages / 服务器部署完成后再发送推送，避免搜索引擎抓取到旧页面或尚未生效的密钥文件。"
+          },
+          {
+            "title": "坚持增量推送而非每次全量提交",
+            "description": "按 lastmod（例如近 24 小时）过滤 Sitemap 或基于发布差异提交，降低触发 429 限流的风险。"
+          }
+        ]
+      },
+      {
+        "title": "GitHub Actions 工作流示例",
+        "paragraphs": [
+          "可以直接在工作流中先验证密钥文件在线可达，再通过 curl 或仓库内置的零依赖 CLI 向 api.indexnow.org 发送增量 URL。"
+        ],
+        "code": "name: Notify IndexNow after deploy\n\non:\n  workflow_dispatch:\n  push:\n    branches: [main]\n\njobs:\n  indexnow:\n    runs-on: ubuntu-latest\n    steps:\n      - name: Check key file and submit recent sitemap URLs\n        env:\n          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}\n        run: |\n          curl --fail --silent \"https://www.example.com/${INDEXNOW_KEY}.txt\" | grep -qx \"${INDEXNOW_KEY}\"\n          curl --fail-with-body -X POST \"https://api.indexnow.org/indexnow\" \\\n            -H \"Content-Type: application/json; charset=utf-8\" \\\n            -d \"{\\\"host\\\":\\\"www.example.com\\\",\\\"key\\\":\\\"${INDEXNOW_KEY}\\\",\\\"keyLocation\\\":\\\"https://www.example.com/${INDEXNOW_KEY}.txt\\\",\\\"urlList\\\":[\\\"https://www.example.com/\\\"]}\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/cli-and-mcp",
+      "integrations/astro-hugo",
+      "status-codes/429"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "sitemapDiff",
+      "keyChecker"
+    ]
+  },
+  {
+    "locale": "zh",
+    "slug": "integrations/astro-hugo",
+    "category": "integration",
+    "platform": "Astro & Hugo",
+    "title": "Astro、Hugo 与静态站点配置 IndexNow",
+    "description": "在 Astro、Hugo、Hexo、Eleventy 等静态站点生成器中正确托管密钥文件，并在构建发布后推送规范化 Sitemap 增量。",
+    "summary": "避免静态托管平台尾斜杠重定向导致的 URL 偏差，规范完成 SSG 站点的 IndexNow 接入。",
+    "keywords": [
+      "Astro IndexNow",
+      "Hugo IndexNow",
+      "静态站点 IndexNow",
+      "Hexo Bing 收录"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "各主流 SSG 密钥文件放置目录",
+        "items": [
+          {
+            "title": "Astro",
+            "description": "放在 public/<key>.txt。Astro 构建时会原样复制到 dist/ 根目录，不会套用页面模板。"
+          },
+          {
+            "title": "Hugo",
+            "description": "放在 static/<key>.txt，构建后会与 robots.txt、sitemap.xml 一同发布至站点根目录。"
+          },
+          {
+            "title": "Eleventy / Hexo / Jekyll",
+            "description": "放入透传静态目录（例如 Hexo 的 source/）并确认美化链接规则不会给 .txt 文件追加尾斜杠。"
+          }
+        ]
+      },
+      {
+        "title": "消除尾斜杠与规范链接偏差",
+        "paragraphs": [
+          "Cloudflare Pages、Netlify、Vercel 与 GitHub Pages 对 /about 与 /about/ 的重定向策略各不相同。请直接从线上生成的 sitemap.xml 提取规范 URL 提交，不要手工拼接路径。"
+        ],
+        "code": "# 直接抓取线上 Sitemap Index 并提交近 1 天更新的 URL\nnode cli/submitnow.ts submit \\\n  --sitemap https://www.example.com/sitemap-index.xml \\\n  --lastmod-days 1 \\\n  --key \"$INDEXNOW_KEY\""
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "integrations/nextjs",
+      "status-codes/422"
+    ],
+    "relatedTools": [
+      "keyGenerator",
+      "sitemapDiff",
+      "urlNormalizer"
+    ]
+  },
+  {
+    "locale": "zh",
+    "slug": "integrations/cli-and-mcp",
+    "category": "integration",
+    "platform": "CLI & MCP",
+    "title": "使用 submitnow CLI 与 MCP Server 自动化提交",
+    "description": "通过仓库内置的零依赖 Node CLI 与标准 stdio MCP Server，在终端或 Claude Code / Cursor / Antigravity 中直接完成密钥校验、Sitemap 抓取与批量提交。",
+    "summary": "将 IndexNow 校验、Sitemap 提取和分批提交接入本地终端脚本与 AI 编程助手。",
+    "keywords": [
+      "IndexNow CLI",
+      "IndexNow MCP Server",
+      "Model Context Protocol IndexNow",
+      "AI Agent SEO 工具"
+    ],
+    "publishedAt": "2026-11-25",
+    "updatedAt": "2026-11-25",
+    "sections": [
+      {
+        "title": "零依赖本地 CLI",
+        "paragraphs": [
+          "仓库内置的 cli/submitnow.ts 直接复用 Web 端的 SSRF 防护、子目录作用域校验、嵌套 Sitemap Index 解析与自动分片逻辑，Node 22+ 开箱即用。"
+        ],
+        "code": "# 生成 48 位十六进制密钥并写入 <key>.txt\nnode cli/submitnow.ts generate-key --write\n\n# 公网校验密钥文件健康度\nnode cli/submitnow.ts check-key --host www.example.com --key \"$INDEXNOW_KEY\"\n\n# 抓取在线 Sitemap Index 中近 7 天更新的 URL\nnode cli/submitnow.ts fetch-sitemap --url https://www.example.com/sitemap.xml --lastmod-days 7\n\n# 提交 URL（超过 10,000 条自动分批）\nnode cli/submitnow.ts submit --key \"$INDEXNOW_KEY\" --urls https://www.example.com/post-1 https://www.example.com/post-2"
+      },
+      {
+        "title": "接入本地 MCP Server（Claude Code / Cursor / Antigravity）",
+        "paragraphs": [
+          "mcp/server.ts 实现了基于 stdio 的 JSON-RPC 2.0 MCP 协议。配置后，AI Agent 在完成部署后即可直接调用工具完成密钥体检、抓取 Sitemap 与增量推送。"
+        ],
+        "code": "{\n  \"mcpServers\": {\n    \"submitnow\": {\n      \"command\": \"node\",\n      \"args\": [\"/path/to/indexnow-gui/mcp/server.ts\"]\n    }\n  }\n}"
+      },
+      {
+        "title": "内置 MCP 工具一览",
+        "items": [
+          {
+            "title": "indexnow_generate_key",
+            "description": "使用系统加密随机源在本地生成 48 位十六进制 IndexNow 密钥。"
+          },
+          {
+            "title": "indexnow_check_key",
+            "description": "带 SSRF 防护地抓取公网密钥文件，诊断 404、软 404 HTML、UTF-8 BOM、跨主机跳转和内容不匹配。"
+          },
+          {
+            "title": "indexnow_fetch_sitemap",
+            "description": "抓取远程 sitemap.xml、.xml.gz 或嵌套 sitemapindex，支持按 lastmod 天数筛选。"
+          },
+          {
+            "title": "indexnow_submit_urls",
+            "description": "校验主机、协议和子目录 keyLocation 边界，并向指定 IndexNow 端点自动分批提交。"
+          }
+        ]
+      }
+    ],
+    "relatedSlugs": [
+      "integrations/github-actions",
+      "guides/ai-search-robots-txt",
+      "indexnow-bing-submission"
+    ],
+    "relatedTools": [
+      "codeGenerator",
+      "keyChecker",
+      "sitemapDiff"
+    ]
   }
 ]

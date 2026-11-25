@@ -1,0 +1,51 @@
+---
+title: "IndexNow・Google Indexing API・XML サイトマップ徹底比較（2026 年実践ガイド）"
+description: "Google が IndexNow に参加していない理由、Google Indexing API の正式な適用範囲、そして Google と Bing / AI 検索の両方を無理なくカバーする二軸運用を解説します。"
+slug: /indexnow-vs-google-indexing-api
+tags: indexnow,google indexing api,sitemap,seo,bing
+date: 2026-11-20
+updatedAt: 2026-11-25
+visible: published
+pin: false
+---
+
+## 結論から
+
+主要な検索エンジンすべてを 1 つでカバーする単一のプッシュ型プロトコルは存在しません。
+
+- **IndexNow** は **Bing・Yandex・Seznam.cz・Naver・Yep** をカバーし、Bing インデックス経由で **Microsoft Copilot** や **ChatGPT Search** での発見速度も高めます。
+- **Google は IndexNow に参加していません。** Google 向けの拡張性ある標準手法は、正確な `lastmod` を備えた **XML サイトマップ** を Google Search Console に登録して運用することです。
+
+## 4 つのインデックス通知手段の比較
+
+| 手段 | 対応エンジン | 公式の適用範囲 | 容量・上限 | 認証方式 | 最適な用途 |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **IndexNow** | Bing・Yandex・Seznam・Naver・Yep（Copilot / ChatGPT Search 基盤含む） | 任意の公開ページ（新規・更新・削除） | 1 リクエスト最大 10,000 件 | 独自ドメイン上の `<key>.txt` | デプロイ連携、価格・在庫更新、削除通知 |
+| **Google Indexing API** | Google のみ | 公式には `JobPosting` と `BroadcastEvent` に限定 | 既定 200 リクエスト/日 | OAuth2 / Service Account | 短期掲載の求人・ライブ配信ページ |
+| **XML サイトマップ (`lastmod`)** | Google・Bing・Yandex ほか全クローラー | 正規のインデックス対象 URL 全般 | 1 ファイル最大 50,000 件 | 公開 URL + `robots.txt` / Search Console | サイト全体の基準目録・Google 向け発見 |
+| **GSC URL 検査** | Google のみ | 確認済みプロパティ内の単一 URL | 手動 / 低い日次上限 | Search Console 権限 | 重要ページの緊急再クロールと診断 |
+
+## Google Indexing API の目的外利用を避けるべき理由
+
+一般記事や EC 商品ページを Google Indexing API へ強制送信するツールも見かけますが、Google は同 API の対象を `JobPosting` および `BroadcastEvent` に明示的に限定しており、範囲外のページは無視または低優先度扱いになります。
+
+無理な回避策に頼るより、以下の**二軸構成**で運用するほうが堅実です。
+
+## 推奨される二軸インデックス設計
+
+### 軸 1：Bing・Yandex・AI 検索への即時プッシュ（IndexNow）
+
+1. ドメイン直下に `https://your-host/<key>.txt` を公開し、[IndexNow キー検証ツール](/tools/indexnow-key-checker) で公開疎通を確認します。
+2. リリースや記事公開のたびに、**追加・更新・削除**された差分 URL だけを [Sitemap Diff](/tools/sitemap-diff) や `lastmod` 絞り込みで抽出します。
+3. [submitnow ワークベンチ](/)、[GitHub Actions](/docs/integrations/github-actions)、または [CLI / MCP サーバー](/docs/integrations/cli-and-mcp) から `https://api.indexnow.org/indexnow` へ送信します。
+
+### 軸 2：Google 向けのクリーンなサイトマップ運用
+
+1. XML サイトマップには正規の HTTP 200 URL のみを掲載します（`301` リダイレクト、`404`、`noindex` は除外）。
+2. **`<lastmod>` は本文が実質的に更新されたときだけ書き換えます**。ビルドごとに全件のタイムスタンプを上書きすると、Google は `lastmod` を信頼しなくなります。
+3. `robots.txt` に `Sitemap:` を明記し、Google Search Console へ登録します。
+4. トップページやカテゴリ一覧から新規ページへの内部リンクを整理し、クロール経路を確保します。
+
+## まとめ
+
+全検索エンジンの土台はクリーンな **XML サイトマップ** で固め、その上に **IndexNow** の差分プッシュを重ねることで、Google のガイドラインを守りつつ Bing・Yandex・Naver・Copilot・ChatGPT Search での発見遅延を最小化できます。

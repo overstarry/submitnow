@@ -1,7 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Link as I18nLink, LOCALE_NAMES, routing } from "@/i18n/routing";
+import {
+  Link as I18nLink,
+  LOCALE_NAMES,
+  routing,
+  usePathname,
+} from "@/i18n/routing";
 import { LANGUAGE_DETECTION_MESSAGES } from "@/lib/language-detection-messages";
 import { cn } from "@/lib/utils";
 import { useLocaleStore } from "@/stores/localeStore";
@@ -14,6 +19,7 @@ export function LanguageDetectionAlert() {
   const [isVisible, setIsVisible] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const locale = useLocale();
+  const pathname = usePathname();
   const [detectedLocale, setDetectedLocale] = useState<string | null>(null);
   const {
     showLanguageAlert,
@@ -135,7 +141,7 @@ export function LanguageDetectionAlert() {
           <div className="flex items-center justify-between">
             <Button asChild onClick={handleSwitchLanguage}>
               <I18nLink
-                href="/"
+                href={pathname || "/"}
                 title={`${alertMessages.switchTo} ${LOCALE_NAMES[detectedLocale]}`}
                 locale={detectedLocale as any}
                 className={cn(

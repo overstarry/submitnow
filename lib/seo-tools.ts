@@ -1,3 +1,10 @@
+export const MAX_INDEXNOW_BATCH_SIZE = 10_000;
+/**
+ * Safe per-batch UTF-8 payload cap (~2 MB) so even long URLs stay well inside
+ * Next.js Server Action and IndexNow endpoint payload budgets.
+ */
+export const MAX_INDEXNOW_BATCH_BYTES = 2 * 1024 * 1024;
+
 export type UrlGroup = {
   host: string;
   urls: string[];
@@ -30,7 +37,14 @@ export type SitemapParseResult = {
 export type SitemapDiff = {
   added: SitemapEntry[];
   changed: SitemapEntry[];
+  removed: SitemapEntry[];
   unchangedCount: number;
+};
+
+export type SitemapLastModFilterResult = {
+  matched: SitemapEntry[];
+  withoutLastModCount: number;
+  olderCount: number;
 };
 
 export type UrlNormalizationOptions = {
@@ -103,6 +117,63 @@ export function analyzeUrlList(raw: string): UrlListAnalysis {
   };
 }
 
+export function chunkUrls(
+  urls: string[],
+  chunkSize = MAX_INDEXNOW_BATCH_SIZE,
+  maxBytes = MAX_INDEXNOW_BATCH_BYTES
+): string[][] {
+  if (urls.length === 0) return [];
+  const safeSize = Math.max(1, Math.floor(chunkSize));
+  const safeBytes = Math.max(1024, Math.floor(maxBytes));
+  const encoder = new TextEncoder();
+  const chunks: string[][] = [];
+  let current: string[] = [];
+  let currentBytes = 0;
+
+  for (const url of urls) {
+    const urlBytes = encoder.encode(url).byteLength + 1;
+    if (
+      current.length > 0 &&
+      (current.length >= safeSize || currentBytes + urlBytes > safeBytes)
+    ) {
+      chunks.push(current);
+      current = [];
+      currentBytes = 0;
+    }
+    current.push(url);
+    currentBytes += urlBytes;
+  }
+
+  if (current.length > 0) {
+    chunks.push(current);
+  }
+
+  return chunks;
+}
+
+/**
+ * Extracts unique valid http(s) Sitemap URLs declared in a robots.txt body.
+ */
+export function parseRobotsTxtSitemaps(robotsTxt: string): string[] {
+  const seen = new Set<string>();
+  const sitemaps: string[] = [];
+
+  for (const line of robotsTxt.split(/\r?\n/)) {
+    const stripped = line.replace(/#.*$/, "").trim();
+    const match = /^sitemap\s*:\s*(.+)$/i.exec(stripped);
+    if (!match) continue;
+    const parsed = parseHttpUrl(match[1].trim());
+    if (!parsed) continue;
+    const normalized = parsed.toString();
+    if (!seen.has(normalized)) {
+      seen.add(normalized);
+      sitemaps.push(normalized);
+    }
+  }
+
+  return sitemaps;
+}
+
 const TRACKING_PARAMETERS = new Set([
   "fbclid",
   "gclid",
@@ -113,8 +184,10 @@ const TRACKING_PARAMETERS = new Set([
 ]);
 
 function isTrackingParameter(name: string): boolean {
-  return name.toLowerCase().startsWith("utm_") ||
-    TRACKING_PARAMETERS.has(name.toLowerCase());
+  return (
+    name.toLowerCase().startsWith("utm_") ||
+    TRACKING_PARAMETERS.has(name.toLowerCase())
+  );
 }
 
 export function normalizeUrlList(
@@ -184,7 +257,8 @@ function getElementsByLocalName(document: Document, localName: string): Element[
 
 function getChildText(element: Element, localName: string): string | undefined {
   const child = Array.from(element.children).find(
-    (candidate) => candidate.localName === localName || candidate.nodeName === localName
+    (candidate) =>
+      candidate.localName === localName || candidate.nodeName === localName
   );
   const value = child?.textContent?.trim();
   return value || undefined;
@@ -195,7 +269,204 @@ function normalizeSitemapLocation(location: string): string | null {
   return parsed?.toString() ?? null;
 }
 
+function decodeXmlEntities(raw: string): string {
+  const unwrapped = raw
+    .trim()
+    .replace(/^<!\[CDATA\[([\s\S]*?)\]\]>$/, "$1")
+    .trim();
+
+  return unwrapped.replace(
+    /&(#x[0-9a-fA-F]+|#\d+|amp|lt|gt|quot|apos);/g,
+    (match, entity: string) => {
+      switch (entity) {
+        case "amp":
+          return "&";
+        case "lt":
+          return "<";
+        case "gt":
+          return ">";
+        case "quot":
+          return '"';
+        case "apos":
+          return "'";
+        default:
+          if (entity.startsWith("#x") || entity.startsWith("#X")) {
+            const code = parseInt(entity.slice(2), 16);
+            return Number.isFinite(code) ? String.fromCodePoint(code) : match;
+          }
+          if (entity.startsWith("#")) {
+            const code = parseInt(entity.slice(1), 10);
+            return Number.isFinite(code) ? String.fromCodePoint(code) : match;
+          }
+          return match;
+      }
+    }
+  );
+}
+
+function extractFirstTagText(block: string, localName: string): string | undefined {
+  const regex = new RegExp(
+    `<(?:[\\w-]+:)?${localName}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:[\\w-]+:)?${localName}>`,
+    "i"
+  );
+  const match = regex.exec(block);
+  if (!match) return undefined;
+  const decoded = decodeXmlEntities(match[1]);
+  return decoded || undefined;
+}
+
+/**
+ * Pure-JS XML sitemap parser that runs identically in Node.js (Server Actions,
+ * unit tests) and browsers. Supports namespaces, CDATA, XML entities,
+ * `<urlset>`, and `<sitemapindex>`.
+ */
+export function parseSitemapXmlString(xml: string): SitemapParseResult {
+  const cleaned = xml
+    .replace(/^\uFEFF/, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .trim();
+
+  if (!cleaned || !cleaned.startsWith("<")) {
+    return {
+      type: "unsupported",
+      entries: [],
+      childSitemaps: [],
+      invalidLocations: [],
+      duplicateCount: 0,
+      error: "invalid_xml",
+    };
+  }
+
+  // Strip XML declaration / processing instructions / DOCTYPE to inspect root tag
+  const withoutProlog = cleaned
+    .replace(/^<\?xml[\s\S]*?\?>\s*/i, "")
+    .replace(/^(?:<\?[\s\S]*?\?>\s*|<!DOCTYPE[\s\S]*?>\s*)*/i, "")
+    .trim();
+
+  const rootMatch = /^<((?:[\w-]+:)?([a-zA-Z_][\w.-]*))(?:\s[^>]*)?>/.exec(
+    withoutProlog
+  );
+  if (!rootMatch) {
+    return {
+      type: "unsupported",
+      entries: [],
+      childSitemaps: [],
+      invalidLocations: [],
+      duplicateCount: 0,
+      error: "invalid_xml",
+    };
+  }
+
+  const fullRootTag = rootMatch[1];
+  const rootLocalName = rootMatch[2].toLowerCase();
+  const closingTagRegex = new RegExp(`</${fullRootTag}\\s*>\\s*$`, "i");
+  const isSelfClosingRoot = /^<[^>]*\/>\s*$/.test(withoutProlog);
+
+  if (!isSelfClosingRoot && !closingTagRegex.test(withoutProlog)) {
+    return {
+      type: "unsupported",
+      entries: [],
+      childSitemaps: [],
+      invalidLocations: [],
+      duplicateCount: 0,
+      error: "invalid_xml",
+    };
+  }
+
+  if (rootLocalName === "sitemapindex") {
+    const blockRegex =
+      /<(?:[\w-]+:)?sitemap(?:\s[^>]*)?>([\s\S]*?)<\/(?:[\w-]+:)?sitemap>/gi;
+    const seen = new Set<string>();
+    const childSitemaps: string[] = [];
+    const invalidLocations: string[] = [];
+    let duplicateCount = 0;
+
+    let match: RegExpExecArray | null;
+    while ((match = blockRegex.exec(withoutProlog)) !== null) {
+      const loc = extractFirstTagText(match[1], "loc");
+      if (!loc) {
+        invalidLocations.push("");
+        continue;
+      }
+      const normalized = normalizeSitemapLocation(loc);
+      if (!normalized) {
+        invalidLocations.push(loc);
+        continue;
+      }
+      if (seen.has(normalized)) {
+        duplicateCount += 1;
+        continue;
+      }
+      seen.add(normalized);
+      childSitemaps.push(normalized);
+    }
+
+    return {
+      type: "index",
+      entries: [],
+      childSitemaps,
+      invalidLocations,
+      duplicateCount,
+    };
+  }
+
+  if (rootLocalName !== "urlset") {
+    return {
+      type: "unsupported",
+      entries: [],
+      childSitemaps: [],
+      invalidLocations: [],
+      duplicateCount: 0,
+    };
+  }
+
+  const urlBlockRegex =
+    /<(?:[\w-]+:)?url(?:\s[^>]*)?>([\s\S]*?)<\/(?:[\w-]+:)?url>/gi;
+  const entries = new Map<string, SitemapEntry>();
+  const invalidLocations: string[] = [];
+  let duplicateCount = 0;
+
+  let match: RegExpExecArray | null;
+  while ((match = urlBlockRegex.exec(withoutProlog)) !== null) {
+    const block = match[1];
+    const location = extractFirstTagText(block, "loc");
+    if (!location) {
+      invalidLocations.push("");
+      continue;
+    }
+
+    const normalizedUrl = normalizeSitemapLocation(location);
+    if (!normalizedUrl) {
+      invalidLocations.push(location);
+      continue;
+    }
+
+    if (entries.has(normalizedUrl)) {
+      duplicateCount += 1;
+      continue;
+    }
+
+    entries.set(normalizedUrl, {
+      url: normalizedUrl,
+      lastModified: extractFirstTagText(block, "lastmod"),
+    });
+  }
+
+  return {
+    type: "urlset",
+    entries: Array.from(entries.values()),
+    childSitemaps: [],
+    invalidLocations,
+    duplicateCount,
+    error: entries.size === 0 ? "empty_urlset" : undefined,
+  };
+}
+
 export function parseSitemapXml(xml: string): SitemapParseResult {
+  if (typeof DOMParser === "undefined") {
+    return parseSitemapXmlString(xml);
+  }
+
   const document = new DOMParser().parseFromString(xml, "application/xml");
   if (document.getElementsByTagName("parsererror").length > 0) {
     return {
@@ -208,20 +479,38 @@ export function parseSitemapXml(xml: string): SitemapParseResult {
     };
   }
 
-  const rootName = document.documentElement?.localName;
+  const rootName = document.documentElement?.localName?.toLowerCase();
   if (rootName === "sitemapindex") {
-    const childSitemaps = getElementsByLocalName(document, "sitemap")
-      .map((element) => getChildText(element, "loc"))
-      .filter((location): location is string => Boolean(location))
-      .map(normalizeSitemapLocation)
-      .filter((location): location is string => Boolean(location));
+    const seen = new Set<string>();
+    const childSitemaps: string[] = [];
+    const invalidLocations: string[] = [];
+    let duplicateCount = 0;
+
+    for (const element of getElementsByLocalName(document, "sitemap")) {
+      const loc = getChildText(element, "loc");
+      if (!loc) {
+        invalidLocations.push("");
+        continue;
+      }
+      const normalized = normalizeSitemapLocation(loc);
+      if (!normalized) {
+        invalidLocations.push(loc);
+        continue;
+      }
+      if (seen.has(normalized)) {
+        duplicateCount += 1;
+        continue;
+      }
+      seen.add(normalized);
+      childSitemaps.push(normalized);
+    }
 
     return {
       type: "index",
       entries: [],
       childSitemaps,
-      invalidLocations: [],
-      duplicateCount: 0,
+      invalidLocations,
+      duplicateCount,
     };
   }
 
@@ -280,11 +569,14 @@ export function diffSitemapEntries(
   const previousByUrl = new Map(
     previousEntries.map((entry) => [entry.url, entry])
   );
+  const currentUrls = new Set<string>();
   const added: SitemapEntry[] = [];
   const changed: SitemapEntry[] = [];
+  const removed: SitemapEntry[] = [];
   let unchangedCount = 0;
 
   for (const entry of currentEntries) {
+    currentUrls.add(entry.url);
     const previous = previousByUrl.get(entry.url);
     if (!previous) {
       added.push(entry);
@@ -299,7 +591,57 @@ export function diffSitemapEntries(
     unchangedCount += 1;
   }
 
-  return { added, changed, unchangedCount };
+  for (const entry of previousEntries) {
+    if (!currentUrls.has(entry.url)) {
+      removed.push(entry);
+    }
+  }
+
+  return { added, changed, removed, unchangedCount };
+}
+
+export function filterSitemapEntriesByLastMod(
+  entries: SitemapEntry[],
+  maxAgeDays: number | null,
+  now: Date = new Date()
+): SitemapLastModFilterResult {
+  if (maxAgeDays === null || maxAgeDays <= 0) {
+    return {
+      matched: entries,
+      withoutLastModCount: 0,
+      olderCount: 0,
+    };
+  }
+
+  const nowMs = now.getTime();
+  const cutoffMs = nowMs - maxAgeDays * 24 * 60 * 60 * 1000;
+  // Allow up to 24h future clock skew for date-only ISO strings (e.g. 2026-11-25)
+  const upperBoundMs = nowMs + 24 * 60 * 60 * 1000;
+
+  const matched: SitemapEntry[] = [];
+  let withoutLastModCount = 0;
+  let olderCount = 0;
+
+  for (const entry of entries) {
+    if (!entry.lastModified) {
+      withoutLastModCount += 1;
+      continue;
+    }
+
+    const parsedMs = Date.parse(entry.lastModified);
+    if (Number.isNaN(parsedMs)) {
+      withoutLastModCount += 1;
+      continue;
+    }
+
+    if (parsedMs >= cutoffMs && parsedMs <= upperBoundMs) {
+      matched.push(entry);
+    } else {
+      olderCount += 1;
+    }
+  }
+
+  return { matched, withoutLastModCount, olderCount };
 }
 
 export async function copyText(text: string): Promise<boolean> {
@@ -321,8 +663,12 @@ export async function copyText(text: string): Promise<boolean> {
   }
 }
 
-export function downloadTextFile(filename: string, contents: string): void {
-  const blob = new Blob([contents], { type: "text/plain;charset=utf-8" });
+export function downloadTextFile(
+  filename: string,
+  contents: string,
+  mimeType = "text/plain;charset=utf-8"
+): void {
+  const blob = new Blob([contents], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -333,5 +679,7 @@ export function downloadTextFile(filename: string, contents: string): void {
 
 export function generateIndexNowKey(): string {
   const bytes = crypto.getRandomValues(new Uint8Array(24));
-  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join(
+    ""
+  );
 }

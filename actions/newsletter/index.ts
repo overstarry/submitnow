@@ -3,6 +3,10 @@ import { NewsletterWelcomeEmail } from '@/emails/newsletter-welcome';
 import { normalizeEmail, validateEmail } from '@/lib/email';
 import { checkRateLimit } from '@/lib/rateLimit';
 import {
+  createUnsubscribeToken,
+  verifyUnsubscribeToken,
+} from '@/lib/unsubscribe-token';
+import {
   addContactToAudience,
   getContactsFromAudience,
   removeContactFromAudience,
@@ -23,8 +27,8 @@ export async function subscribeToNewsletter(email: string) {
     // Add to audience
     await addContactToAudience(normalizedEmail);
 
-    // Build unsubscribe link
-    const unsubscribeToken = Buffer.from(normalizedEmail).toString('base64');
+    // Build signed unsubscribe link
+    const unsubscribeToken = createUnsubscribeToken(normalizedEmail);
     const unsubscribeUrl = new URL('/unsubscribe', siteConfig.url);
     unsubscribeUrl.searchParams.set('token', unsubscribeToken);
     const unsubscribeLink = unsubscribeUrl.toString();
@@ -51,25 +55,28 @@ export async function unsubscribeFromNewsletter(token: string) {
   try {
     await checkRateLimit();
 
-    const email = Buffer.from(token, 'base64').toString();
-    const normalizedEmail = normalizeEmail(email);
+    const verifiedEmail = verifyUnsubscribeToken(token);
+    if (!verifiedEmail) {
+      throw new Error('Invalid or expired unsubscribe link');
+    }
+
+    const normalizedEmail = normalizeEmail(verifiedEmail);
     const { isValid, error } = validateEmail(normalizedEmail);
 
     if (!isValid) {
       throw new Error(error || 'Invalid email address');
     }
 
-    // Check if subscribed
+    // Remove silently if present so unsubscribe links remain idempotent
+    // without revealing whether an address was previously subscribed.
     const { data: contacts } = await getContactsFromAudience();
-    if (contacts) {
-      const user = contacts.find((item: { email: string }) => item.email === normalizedEmail);
-      if (!user) {
-        throw new Error('This email is not subscribed to our notifications');
-      }
-    }
+    const isSubscribed = Array.isArray(contacts)
+      ? contacts.some((item: { email: string }) => item.email === normalizedEmail)
+      : true;
 
-    // Remove from audience
-    await removeContactFromAudience(normalizedEmail);
+    if (isSubscribed) {
+      await removeContactFromAudience(normalizedEmail);
+    }
 
     return { success: true, email: normalizedEmail };
   } catch (error) {
