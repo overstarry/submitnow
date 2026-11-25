@@ -62,6 +62,14 @@ test('llms.txt and llms-full.txt use canonical www.submitnow.dev URLs and list /
     readText('config/site.ts').includes('https://github.com/overstarry/submitnow'),
     'config/site.ts SOURCE_CODE_URL should point to overstarry/submitnow'
   );
+  assert.ok(
+    readText('config/site.ts').includes('https://www.npmjs.com/package/submitnow-mcp'),
+    'config/site.ts NPM_PACKAGE_URL should point to submitnow-mcp on npm'
+  );
+  assert.ok(
+    readText('lib/structured-data.ts').includes('NPM_PACKAGE_URL'),
+    'lib/structured-data.ts should include NPM_PACKAGE_URL in Organization.sameAs'
+  );
 });
 
 test('localized compare and pricing datasets stay complete across en, zh, and ja', () => {

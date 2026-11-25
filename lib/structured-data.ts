@@ -1,4 +1,4 @@
-import { siteConfig } from '@/config/site'
+import { NPM_PACKAGE_URL, siteConfig } from '@/config/site'
 import { DEFAULT_LOCALE } from '@/i18n/routing'
 
 type JsonLdObject = Record<string, unknown>
@@ -44,7 +44,7 @@ export function organizationSchema(): JsonLdObject {
       'Model Context Protocol (MCP)',
       'Technical SEO',
     ],
-    sameAs: [siteConfig.socialLinks?.github].filter(Boolean),
+    sameAs: [siteConfig.socialLinks?.github, NPM_PACKAGE_URL].filter(Boolean),
   }
 }
 

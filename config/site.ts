@@ -39,6 +39,7 @@ function resolveBaseUrl(): string {
 export const BASE_URL = resolveBaseUrl();
 
 export const SOURCE_CODE_URL = "https://github.com/overstarry/submitnow";
+export const NPM_PACKAGE_URL = "https://www.npmjs.com/package/submitnow-mcp";
 
 const EMAIL_URL = process.env.NEXT_PUBLIC_CONTACT_EMAIL;
 
