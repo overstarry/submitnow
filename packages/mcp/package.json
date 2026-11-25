@@ -8,7 +8,7 @@
   "homepage": "https://www.submitnow.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/overstarry/submitnow.git",
+    "url": "git+https://github.com/overstarry/submitnow.git",
     "directory": "packages/mcp"
   },
   "bugs": {
@@ -30,14 +30,18 @@
     "node": ">=20"
   },
   "bin": {
-    "submitnow-mcp": "./dist/mcp/server.js",
-    "submitnow": "./dist/cli/submitnow.js"
+    "submitnow-mcp": "dist/mcp/server.js",
+    "submitnow": "dist/cli/submitnow.js"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json && node -e \"const fs=require('node:fs');for(const f of ['dist/mcp/server.js','dist/cli/submitnow.js'])fs.chmodSync(f,0o755);\""
   }
