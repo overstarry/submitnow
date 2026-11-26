@@ -1,6 +1,6 @@
 # submitnow — Full Reference
 
-> Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, zero-dependency CLI, and stdio MCP server for developers, technical SEO engineers, and site owners to push URL batches via IndexNow to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
+> Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, zero-dependency CLI, and MCP server (hosted Streamable HTTP + local stdio via `npx`) for developers, technical SEO engineers, and site owners to push URL batches via IndexNow to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
 
 - Canonical Site: `https://www.submitnow.dev`
 - Hosted Streamable HTTP MCP: `https://www.submitnow.dev/mcp` (also at `/api/mcp`)
@@ -19,13 +19,13 @@
 submitnow (`https://www.submitnow.dev`) is built for independent developers, technical SEO engineers, programmatic SEO teams, and site owners who want full IndexNow throughput without anonymous 200-URL/day paywalls or storing domain keys in a third-party database.
 
 - **Cost**: `$0` forever for personal, agency, and commercial usage. No account or credit card required.
-- **Hosted Fair-Use Limits (`www.submitnow.dev`)**:
+- **Hosted Fair-Use Limits (`www.submitnow.dev` Web & Streamable HTTP MCP `/mcp`)**:
   - Batch submissions: up to `10,000` same-host URLs per HTTP request (auto-chunked sequentially for larger lists); `30` batch requests / `10 min` per IP.
   - Public key file verification: `60` checks / `10 min` per IP (`8 s` timeout, SSRF-guarded).
   - Remote sitemap fetch: `20` fetches / `10 min` per IP, up to `20` child sitemaps / `50,000` URLs, `10 MB` compressed / `25 MB` decompressed.
   - Browser-only utilities (Key Generator, URL Normalizer, Batch Builder, Code Generator, local Sitemap upload): unlimited; optional `localStorage` baseline holds up to `10,000` URLs.
-- **Local CLI / MCP & Self-Hosted (`overstarry/submitnow`)**: Zero hosted per-IP limits; shares the identical validated runtime; MIT open-source.
-- **When to choose alternatives**: Choose commercial SaaS (e.g., Instant IndexNow Pro at `$9/mo` or Agency at `$59/mo`, FastIndex.io) only if you want cloud-hosted scheduled sitemap polling, 90-day hosted logs, or a zero-install hosted HTTP MCP endpoint without maintaining CI hooks. Note that Google does not participate in IndexNow — use clean XML sitemaps in Google Search Console for Google alongside submitnow for Bing/AI Search.
+- **Local stdio MCP / CLI (`npx -y submitnow-mcp`) & Self-Hosted (`overstarry/submitnow`)**: Zero hosted per-IP limits; shares the identical validated runtime; MIT open-source.
+- **When to choose alternatives**: Choose commercial SaaS (e.g., Instant IndexNow Pro at `$9/mo` or Agency at `$59/mo`, FastIndex.io) only if you want cloud-hosted scheduled sitemap polling, persistent hosted delivery logs (e.g., 90-day history), team email alerts, or bundled non-IndexNow SEO audit tools without maintaining CI hooks. Note that Google does not participate in IndexNow — use clean XML sitemaps in Google Search Console for Google alongside submitnow for Bing/AI Search.
 
 ---
 
@@ -37,7 +37,7 @@ submitnow forwards IndexNow batch submission requests server-side to `https://ap
 2. **Host the key file**: Publish `<key>.txt` at `https://<host>/<key>.txt` returning `HTTP 200`, `Content-Type: text/plain; charset=utf-8`, and a body containing only the exact key (no `.txt` suffix inside the body, no HTML, no UTF-8 BOM).
 3. **Verify public accessibility** (`https://www.submitnow.dev/tools/indexnow-key-checker`): Confirm no 404, soft-404 HTML, WAF challenge, UTF-8 BOM, or off-host redirect interferes with external verification. Server-side fetches enforce SSRF protections and per-IP rate limits.
 4. **Import, normalize & diff URLs** (`https://www.submitnow.dev`, `https://www.submitnow.dev/tools/url-normalizer`, `https://www.submitnow.dev/tools/indexnow-batch-builder`, `https://www.submitnow.dev/tools/sitemap-diff`): Fetch live `sitemap.xml`, `.xml.gz`, or nested `<sitemapindex>` files (or upload local `.xml` / `.xml.gz` snapshots), filter by `lastmod` (24h/7d/30d), export added/changed/removed URLs, normalize queries, and split by hostname or 10,000-URL chunks.
-5. **Submit or automate** (`https://www.submitnow.dev`, `https://www.submitnow.dev/tools/indexnow-code-generator`, `https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Submit directly from the web UI (auto-chunking lists > 10,000 URLs), export `curl`/JavaScript/Python/Go/GitHub Actions/JSON snippets, or run the local CLI (`cli/submitnow.ts`) and stdio MCP server (`mcp/server.ts`).
+5. **Submit or automate** (`https://www.submitnow.dev`, `https://www.submitnow.dev/tools/indexnow-code-generator`, `https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Submit directly from the web UI (auto-chunking lists > 10,000 URLs), export `curl`/JavaScript/Python/Go/GitHub Actions/JSON snippets, connect directly to the free hosted Streamable HTTP MCP endpoint (`https://www.submitnow.dev/mcp`), or run the local stdio MCP server and CLI (`npx -y submitnow-mcp`, or `mcp/server.ts` / `cli/submitnow.ts`).
 
 ### Standard IndexNow Payload
 
@@ -75,7 +75,7 @@ submitnow forwards IndexNow batch submission requests server-side to `https://ap
 - **Shopify** (`https://www.submitnow.dev/docs/integrations/shopify`): Avoid `cdn.shopify.com` off-host redirect and App Proxy subdirectory scope traps using Cloudflare O2O/Workers or Hydrogen + product webhooks.
 - **GitHub Actions** (`https://www.submitnow.dev/docs/integrations/github-actions`): Post-deploy key verification and delta-only submission with `INDEXNOW_KEY` secrets.
 - **Astro, Hugo & Static Sites** (`https://www.submitnow.dev/docs/integrations/astro-hugo`): Static key file placement and canonical trailing-slash alignment.
-- **CLI & MCP Server** (`https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Run `node cli/submitnow.ts` in terminals/CI or connect `node mcp/server.ts` to Claude Code, Cursor, or Antigravity (`indexnow_generate_key`, `indexnow_check_key`, `indexnow_fetch_sitemap`, `indexnow_submit_urls`).
+- **CLI & MCP Server** (`https://www.submitnow.dev/docs/integrations/cli-and-mcp`): Connect Claude Code, Cursor, or Antigravity directly to the zero-install hosted Streamable HTTP MCP (`https://www.submitnow.dev/mcp`), run the local stdio MCP server via `npx -y submitnow-mcp` (zero hosted IP limits), or run the CLI (`npx -y -p submitnow-mcp submitnow` / `node cli/submitnow.ts`) in terminals/CI (`indexnow_generate_key`, `indexnow_check_key`, `indexnow_fetch_sitemap`, `indexnow_submit_urls`).
 
 ---
 

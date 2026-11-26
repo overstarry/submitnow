@@ -12,17 +12,18 @@
   "badge": "透明配额 · MIT 开源免费",
   "title": "submitnow 定价、免费配额与自托管说明",
   "shortAnswerLabel": "直接给结论",
-  "shortAnswer": "submitnow 永久 $0 免费，无需注册账号，也无需绑定信用卡。无论是直接访问 www.submitnow.dev 在线工作台，还是在个人、代理商或商业项目中使用 MIT 开源的本地 CLI / MCP Server，均完全免费；在线托管版仅设置防滥用的每 IP 滑动窗口限流，本地运行或自托管可彻底解除托管限流。",
+  "shortAnswer": "submitnow 永久 $0 免费，无需注册账号，也无需绑定信用卡。无论是直接访问 www.submitnow.dev 在线工作台与免安装托管 Streamable HTTP MCP 端点（/mcp），还是在个人、代理商或商业项目中使用 MIT 开源的本地 CLI / stdio MCP（npx -y submitnow-mcp），均完全免费；在线托管版仅设置防滥用的每 IP 滑动窗口限流，本地运行或自托管可彻底解除托管限流。",
   "tiers": [
     {
       "id": "hosted",
       "badge": "免注册 · 服务端零留存",
-      "name": "在线托管工作台",
+      "name": "在线工作台与托管 HTTP MCP",
       "price": "$0",
       "priceNote": "www.submitnow.dev 永久免费",
-      "summary": "打开浏览器即可使用多端点 IndexNow 批量提交器与全部 6 款工具，免登录、不落库。",
+      "summary": "打开浏览器即可使用多端点 IndexNow 批量提交器与全部 6 款工具，也可让 AI 助手免安装直连托管 Streamable HTTP MCP（/mcp），免登录、不落库。",
       "highlights": [
         "超过 10,000 条同主机 URL 自动按批顺序提交（每 IP 每 10 分钟最多 30 次批次请求）",
+        "免安装托管 Streamable HTTP MCP 端点（https://www.submitnow.dev/mcp），直连 Claude Code、Cursor 与 Antigravity",
         "支持在线抓取 .xml / .xml.gz 与嵌套 sitemapindex（单次最多 20 个子文件 / 50,000 条 URL）",
         "内置 SSRF 防护的公网密钥体检（每 IP 每 10 分钟 60 次）",
         "纯浏览器端工具不限次数（密钥生成、URL 规范化、批次整理、6 语言代码生成、本地 Sitemap 对比）",
@@ -34,15 +35,14 @@
     {
       "id": "self-hosted",
       "badge": "MIT 协议 · 允许商用",
-      "name": "自托管与本地 CLI / MCP",
+      "name": "自托管与本地 CLI / stdio MCP",
       "price": "$0",
-      "priceNote": "GitHub MIT 开源免费",
-      "summary": "在 CI/CD 中运行零依赖 CLI、将 stdio MCP Server 接入 AI 编程助手，或私有化部署并自定义限流参数。",
+      "priceNote": "GitHub & npm MIT 开源免费",
+      "summary": "通过 npx -y submitnow-mcp 本地运行 stdio MCP 与 CLI，或在 CI/CD 中执行零依赖脚本，也可私有化部署 Web 与 HTTP MCP 并自定义限流参数。",
       "highlights": [
-        "零外部依赖 Node 22+ CLI（cli/submitnow.ts），直接接入 GitHub Actions 与终端脚本",
-        "本地 stdio MCP Server（mcp/server.ts），支持 Claude Code、Cursor 与 Antigravity",
+        "通过 npx -y submitnow-mcp（或仓库内 mcp/server.ts / cli/submitnow.ts）在本地运行 stdio MCP 与零依赖 CLI，适配 Claude Code、Cursor、Antigravity 与 GitHub Actions",
         "无托管端每 IP 限流——仅受上游 IndexNow 官方端点配额策略约束",
-        "完整源码可控：支持部署至 Vercel、Docker 或内网服务器并自定义环境变量限流",
+        "完整源码可控：支持将 Web + Streamable HTTP MCP（/mcp）私有部署至 Vercel、Docker 或内网服务器并自定义环境变量限流",
         "宽松 MIT 开源协议——免费用于个人站点、SEO 代理商与商业 SaaS 团队"
       ],
       "ctaLabel": "查看 GitHub 开源仓库",
@@ -53,7 +53,7 @@
   "quotasTable": {
     "title": "submitnow 完整技术配额、限流阈值与隐私边界",
     "intro": "下表全部数值直接对应 submitnow 线上生产代码的真实配置，方便研发与 SEO 团队在选型前准确评估上限。",
-    "headers": ["能力项", "在线托管版 (www.submitnow.dev)", "本地 CLI / MCP 与自托管版", "服务端数据留存"],
+    "headers": ["能力项", "在线 Web 与托管 HTTP MCP (www.submitnow.dev)", "本地 npx stdio MCP / CLI 与自托管版", "服务端数据留存"],
     "rows": [
       [
         "IndexNow 批量提交",
@@ -112,7 +112,7 @@
     },
     {
       "question": "超高频自动化不想受托管 IP 限流约束怎么办？",
-      "answer": "直接拉取 MIT 仓库，在 GitHub Actions 或服务端运行 node cli/submitnow.ts，将 node mcp/server.ts 接入 Claude Code / Cursor / Antigravity，或私有部署 Next.js 应用并通过 INDEXNOW_SUBMIT_RATE_LIMIT 等环境变量自定义限额。"
+      "answer": "通过 npx -y submitnow-mcp 运行本地 stdio MCP，或通过 npx -y -p submitnow-mcp submitnow 在 CI 中调用 CLI（亦可拉取 MIT 仓库运行 node cli/submitnow.ts / node mcp/server.ts），或私有部署 Next.js 应用并通过 INDEXNOW_SUBMIT_RATE_LIMIT 等环境变量自定义限额。"
     },
     {
       "question": "submitnow 提供商业 SLA 或收录保证吗？",

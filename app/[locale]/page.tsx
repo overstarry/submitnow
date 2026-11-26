@@ -58,7 +58,7 @@ export default async function Home({ params }: { params: Params }) {
         "Automatic sequential batching for lists over 10,000 same-host URLs",
         "Pre-flight public key file diagnostics (404, soft-404 HTML, UTF-8 BOM, off-host redirects)",
         "Six browser-first IndexNow utilities with zero server database storage",
-        "Zero-dependency local CLI and stdio MCP server for AI coding agents",
+        "Hosted Streamable HTTP MCP endpoint (/mcp), local npx stdio MCP server, and zero-dependency CLI for AI coding agents",
       ],
     }),
     howToSchema({

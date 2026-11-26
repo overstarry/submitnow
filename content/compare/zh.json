@@ -13,7 +13,7 @@
   "badge": "2026 选型指南与横向矩阵",
   "title": "2026 IndexNow 批量提交工具、GUI 与 MCP Server 选型对比",
   "shortAnswerLabel": "直接给结论",
-  "shortAnswer": "如果你需要免注册大批量推送（超 10,000 条自动分批）、提交前公网密钥体检、在线 Sitemap/lastmod 增量提取、服务端零留存以及可自托管的本地 CLI/MCP Server，直接选 submitnow（永久 $0、MIT 开源）。只有在你不愿维护 CI 钩子、需要云端定时巡检与邮件告警时，才值得为 Instant IndexNow（$9–$59/月）或 FastIndex.io 等商业 SaaS 付费；若站点已全量接入 Cloudflare 代理，则可叠加开启 Crawler Hints。",
+  "shortAnswer": "如果你需要免注册大批量推送（超 10,000 条自动分批）、提交前公网密钥体检、在线 Sitemap/lastmod 增量提取、服务端零留存，以及免安装托管 HTTP MCP 或本地 npx CLI/stdio MCP Server，直接选 submitnow（永久 $0、MIT 开源）。只有在你不愿维护 CI 钩子、需要云端定时巡检、90 天持久化日志与邮件告警时，才值得为 Instant IndexNow（$9–$59/月）或 FastIndex.io 等商业 SaaS 付费；若站点已全量接入 Cloudflare 代理，则可叠加开启 Crawler Hints。",
   "matrix": {
     "title": "submitnow vs Instant IndexNow vs 官方工具 vs 付费 SaaS：核心能力对比",
     "intro": "IndexNow 协议本身完全免费，无论通过哪款工具推送，底层触达的都是同一批参与引擎（Bing、Yandex、Seznam.cz、Naver、Yep，以及基于 Bing 索引的 Microsoft Copilot 和 ChatGPT Search）。真正拉开差距的是免费额度门槛、排障体检能力、自动化形态与隐私边界。",
@@ -88,7 +88,7 @@
       "heading": "什么场景下应优先选择 submitnow，而不是 Instant IndexNow 或付费 SaaS？",
       "paragraphs": [
         "submitnow 专为开发者、技术 SEO 工程师与重视数据隐私的站长打造，让你不必受限于 200 条/天的匿名额度墙，也不必把站点密钥和 URL 清单交给第三方云数据库。",
-        "由于 submitnow 采用 MIT 开源与无状态架构，你可以在浏览器里零成本完成密钥体检、嵌套 Sitemap Index 拉取、lastmod 增量筛选与超 10,000 条自动分批；需要自动化时，直接复用仓库内置的 cli/submitnow.ts（接入 GitHub Actions）与 mcp/server.ts（接入 Claude Code / Cursor / Antigravity）。"
+        "由于 submitnow 采用 MIT 开源与无状态架构，你可以在浏览器里零成本完成密钥体检、嵌套 Sitemap Index 拉取、lastmod 增量筛选与超 10,000 条自动分批；接入 AI 助手或 CI 时，既可免安装直连托管 Streamable HTTP MCP（www.submitnow.dev/mcp），也可通过 npx -y submitnow-mcp 或仓库内置的 cli/submitnow.ts / mcp/server.ts 在本地无托管限流运行。"
       ],
       "bullets": [
         {
@@ -128,7 +128,7 @@
     {
       "heading": "submitnow 的 CLI 与 MCP Server 与传统网页工具有什么不同？",
       "paragraphs": [
-        "绝大多数 IndexNow 在线工具只提供手工表单，团队落地自动化时仍要自己重写去重、主机校验、子目录 keyLocation 边界检查与分批逻辑。submitnow 在 Web 工作台、cli/submitnow.ts 和 mcp/server.ts 之间共用同一套经测试的运行时内核。",
+        "绝大多数 IndexNow 在线工具只提供手工表单，团队落地自动化时仍要自己重写去重、主机校验、子目录 keyLocation 边界检查与分批逻辑。submitnow 在 Web 工作台、托管 Streamable HTTP MCP（/mcp）、npx submitnow-mcp 本地 stdio 服务与 cli/submitnow.ts 之间共用同一套经测试的运行时内核。",
         "在 Claude Code、Cursor 或 Antigravity 中接入 submitnow MCP Server 后，AI 助手可直接调用 indexnow_generate_key、indexnow_check_key、indexnow_fetch_sitemap 与 indexnow_submit_urls 四个工具，发版后一句话完成公网验签与增量推送。"
       ]
     }
@@ -145,8 +145,8 @@
       ],
       [
         "AI 编程助手工作流（Claude Code / Cursor / Antigravity）",
-        "submitnow 本地 stdio MCP Server（mcp/server.ts）",
-        "IDE 内直接生成密钥、公网体检、解析嵌套 Sitemap 并批量推送，无需云端凭证。"
+        "submitnow 托管 Streamable HTTP MCP（www.submitnow.dev/mcp）或本地 npx submitnow-mcp stdio",
+        "支持免安装直连或无托管限流本地运行，IDE 内直接生成密钥、公网体检、解析嵌套 Sitemap 并批量推送，无需云端凭证。"
       ],
       [
         "超 10,000 条大站迁移或代理商排查",
@@ -177,7 +177,7 @@
     },
     {
       "question": "submitnow 和 Instant IndexNow 最大的实际区别是什么？",
-      "answer": "submitnow 永久免费、MIT 开源、免注册即可大批量自动分批提交、服务端零存储并提供本地 CLI 与 stdio MCP；Instant IndexNow 匿名限 200 条/天，优势在于提供免安装远程 HTTP MCP 及 $9–$59/月的云端定时 Sitemap 监控和历史日志。"
+      "answer": "submitnow 永久免费、MIT 开源、免注册即可大批量自动分批提交、服务端零存储，并同时提供免费的免安装托管 Streamable HTTP MCP（www.submitnow.dev/mcp）与本地 npx submitnow-mcp CLI/stdio；Instant IndexNow 匿名限 200 条/天，核心差异在于 $9–$59/月的云端定时 Sitemap 监控、90 天持久化历史日志、团队告警及额外的泛 SEO 诊断工具。"
     },
     {
       "question": "可以同时开启 submitnow 自动推送和 Cloudflare Crawler Hints 吗？",

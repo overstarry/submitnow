@@ -13,7 +13,7 @@
   "badge": "2026 年選定ガイド・比較表",
   "title": "IndexNow 一括送信ツール・GUI・MCP サーバー徹底比較（2026 年版）",
   "shortAnswerLabel": "結論から",
-  "shortAnswer": "登録不要での大量一括送信（10,000 件超の自動分割）、送信前キー診断、公開サイトマップ/lastmod 差分抽出、サーバー非保存、ローカル CLI・MCP サーバーを求めるなら submitnow（永久 $0・MIT オープンソース）が最適です。CI を書かずにクラウド常時監視やメール通知が欲しい場合のみ Instant IndexNow（月額 $9〜$59）や FastIndex.io などの有料 SaaS を選び、Cloudflare 経由サイトなら Crawler Hints の併用を検討してください。",
+  "shortAnswer": "登録不要での大量一括送信（10,000 件超の自動分割）、送信前キー診断、公開サイトマップ/lastmod 差分抽出、サーバー非保存、さらにホスト型 Streamable HTTP MCP やローカル npx CLI・stdio MCP を求めるなら submitnow（永久 $0・MIT オープンソース）が最適です。CI を書かずにクラウド常時監視・90 日ログ保存・メール通知が欲しい場合のみ Instant IndexNow（月額 $9〜$59）や FastIndex.io などの有料 SaaS を選び、Cloudflare 経由サイトなら Crawler Hints の併用を検討してください。",
   "matrix": {
     "title": "submitnow・Instant IndexNow・公式ツール・有料 SaaS の機能比較",
     "intro": "IndexNow プロトコル自体は無料のため、どのツールから送信しても届く検索エンジン（Bing・Yandex・Seznam.cz・Naver・Yep、および Bing 基盤の Microsoft Copilot・ChatGPT Search）は同じです。違いが出るのは無料枠、事前診断、自動化形態、データ保存方針です。",
@@ -88,7 +88,7 @@
       "heading": "Instant IndexNow や有料 SaaS より submitnow を選ぶべきケース",
       "paragraphs": [
         "submitnow は、匿名 200 URL/日の上限やクラウドへのキー保存を避けたい開発者・テクニカル SEO 担当者・サイト運営者向けに設計されています。",
-        "MIT オープンソースかつステートレスなため、ブラウザ上から $0 でキー検証・サイトマップインデックス取得・lastmod 抽出・10,000 件超の自動分割送信を実行でき、同じコア実装を cli/submitnow.ts（GitHub Actions 連携）や mcp/server.ts（Claude Code・Cursor・Antigravity 連携）でもそのまま動かせます。"
+        "MIT オープンソースかつステートレスなため、ブラウザ上から $0 でキー検証・サイトマップインデックス取得・lastmod 抽出・10,000 件超の自動分割送信を実行でき、AI エージェントからはホスト型 Streamable HTTP MCP（www.submitnow.dev/mcp）へインストール不要で接続するか、同じコア実装を npx -y submitnow-mcp（stdio MCP・CLI）や cli/submitnow.ts（GitHub Actions 連携）でホスト制限なしに動かせます。"
       ],
       "bullets": [
         {
@@ -128,7 +128,7 @@
     {
       "heading": "submitnow の CLI・MCP サーバーは他の自動化手段とどう違うか？",
       "paragraphs": [
-        "多くの Web 専用ツールは手動フォーム止まりで、CI 化するときに検証や分割ロジックを書き直す必要があります。submitnow は Web ワークベンチ・cli/submitnow.ts・mcp/server.ts が同一のテスト済みランタイムを共有します。",
+        "多くの Web 専用ツールは手動フォーム止まりで、CI 化するときに検証や分割ロジックを書き直す必要があります。submitnow は Web ワークベンチ・ホスト型 Streamable HTTP MCP（/mcp）・npx submitnow-mcp stdio・cli/submitnow.ts が同一のテスト済みランタイムを共有します。",
         "Claude Code・Cursor・Antigravity に submitnow MCP サーバーを接続すると、indexnow_generate_key・indexnow_check_key・indexnow_fetch_sitemap・indexnow_submit_urls の 4 ツールを IDE から直接呼び出せます。"
       ]
     }
@@ -145,8 +145,8 @@
       ],
       [
         "AI コーディングエージェント（Claude Code・Cursor・Antigravity）",
-        "submitnow ローカル stdio MCP サーバー（mcp/server.ts）",
-        "クラウド認証不要で IDE からキー診断・サイトマップ取得・一括送信まで完結。"
+        "submitnow ホスト型 Streamable HTTP MCP（www.submitnow.dev/mcp）または npx submitnow-mcp stdio",
+        "インストール不要のホスト型 HTTP とホスト制限なしのローカル stdio を選択でき、クラウド認証不要で IDE からキー診断・サイトマップ取得・一括送信まで完結。"
       ],
       [
         "10,000 件超のサイト移行・代理店監査",
@@ -177,7 +177,7 @@
     },
     {
       "question": "submitnow と Instant IndexNow の最大の違いは何ですか？",
-      "answer": "submitnow は永久無料・MIT オープンソース・登録不要で大量自動分割送信とサーバー非保存を実現し、ローカル CLI・stdio MCP を同梱します。Instant IndexNow は匿名 200 URL/日上限の一方で、リモート HTTP MCP と月額 $9〜$59 のクラウド常時監視・履歴保存を提供します。"
+      "answer": "submitnow は永久無料・MIT オープンソース・登録不要で大量自動分割送信とサーバー非保存を実現し、無料のホスト型 Streamable HTTP MCP（www.submitnow.dev/mcp）とローカル npx submitnow-mcp（CLI・stdio MCP）の両方を提供します。Instant IndexNow は匿名 200 URL/日上限の一方で、月額 $9〜$59 のクラウド常時監視・90 日配信履歴保存・アラート通知・IndexNow 以外の汎用 SEO 診断ツールに強みがあります。"
     },
     {
       "question": "submitnow と Cloudflare Crawler Hints は併用できますか？",

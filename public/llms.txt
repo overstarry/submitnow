@@ -1,14 +1,14 @@
 # submitnow
 
-> Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, CLI, and stdio MCP server for developers, technical SEO engineers, and site owners to push URL batches to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
+> Free, MIT open-source multilingual IndexNow web workbench, browser-first toolkit, CLI, and MCP server (hosted Streamable HTTP + local stdio via `npx`) for developers, technical SEO engineers, and site owners to push URL batches to Bing, ChatGPT Search, Microsoft Copilot, Yandex, Seznam.cz, Naver, and Yep — $0 forever, no account, zero server storage.
 
-submitnow (`https://www.submitnow.dev`) lets developers, SEO engineers, and site owners verify IndexNow key files, diff live or local XML sitemaps, and submit URL batches (up to 10,000 same-host URLs per request, with automatic sequential batching for larger lists) to `api.indexnow.org` or participating search engine endpoints (Bing, Yandex, Seznam.cz, Naver, Yep) at `$0` cost without creating an account or storing keys in a server database. Every page is published in English (`/`), Simplified Chinese (`/zh`), and Japanese (`/ja`).
+submitnow (`https://www.submitnow.dev`) lets developers, SEO engineers, and site owners verify IndexNow key files, diff live or local XML sitemaps, and submit URL batches (up to 10,000 same-host URLs per request, with automatic sequential batching for larger lists) to `api.indexnow.org` or participating search engine endpoints (Bing, Yandex, Seznam.cz, Naver, Yep) at `$0` cost without creating an account or storing keys in a server database. AI agents can connect directly to the zero-install hosted Streamable HTTP MCP endpoint (`https://www.submitnow.dev/mcp`) or run the local stdio MCP & CLI (`npx -y submitnow-mcp`) with zero hosted IP limits. Every page is published in English (`/`), Simplified Chinese (`/zh`), and Japanese (`/ja`).
 
 ## Core Application & Decision Pages
 
 - [submitnow IndexNow Batch Submitter](https://www.submitnow.dev): Submit URLs via IndexNow with multi-endpoint selection, live sitemap / sitemap-index import, `lastmod` filtering, automatic host inference, pre-flight key check, auto-batching over 10,000 URLs, local multi-site profiles, and CSV/JSON history export.
 - [Compare IndexNow Tools, GUIs & MCP Servers (2026)](https://www.submitnow.dev/compare): Side-by-side matrix comparing submitnow ($0 MIT open-source) against Instant IndexNow ($9–$59/mo), IndexNow.com official tool, Bing Webmaster Tools, Cloudflare Crawler Hints, and paid indexing SaaS.
-- [Pricing, Free Quotas & MIT Self-Hosting](https://www.submitnow.dev/pricing): Exact hosted fair-use rate limits (30 batch submissions / 60 key checks / 20 sitemap fetches per 10 min per IP) vs. unlimited local CLI/MCP and self-hosted deployments.
+- [Pricing, Free Quotas & MIT Self-Hosting](https://www.submitnow.dev/pricing): Exact hosted web & HTTP MCP fair-use rate limits (30 batch submissions / 60 key checks / 20 sitemap fetches per 10 min per IP) vs. unlimited local CLI/MCP (`npx -y submitnow-mcp`) and self-hosted deployments.
 - [All submitnow IndexNow Tools](https://www.submitnow.dev/tools): Hub for six free browser-first IndexNow and SEO indexing utilities.
 
 ## Browser Utilities

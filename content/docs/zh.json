@@ -982,7 +982,7 @@
     "category": "integration",
     "platform": "CLI & MCP",
     "title": "使用 submitnow CLI 与 MCP Server 自动化提交",
-    "description": "通过仓库内置的零依赖 Node CLI 与标准 stdio MCP Server，在终端或 Claude Code / Cursor / Antigravity 中直接完成密钥校验、Sitemap 抓取与批量提交。",
+    "description": "免安装直连托管 Streamable HTTP MCP 端点（/mcp），或通过 npx submitnow-mcp 与零依赖 Node CLI 在终端和 Claude Code / Cursor / Antigravity 中完成密钥校验、Sitemap 抓取与批量提交。",
     "summary": "将 IndexNow 校验、Sitemap 提取和分批提交接入本地终端脚本与 AI 编程助手。",
     "keywords": [
       "IndexNow CLI",

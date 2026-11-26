@@ -46,6 +46,14 @@ test('llms.txt and llms-full.txt use canonical www.submitnow.dev URLs and list /
       content.includes('https://www.submitnow.dev/pricing'),
       `${file} should link to /pricing on canonical host`
     );
+    assert.ok(
+      content.includes('https://www.submitnow.dev/mcp'),
+      `${file} should advertise the hosted Streamable HTTP MCP endpoint`
+    );
+    assert.ok(
+      content.includes('npx -y submitnow-mcp'),
+      `${file} should advertise the local npx stdio MCP command`
+    );
     assert.doesNotMatch(
       content,
       /https:\/\/submitnow\.dev\b/,
@@ -57,6 +65,17 @@ test('llms.txt and llms-full.txt use canonical www.submitnow.dev URLs and list /
       `${file} should reference canonical overstarry/submitnow repository`
     );
   }
+
+  const llmsFull = readText('public/llms-full.txt');
+  const alternativesLine = llmsFull
+    .split('\n')
+    .find((line) => line.includes('When to choose alternatives'));
+  assert.ok(alternativesLine, 'public/llms-full.txt should include competitive boundary guidance');
+  assert.doesNotMatch(
+    alternativesLine,
+    /\bHTTP MCP\b/i,
+    'public/llms-full.txt must not recommend paid alternatives for hosted HTTP MCP'
+  );
 
   assert.ok(
     readText('config/site.ts').includes('https://github.com/overstarry/submitnow'),
@@ -89,6 +108,10 @@ test('localized compare and pricing datasets stay complete across en, zh, and ja
     }
     assert.ok(compare.scenarios.rows.length >= 4);
     assert.ok(compare.faq.length >= 4);
+    assert.ok(
+      JSON.stringify(compare.faq).includes('www.submitnow.dev/mcp'),
+      `${locale} compare FAQ should reflect submitnow hosted HTTP MCP endpoint`
+    );
 
     const pricing = readJson<{
       title: string;
@@ -100,12 +123,21 @@ test('localized compare and pricing datasets stay complete across en, zh, and ja
 
     assert.ok(pricing.shortAnswer.toLowerCase().includes('submitnow'));
     assert.equal(pricing.tiers.length, 2);
+    assert.ok(
+      pricing.tiers[0].highlights.some((item) => item.includes('https://www.submitnow.dev/mcp')),
+      `${locale} pricing hosted tier should include hosted Streamable HTTP MCP`
+    );
     assert.ok(pricing.quotasTable.rows.length >= 5);
     for (const row of pricing.quotasTable.rows) {
       assert.equal(row.length, pricing.quotasTable.headers.length);
     }
     assert.ok(pricing.faq.length >= 4);
   }
+
+  assert.ok(
+    readText('app/[locale]/page.tsx').includes('Hosted Streamable HTTP MCP'),
+    'Home page JSON-LD featureList should advertise hosted Streamable HTTP MCP'
+  );
 });
 
 test('localized i18n messages keep brand entity consistency and eliminate sitemapDiff contradictions', () => {

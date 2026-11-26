@@ -983,7 +983,7 @@
     "platform": "CLI & MCP",
     "title": "Automate IndexNow with CLI & MCP Server",
     "description": "Run IndexNow key checks, sitemap-index extraction, and batched submissions from your terminal or directly inside AI coding agents via MCP.",
-    "summary": "Use submitnow’s zero-dependency Node CLI and stdio MCP server with Claude Code, Cursor, or Antigravity.",
+    "summary": "Connect directly to submitnow’s hosted Streamable HTTP MCP endpoint (/mcp) or run the zero-dependency Node CLI and local stdio MCP server with Claude Code, Cursor, or Antigravity.",
     "keywords": [
       "IndexNow CLI",
       "IndexNow MCP server",

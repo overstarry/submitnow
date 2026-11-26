@@ -982,7 +982,7 @@
     "category": "integration",
     "platform": "CLI & MCP",
     "title": "submitnow CLI・MCP サーバーによる自動化",
-    "description": "依存関係ゼロの Node CLI と標準 stdio MCP サーバーを使い、ターミナルや Claude Code・Cursor・Antigravity から直接 IndexNow を操作します。",
+    "description": "インストール不要のホスト型 Streamable HTTP MCP（/mcp）へ直接接続するか、npx submitnow-mcp と依存関係ゼロの Node CLI でターミナルや Claude Code・Cursor・Antigravity から IndexNow を操作します。",
     "summary": "キー診断、サイトマップ取得、自動分割送信をターミナルと AI コーディングエージェントへ組み込みます。",
     "keywords": [
       "IndexNow CLI",

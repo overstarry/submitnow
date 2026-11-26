@@ -13,7 +13,7 @@
   "badge": "2026 Buyer Guide & Matrix",
   "title": "Best IndexNow Bulk Submission Tools, GUIs & MCP Servers (2026 Comparison)",
   "shortAnswerLabel": "Short answer",
-  "shortAnswer": "Choose submitnow ($0 forever, MIT open-source) when you need no-account bulk IndexNow submissions (auto-batching over 10,000 URLs), pre-flight key checks, live sitemap/lastmod diffing, zero server storage, or a local CLI and MCP server. Choose commercial SaaS such as Instant IndexNow ($9–$59/mo) or FastIndex.io only if you want cloud-hosted scheduled sitemap polling and team email alerts without running CI hooks, or enable Cloudflare Crawler Hints for zero-touch edge notifications.",
+  "shortAnswer": "Choose submitnow ($0 forever, MIT open-source) when you need no-account bulk IndexNow submissions (auto-batching over 10,000 URLs), pre-flight key checks, live sitemap/lastmod diffing, zero server storage, or an MCP server (hosted Streamable HTTP + local npx stdio) and CLI. Choose commercial SaaS such as Instant IndexNow ($9–$59/mo) or FastIndex.io only if you want cloud-hosted scheduled sitemap polling, 90-day hosted logs, and team email alerts without running CI hooks, or enable Cloudflare Crawler Hints for zero-touch edge notifications.",
   "matrix": {
     "title": "How does submitnow compare with Instant IndexNow, IndexNow.com, and paid SaaS?",
     "intro": "Every IndexNow submission reaches the exact same participating search engines (Bing, Yandex, Seznam.cz, Naver, Yep — plus Microsoft Copilot and ChatGPT Search via Bing) because the IndexNow protocol itself is free. Tools differ in anonymous quotas, verification diagnostics, automation model, and data storage.",
@@ -88,7 +88,7 @@
       "heading": "When should you choose submitnow over Instant IndexNow or paid SaaS?",
       "paragraphs": [
         "submitnow is built for developers, technical SEO engineers, and privacy-conscious site owners who want full IndexNow batch throughput without hitting a 200-URL/day anonymous paywall or handing domain keys to a third-party database.",
-        "Because submitnow is MIT open-source and stateless, you can verify key files, fetch nested sitemap indexes, filter by lastmod, and auto-batch over 10,000 URLs directly in the browser at $0 cost — or run the exact same runtime locally via cli/submitnow.ts in GitHub Actions and mcp/server.ts inside Claude Code, Cursor, or Antigravity."
+        "Because submitnow is MIT open-source and stateless, you can verify key files, fetch nested sitemap indexes, filter by lastmod, and auto-batch over 10,000 URLs directly in the browser at $0 cost — connect Claude Code, Cursor, or Antigravity directly to the hosted Streamable HTTP MCP endpoint (www.submitnow.dev/mcp), or run the exact same runtime locally via npx -y submitnow-mcp (stdio MCP & CLI) and cli/submitnow.ts in GitHub Actions."
       ],
       "bullets": [
         {
@@ -128,7 +128,7 @@
     {
       "heading": "How do submitnow CLI & MCP compare with other IndexNow automation options?",
       "paragraphs": [
-        "Most web-only IndexNow GUIs stop at a browser form, forcing engineers to rewrite validation and chunking logic separately in CI scripts. submitnow shares one tested runtime across the web workbench, cli/submitnow.ts, and mcp/server.ts.",
+        "Most web-only IndexNow GUIs stop at a browser form, forcing engineers to rewrite validation and chunking logic separately in CI scripts. submitnow shares one tested runtime across the web workbench, hosted Streamable HTTP MCP (/mcp), npx submitnow-mcp stdio server, and cli/submitnow.ts.",
         "Inside AI coding agents (Claude Code, Cursor, Antigravity), the submitnow MCP server exposes four focused tools — indexnow_generate_key, indexnow_check_key, indexnow_fetch_sitemap, and indexnow_submit_urls — with identical SSRF protections and subdirectory keyLocation scope validation."
       ]
     }
@@ -145,8 +145,8 @@
       ],
       [
         "AI coding agent workflows (Claude Code, Cursor, Antigravity)",
-        "submitnow local stdio MCP server (mcp/server.ts)",
-        "Generates keys, checks live key files, parses nested sitemaps, and submits batches directly from the IDE without cloud credentials."
+        "submitnow Hosted Streamable HTTP MCP (www.submitnow.dev/mcp) or npx submitnow-mcp stdio",
+        "Zero-install hosted HTTP MCP or unlimited local stdio — generates keys, checks live key files, parses nested sitemaps, and submits batches directly from the IDE without cloud credentials."
       ],
       [
         "Large site migration (>10,000 URLs) or agency audit",
@@ -177,7 +177,7 @@
     },
     {
       "question": "What is the biggest practical difference between submitnow and Instant IndexNow?",
-      "answer": "submitnow is $0 forever, MIT open-source, requires no account for multi-thousand URL auto-batched pushes, stores nothing in a server database, and includes a local CLI/stdio MCP server. Instant IndexNow caps anonymous web pushes at 200 URLs/day, offers a hosted remote HTTP MCP endpoint, and sells $9–$59/month plans for cloud sitemap monitoring and delivery history."
+      "answer": "submitnow is $0 forever, MIT open-source, requires no account for multi-thousand URL auto-batched pushes, stores nothing in a server database, and provides both a free hosted Streamable HTTP MCP endpoint (www.submitnow.dev/mcp) and local npx submitnow-mcp stdio/CLI. Instant IndexNow caps anonymous web pushes at 200 URLs/day and focuses on $9–$59/month plans for cloud scheduled sitemap monitoring, persistent 90-day delivery history, team alerts, and extra non-IndexNow SEO audit checks."
     },
     {
       "question": "Can I run submitnow and Cloudflare Crawler Hints at the same time?",

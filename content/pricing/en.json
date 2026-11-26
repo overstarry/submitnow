@@ -12,17 +12,18 @@
   "badge": "Transparent Quotas · MIT Open Source",
   "title": "submitnow Pricing, Free Quotas & Self-Hosting",
   "shortAnswerLabel": "Short answer",
-  "shortAnswer": "submitnow is $0 forever with no account or credit card required. Both the hosted web workbench at www.submitnow.dev and the MIT open-source CLI/MCP server are completely free for personal, agency, and commercial use; hosted endpoints enforce only per-IP fair-use rate limits to prevent abuse, while running submitnow locally or self-hosted removes those hosted limits completely.",
+  "shortAnswer": "submitnow is $0 forever with no account or credit card required. Both the hosted web workbench & Streamable HTTP MCP endpoint (www.submitnow.dev/mcp) and the MIT open-source local CLI / stdio MCP (npx -y submitnow-mcp) are completely free for personal, agency, and commercial use; hosted endpoints enforce only per-IP fair-use rate limits to prevent abuse, while running submitnow locally or self-hosted removes those hosted limits completely.",
   "tiers": [
     {
       "id": "hosted",
       "badge": "No Account · Zero Storage",
-      "name": "Hosted Web Workbench",
+      "name": "Hosted Web Workbench & HTTP MCP",
       "price": "$0",
       "priceNote": "Free forever on www.submitnow.dev",
-      "summary": "Instant browser access to the multi-endpoint IndexNow Batch Submitter and all six utilities without signup or server database persistence.",
+      "summary": "Instant browser access to the multi-endpoint IndexNow Batch Submitter, all six utilities, and the zero-install Streamable HTTP MCP endpoint (/mcp) without signup or server database persistence.",
       "highlights": [
         "Auto-chunks over 10,000 same-host URLs sequentially (up to 30 batch requests / 10 min per IP)",
+        "Zero-install hosted Streamable HTTP MCP endpoint (https://www.submitnow.dev/mcp) for Claude Code, Cursor, and Antigravity",
         "Live XML / .xml.gz / nested sitemap-index fetch (up to 20 child sitemaps & 50,000 URLs)",
         "Pre-flight public key diagnostics (60 checks / 10 min per IP) with SSRF protection",
         "All browser-side tools unlimited (Key Generator, URL Normalizer, Batch Builder, Code Generator, local Sitemap Diff)",
@@ -34,15 +35,14 @@
     {
       "id": "self-hosted",
       "badge": "MIT License · Commercial Friendly",
-      "name": "Self-Hosted + Local CLI & MCP",
+      "name": "Self-Hosted + Local CLI & stdio MCP",
       "price": "$0",
-      "priceNote": "MIT open-source on GitHub",
-      "summary": "Run submitnow in CI/CD, connect the stdio MCP server to AI coding agents, or deploy your own private web instance with custom rate limits.",
+      "priceNote": "MIT open-source on GitHub & npm",
+      "summary": "Run submitnow locally via npx -y submitnow-mcp, wire the zero-dependency CLI into CI/CD, or deploy your own private web & HTTP MCP instance with custom rate limits.",
       "highlights": [
-        "Zero-dependency Node 22+ CLI (cli/submitnow.ts) for GitHub Actions and terminal scripts",
-        "Local stdio MCP server (mcp/server.ts) for Claude Code, Cursor, and Antigravity",
+        "Local stdio MCP server & CLI via npx -y submitnow-mcp (or mcp/server.ts / cli/submitnow.ts) for Claude Code, Cursor, Antigravity, and GitHub Actions",
         "No hosted per-IP rate limits — only upstream IndexNow endpoint policies apply",
-        "Full source control: deploy to Vercel, Docker, or internal servers with custom env quotas",
+        "Full source control: deploy your own Web + Streamable HTTP MCP (/mcp) instance to Vercel, Docker, or internal servers with custom env quotas",
         "Permissive MIT license — free for agencies, SaaS teams, and commercial products"
       ],
       "ctaLabel": "View GitHub Repository",
@@ -53,7 +53,7 @@
   "quotasTable": {
     "title": "Exact submitnow technical quotas, rate limits & privacy guarantees",
     "intro": "Every operational limit below reflects the live production configuration of submitnow, so engineering and SEO teams know exact boundaries upfront.",
-    "headers": ["Capability", "Hosted (www.submitnow.dev)", "Local CLI / MCP & Self-Hosted", "Data Storage"],
+    "headers": ["Capability", "Hosted Web & HTTP MCP (www.submitnow.dev)", "Local npx stdio MCP / CLI & Self-Hosted", "Data Storage"],
     "rows": [
       [
         "IndexNow batch submission",
@@ -112,7 +112,7 @@
     },
     {
       "question": "How do I run high-volume automation without hosted IP rate limits?",
-      "answer": "Clone the MIT repository and run node cli/submitnow.ts directly inside GitHub Actions or your backend, connect node mcp/server.ts to Claude Code/Cursor/Antigravity, or self-host the Next.js app with custom INDEXNOW_SUBMIT_RATE_LIMIT environment variables."
+      "answer": "Run the local stdio MCP server via npx -y submitnow-mcp or the CLI via npx -y -p submitnow-mcp submitnow (or clone the MIT repo to run node cli/submitnow.ts / node mcp/server.ts), or self-host the Next.js app with custom INDEXNOW_SUBMIT_RATE_LIMIT environment variables."
     },
     {
       "question": "Does submitnow offer an SLA or guaranteed search engine indexing?",

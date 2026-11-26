@@ -12,17 +12,18 @@
   "badge": "透明なクォータ · MIT オープンソース",
   "title": "submitnow の料金・無料クォータ・セルフホスト",
   "shortAnswerLabel": "結論から",
-  "shortAnswer": "submitnow は永久 $0・アカウント登録不要・クレジットカード不要です。www.submitnow.dev のオンラインワークベンチも、MIT オープンソースのローカル CLI / MCP サーバーも個人・代理店・商用を問わず無料で利用できます。オンライン版のみ不正利用防止のため IP 単位のレート制限を設けており、ローカル実行やセルフホストではホスト側制限なしで動作します。",
+  "shortAnswer": "submitnow は永久 $0・アカウント登録不要・クレジットカード不要です。www.submitnow.dev のオンラインワークベンチおよびホスト型 Streamable HTTP MCP（/mcp）も、MIT オープンソースのローカル CLI / stdio MCP（npx -y submitnow-mcp）も個人・代理店・商用を問わず無料で利用できます。オンライン版のみ不正利用防止のため IP 単位のレート制限を設けており、ローカル実行やセルフホストではホスト側制限なしで動作します。",
   "tiers": [
     {
       "id": "hosted",
       "badge": "登録不要・サーバー非保存",
-      "name": "オンラインワークベンチ",
+      "name": "オンラインワークベンチ & ホスト型 HTTP MCP",
       "price": "$0",
       "priceNote": "www.submitnow.dev で永久無料",
-      "summary": "登録やサーバー DB 保存なしで、マルチエンドポイント IndexNow 一括送信と 6 つのブラウザツールを今すぐ利用できます。",
+      "summary": "登録やサーバー DB 保存なしで、マルチエンドポイント IndexNow 一括送信、6 つのブラウザツール、インストール不要のホスト型 Streamable HTTP MCP（/mcp）を今すぐ利用できます。",
       "highlights": [
         "同一ホスト 10,000 件超も自動で順次分割送信（IP 単位 30 バッチ/10 分）",
+        "インストール不要のホスト型 Streamable HTTP MCP（https://www.submitnow.dev/mcp）を Claude Code・Cursor・Antigravity へ直接接続",
         "公開 .xml / .xml.gz・ネストされたサイトマップインデックス取得（最大 20 子ファイル / 50,000 URL）",
         "SSRF 対策済みの公開キーファイル診断（IP 単位 60 回/10 分）",
         "ブラウザ完結ツールは回数無制限（キー生成・URL 正規化・バッチ整理・6 形式コード生成・ローカル差分比較）",
@@ -34,15 +35,14 @@
     {
       "id": "self-hosted",
       "badge": "MIT ライセンス・商用利用可",
-      "name": "セルフホスト・ローカル CLI / MCP",
+      "name": "セルフホスト・ローカル CLI / stdio MCP",
       "price": "$0",
-      "priceNote": "GitHub で MIT オープンソース公開",
-      "summary": "CI/CD でゼロ依存 CLI を実行、AI コーディングエージェントへ stdio MCP を接続、または独自環境へプライベートデプロイできます。",
+      "priceNote": "GitHub & npm で MIT オープンソース公開",
+      "summary": "npx -y submitnow-mcp でローカル stdio MCP・CLI をホスト制限なしで実行、CI/CD に組み込み、または独自環境へ Web + HTTP MCP をプライベートデプロイできます。",
       "highlights": [
-        "依存パッケージなしの Node 22+ CLI（cli/submitnow.ts）で GitHub Actions や端末から直接実行",
-        "Claude Code・Cursor・Antigravity 向けのローカル stdio MCP サーバー（mcp/server.ts）",
+        "npx -y submitnow-mcp（または mcp/server.ts / cli/submitnow.ts）で Claude Code・Cursor・Antigravity・GitHub Actions からローカル実行",
         "ホスト側 IP レート制限なし（上流 IndexNow エンドポイント仕様のみ適用）",
-        "Vercel・Docker・社内サーバーへ自由にデプロイし環境変数で上限をカスタム可能",
+        "Web + Streamable HTTP MCP（/mcp）を Vercel・Docker・社内サーバーへ自由にデプロイし環境変数で上限をカスタム可能",
         "MIT ライセンスにより個人・SEO 代理店・商用 SaaS チームでも無料利用可能"
       ],
       "ctaLabel": "GitHub リポジトリを見る",
@@ -53,7 +53,7 @@
   "quotasTable": {
     "title": "submitnow の技術クォータ・レート制限・プライバシー仕様",
     "intro": "以下の数値は submitnow 本番コードの実装設定と完全一致しており、導入前に上限を正確に把握できます。",
-    "headers": ["機能", "オンライン版 (www.submitnow.dev)", "ローカル CLI / MCP・セルフホスト", "サーバー保存"],
+    "headers": ["機能", "オンライン Web & ホスト型 HTTP MCP (www.submitnow.dev)", "ローカル npx stdio MCP / CLI・セルフホスト", "サーバー保存"],
     "rows": [
       [
         "IndexNow 一括送信",
@@ -112,7 +112,7 @@
     },
     {
       "question": "大量の自動化でホスト側 IP 制限を外す方法はありますか？",
-      "answer": "MIT リポジトリを取得し、GitHub Actions やサーバー上で node cli/submitnow.ts を直接実行するか、node mcp/server.ts を AI エージェントへ接続するか、Next.js アプリをセルフホストして INDEXNOW_SUBMIT_RATE_LIMIT 環境変数を設定してください。"
+      "answer": "npx -y submitnow-mcp でローカル stdio MCP を実行するか、npx -y -p submitnow-mcp submitnow（またはリポジトリの node cli/submitnow.ts / node mcp/server.ts）を利用してください。Next.js アプリをセルフホストして INDEXNOW_SUBMIT_RATE_LIMIT 環境変数を設定することも可能です。"
     },
     {
       "question": "商用 SLA や検索エンジンのインデックス保証はありますか？",
